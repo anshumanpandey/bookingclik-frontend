@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import useAxios from 'axios-hooks'
+import { IataCode } from '../types';
 
-export type IataCode = { id: number, code: string, location: string }
 type Response = { list: IataCode[], dictionary: {[k:string]: IataCode}}
+type Prop = {onChange: (str: IataCode) => void , className?: string, style?: React.CSSProperties, defaultValue?: string }
 
-export const LocationDropdown: React.FC<{onChange: (str: IataCode) => void }> = ({ onChange }) => {
+export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, defaultValue }) => {
     const selectID = "codesList";
-    const [optionToSearch, setOptionToSearch] = useState<string>('cars');
+    const [optionToSearch, setOptionToSearch] = useState<string>(defaultValue ?? '0');
 
     const [{ data, loading, error }, refetch] = useAxios<Response>('http://localhost:3030/iataCodes')
 
@@ -31,7 +32,7 @@ export const LocationDropdown: React.FC<{onChange: (str: IataCode) => void }> = 
 
     const LoadingIndicator = () => {
         return (
-            <div className="main-search-input-item">
+            <div className={className ? className : "main-search-input-item"}>
                 <input type="text" placeholder="Loading codes..." value="" disabled={true}/>
             </div>
         )
@@ -39,7 +40,7 @@ export const LocationDropdown: React.FC<{onChange: (str: IataCode) => void }> = 
     
     const ErroIndicator = () => {
         return (
-            <div className="main-search-input-item">
+            <div className={className ? className : "main-search-input-item"}>
                 <input type="text" value="Error loading. Try again" onClick={() => refetch()} />
             </div>
         )
@@ -47,7 +48,10 @@ export const LocationDropdown: React.FC<{onChange: (str: IataCode) => void }> = 
 
     return (
         <>
-            <div className="main-search-input-item" id="LocationDropdownWidget" style={{ display: readyToShow ? 'unset': 'none'}} onClick={(e) => {
+            <div className={className ? className : "main-search-input-item"} style={{
+                display: readyToShow ? 'unset': 'none',
+                ...style
+            }} onClick={(e) => {
                 const val = $(`#${selectID}`).val();
                 if (val) {
                     setOptionToSearch(val.toString())
