@@ -1,4 +1,8 @@
 import React from 'react';
+import './index.css';
+import { SearchWidget } from './partials/SearchWidget';
+import { TopBarSearchWidget } from './partials/TopBarSearchWidget';
+
 
 function App() {
   return (
@@ -13,22 +17,7 @@ function App() {
                     <div className="logo-holder">
                         <a href="index.html"><img src="images/logo.png" alt=""/></a>
                     </div>
-                    <div className="header-search vis-header-search">
-                        <div className="header-search-input-item">
-                            <input type="text" placeholder="Keywords" value=""/>
-                        </div>
-                        <div className="header-search-select-item">
-                            <select data-placeholder="All Categories" className="chosen-select" >
-                                <option>All Categories</option>
-                                <option>Shops</option>
-                                <option>Hotels</option>
-                                <option>Restaurants</option>
-                                <option>Fitness</option>
-                                <option>Events</option>
-                            </select>
-                        </div>
-                        <button className="header-search-button" onClick={() => window.location.href='listing.html'}>Search</button>
-                    </div>
+                    <TopBarSearchWidget />
                     <div className="show-search-button"><i className="fa fa-search"></i> <span>Search</span></div>
                     <a href="dashboard-add-listing.html" className="add-list">Add Listing <span><i className="fa fa-plus"></i></span></a>
                     <div className="show-reg-form modal-open"><i className="fa fa-sign-in"></i>Sign In</div>
@@ -107,28 +96,7 @@ function App() {
                                     <h2>We will help you to find all</h2>
                                     <h3>Find great places , hotels , restourants , shops.</h3>
                                 </div>
-                                <div className="main-search-input-wrap">
-                                    <div className="main-search-input fl-wrap">
-                                        <div className="main-search-input-item">
-                                            <input type="text" placeholder="What are you looking for?" value=""/>
-                                        </div>
-                                        <div className="main-search-input-item location" id="autocomplete-container">
-                                            <input type="text" placeholder="Location" id="autocomplete-input" value=""/>
-                                            <a href="#"><i className="fa fa-dot-circle-o"></i></a>
-                                        </div>
-                                        <div className="main-search-input-item">
-                                            <select data-placeholder="All Categories" className="chosen-select" >
-                                                <option>All Categories</option>
-                                                <option>Shops</option>
-                                                <option>Hotels</option>
-                                                <option>Restaurants</option>
-                                                <option>Fitness</option>
-                                                <option>Events</option>
-                                            </select>
-                                        </div>
-                                        <button className="main-search-button" onClick={() => window.location.href='listings-half-screen-map-list.html'}>Search</button>
-                                    </div>
-                                </div>
+                                <SearchWidget />
                             </div>
                         </div>
                         <div className="bubble-bg"> </div>
