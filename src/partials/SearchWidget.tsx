@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useAxios from 'axios-hooks'
 import { LocationDropdown, IataCode } from './LocationDropdown'
+import { useHistory } from 'react-router-dom';
 
 type DataToSend = {location: string, puDate: string, doDate: string }
 
@@ -54,18 +55,65 @@ const filtersPerOption: { [k: string]: React.FC<{ onChange: (d: DataToSend) => v
     'cars': CarsFilter
 }
 export function SearchWidget() {
-
+    const history = useHistory()
+    const selectID = 'select-category'
     const [optionToSearch, setOptionToSearch] = useState<string>('cars');
     const [dataToSend, setDataToSend] = useState<DataToSend | null>(null);
 
     const CurrentFilter = filtersPerOption[optionToSearch] || DefaultFilter;
 
     const [{ data, loading, error }, postSearch] = useAxios<IataCode[]>('http://localhost:3030/search', { manual: true })
-    console.log(data)
+
+    useEffect(() => {
+        // @ts-ignore
+        $(`#${selectID}`).niceSelect()
+    }, []);
 
     const send = () => {
         console.log(dataToSend)
         postSearch({ params: dataToSend });
+        history.push('/results', {
+            search: {
+                criteria: { term: 'Cars'},
+                results: [
+                    {
+                      "category": "Cars",
+                      "name": "Surelogic",
+                      "description": "Sint ipsum magna ut in enim et. Cillum irure Lorem dolor exercitation elit ex esse mollit aliqua dolor. Nostrud quis eu reprehenderit ullamco id nostrud officia esse excepteur proident est in. Amet enim officia proident esse qui consequat. Consectetur irure aliquip aute esse non elit adipisicing laboris pariatur ea."
+                    },
+                    {
+                      "category": "Cars",
+                      "name": "Zipak",
+                      "description": "Esse eu proident sit amet anim officia mollit laborum ullamco mollit nisi. Irure commodo cupidatat do velit anim id do. Est deserunt reprehenderit labore nostrud dolore est eu. Tempor culpa anim excepteur est pariatur nostrud sit pariatur mollit. Sint nisi pariatur enim cupidatat veniam et laboris et magna sit laboris fugiat."
+                    },
+                    {
+                      "category": "Cars",
+                      "name": "Magnemo",
+                      "description": "Tempor proident eu nostrud Lorem laborum eu enim. Ad esse dolore labore aliquip velit deserunt eiusmod aliqua fugiat. Et id consectetur consectetur sit velit consequat."
+                    },
+                    {
+                      "category": "Cars",
+                      "name": "Apextri",
+                      "description": "Eiusmod enim ipsum anim deserunt non nisi do dolor ea. Dolore ad commodo non quis minim minim dolore enim esse magna ex id commodo culpa. Sint qui elit incididunt cupidatat. Ut sunt eiusmod tempor laborum consequat incididunt culpa eiusmod non ut adipisicing adipisicing. Pariatur anim officia ea amet do elit deserunt ut reprehenderit proident amet aliqua."
+                    },
+                    {
+                      "category": "Cars",
+                      "name": "Netropic",
+                      "description": "Ut eiusmod elit anim sint sunt cupidatat. Ex laboris anim in consectetur qui cupidatat aliqua. Duis aliqua laborum nostrud ea Lorem consequat culpa officia dolore. Laboris officia cupidatat non dolor."
+                    },
+                    {
+                      "category": "Cars",
+                      "name": "Slambda",
+                      "description": "Laborum magna eu anim sunt laborum eiusmod magna culpa ex cupidatat aliquip eu qui. Veniam do irure ipsum eu eiusmod tempor cupidatat amet commodo dolore consequat aliqua. Aute officia minim aliquip amet consequat exercitation dolor velit. Id culpa ullamco qui excepteur elit cillum labore sunt ea incididunt laboris aliqua. Aute anim exercitation pariatur ex sit nisi proident. Sit eu ea aute cupidatat ad quis magna ullamco commodo magna nisi aliqua minim proident. Lorem cupidatat irure tempor aute non in voluptate ex."
+                    },
+                    {
+                      "category": "Cars",
+                      "name": "Techtrix",
+                      "description": "Labore et dolore consequat sint esse adipisicing laborum mollit nulla amet cupidatat non aute. Labore sint fugiat quis fugiat consectetur est tempor cillum est dolore officia. Minim aliquip voluptate aute enim non duis eu Lorem consequat dolor enim adipisicing. Anim velit deserunt cillum magna tempor commodo qui ipsum qui commodo. Nulla fugiat proident amet quis ullamco tempor velit consectetur culpa ipsum amet anim ipsum minim. Magna consectetur consequat reprehenderit non officia sunt elit laboris ipsum. Dolore ad fugiat exercitation irure laborum est amet esse."
+                    }
+                  ]
+            }
+        });
     }
 
     return (
@@ -78,7 +126,7 @@ export function SearchWidget() {
                         setOptionToSearch(val.toString())
                     }
                 }}>
-                    <select data-display="All Categories" value={optionToSearch} className="chosen-select" id="select-category" >
+                    <select data-display="All Categories" value={optionToSearch} id={selectID} >
                         <option value={'cars'}>Cars</option>
                         <option value={'shops'}>Shops</option>
                         <option value={'hotels'}>Hotels</option>

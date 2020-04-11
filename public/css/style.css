@@ -1799,19 +1799,19 @@ section.gray-section .section-separator {
 	float:left;
 	margin-left:10px;
 }
-.listing-view-layout li  a {
-	width:40px;
-	height:40px;
+.listing-view-layout li  div {
+	width: 2.5rem;
+	height: 2.5rem;
 	line-height:40px;
 	float:left;
 	border:1px solid #fff;
 	border-radius:100%;
 	color:#fff;
 }
-.listing-view-layout li  a i {
+.listing-view-layout li  div i {
 	font-size:14px;
 }
-.listing-view-layout li  a.active {
+.listing-view-layout li  div.active {
 	background:#fff;
 }
 .listsearch-header {

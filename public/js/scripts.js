@@ -486,15 +486,15 @@ function initCitybook() {
     $(".show-search-button").on("click", function () {
         $(".vis-header-search").slideToggle(500);
     });
-    $(".listing-view-layout li a.list").on("click", function (e) {
+    $(".listing-view-layout li div.list").on("click", function (e) {
         e.preventDefault();
-        $(".listing-view-layout li a").removeClass("active");
+        $(".listing-view-layout li div").removeClass("active");
         $(".listing-item").addClass("list-layout");
         $(this).addClass("active");
     });
-    $(".listing-view-layout li a.grid").on("click", function (e) {
+    $(".listing-view-layout li div.grid").on("click", function (e) {
         e.preventDefault();
-        $(".listing-view-layout li a").removeClass("active");
+        $(".listing-view-layout li div").removeClass("active");
         $(".listing-item").removeClass("list-layout");
         $(this).addClass("active");
     });
