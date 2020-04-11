@@ -12,7 +12,7 @@ export function SearchWidget() {
 
   const CurrentFilter = FilterMap.searchWidget[optionToSearch] ? FilterMap.searchWidget[optionToSearch] : FilterMap.searchWidget.default;
 
-  const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>('http://localhost:3030/search', { manual: true })
+  const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>(`${process.env.REACT_APP_BACKEND_URL ?  process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
   useEffect(() => {
     // @ts-ignore

@@ -9,7 +9,7 @@ export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, d
     const selectID = "codesList";
     const [optionToSearch, setOptionToSearch] = useState<string>(defaultValue ?? '0');
 
-    const [{ data, loading, error }, refetch] = useAxios<Response>('http://localhost:3030/iataCodes')
+    const [{ data, loading, error }, refetch] = useAxios<Response>(`${process.env.REACT_APP_BACKEND_URL ?  process.env.REACT_APP_BACKEND_URL : window.location.origin}/iataCodes`)
 
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
 
