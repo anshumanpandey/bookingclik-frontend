@@ -41,7 +41,7 @@ export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, d
     const ErroIndicator = () => {
         return (
             <div className={className ? className : "main-search-input-item"}>
-                <input type="text" value="Error loading. Try again" onClick={() => refetch()} />
+                <input type="text" value="Error loading. Click to ry again" onClick={() => refetch()} />
             </div>
         )
     };
