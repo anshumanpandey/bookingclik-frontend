@@ -75,7 +75,6 @@ export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, d
                         const code = data.dictionary[opt.code]
                         if (code) onChange(code);
                     }}
-                    defaultMenuIsOpen={true}
                     classNamePrefix="react-select"
                     options={data.list}
                     defaultValue={defaultValue ? defaultValue : data.list[0]}
