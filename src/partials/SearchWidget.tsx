@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import useAxios from 'axios-hooks'
 import { useHistory } from 'react-router-dom';
 import { IataCode } from '../types';
-import { ResultsCarsFilterCb, FilterMap } from './SearchFilter';
+import { CarsSearchCriteria, FilterMap } from './SearchFilter';
 
 export function SearchWidget() {
   const history = useHistory()
   const selectID = 'select-category'
   const [optionToSearch, setOptionToSearch] = useState<string>('cars');
-  const [searchCriteria, setSearchCriteria] = useState<ResultsCarsFilterCb | null>(null);
+  const [searchCriteria, setSearchCriteria] = useState<CarsSearchCriteria | null>(null);
 
   const CurrentFilter = FilterMap.searchWidget[optionToSearch] ? FilterMap.searchWidget[optionToSearch] : FilterMap.searchWidget.default;
 

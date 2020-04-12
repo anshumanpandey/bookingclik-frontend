@@ -13,6 +13,8 @@ export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, d
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
 
     const selectStyles = {
+        menu: (provided: any) => ({ ...provided, color: 'hsl(0,0%,20%)'}),
+        singleValue: (provided: any) => ({ ...provided, color: (style && style.color) ? style.color : 'color: hsl(0,0%,20%)'}),
         indicatorSeparator: (provided: any) => ({ ...provided, display: 'none'}),
         valueContainer: (provided: any) => ({ ...provided, height: '100%'}),
         control: (provided: any) => ({ ...provided, flex: 1, display: 'flex', border: 'unset', ...style}),
@@ -26,10 +28,10 @@ export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, d
         dropdownIndicator: (provided:any, state:any) => {
             return {
                 ...provided,
-                color: "#4DB7FE",
+                color: (style && style.color) ? style.color : "#4DB7FE",
                 transform: state.selectProps.menuIsOpen ? 'rotate(180deg)': 'rotate(0deg)',
                 ':hover': {
-                    color: "#4DB7FE",
+                    color: (style && style.color) ? style.color : "#4DB7FE",
                 }
             };
         }
@@ -73,6 +75,7 @@ export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, d
                         const code = data.dictionary[opt.code]
                         if (code) onChange(code);
                     }}
+                    defaultMenuIsOpen={true}
                     classNamePrefix="react-select"
                     options={data.list}
                     defaultValue={defaultValue ? defaultValue : data.list[0]}

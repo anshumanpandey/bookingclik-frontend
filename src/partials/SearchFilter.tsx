@@ -61,38 +61,20 @@ export const DefaultSearchFilters: React.FC = () => {
     );
 }
 
-export type ResultsCarsFilterCb = { location: IataCode, puDate: string, doDate: string }
+export type CarsSearchCriteria = { term: 'cars',location: IataCode, puDate: string, doDate: string }
+export type CarsFilterProps = { onChange: (d: CarsSearchCriteria) => void };
 
-export const ResultsCarsFilter: React.FC<{ onChange: (d: ResultsCarsFilterCb) => void } & ResultsCarsFilterCb> = ({ puDate, doDate, location }) => {
-    const history = useHistory()
+export const ResultsCarsFilter: React.FC< CarsFilterProps & CarsSearchCriteria> = ({ onChange, puDate, doDate, location }) => {
     const [startDate, setStartDate] = useState<string>(puDate);
     const [endDate, setEndDate] = useState<string>(doDate);
     const [code, setCode] = useState<IataCode>(location || undefined);
 
-    const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
-
-
-    const send = () => {
-        if (!(code && startDate && endDate)) {
-            return;
-        }
-        const searchCriteria = { location: code.code, puDate, doDate };
-        doSearch({ params: searchCriteria })
-            .then(res => {
-                history.push('/results', {
-                    search: {
-                        criteria: { term: 'cars', ...searchCriteria },
-                        results: res.data
-                    }
-                })
-
-            });
-    }
+    const triggerChange = () => onChange({ term: 'cars',puDate: startDate, doDate: endDate, location: code})
 
     return (
         <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <LocationDropdown defaultValue={location} className="listsearch-input-item listResultSelect" onChange={setCode} />
+                <LocationDropdown defaultValue={location} style={{ backgroundColor: '#4DB7FE', color: 'white'}} className="listsearch-input-item listResultSelect" onChange={setCode} />
                 <div className="listsearch-input-item">
                     <input type="text" placeholder="Date: 09/12/2019" defaultValue={puDate} onChange={(v) => {
                         if (v.target.value) {
@@ -109,19 +91,18 @@ export const ResultsCarsFilter: React.FC<{ onChange: (d: ResultsCarsFilterCb) =>
                 </div>
 
             </div>
-            <button style={{ marginTop: 20 }} onClick={() => send()} className="button fs-map-btn">Update</button>
         </div>
     );
 }
 
-const CarSearchWidgetFilters: React.FC<{ onChange: (d: ResultsCarsFilterCb) => void }> = ({ onChange }) => {
+const CarSearchWidgetFilters: React.FC<CarsFilterProps> = ({ onChange }) => {
     const [puDate, setPuDate] = useState<string>();
     const [doDate, setDoDate] = useState<string>();
     const [code, setCode] = useState<IataCode>();
 
     useEffect(() => {
         if (code && puDate && doDate) {
-            onChange({ location: code, puDate, doDate });
+            onChange({ term: 'cars',location: code, puDate, doDate });
         }
     }, [puDate, doDate, code]);
 
