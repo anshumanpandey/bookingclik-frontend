@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import useAxios, { ResponseValues } from 'axios-hooks'
 //@ts-ignore
 import { Dot } from 'react-animated-dots';
-import { ListingItem, ListingItemProps } from '../partials/ListingItem';
+import { ListingItem } from '../partials/ListingItem';
 import { useHistory } from 'react-router-dom';
 import { FilterMap, CarsSearchCriteria } from '../partials/SearchFilter';
 import { IataCode, SearchResponse } from '../types';
 
 export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>) => void, criteria: CarsSearchCriteria }> = ({ onSearch, criteria }) => {
-    const [startDate, setStartDate] = useState<string>(criteria.puDate);
-    const [endDate, setEndDate] = useState<string>(criteria.doDate);
+    const [startDate, setStartDate] = useState<string | null>(criteria.puDate || null);
+    const [endDate, setEndDate] = useState<string | null>(criteria.doDate || null);
     const [iataCode, setIatacode] = useState<IataCode>(criteria.location || undefined);
 
     const [res, doSearch] = useAxios<SearchResponse>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
@@ -20,7 +20,7 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
         if (!(iataCode && startDate && endDate)) {
             return;
         }
-        const searchCriteria = { location: iataCode.code, puDate: criteria.puDate, doDate: criteria.doDate };
+        const searchCriteria = { location: iataCode.code, puDate: startDate, doDate: endDate };
         doSearch({ params: searchCriteria })
             .then(() => {
                 onSearch(res);
@@ -32,6 +32,7 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
     return (
         <>
             <Filter {...criteria} onChange={(r: CarsSearchCriteria) => {
+                console.log(r)
                 setStartDate(r.puDate)
                 setEndDate(r.doDate)
                 setIatacode(r.location)

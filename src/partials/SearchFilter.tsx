@@ -1,8 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import useAxios from 'axios-hooks'
+import dayjs from 'dayjs';
+import NumberFormat from 'react-number-format';
 import { LocationDropdown } from './LocationDropdown';
 import { IataCode } from '../types';
-import { useHistory } from 'react-router-dom';
+
+const DateInput: React.FC<{onChange: (v: string) => void, defaultValue?: string | null }> = ({onChange, defaultValue}) => {
+    useEffect(() => {
+        if (defaultValue) onChange(defaultValue)
+    }, []);
+    return (
+        <NumberFormat
+            type="text"
+            defaultValue={defaultValue || undefined}
+            format={(value) => {
+                let format = "DD/MM/YYYY";
+
+                if (value.length <= 1) {
+                    format = `${value.slice(0, 1)}/MM/YYYY`;
+                } else if (value.length <= 2) {
+                    let day = value;
+                    if (parseInt(day) > 31) day = '31';
+                    format = `${day}/MM/YYYY`;
+                } else if (value.length >= 3 && value.length <= 4) {
+                    const month = parseInt(value.slice(2)) > 12 ? '12' : value.slice(2);
+
+                    format = `${value.slice(0, 2)}/${month}/YYYY`
+                } else if (value.length >= 4 && value.length <= 8) {
+                    let year = value.slice(4, 8);
+
+                    if (year.length === 4 && parseInt(year) < dayjs().year()) {
+                        year = dayjs().year().toString()
+                    }
+
+                    format = `${value.slice(0, 2)}/${value.slice(2, 4)}/${year.length < 4 ? `${year}${`YYYY`.slice(year.length)}`: year}`
+                } else {
+                    let year = value.slice(4, 8);
+
+                    format = `${value.slice(0, 2)}/${value.slice(2, 4)}/${year}`
+                }
+                return format;
+            }}
+            placeholder="Date: 09/12/2019"
+            onValueChange={(v) => {
+                if (v.value.length === 8) {
+                    onChange(v.formattedValue)
+                }
+            }}
+        />
+    );
+}
 
 export const DefaultSearchFilters: React.FC = () => {
     return (
@@ -61,33 +107,29 @@ export const DefaultSearchFilters: React.FC = () => {
     );
 }
 
-export type CarsSearchCriteria = { term: 'cars',location: IataCode, puDate: string, doDate: string }
+export type CarsSearchCriteria = { term: 'cars', location: IataCode, puDate: string | null, doDate: string | null }
 export type CarsFilterProps = { onChange: (d: CarsSearchCriteria) => void };
 
-export const ResultsCarsFilter: React.FC< CarsFilterProps & CarsSearchCriteria> = ({ onChange, puDate, doDate, location }) => {
-    const [startDate, setStartDate] = useState<string>(puDate);
-    const [endDate, setEndDate] = useState<string>(doDate);
+export const ResultsCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({ onChange, puDate, doDate, location }) => {
+    const [startDate, setStartDate] = useState<string | null>(puDate || null);
+    const [endDate, setEndDate] = useState<string | null>(doDate || null);
     const [code, setCode] = useState<IataCode>(location || undefined);
 
-    const triggerChange = () => onChange({ term: 'cars',puDate: startDate, doDate: endDate, location: code})
+    useEffect(() => {
+        if (code) {
+            onChange({ term: 'cars', puDate: startDate, doDate: endDate, location: code })
+        }
+    }, [startDate, endDate, code]);
 
     return (
         <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <LocationDropdown defaultValue={location} style={{ backgroundColor: '#4DB7FE', color: 'white'}} className="listsearch-input-item listResultSelect" onChange={setCode} />
+                <LocationDropdown defaultValue={location} style={{ backgroundColor: '#4DB7FE', color: 'white' }} className="listsearch-input-item listResultSelect" onChange={setCode} />
                 <div className="listsearch-input-item">
-                    <input type="text" placeholder="Date: 09/12/2019" defaultValue={puDate} onChange={(v) => {
-                        if (v.target.value) {
-                            setStartDate(v.target.value.toString())
-                        }
-                    }} />
+                    <DateInput defaultValue={puDate} onChange={(v) => setStartDate(v)} />
                 </div>
                 <div className="listsearch-input-item">
-                    <input type="text" placeholder="Date: 09/12/2019" defaultValue={doDate} onChange={(v) => {
-                        if (v.target.value) {
-                            setEndDate(v.target.value.toString())
-                        }
-                    }} />
+                    <DateInput defaultValue={doDate} onChange={(v) => setEndDate(v)} />
                 </div>
 
             </div>
@@ -96,13 +138,13 @@ export const ResultsCarsFilter: React.FC< CarsFilterProps & CarsSearchCriteria> 
 }
 
 const CarSearchWidgetFilters: React.FC<CarsFilterProps> = ({ onChange }) => {
-    const [puDate, setPuDate] = useState<string>();
-    const [doDate, setDoDate] = useState<string>();
+    const [puDate, setPuDate] = useState<string | null>(null);
+    const [doDate, setDoDate] = useState<string | null>(null);
     const [code, setCode] = useState<IataCode>();
 
     useEffect(() => {
-        if (code && puDate && doDate) {
-            onChange({ term: 'cars',location: code, puDate, doDate });
+        if (code) {
+            onChange({ term: 'cars', location: code, puDate, doDate });
         }
     }, [puDate, doDate, code]);
 
@@ -113,18 +155,10 @@ const CarSearchWidgetFilters: React.FC<CarsFilterProps> = ({ onChange }) => {
                 borderBottomLeftRadius: '30px',
             }} />
             <div className="main-search-input-item">
-                <input type="text" placeholder="Date: 09/12/2019" onChange={(v) => {
-                    if (v.target.value) {
-                        setPuDate(v.target.value.toString())
-                    }
-                }} />
+                <DateInput onChange={(v) => setPuDate(v)} />
             </div>
             <div className="main-search-input-item">
-                <input type="text" placeholder="Date: 09/12/2019" onChange={(v) => {
-                    if (v.target.value) {
-                        setDoDate(v.target.value.toString())
-                    }
-                }} />
+                <DateInput onChange={(v) => setDoDate(v)} />
             </div>
         </>
     );

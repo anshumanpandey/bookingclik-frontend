@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import useAxios from 'axios-hooks'
 import { useHistory } from 'react-router-dom';
 import { IataCode } from '../types';
@@ -12,7 +13,7 @@ export function SearchWidget() {
 
   const CurrentFilter = FilterMap.searchWidget[optionToSearch] ? FilterMap.searchWidget[optionToSearch] : FilterMap.searchWidget.default;
 
-  const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>(`${process.env.REACT_APP_BACKEND_URL ?  process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
+  const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
   useEffect(() => {
     // @ts-ignore
@@ -20,11 +21,12 @@ export function SearchWidget() {
   }, []);
 
   const send = () => {
-    if (!searchCriteria) {
-      return;
-    }
+    if (!searchCriteria) return
 
-    doSearch({ params: { location: searchCriteria.location.code, puDate: searchCriteria.puDate, doDate: searchCriteria.doDate } })
+    searchCriteria.puDate = searchCriteria.puDate || dayjs().format(`DD/MM/YYYY`);
+    searchCriteria.doDate = searchCriteria.doDate || dayjs().format(`DD/MM/YYYY`);
+
+    doSearch({ params: searchCriteria })
       .then(res => {
         history.push('/results', {
           search: {
@@ -55,7 +57,7 @@ export function SearchWidget() {
             <option value={'restaurants'}>Restaurants</option>
             <option value={'fitness'}>Fitness</option>
             <option value={'events'}>Events</option>``
-                    </select>
+          </select>
         </div>
         <button className="main-search-button" onClick={() => send()}>Search</button>
       </div>
