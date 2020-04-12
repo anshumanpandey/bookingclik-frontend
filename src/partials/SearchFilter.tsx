@@ -69,7 +69,7 @@ export const ResultsCarsFilter: React.FC<{ onChange: (d: ResultsCarsFilterCb) =>
     const [endDate, setEndDate] = useState<string>(doDate);
     const [code, setCode] = useState<IataCode>(location || undefined);
 
-    const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>(`${process.env.REACT_APP_BACKEND_URL ?  process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
+    const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
 
     const send = () => {
@@ -77,22 +77,22 @@ export const ResultsCarsFilter: React.FC<{ onChange: (d: ResultsCarsFilterCb) =>
             return;
         }
         const searchCriteria = { location: code.code, puDate, doDate };
-        doSearch({ params: searchCriteria})
-        .then(res => {
-            history.push('/results', {
-                search: {
-                    criteria: { term: 'cars', ...searchCriteria },
-                    results: res.data
-                }
-            })
+        doSearch({ params: searchCriteria })
+            .then(res => {
+                history.push('/results', {
+                    search: {
+                        criteria: { term: 'cars', ...searchCriteria },
+                        results: res.data
+                    }
+                })
 
-        });
+            });
     }
 
     return (
-        <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column'}}>
-            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-                <LocationDropdown defaultValue={location.code} className="listsearch-input-item listResultSelect" onChange={setCode} />
+        <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <LocationDropdown defaultValue={location} className="listsearch-input-item listResultSelect" onChange={setCode} />
                 <div className="listsearch-input-item">
                     <input type="text" placeholder="Date: 09/12/2019" defaultValue={puDate} onChange={(v) => {
                         if (v.target.value) {
@@ -127,7 +127,10 @@ const CarSearchWidgetFilters: React.FC<{ onChange: (d: ResultsCarsFilterCb) => v
 
     return (
         <>
-            <LocationDropdown onChange={setCode} />
+            <LocationDropdown onChange={setCode} style={{
+                borderTopLeftRadius: '30px',
+                borderBottomLeftRadius: '30px',
+            }} />
             <div className="main-search-input-item">
                 <input type="text" placeholder="Date: 09/12/2019" onChange={(v) => {
                     if (v.target.value) {

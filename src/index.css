@@ -6,3 +6,19 @@
 .capitalize {
     text-transform: capitalize;
 }
+
+.react-select__input {
+    height: 100%;
+}
+
+.react-select__input input {
+    height: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-46%);
+    padding-left: 14px!important;
+}
+
+.react-select__single-value {
+    padding-left: 14px!important;
+}
