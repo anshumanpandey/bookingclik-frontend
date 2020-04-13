@@ -1,6 +1,5 @@
 import React from 'react';
-import { SearchWidget } from '../partials/SearchWidget';
-
+import { SearchWidget } from './SearchWidget';
 
 export function Main() {
     return (

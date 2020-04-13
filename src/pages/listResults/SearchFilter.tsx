@@ -1,56 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
-import NumberFormat from 'react-number-format';
-import { LocationDropdown } from './LocationDropdown';
-import { IataCode } from '../types';
+import { LocationDropdown } from '../../partials/LocationDropdown';
+import { IataCode, CarsFilterProps, CarsSearchCriteria } from '../../types';
+import { DateInput } from '../../partials';
 
-const DateInput: React.FC<{onChange: (v: string) => void, defaultValue?: string | null }> = ({onChange, defaultValue}) => {
-    useEffect(() => {
-        if (defaultValue) onChange(defaultValue)
-    }, []);
-    return (
-        <NumberFormat
-            type="text"
-            defaultValue={defaultValue || undefined}
-            format={(value) => {
-                let format = "DD/MM/YYYY";
-
-                if (value.length <= 1) {
-                    format = `${value.slice(0, 1)}/MM/YYYY`;
-                } else if (value.length <= 2) {
-                    let day = value;
-                    if (parseInt(day) > 31) day = '31';
-                    format = `${day}/MM/YYYY`;
-                } else if (value.length >= 3 && value.length <= 4) {
-                    const month = parseInt(value.slice(2)) > 12 ? '12' : value.slice(2);
-
-                    format = `${value.slice(0, 2)}/${month}/YYYY`
-                } else if (value.length >= 4 && value.length <= 8) {
-                    let year = value.slice(4, 8);
-
-                    if (year.length === 4 && parseInt(year) < dayjs().year()) {
-                        year = dayjs().year().toString()
-                    }
-
-                    format = `${value.slice(0, 2)}/${value.slice(2, 4)}/${year.length < 4 ? `${year}${`YYYY`.slice(year.length)}`: year}`
-                } else {
-                    let year = value.slice(4, 8);
-
-                    format = `${value.slice(0, 2)}/${value.slice(2, 4)}/${year}`
-                }
-                return format;
-            }}
-            placeholder="Date: 09/12/2019"
-            onValueChange={(v) => {
-                if (v.value.length === 8) {
-                    onChange(v.formattedValue)
-                }
-            }}
-        />
-    );
-}
-
-export const DefaultSearchFilters: React.FC = () => {
+export const DefaultListSearchFilters: React.FC = () => {
     return (
         <div className="listsearch-input-wrap fl-wrap">
             <div className="listsearch-input-item">
@@ -107,10 +60,8 @@ export const DefaultSearchFilters: React.FC = () => {
     );
 }
 
-export type CarsSearchCriteria = { term: 'cars', location: IataCode, puDate: string | null, doDate: string | null }
-export type CarsFilterProps = { onChange: (d: CarsSearchCriteria) => void };
 
-export const ResultsCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({ onChange, puDate, doDate, location }) => {
+export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({ onChange, puDate, doDate, location }) => {
     const [startDate, setStartDate] = useState<string | null>(puDate || null);
     const [endDate, setEndDate] = useState<string | null>(doDate || null);
     const [code, setCode] = useState<IataCode>(location || undefined);
@@ -135,66 +86,4 @@ export const ResultsCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> =
             </div>
         </div>
     );
-}
-
-const CarSearchWidgetFilters: React.FC<CarsFilterProps> = ({ onChange }) => {
-    const [puDate, setPuDate] = useState<string | null>(null);
-    const [doDate, setDoDate] = useState<string | null>(null);
-    const [code, setCode] = useState<IataCode>();
-
-    useEffect(() => {
-        if (code) {
-            onChange({ term: 'cars', location: code, puDate, doDate });
-        }
-    }, [puDate, doDate, code]);
-
-    return (
-        <>
-            <LocationDropdown onChange={setCode} style={{
-                borderTopLeftRadius: '30px',
-                borderBottomLeftRadius: '30px',
-            }} />
-            <div className="main-search-input-item">
-                <DateInput onChange={(v) => setPuDate(v)} />
-            </div>
-            <div className="main-search-input-item">
-                <DateInput onChange={(v) => setDoDate(v)} />
-            </div>
-        </>
-    );
-}
-
-const DefaultSearchWidgetFilters: React.FC = () => {
-    return (
-        <>
-            <div className="main-search-input-item">
-                <input type="text" placeholder="What are you looking for?" value="" />
-            </div>
-            <div className="main-search-input-item location" id="autocomplete-container">
-                <input type="text" placeholder="Location" id="autocomplete-input" value="" />
-                <a href="#"><i className="fa fa-dot-circle-o"></i></a>
-            </div>
-        </>
-    );
-}
-
-type FilterMap = {
-    searchlist: {
-        [k: string]: React.FC<any>
-        default: React.FC<any>
-    },
-    searchWidget: {
-        [k: string]: React.FC<any>
-        default: React.FC<any>
-    }
-}
-export const FilterMap: FilterMap = {
-    searchlist: {
-        cars: ResultsCarsFilter,
-        default: DefaultSearchFilters
-    },
-    searchWidget: {
-        cars: CarSearchWidgetFilters,
-        default: DefaultSearchWidgetFilters
-    }
 }

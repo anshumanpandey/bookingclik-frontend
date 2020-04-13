@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import useAxios, { ResponseValues } from 'axios-hooks'
 //@ts-ignore
 import { Dot } from 'react-animated-dots';
-import { ListingItem } from '../partials/ListingItem';
+import { ListingItem } from '../../partials/ListingItem';
 import { useHistory } from 'react-router-dom';
-import { FilterMap, CarsSearchCriteria } from '../partials/SearchFilter';
-import { IataCode, SearchResponse } from '../types';
+import { IataCode, SearchResponse, CarsSearchCriteria } from '../../types';
+import { DefaultListSearchFilters, ListCarsFilter } from './SearchFilter';
 
 export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>) => void, criteria: CarsSearchCriteria }> = ({ onSearch, criteria }) => {
     const [startDate, setStartDate] = useState<string | null>(criteria.puDate || null);
@@ -27,7 +27,7 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
 
             });
     }
-    const Filter = FilterMap.searchlist[criteria.term.toLowerCase()] ? FilterMap.searchlist[criteria.term.toLowerCase()] : FilterMap.searchlist.default;
+    const Filter = criteria.term.toLowerCase() === 'cars' ? ListCarsFilter : DefaultListSearchFilters ;
 
     return (
         <>
@@ -40,7 +40,6 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
             <button style={{ marginTop: 20 }} onClick={() => send()} className="button fs-map-btn">{res.loading ? 'Searching...' : 'Search'}</button>
         </>
     );
-
 }
 
 export function ListResult() {
