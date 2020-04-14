@@ -12,7 +12,7 @@ function App() {
         { path: '/', component: <Main /> }
     ]
 
-    if (process.env.SOON) {
+    if (process.env.REACT_APP_SOON) {
         routes = [
             { path: '/', component: <Soon /> }
         ]
