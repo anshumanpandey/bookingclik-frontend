@@ -8,13 +8,13 @@ import { Soon } from './pages/comingSoon/Soon';
 
 function App() {
     let routes = [
-        { path: '/', component: <Soon /> }
+        { path: '/results', component: <ListResult /> },
+        { path: '/', component: <Main /> }
     ]
 
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.SOON) {
         routes = [
-            { path: '/results', component: <ListResult /> },
-            { path: '/', component: <Main /> }
+            { path: '/', component: <Soon /> }
         ]
     }
     return (
