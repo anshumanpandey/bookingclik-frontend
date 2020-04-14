@@ -32,7 +32,6 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
     return (
         <>
             <Filter {...criteria} onChange={(r: CarsSearchCriteria) => {
-                console.log(r)
                 setStartDate(r.puDate)
                 setEndDate(r.doDate)
                 setIatacode(r.location)

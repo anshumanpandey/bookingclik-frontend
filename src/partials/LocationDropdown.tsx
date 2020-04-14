@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import useAxios from 'axios-hooks'
 // @ts-ignore
-import Select from 'react-select-virtualized';
+import Select, { Async } from 'react-select-virtualized';
 import { IataCode } from '../types';
+import { useHttp } from '../utils/AxiosConfig';
+import { throttle } from 'throttle-debounce';
 
 type Response = { list: IataCode[], dictionary: {[k:string]: IataCode}}
 type Prop = {onChange: (str: IataCode) => void , className?: string, style?: React.CSSProperties, defaultValue?: IataCode }
 
 export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, defaultValue }) => {
-    const [{ data, loading, error }, refetch] = useAxios<Response>(`${process.env.REACT_APP_BACKEND_URL ?  process.env.REACT_APP_BACKEND_URL : window.location.origin}/iataCodes`)
+    const [{ data, loading, error }, refetch] = useHttp<IataCode[]>()
 
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
 
@@ -38,10 +40,10 @@ export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, d
     }
 
     useEffect(() => {
-        if (data && data.list.length > 0) {
+        if (data && data.length > 0) {
             setReadyToShow(true);
 
-            onChange(data.list[0]);
+            onChange(data[0]);
         } 
     }, [data]);
 
@@ -70,21 +72,27 @@ export const LocationDropdown: React.FC<Prop> = ({ onChange, className, style, d
                 ...style
             }}>
 
-                {data && <Select
+                <Async
                     onChange={(opt: IataCode) => {
-                        const code = data.dictionary[opt.code]
-                        if (code) onChange(code);
+                        if (opt) onChange(opt);
                     }}
+                    loadOptions={throttle(1000, (v, cb) => {
+                        refetch({ url: `/iataCodes?search=${v}` })
+                        .then(r => r.data)
+                        .then(codes => {
+                            return cb(codes)
+                        })
+                    })}
+                    placeholder="Search"
                     classNamePrefix="react-select"
-                    options={data.list}
-                    defaultValue={defaultValue ? defaultValue : data.list[0]}
+                    defaultValue={defaultValue ? defaultValue : undefined}
                     formatOptionLabel={(obj:IataCode) => obj.location}
                     getOptionLabel={(obj:IataCode) => obj.location}
                     styles={selectStyles}
                     isClearable={false}
                     isSearchable={true}
                     getOptionValue={(obj:IataCode) => obj.code}
-                />}
+                />
             </div>
             { (!readyToShow && !error) && <LoadingIndicator />}
             { (error && !loading) && <ErroIndicator />}

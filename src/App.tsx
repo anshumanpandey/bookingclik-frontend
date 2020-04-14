@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import './index.css';
+import './utils/AxiosConfig';
 import { Header } from './partials/Header';
 import { Main } from './pages/main/main';
 import { ListResult } from './pages/listResults/ListResults';

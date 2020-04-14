@@ -37,7 +37,7 @@ export function SearchWidget() {
     }
      
 
-    doSearch({ params: searchCriteria })
+    doSearch({ params: {...searchCriteria, location: searchCriteria.location.code} })
       .then(res => {
         history.push('/results', {
           search: {
