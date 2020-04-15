@@ -7,11 +7,13 @@ import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
 import { IataCode, SearchResponse, CarsSearchCriteria } from '../../types';
 import { DefaultListSearchFilters, ListCarsFilter } from './SearchFilter';
+import { useGlobalState } from '../../state';
 
 export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>) => void, criteria: CarsSearchCriteria }> = ({ onSearch, criteria }) => {
     const [startDate, setStartDate] = useState<string | null>(criteria.puDate || null);
     const [endDate, setEndDate] = useState<string | null>(criteria.doDate || null);
     const [iataCode, setIatacode] = useState<IataCode>(criteria.location || undefined);
+    const [ ,setLoading] = useGlobalState('loading');
 
     const [res, doSearch] = useAxios<SearchResponse>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
@@ -22,11 +24,13 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
             return;
         }
         const searchCriteria = { location: iataCode.code, puDate: startDate, doDate: endDate };
+        setLoading(true);
         doSearch({ params: searchCriteria })
             .then(() => {
                 onSearch(res);
-
-            });
+                setLoading(false)
+            })
+            .catch(() => setLoading(false))
     }
     const Filter = criteria.term.toLowerCase() === 'cars' ? ListCarsFilter : DefaultListSearchFilters;
 

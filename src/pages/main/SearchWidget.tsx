@@ -61,7 +61,7 @@ export function SearchWidget() {
             setOptionToSearch(val.toString())
           }
         }}>
-          <select data-display="All Categories" value={optionToSearch} id={selectID} >
+          <select data-display="All Categories" defaultValue={optionToSearch} id={selectID} >
             <option value={'cars'}>Cars</option>
             <option value={'shops'}>Shops</option>
             <option value={'hotels'}>Hotels</option>

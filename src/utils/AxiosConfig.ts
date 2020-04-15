@@ -23,7 +23,13 @@ export const useHttp = <T>(config?: AxiosRequestConfig): [RequestData<T>, HookRe
         return axios({ ...config, ...over})
         .then(r => {
           setLoading(false)
+          console.log(data)
+          setData(data)
           return r
+        })
+        .catch(err => {
+          setError(err)
+          throw err;
         })
       }
     ]

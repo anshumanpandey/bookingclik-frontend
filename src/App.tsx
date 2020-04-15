@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import './index.css';
 import './utils/AxiosConfig';
 import { Main } from './pages/main/main';
 import { ListResult } from './pages/listResults/ListResults';
 import { Soon } from './pages/comingSoon/Soon';
+import { useGlobalState } from './state';
 
 function App() {
+
+    const [loading, setLoading] = useGlobalState('loading');
     let routes = [
         { path: '/results', component: <ListResult /> },
         { path: '/', component: <Main /> }
@@ -17,18 +20,26 @@ function App() {
             { path: '/', component: <Soon /> }
         ]
     }
+
+    useEffect(() => {
+        setLoading(true)
+    }, []);
+
+    setTimeout(() => setLoading(false), 1000)
     return (
         <BrowserRouter>
-            <div className="loader-wrap">
-                <div className="pin"></div>
-                <div className="pulse"></div>
-            </div>
+            {loading && (
+                <div className="loader-wrap">
+                    <div className="pin"></div>
+                    <div className="pulse"></div>
+                </div>
+            )}
             <div id="main">
 
                 <Switch>
                     {routes.map(r => {
                         return (
-                            <Route path={r.path}>
+                            <Route key={r.path} path={r.path}>
                                 {r.component}
                             </Route>
                         );

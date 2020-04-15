@@ -131,9 +131,9 @@ export const Footer = () => {
                                     <div className="custom-form">
                                         <form method="post" name="registerform">
                                             <label>Username or Email Address * </label>
-                                            <input name="email" type="text" onClick={() => console.log(0)} value="" />
+                                            <input name="email" type="text" onChange={() => console.log(0)} value="" />
                                             <label >Password * </label>
-                                            <input name="password" type="password" onClick={() => console.log(0)} value="" />
+                                            <input name="password" type="password" onChange={() => console.log(0)} value="" />
                                             <button type="submit" className="log-submit-btn"><span>Log In</span></button>
                                             <div className="clearfix"></div>
                                             <div className="filter-tags">
@@ -151,13 +151,13 @@ export const Footer = () => {
                                         <div className="custom-form">
                                             <form method="post" name="registerform" className="main-register-form" id="main-register-form2">
                                                 <label >First Name * </label>
-                                                <input name="name" type="text" onClick={() => console.log(0)} value="" />
+                                                <input name="name" type="text" onChange={() => console.log(0)} value="" />
                                                 <label>Second Name *</label>
-                                                <input name="name2" type="text" onClick={() => console.log(0)} value="" />
+                                                <input name="name2" type="text" onChange={() => console.log(0)} value="" />
                                                 <label>Email Address *</label>
-                                                <input name="email" type="text" onClick={() => console.log(0)} value="" />
+                                                <input name="email" type="text" onChange={() => console.log(0)} value="" />
                                                 <label >Password *</label>
-                                                <input name="password" type="password" onClick={() => console.log(0)} value="" />
+                                                <input name="password" type="password" onChange={() => console.log(0)} value="" />
                                                 <button type="submit" className="log-submit-btn"  ><span>Register</span></button>
                                             </form>
                                         </div>
