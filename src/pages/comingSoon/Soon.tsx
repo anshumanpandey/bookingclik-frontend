@@ -40,34 +40,25 @@ export const Soon = () => {
             </div>
             <div className="cs-wrapper fl-wrap">
                 <div className="container small-container counter-widget" data-countDate="09/12/2019">
-                    <div className="cs-logo"><img src="images/logo.png" alt="" /></div>
+                    <div>
+                        <h1 style={{
+                            color: '#fff',
+                            fontSize: '64px',
+                            fontWeight: 800,
+                        }}>BookingClik</h1>
+                    </div>
                     <span className="section-separator"></span>
                     <h3 className="soon-title">Our website is coming soon!</h3>
-                    <h3 style={{
-                        color:'#fff',
-                        fontSize:'14px',
-                        fontWeight:800,
-                    }}>
-                        BookingClick is a website that allow you to find the best
-                        Hotel, Car Rental, Flights and Cruises around the world!
-                    </h3>
+
                     <div className="countdown fl-wrap">
-                        <div className="cs-countdown-item">
-                            <span className="days rot">{timeLeft.days}</span>
-                            <p>days</p>
-                        </div>
-                        <div className="cs-countdown-item">
-                            <span className="hours rot">{timeLeft.hours}</span>
-                            <p>hours </p>
-                        </div>
-                        <div className="cs-countdown-item no-dec">
-                            <span className="minutes rot2">{timeLeft.minutes}</span>
-                            <p>minutes </p>
-                        </div>
-                        <div className="cs-countdown-item">
-                            <span className="seconds rot2">{timeLeft.seconds}</span>
-                            <p>seconds</p>
-                        </div>
+                        <h3 style={{
+                            color: '#fff',
+                            fontSize: '14px',
+                            fontWeight: 800,
+                        }}>
+                            BookingClick is a website that allow you to find the best
+                            Hotel, Car Rental, Flights and Cruises around the world!
+                    </h3>
                     </div>
                     <div className="subcribe-form fl-wrap">
                         <p>For More details please email admin@bookingclik.com</p>
