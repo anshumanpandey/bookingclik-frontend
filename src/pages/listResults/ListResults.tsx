@@ -70,22 +70,10 @@ export function ListResult() {
     </div>)
 
     if (search && search.loading) {
-        Body = (<div className="section-title">
-            <h2>
-                Searching
-                <Dot>.</Dot>
-                <Dot>.</Dot>
-                <Dot>.</Dot>
-            </h2>
-            <div className="section-subtitle">
-                Searching
-                <Dot>.</Dot>
-                <Dot>.</Dot>
-                <Dot>.</Dot>
-            </div>
-            <span className="section-separator"></span>
-            <p>Wait while we ask out partners is there are resutls.</p>
-        </div>)
+        Body = (<>
+            <div className="pin"></div>
+            <div className="pulse"></div>
+        </>)
     } else if (results && results.length > 0) {
         Body = (
             <>
