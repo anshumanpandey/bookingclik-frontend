@@ -40,7 +40,9 @@ export const Soon = () => {
             <div className="cs-wrapper fl-wrap">
                 <div className="container small-container counter-widget" data-countDate="09/12/2019">
                     <div>
-                        <h1 style={{
+                        <h1 
+                        className="fl-wrap"
+                        style={{
                             color: '#fff',
                             fontSize: '64px',
                             fontWeight: 800,
