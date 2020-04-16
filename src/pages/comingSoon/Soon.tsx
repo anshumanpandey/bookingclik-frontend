@@ -1,35 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-const calculateTimeLeft = () => {
-    const difference = +new Date("2020-8-01") - +new Date();
-    let timeLeft = {
-        days: '00',
-        hours: '00',
-        minutes: '00',
-        seconds: '00',
-    };
-
-    if (difference > 0) {
-        timeLeft = {
-            days: Math.floor(difference / (1000 * 60 * 60 * 24)).toString(),
-            hours: Math.floor((difference / (1000 * 60 * 60)) % 24).toString(),
-            minutes: Math.floor((difference / 1000 / 60) % 60).toString(),
-            seconds: Math.floor((difference / 1000) % 60).toString(),
-        };
-    }
-
-    return timeLeft;
-};
-
-type TimeLeft = { days: string, hours: string, minutes: string, seconds: string, }
 export const Soon = () => {
-    const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
-
-    useEffect(() => {
-        setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
-    });
 
     return (
         <>
