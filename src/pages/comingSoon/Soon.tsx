@@ -34,7 +34,6 @@ export const Soon = () => {
     return (
         <>
             <div className="fixed-bg">
-                <div className="bg" data-bg="images/bg/1.jpg"></div>
                 <div className="overlay"></div>
                 <div className="bubble-bg"></div>
             </div>
