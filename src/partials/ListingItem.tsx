@@ -31,6 +31,7 @@ export type ListingItemProps = {
         transmission: string;
         acriss: string;
         price: string;
+        currency?: string
     }
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
@@ -55,7 +56,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         <div className="listing-rating card-popup-rainingvis" data-starrating2="5">
                             <span>Transmission {props.vehicle.transmission}</span>
                         </div>
-                        <div className="geodir-category-location"><a href="#0" className="map-item">Price {props.vehicle.price}</a></div>
+                        <div className="geodir-category-location"><a href="#0" className="map-item">Price {props.vehicle.price} {props.vehicle.currency}</a></div>
                     </div>
                 </ListingItemBody>
             </ListingItemInner>
