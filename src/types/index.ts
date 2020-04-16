@@ -27,3 +27,10 @@ export interface Scrape {
 export interface SearchResponse {
     scrape: Scrape;
 }
+
+export enum Terms {
+    Cars='Cars',
+    Hotels='Hotels',
+    Flights='Flights',
+    Cruises='Cruises',
+}

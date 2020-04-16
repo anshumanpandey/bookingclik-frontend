@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import NumberFormat from 'react-number-format';
 import Calendar from 'rc-calendar';
 //@ts-ignore
 import DatePicker from 'rc-calendar/lib/Picker';

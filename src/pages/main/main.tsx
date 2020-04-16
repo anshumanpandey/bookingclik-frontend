@@ -1,6 +1,10 @@
 import React from 'react';
 import { Header, Footer } from '../../partials';
 import { SearchWidget } from './SearchWidget';
+import { CarsTab } from './CarsTab';
+import { HotelsTab } from './HotelsTab';
+import { FlightsTab } from './FlightsTab';
+import { CruisesTab } from './CruisesTab';
 
 export function Main() {
     return (
@@ -8,16 +12,60 @@ export function Main() {
             <Header />
             <div id="wrapper">
                 <div className="content">
-                    <section className="scroll-con-sec hero-section" data-scrollax-parent="true" id="sec1">
+                    <section className="scroll-con-sec hero-section" style={{ paddingTop: '100px' }} data-scrollax-parent="true" id="sec1">
                         <div className="bg" data-bg="images/bg/1.jpg" data-scrollax="properties: { translateY: '200px' }"></div>
                         <div className="overlay"></div>
                         <div className="hero-section-wrap fl-wrap">
-                            <div className="container">
-                                <div className="intro-item fl-wrap">
-                                    <h2>We will help you to find all</h2>
-                                    <h3>Find great places , hotels , restourants , shops.</h3>
+                            <div id="tabs-container">
+                                <ul className="tabs-menu" style={{ margin: 'unset', border: 'unset' }}>
+                                    <li className="current">
+                                        <a style={{ borderRadius: "3px" }} href="#tab-cars">
+                                            <i className="fa fa-car" ></i>
+                                            {'  '}
+                                        Cars
+                                    </a>
+                                    </li>
+                                    <li>
+                                        <a style={{ borderRadius: "3px" }} href="#tab-hotels">
+                                            <i className="fa fa-hotel" ></i>
+                                            {'  '}
+                                        Hotels
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a style={{ borderRadius: "3px" }} href="#tab-flights">
+                                            <i className="fa fa-plane-departure"></i>
+                                            {'  '}
+                                        Flights
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a style={{ borderRadius: "3px" }} href="#tab-cruises">
+                                            <i className="fa fa-ship"></i>
+                                        Cruises
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div className="tab">
+                                    <div id="tab-cars" className="tab-content">
+                                        <CarsTab />
+                                    </div>
                                 </div>
-                                <SearchWidget />
+                                <div className="tab">
+                                    <div id="tab-hotels" className="tab-content">
+                                        <HotelsTab />
+                                    </div>
+                                </div>
+                                <div className="tab">
+                                    <div id="tab-flights" className="tab-content">
+                                        <FlightsTab />
+                                    </div>
+                                </div>
+                                <div className="tab">
+                                    <div id="tab-cruises" className="tab-content">
+                                        <CruisesTab />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="bubble-bg"> </div>

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import useAxios from 'axios-hooks'
 import { useHistory } from 'react-router-dom';
-import { IataCode, CarsSearchCriteria } from '../../types';
+import { IataCode, CarsSearchCriteria, Terms } from '../../types';
 import { CarSearchWidgetFilters, DefaultSearchWidgetFilters } from './SearchFilter';
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 
-export function SearchWidget() {
+export const SearchWidget: React.FC<{ term: Terms}> = ({ term }) => {
   const history = useHistory()
   const selectID = 'select-category'
   const [optionToSearch, setOptionToSearch] = useState<string>('cars');
@@ -16,11 +16,6 @@ export function SearchWidget() {
   const CurrentFilter = optionToSearch === 'cars' ? CarSearchWidgetFilters : DefaultSearchWidgetFilters;
 
   const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
-
-  useEffect(() => {
-    // @ts-ignore
-    $(`#${selectID}`).niceSelect()
-  }, []);
 
   const send = () => {
     if (!searchCriteria) return
@@ -41,7 +36,7 @@ export function SearchWidget() {
       .then(res => {
         history.push('/results', {
           search: {
-            criteria: { term: 'Cars', ...searchCriteria },
+            criteria: { term: term, ...searchCriteria },
             results: res.data
           }
         });
@@ -55,21 +50,6 @@ export function SearchWidget() {
           borderTopLeftRadius: '30px',
           borderBottomLeftRadius: '30px',
         }} onChange={setSearchCriteria} />
-        <div className="main-search-input-item" onClick={(e) => {
-          const val = $('#select-category').val();
-          if (val) {
-            setOptionToSearch(val.toString())
-          }
-        }}>
-          <select data-display="All Categories" defaultValue={optionToSearch} id={selectID} >
-            <option value={'cars'}>Cars</option>
-            <option value={'shops'}>Shops</option>
-            <option value={'hotels'}>Hotels</option>
-            <option value={'restaurants'}>Restaurants</option>
-            <option value={'fitness'}>Fitness</option>
-            <option value={'events'}>Events</option>``
-          </select>
-        </div>
         <button className="main-search-button" onClick={() => send()}>Search</button>
       </div>
     </div>
