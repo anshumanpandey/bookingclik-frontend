@@ -1,49 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
+import moment from 'moment';
 import NumberFormat from 'react-number-format';
+import Calendar from 'rc-calendar';
+//@ts-ignore
+import DatePicker from 'rc-calendar/lib/Picker';
+import 'rc-calendar/assets/index.css';
 
 export const DateInput: React.FC<{onChange: (v: string) => void, defaultValue?: string | null }> = ({onChange, defaultValue}) => {
+    const [date, setDate] = useState<moment.Moment | null>(defaultValue ? moment(defaultValue, "DD/MM/YYYY") : null);
+
     useEffect(() => {
         if (defaultValue) onChange(defaultValue)
     }, []);
+
+    const calendar = (<Calendar/>);
     return (
-        <NumberFormat
-            type="text"
-            defaultValue={defaultValue || undefined}
-            format={(value) => {
-                let format = "DD/MM/YYYY";
-
-                if (value.length <= 1) {
-                    format = `${value.slice(0, 1)}/MM/YYYY`;
-                } else if (value.length <= 2) {
-                    let day = value;
-                    if (parseInt(day) > 31) day = '31';
-                    format = `${day}/MM/YYYY`;
-                } else if (value.length >= 3 && value.length <= 4) {
-                    const month = parseInt(value.slice(2)) > 12 ? '12' : value.slice(2);
-
-                    format = `${value.slice(0, 2)}/${month}/YYYY`
-                } else if (value.length >= 4 && value.length <= 8) {
-                    let year = value.slice(4, 8);
-
-                    if (year.length === 4 && parseInt(year) < dayjs().year()) {
-                        year = dayjs().year().toString()
-                    }
-
-                    format = `${value.slice(0, 2)}/${value.slice(2, 4)}/${year.length < 4 ? `${year}${`YYYY`.slice(year.length)}`: year}`
-                } else {
-                    let year = value.slice(4, 8);
-
-                    format = `${value.slice(0, 2)}/${value.slice(2, 4)}/${year}`
+        <div>
+            <DatePicker
+                animation="slide-up"
+                value={date}
+                disabled={false}
+                calendar={calendar}
+                onChange={(v: any) =>{
+                    setDate(moment(v._d));
+                    onChange(moment(v._d).format("DD/MM/YYYY"))
+                }}
+            >{
+                ({value}: any) => {
+                    return (
+                        <input
+                            readOnly={true}
+                            placeholder={`Date: ${moment().format('DD/MM/YYYY')}`}
+                            value={value ? value.format("DD/MM/YYYY") : undefined}
+                        />
+                    )
                 }
-                return format;
-            }}
-            placeholder="Date: 09/12/2019"
-            onValueChange={(v) => {
-                if (v.value.length === 8) {
-                    onChange(v.formattedValue)
-                }
-            }}
-        />
-    );
+            }</DatePicker>
+        </div>
+    )
 }

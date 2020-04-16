@@ -53,14 +53,6 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
         )
     };
 
-    const ErroIndicator = () => {
-        return (
-            <div className={customeClasses ? customeClasses : "main-search-input-item"}>
-                <input type="text" value="Error loading. Click to try again" onClick={() => refetch()} />
-            </div>
-        )
-    };
-
     return (
         <>
             <div className={customeClasses ? customeClasses : "main-search-input-item"} style={{
@@ -77,7 +69,6 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     }}
                     onInputChange={(e, v) => {
                         if (v === '') return
-                        console.log(v)
                         refetch({ params: { search: v }})
                     }}
                     defaultValue={defaultValue}
