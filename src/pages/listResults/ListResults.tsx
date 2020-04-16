@@ -79,7 +79,7 @@ export function ListResult() {
     if (results && results.length > 0) {
         Body = (
             <>
-                {results.map((v: any, idx: number) => <ListingItem key={v.name} {...v} />)}
+                {results.map((v: any, idx: number) => <ListingItem key={v.name} {...v} criteria={state.search.criteria} />)}
             </>
         );
     }
@@ -89,15 +89,7 @@ export function ListResult() {
             <Header />
             <div id="wrapper">
                 <div className="content">
-                    <div className="map-container column-map right-pos-map" id="listResultsPage">
-                        <div id="map-main"></div>
-                        <ul className="mapnavigation">
-                            <li><a href="#" className="prevmap-nav">Prev</a></li>
-                            <li><a href="#" className="nextmap-nav">Next</a></li>
-                        </ul>
-                        <div className="scrollContorl mapnavbtn" title="Enable Scrolling"><span><i className="fa fa-lock"></i></span></div>
-                    </div>
-                    <div className="col-list-wrap left-list">
+                    <div className="col-list-wrap left-list" style={{ width: '100%'}}>
                         <div className="listsearch-options fl-wrap" id="lisfw" >
                             <div className="container">
                                 <div className="listsearch-header fl-wrap">

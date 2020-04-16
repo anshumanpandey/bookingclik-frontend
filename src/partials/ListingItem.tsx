@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
 const ListingItemBody = styled.div`
 display: flex;
@@ -25,16 +26,22 @@ const Avatar = styled.div`
 
 
 export type ListingItemProps = {
+    criteria: {
+        doDate: string;
+        puDate: string;
+    };
     vehicle: {
         doors: string;
         name: string;
         transmission: string;
         acriss: string;
         price: string;
-        currency?: string
+        currency?: string,
+        custom_location: string
     }
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
+    console.log(props.criteria)
     return (
         <div className="listing-item">
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
@@ -45,7 +52,21 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 </div>
                 <ListingItemBody className="geodir-category-content fl-wrap">
                     <div>
-                        <a className="listing-geodir-category capitalize" href="listing.html">{props.vehicle.acriss}</a>
+                        <form id="book-now-form" method="post" action="http://right-cars.com/booking-vehicle.php">
+
+                            <input type="hidden" name="driverage" value="33" />
+                            <input type="hidden" name="pickuplocation" value={props.vehicle.custom_location} />
+                            <input type="hidden" name="pickup_date" value={props.criteria.puDate.replace(/\//g, '-')} />
+                            <input type="hidden" name="dropoff_date" value={props.criteria.doDate.replace(/\//g, '-')} />
+
+                            <input type="hidden" name="pickuptime" value={dayjs().format('H:mm')} />
+                            <input type="hidden" name="dropofftime" value={dayjs().format('H:mm')} />
+
+                            <a className="listing-geodir-category capitalize" onClick={() => {
+                                //@ts-ignore
+                                document.getElementById('book-now-form')?.submit();
+                            }}  href="#">Book Now</a>
+                        </form>
                         <Avatar className="listing-avatar"><a href="author-single.html"><img src="images/avatar/1.jpg" alt="" /></a>
                             <span className="avatar-tooltip">Added By  <strong>Lisa Smith</strong></span>
                         </Avatar>
@@ -56,7 +77,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         <div className="listing-rating card-popup-rainingvis" data-starrating2="5">
                             <span>Transmission {props.vehicle.transmission}</span>
                         </div>
-                        <div className="geodir-category-location"><a href="#0" className="map-item">Price {props.vehicle.price} {props.vehicle.currency}</a></div>
+                        <div className="geodir-category-location">
+                            <a href="#0" className="map-item">Price {props.vehicle.price} {props.vehicle.currency}</a>
+                        </div>
                     </div>
                 </ListingItemBody>
             </ListingItemInner>
