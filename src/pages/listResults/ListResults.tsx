@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useAxios, { ResponseValues } from 'axios-hooks'
 //@ts-ignore
-import { Dot } from 'react-animated-dots';
 import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
@@ -34,6 +33,12 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
 
     return (
         <>
+            {res.loading && (
+                <div className="loader-wrap">
+                    <div className="pin"></div>
+                    <div className="pulse"></div>
+                </div>
+            )}
             <Filter {...criteria} onChange={(r: CarsSearchCriteria) => {
                 setStartDate(r.puDate)
                 setEndDate(r.doDate)
@@ -48,7 +53,6 @@ export function ListResult() {
     const history = useHistory<{ search: { criteria: { term: string } & CarsSearchCriteria, results: SearchResponse } }>();
     const state = history.location.state;
 
-    const [ ,setLoading] = useGlobalState('loading');
     const [search, setSearch] = useState<ResponseValues<SearchResponse> | null>(null);
     const [results, setResults] = useState<any[] | null>((state && state.hasOwnProperty('search')) ? state.search.results.scrape.vehicle : null);
 
@@ -60,7 +64,6 @@ export function ListResult() {
 
     useEffect(() => {
         if (search && search.data) setResults(search.data.scrape.vehicle)
-        if (search) setLoading(search.loading)
     }, [search]);
 
     if (!state || !state.hasOwnProperty('search')) {
@@ -75,7 +78,7 @@ export function ListResult() {
         <span className="section-separator"></span>
         <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
     </div>)
-    
+
     if (results && results.length > 0) {
         Body = (
             <>
@@ -89,7 +92,7 @@ export function ListResult() {
             <Header />
             <div id="wrapper">
                 <div className="content">
-                    <div className="col-list-wrap left-list" style={{ width: '100%'}}>
+                    <div className="col-list-wrap left-list" style={{ width: '100%' }}>
                         <div className="listsearch-options fl-wrap" id="lisfw" >
                             <div className="container">
                                 <div className="listsearch-header fl-wrap">

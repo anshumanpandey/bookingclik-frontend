@@ -38,15 +38,17 @@ export type ListingItemProps = {
         price: string;
         currency?: string,
         custom_location: string
+        image_preview_url?: string
+        baseUrl?: string
     }
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
-    console.log(props.criteria)
+    const image_url = props.vehicle.image_preview_url ? `${props.vehicle.baseUrl}${props.vehicle.image_preview_url}` : "images/all/1.jpg"
     return (
         <div className="listing-item">
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <div className="geodir-category-img">
-                    <img src="images/all/1.jpg" alt="" style={{ height: '100%' }} />
+                    <img src={image_url} alt="" style={{ height: '100%' }} />
                     <div className="overlay"></div>
                     <div className="list-post-counter"><span>{props.vehicle.doors} doors</span></div>
                 </div>
