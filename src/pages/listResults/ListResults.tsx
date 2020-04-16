@@ -13,24 +13,22 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
     const [startDate, setStartDate] = useState<string | null>(criteria.puDate || null);
     const [endDate, setEndDate] = useState<string | null>(criteria.doDate || null);
     const [iataCode, setIatacode] = useState<IataCode>(criteria.location || undefined);
-    const [ ,setLoading] = useGlobalState('loading');
 
     const [res, doSearch] = useAxios<SearchResponse>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
-    useEffect(() => onSearch(res), [res])
+    useEffect(() => {
+        onSearch(res)
+    }, [res])
 
     const send = () => {
         if (!(iataCode && startDate && endDate)) {
             return;
         }
         const searchCriteria = { location: iataCode.code, puDate: startDate, doDate: endDate };
-        setLoading(true);
         doSearch({ params: searchCriteria })
             .then(() => {
                 onSearch(res);
-                setLoading(false)
             })
-            .catch(() => setLoading(false))
     }
     const Filter = criteria.term.toLowerCase() === 'cars' ? ListCarsFilter : DefaultListSearchFilters;
 
@@ -50,8 +48,9 @@ export function ListResult() {
     const history = useHistory<{ search: { criteria: { term: string } & CarsSearchCriteria, results: SearchResponse } }>();
     const state = history.location.state;
 
+    const [ ,setLoading] = useGlobalState('loading');
     const [search, setSearch] = useState<ResponseValues<SearchResponse> | null>(null);
-    const [results, setResults] = useState((state && state.hasOwnProperty('search')) ? state.search.results.scrape.vehicle : null);
+    const [results, setResults] = useState<any[] | null>((state && state.hasOwnProperty('search')) ? state.search.results.scrape.vehicle : null);
 
     useEffect(() => {
         if (!state || !state.hasOwnProperty('search')) {
@@ -59,10 +58,14 @@ export function ListResult() {
         }
     }, []);
 
+    useEffect(() => {
+        if (search && search.data) setResults(search.data.scrape.vehicle)
+        if (search) setLoading(search.loading)
+    }, [search]);
+
     if (!state || !state.hasOwnProperty('search')) {
         return <></>;
     }
-
 
     const criteria = state.search.criteria;
 
@@ -72,13 +75,8 @@ export function ListResult() {
         <span className="section-separator"></span>
         <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
     </div>)
-
-    if (search && search.loading) {
-        Body = (<>
-            <div className="pin"></div>
-            <div className="pulse"></div>
-        </>)
-    } else if (results && results.length > 0) {
+    
+    if (results && results.length > 0) {
         Body = (
             <>
                 {results.map((v: any, idx: number) => <ListingItem key={v.name} {...v} />)}
