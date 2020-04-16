@@ -26,9 +26,11 @@ const Avatar = styled.div`
 
 export type ListingItemProps = {
     vehicle: {
-        category: string;
+        doors: string;
         name: string;
-        description: string;
+        transmission: string;
+        acriss: string;
+        price: string;
     }
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
@@ -38,22 +40,22 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 <div className="geodir-category-img">
                     <img src="images/all/1.jpg" alt="" style={{ height: '100%' }} />
                     <div className="overlay"></div>
-                    <div className="list-post-counter"><span>4</span><i className="fa fa-heart"></i></div>
+                    <div className="list-post-counter"><span>{props.vehicle.doors} doors</span></div>
                 </div>
                 <ListingItemBody className="geodir-category-content fl-wrap">
                     <div>
-                        <a className="listing-geodir-category capitalize" href="listing.html">{props.vehicle.category}</a>
+                        <a className="listing-geodir-category capitalize" href="listing.html">{props.vehicle.acriss}</a>
                         <Avatar className="listing-avatar"><a href="author-single.html"><img src="images/avatar/1.jpg" alt="" /></a>
                             <span className="avatar-tooltip">Added By  <strong>Lisa Smith</strong></span>
                         </Avatar>
                         <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
-                        <p>{props.vehicle.description}</p>
+                        <p>ACRISS {props.vehicle.acriss}</p>
                     </div>
                     <div className="geodir-category-options fl-wrap">
                         <div className="listing-rating card-popup-rainingvis" data-starrating2="5">
-                            <span>(7 reviews)</span>
+                            <span>Transmission {props.vehicle.transmission}</span>
                         </div>
-                        <div className="geodir-category-location"><a href="#0" className="map-item"><i className="fa fa-map-marker" aria-hidden="true"></i> 27th Brooklyn New York, NY 10065</a></div>
+                        <div className="geodir-category-location"><a href="#0" className="map-item">Price {props.vehicle.price}</a></div>
                     </div>
                 </ListingItemBody>
             </ListingItemInner>
