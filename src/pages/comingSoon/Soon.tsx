@@ -38,7 +38,7 @@ export const Soon = () => {
                 <div className="bubble-bg"></div>
             </div>
             <div className="cs-wrapper fl-wrap">
-                <div className="container small-container counter-widget" data-countDate="09/12/2019">
+                <div className="container small-container counter-widget" data-countdate="09/12/2019">
                     <div>
                         <h1 
                         className="fl-wrap"
