@@ -22,3 +22,9 @@
 .react-select__single-value {
     padding-left: 14px!important;
 }
+
+.MuiAutocomplete-input.secondary{
+    background-color: #4db7fe;
+    color: white;
+    border: none;
+}

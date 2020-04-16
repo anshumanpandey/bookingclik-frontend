@@ -4,11 +4,16 @@ import useAxios from 'axios-hooks'
 import { InputBase, CircularProgress, withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { IataCode } from '../types';
+import { useHttp } from '../utils/AxiosConfig';
 
-const styles = createStyles({
+let styles = createStyles({
     input: {
+        width: '80%!important',
         paddingTop: 0,
         fontSize: '0.8rem'
+    },
+    inputRoot: {
+        flexWrap: 'unset'
     }
 })
 
@@ -18,49 +23,19 @@ interface Prop {
     customeClasses?: string,
     style?: React.CSSProperties,
     defaultValue?: IataCode,
+    secondary?: boolean,
     classes?: {
         input: string
+        inputRoot: string
     }
 }
 
-
-
-const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>> = ({ onChange, customeClasses, classes, style, defaultValue }) => {
-    const [{ data, loading, error }, refetch] = useAxios<IataCode[]>('/iataCodes', { manual: true })
+const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>> = ({ secondary, onChange, customeClasses, classes, style, defaultValue }) => {
+    const [{ data, loading, error }, refetch] = useHttp<IataCode[]>({ url: '/iataCodes' })
 
     const [open, setOpen] = useState(false);
 
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
-
-    /*React.useEffect(() => {
-        if (!open) return 
-        refetch();
-      }, [open]);*/
-
-    const selectStyles = {
-        menu: (provided: any) => ({ ...provided, color: 'hsl(0,0%,20%)' }),
-        singleValue: (provided: any) => ({ ...provided, color: (style && style.color) ? style.color : 'color: hsl(0,0%,20%)' }),
-        indicatorSeparator: (provided: any) => ({ ...provided, display: 'none' }),
-        valueContainer: (provided: any) => ({ ...provided, height: '100%' }),
-        control: (provided: any) => ({ ...provided, flex: 1, display: 'flex', border: 'unset', ...style }),
-        container: (provided: any) => ({ ...provided, height: '100%', display: 'flex' }),
-        input: (provided: any) => ({
-            ...provided, height: '100%',
-            'input': {
-                backgroundColor: 'red'
-            }
-        }),
-        dropdownIndicator: (provided: any, state: any) => {
-            return {
-                ...provided,
-                color: (style && style.color) ? style.color : "#4DB7FE",
-                transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                ':hover': {
-                    color: (style && style.color) ? style.color : "#4DB7FE",
-                }
-            };
-        }
-    }
 
     useEffect(() => {
         if (data && data.length > 0) {
@@ -69,8 +44,6 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
             onChange(data[0]);
         }
     }, [data]);
-
-
 
     const LoadingIndicator = () => {
         return (
@@ -104,21 +77,30 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     }}
                     onInputChange={(e, v) => {
                         if (v === '') return
+                        console.log(v)
                         refetch({ params: { search: v }})
                     }}
                     defaultValue={defaultValue}
-                    loading={open && data && data.length === 0}
+                    loading={open && data !== null}
                     options={data || []}
                     getOptionLabel={(option: IataCode) => option.location}
+                    classes={{
+                        inputRoot: classes.inputRoot
+                    }}
                     renderInput={(params) => {
                         return (
                             <InputBase
-                                {...params}
-                                classes={classes}
+                                {...params.InputProps}
+                                id={params.id}
+                                disabled={params.disabled}
+                                classes={{
+                                    input: `${classes.input} ${secondary ? 'secondary' : undefined} `,
+                                }}
                                 placeholder="Select Pickup Location"
+                                inputProps={params.inputProps}
                                 endAdornment={(
                                     <React.Fragment>
-                                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                        {loading ? <CircularProgress color="inherit" size={15} /> : null}
                                         {params.InputProps.endAdornment}
                                     </React.Fragment>
                                 )}

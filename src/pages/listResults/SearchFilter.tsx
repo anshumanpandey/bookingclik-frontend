@@ -75,7 +75,7 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
     return (
         <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <LocationDropdown defaultValue={location} style={{ backgroundColor: '#4DB7FE', color: 'white' }} customeClasses="listsearch-input-item listResultSelect" onChange={setCode} />
+                <LocationDropdown secondary={true} defaultValue={location} style={{ backgroundColor: '#4DB7FE', color: 'white' }} customeClasses="listsearch-input-item listResultSelect" onChange={setCode} />
                 <div className="listsearch-input-item">
                     <DateInput defaultValue={puDate} onChange={(v) => setStartDate(v)} />
                 </div>
