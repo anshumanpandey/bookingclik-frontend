@@ -42,6 +42,7 @@ export function Main() {
                                     <li>
                                         <a style={{ borderRadius: "3px" }} href="#tab-cruises">
                                             <i className="fa fa-ship"></i>
+                                            {'  '}
                                         Cruises
                                         </a>
                                     </li>

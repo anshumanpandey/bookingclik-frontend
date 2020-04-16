@@ -56,21 +56,12 @@ export const Soon = () => {
                             fontSize: '14px',
                             fontWeight: 800,
                         }}>
-                            BookingClick is a website that allow you to find the best
+                            BookingClick is a website that allows you to find the best
                             Hotel, Car Rental, Flights and Cruises around the world!
                     </h3>
                     </div>
                     <div className="subcribe-form fl-wrap">
                         <p>For More details please email admin@bookingclik.com</p>
-                    </div>
-                    <div className="cs-social fl-wrap">
-                        <ul>
-                            <li><a href="#" target="_blank" ><i className="fa fa-facebook-official"></i></a></li>
-                            <li><a href="#" target="_blank"><i className="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank" ><i className="fa fa-chrome"></i></a></li>
-                            <li><a href="#" target="_blank" ><i className="fa fa-vk"></i></a></li>
-                            <li><a href="#" target="_blank" ><i className="fa fa-whatsapp"></i></a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
