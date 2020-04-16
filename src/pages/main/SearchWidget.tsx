@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import useAxios from 'axios-hooks'
+import { CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { IataCode, CarsSearchCriteria, Terms } from '../../types';
 import { CarSearchWidgetFilters, DefaultSearchWidgetFilters } from './SearchFilter';
@@ -9,7 +10,6 @@ dayjs.extend(customParseFormat)
 
 export const SearchWidget: React.FC<{ term: Terms}> = ({ term }) => {
   const history = useHistory()
-  const selectID = 'select-category'
   const [optionToSearch, setOptionToSearch] = useState<string>('cars');
   const [searchCriteria, setSearchCriteria] = useState<CarsSearchCriteria | null>(null);
 
@@ -50,7 +50,9 @@ export const SearchWidget: React.FC<{ term: Terms}> = ({ term }) => {
           borderTopLeftRadius: '30px',
           borderBottomLeftRadius: '30px',
         }} onChange={setSearchCriteria} />
-        <button className="main-search-button" onClick={() => send()}>Search</button>
+        <button className="main-search-button" onClick={() => send()}>
+          Search {loading && <CircularProgress color="inherit" size={15} />}
+        </button>
       </div>
     </div>
   );

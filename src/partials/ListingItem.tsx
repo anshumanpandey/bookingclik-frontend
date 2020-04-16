@@ -54,7 +54,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 </div>
                 <ListingItemBody className="geodir-category-content fl-wrap">
                     <div>
-                        <form id="book-now-form" method="post" action="http://right-cars.com/booking-vehicle.php">
+                        <form id="book-now-form" target="_blank" method="post" action="http://right-cars.com/booking-vehicle.php">
 
                             <input type="hidden" name="driverage" value="33" />
                             <input type="hidden" name="pickuplocation" value={props.vehicle.custom_location} />

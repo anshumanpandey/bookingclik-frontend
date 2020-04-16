@@ -17,7 +17,7 @@ export function Main() {
                         <div className="overlay"></div>
                         <div className="hero-section-wrap fl-wrap">
                             <div id="tabs-container">
-                                <ul className="tabs-menu" style={{ margin: 'unset', border: 'unset' }}>
+                                <ul className="tabs-menu" style={{ margin: 'unset', border: 'unset', display: 'flex', justifyContent: 'space-evenly' }}>
                                     <li className="current">
                                         <a style={{ borderRadius: "3px" }} href="#tab-cars">
                                             <i className="fa fa-car" ></i>
