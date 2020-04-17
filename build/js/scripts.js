@@ -486,7 +486,7 @@ function initCitybook() {
     $(".show-search-button").on("click", function () {
         $(".vis-header-search").slideToggle(500);
     });
-    $(".listing-view-layout li div.list").on("click", function (e) {
+    /*$(".listing-view-layout li div.list").on("click", function (e) {
         e.preventDefault();
         $(".listing-view-layout li div").removeClass("active");
         $(".listing-item").addClass("list-layout");
@@ -497,7 +497,7 @@ function initCitybook() {
         $(".listing-view-layout li div").removeClass("active");
         $(".listing-item").removeClass("list-layout");
         $(this).addClass("active");
-    });
+    });*/
     // Forms ------------------
 	$(document).on('change', '.leave-rating input', function() {
         var $radio = $(this);
