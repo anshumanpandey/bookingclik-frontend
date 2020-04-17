@@ -142,7 +142,11 @@ export function ListResult() {
                         <div className="listsearch-options fl-wrap" id="lisfw" >
                             <div className="container">
                                 <div className="listsearch-header fl-wrap">
-                                    <h3>Results For : <span>{criteria.term}</span></h3>
+                                    <h3>
+                                        Results For : <span>{criteria.term}</span> | 
+                                        {results && results.length !== 0 && ` ${results.length} cars founds!`} | 
+                                        Lowest price {results && results.length !== 0 && Math.min(...results.reduce((prev, next) => {prev.push(parseFloat(next.vehicle.price)); return prev}, []))}
+                                    </h3>
                                     <div className="listing-view-layout">
                                         <ul>
                                             <li><div style={{ cursor: 'pointer' }} className="grid active"><i className="fa fa-th-large"></i></div></li>
