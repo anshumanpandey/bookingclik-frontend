@@ -7,7 +7,6 @@ export const Panel: React.FC<{ buttonNode: React.ReactNode }> = ({ children, but
 
     useEffect(() => {
         $(`#${buttonId}`).on("click", function () {
-            console.log($(`.hidden-panel#${panelId}`))
             $(`.hidden-panel#${panelId}`).slideToggle(500);
             $(this).find("span").toggleClass("mfilopact");
         });

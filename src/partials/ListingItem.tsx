@@ -33,6 +33,7 @@ export type ListingItemProps = {
     };
     vehicle: {
         doors: string;
+        seats: string;
         name: string;
         transmission: string;
         acriss: string;
@@ -75,6 +76,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </Avatar>
                         <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
                         <p>ACRISS {props.vehicle.acriss}</p>
+                        <p>Seats {props.vehicle.seats}</p>
                     </div>
                     <div className="geodir-category-options fl-wrap">
                         <div className="listing-rating card-popup-rainingvis" data-starrating2="5">

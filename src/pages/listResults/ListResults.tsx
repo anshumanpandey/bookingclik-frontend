@@ -5,9 +5,11 @@ import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
 import { IataCode, SearchResponse, CarsSearchCriteria } from '../../types';
-import { DefaultListSearchFilters, ListCarsFilter } from './SearchFilter';
+import { DefaultListSearchFilters, ListCarsFilter, SortFilterCars } from './SearchFilter';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
+import { Panel } from '../../partials/Panel';
+import moment from 'moment';
 
 export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>) => void, criteria: CarsSearchCriteria }> = ({ onSearch, criteria }) => {
     const [startDate, setStartDate] = useState<string | null>(criteria.puDate || null);
@@ -40,14 +42,18 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
                     <div className="pulse"></div>
                 </div>
             )}
-            <Filter
-                {...criteria}
-                onChange={(r: CarsSearchCriteria) => {
-                    setStartDate(r.puDate)
-                    setEndDate(r.doDate)
-                    setIatacode(r.location)
-                }} />
-            <button style={{ marginTop: 20 }} onClick={() => send()} className="button fs-map-btn">{res.loading ? 'Searching...' : 'Search'}</button>
+            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                    <Filter
+                        {...criteria}
+                        onChange={(r: CarsSearchCriteria) => {
+                            setStartDate(r.puDate)
+                            setEndDate(r.doDate)
+                            setIatacode(r.location)
+                        }} />
+                    <button onClick={() => send()} className="button fs-map-btn">{res.loading ? 'Searching...' : 'Search'}</button>
+                </div>
+            </div>
         </>
     );
 }
@@ -58,7 +64,11 @@ export function ListResult() {
 
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('GRID');
     const [search, setSearch] = useState<ResponseValues<SearchResponse> | null>(null);
-    const [results, setResults] = useState<any[] | null>((state && state.hasOwnProperty('search')) ? state.search.results.scrape.vehicle : null);
+    let resultsToUse = (state && state.hasOwnProperty('search')) ? state.search.results.scrape.vehicle : []
+    if (search && search.data) {
+        resultsToUse = search.data.scrape.vehicle;
+    }
+    const [results, setResults] = useState<any[]>(resultsToUse);
 
     const [airConditioner] = useFilterState('airConditioner');
     const [noDoors] = useFilterState('noDoors');
@@ -76,6 +86,7 @@ export function ListResult() {
 
     useEffect(() => {
         if (!results) return
+        console.log(search)
         const options: Set<string> = results.reduce((prev, next) => {
             prev.add(next.vehicle.transmission)
             return prev
@@ -120,6 +131,12 @@ export function ListResult() {
 
                         return c.vehicle.doors >= noDoors
                     })
+                    .filter(c => {
+                        if (noSeats <= 0) {
+                            return true
+                        }
+                        return c.vehicle.doors >= noSeats
+                    })
                     .filter(c => airConditioner === true ? c.vehicle.airConditioner === true : true)
                     .filter(c => transmission !== null ? c.vehicle.transmission === transmission : true)
                     .sort((a: any, b: any) => {
@@ -144,7 +161,29 @@ export function ListResult() {
                     <div className="col-list-wrap left-list" style={{ width: '100%' }}>
                         <div className="listsearch-options fl-wrap" id="lisfw" >
                             <div className="container">
-                                <div className="listsearch-header fl-wrap">
+                                <Panel buttonNode={<div className="listsearch-header fl-wrap">
+                                    <h3>
+                                        <i className="fa fa-car" ></i>
+                                        {'   '}
+                                        <span>{criteria.location.location} ({criteria.location.code})</span> |
+                                        {' '}
+                                        {moment(state.search.results.scrape.details.pickup.datetime, "DD/MM/YYYY H:mm").format("ddd, MMM D, H:mma")} -
+                                        {moment(state.search.results.scrape.details.dropoff.datetime, "DD/MM/YYYY H:mm").format("ddd, MMM D, H:mma")}
+                                    </h3>
+                                    <div style={{ float: 'right', color: '#4db7fe'}}>
+                                        <h4>Change Search <i className="fa fa-search"></i></h4>
+                                    </div>
+                                </div>} >
+
+                                    <SearchForm criteria={criteria} onSearch={setSearch} />
+                                </Panel>
+                                <div className="listsearch-header fl-wrap" style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    paddingTop: 10,
+                                    paddingBottom: 10,
+                                }}>
                                     <h3>
                                         Results For : <span>{criteria.term}</span> |
                                         {results && results.length !== 0 && ` ${results.length} Vehicles listed below from ${cheapestCar.vehicle.currency} ${cheapestCar.vehicle.price}`}
@@ -152,19 +191,19 @@ export function ListResult() {
                                     <div className="listing-view-layout">
                                         <ul>
                                             <li onClick={() => setLayout('GRID')}>
-                                                <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active': ''}`}>
+                                                <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active' : ''}`}>
                                                     <i className="fa fa-th-large"></i>
                                                 </div>
                                             </li>
                                             <li onClick={() => setLayout('LIST')}>
-                                                <div style={{ cursor: 'pointer' }} className={`list ${layout === 'LIST' ? 'active': ''}`}>
+                                                <div style={{ cursor: 'pointer' }} className={`list ${layout === 'LIST' ? 'active' : ''}`}>
                                                     <i className="fa fa-list-ul"></i>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <SearchForm criteria={criteria} onSearch={setSearch} />
+                                <SortFilterCars />
                             </div>
                         </div>
                         <div className="list-main-wrap fl-wrap card-listing">

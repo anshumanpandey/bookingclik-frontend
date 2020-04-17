@@ -69,6 +69,28 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
     const [endDate, setEndDate] = useState<string | null>(doDate || null);
     const [code, setCode] = useState<IataCode>(location || undefined);
 
+    useEffect(() => {
+        if (code) {
+            onChange({ term: 'cars', puDate: startDate, doDate: endDate, location: code })
+        }
+    }, [startDate, endDate, code]);
+
+    return (
+        <>
+
+            <LocationDropdown secondary={true} defaultValue={location} style={{ backgroundColor: '#4DB7FE', color: 'white' }} customeClasses="listsearch-input-item listResultSelect" onChange={setCode} />
+            <div className="listsearch-input-item">
+                <DateInput defaultValue={puDate} onChange={(v) => setStartDate(v)} />
+            </div>
+            <div className="listsearch-input-item">
+                <DateInput defaultValue={doDate} onChange={(v) => setEndDate(v)} />
+            </div>
+
+        </>
+    );
+}
+
+export const SortFilterCars: React.FC = () => {
     const [sortPrice, setSortPrice] = useSortState('price');
 
     const [airConditioner, setAirConditioner] = useFilterState('airConditioner');
@@ -78,32 +100,22 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
     const [transmissionOptions] = useFilterState('transmissionOptions');
 
     useEffect(() => {
-        if (code) {
-            onChange({ term: 'cars', puDate: startDate, doDate: endDate, location: code })
-        }
-    }, [startDate, endDate, code]);
+        // @ts-ignore
+        $('#transmission-select').niceSelect()
+    }, []);
 
     return (
         <>
-            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <LocationDropdown secondary={true} defaultValue={location} style={{ backgroundColor: '#4DB7FE', color: 'white' }} customeClasses="listsearch-input-item listResultSelect" onChange={setCode} />
-                    <div className="listsearch-input-item">
-                        <DateInput defaultValue={puDate} onChange={(v) => setStartDate(v)} />
-                    </div>
-                    <div className="listsearch-input-item">
-                        <DateInput defaultValue={doDate} onChange={(v) => setEndDate(v)} />
-                    </div>
-                </div>
+            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', marginTop: 0 }}>
 
                 <div className="profile-edit-container add-list-container">
                     <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
                         <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
                     </div>} >
                         <div className="custom-form">
-                            <div className="row">
+                            <div className="row" style={{ display: 'flex'}}>
                                 <div className="col-md-6">
-                                    <div className="act-widget fl-wrap">
+                                    <div className="act-widget fl-wrap" style={{ marginBottom: 0}}>
                                         <div className="act-widget-header">
                                             <h4>A/C</h4>
                                             <div className="onoffswitch">
@@ -118,7 +130,7 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
                                 </div>
 
 
-                                {transmissionOptions && transmissionOptions.length !== 0 && (
+                                {(
                                     <div className="col-md-6" onClick={(e) => {
                                         const value = $('#transmission-select').val();
                                         if (!value) return
@@ -130,11 +142,16 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
                                         }
 
                                     }}>
-                                        <label>Transmission</label>
-                                        <select id="transmission-select" data-placeholder="Transmission" className="chosen-select no-search-select" >
-                                            <option value="all">All</option>
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            paddingBottom: '15px',
+                                        }}>
+                                        <select id="transmission-select" data-placeholder="Transmission" className="no-search-select transmission-select" >
+                                            <option value="all">Transmission</option>
                                             {transmissionOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                                         </select>
+                                        </div>
                                     </div>
                                 )}
 
@@ -143,7 +160,10 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="quantity act-widget-header fl-wrap">
-                                        <span><i className="fa fa-cars"></i>No. Doors : </span>
+                                        <span>
+                                        <img src="http://www.right-cars.com/public/img/icons/door.png"/>
+                                            No. Doors : 
+                                        </span>
                                         <div className="quantity-item">
                                             <input type="button" style={{ marginBottom: 0 }} readOnly value="-" onClick={() => noDoors - 1 >= 0 ? setNoDoors(noDoors - 1) : undefined} className="minus" />
                                             <input type="text" style={{ marginBottom: 0 }} name="quantity" title="Qty" className="qty" step="1" readOnly value={noDoors} />
@@ -154,7 +174,10 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
 
                                 <div className="col-md-6">
                                     <div className="quantity act-widget-header fl-wrap">
-                                        <span><i className="fa fa-user-plus"></i>No. Seats : </span>
+                                        <span>
+                                            <img src="http://www.right-cars.com/public/img/icons/seats.png" />
+                                            No. Seats : 
+                                        </span>
                                         <div className="quantity-item">
                                             <input type="button" style={{ marginBottom: 0 }} readOnly value="-" onClick={() => noSeats - 1 >= 0 ? setNoSeats(noSeats - 1) : undefined} className="minus" />
                                             <input type="text" style={{ marginBottom: 0 }} readOnly name="quantity" title="Qty" className="qty" step="1" value={noSeats} />
@@ -191,5 +214,6 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
         </>
     );
 }
+
 
 
