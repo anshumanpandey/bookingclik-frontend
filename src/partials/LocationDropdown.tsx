@@ -75,6 +75,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     loading={open && data !== null}
                     options={data || []}
                     getOptionLabel={(option: IataCode) => option.location}
+                    filterOptions={x => x}
                     classes={{
                         inputRoot: classes.inputRoot
                     }}
