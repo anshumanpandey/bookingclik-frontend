@@ -10,17 +10,20 @@ import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
 import moment from 'moment';
+import { useSearchState } from './SearchGlobalState';
 
-export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>) => void, criteria: CarsSearchCriteria }> = ({ onSearch, criteria }) => {
+export const SearchForm: React.FC<{ criteria: CarsSearchCriteria }> = ({ criteria }) => {
     const [startDate, setStartDate] = useState<string | null>(criteria.puDate || null);
     const [endDate, setEndDate] = useState<string | null>(criteria.doDate || null);
     const [iataCode, setIatacode] = useState<IataCode>(criteria.location || undefined);
+    const [, setSearch] = useSearchState('scrape')
 
-    const [res, doSearch] = useAxios<SearchResponse>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
+    const [searchRequest, doSearch] = useAxios<SearchResponse>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
     useEffect(() => {
-        onSearch(res)
-    }, [res])
+        if (!searchRequest.data) return 
+        setSearch(searchRequest.data.scrape)
+    }, [searchRequest])
 
     const send = () => {
         if (!(iataCode && startDate && endDate)) {
@@ -28,15 +31,15 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
         }
         const searchCriteria = { location: iataCode.code, puDate: startDate, doDate: endDate };
         doSearch({ params: searchCriteria })
-            .then(() => {
-                onSearch(res);
+            .then((res) => {
+                setSearch(res.data.scrape)
             })
     }
     const Filter = criteria.term.toLowerCase() === 'cars' ? ListCarsFilter : DefaultListSearchFilters;
 
     return (
         <>
-            {res.loading && (
+            {searchRequest.loading && (
                 <div className="loader-wrap">
                     <div className="pin"></div>
                     <div className="pulse"></div>
@@ -51,7 +54,7 @@ export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>
                             setEndDate(r.doDate)
                             setIatacode(r.location)
                         }} />
-                    <button onClick={() => send()} className="button fs-map-btn">{res.loading ? 'Searching...' : 'Search'}</button>
+                    <button onClick={() => send()} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
                 </div>
             </div>
         </>
@@ -63,40 +66,34 @@ export function ListResult() {
     const state = history.location.state;
 
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('GRID');
-    const [search, setSearch] = useState<ResponseValues<SearchResponse> | null>(null);
-    let resultsToUse = (state && state.hasOwnProperty('search')) ? state.search.results.scrape.vehicle : []
-    if (search && search.data) {
-        resultsToUse = search.data.scrape.vehicle;
-    }
-    const [results, setResults] = useState<any[]>(resultsToUse);
+
+    const [search, setSearch] = useSearchState('scrape')
 
     const [airConditioner] = useFilterState('airConditioner');
     const [noDoors] = useFilterState('noDoors');
-    const [noSeats, setNoSeats] = useFilterState('noSeats');
+    const [noSeats] = useFilterState('noSeats');
     const [transmission] = useFilterState('transmission');
     const [, setTransmissionOptions] = useFilterState('transmissionOptions');
 
-    const [sortPrice, setSortPrice] = useSortState('price');
+    const [sortPrice] = useSortState('price');
 
     useEffect(() => {
         if (!state || !state.hasOwnProperty('search')) {
             history.push('/')
         }
+        setSearch(state.search.results.scrape)
     }, []);
 
     useEffect(() => {
-        if (!results) return
-        console.log(search)
-        const options: Set<string> = results.reduce((prev, next) => {
+        if (!search.vehicle) return
+        const options: Set<string> = search.vehicle.reduce((prev, next) => {
             prev.add(next.vehicle.transmission)
             return prev
         }, new Set())
-        setTransmissionOptions(Array.from(options.values()))
-    }, [results]);
 
-    useEffect(() => {
-        if (search && search.data) setResults(search.data.scrape.vehicle)
-    }, [search]);
+        setTransmissionOptions(Array.from(options.values()))
+    }, [search.details]);
+
 
     if (!state || !state.hasOwnProperty('search')) {
         return <></>;
@@ -111,10 +108,10 @@ export function ListResult() {
         <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
     </div>)
 
-    if (results && results.length > 0) {
+    if (search.vehicle.length > 0) {
         Body = (
             <>
-                {results
+                {search.vehicle
                     .filter(c => airConditioner === true ? c.airConditioner === true : true)
                     .filter(c => {
                         if (noDoors <= 0) {
@@ -150,8 +147,8 @@ export function ListResult() {
     }
 
     let cheapestCar = null
-    if (results) {
-        cheapestCar = results.sort((a, b) => a.vehicle.price - b.vehicle.price)[0];
+    if (search.vehicle) {
+        cheapestCar = search.vehicle.sort((a, b) => a.vehicle.price - b.vehicle.price)[0];
     }
     return (
         <>
@@ -175,7 +172,7 @@ export function ListResult() {
                                     </div>
                                 </div>} >
 
-                                    <SearchForm criteria={criteria} onSearch={setSearch} />
+                                    <SearchForm criteria={criteria} />
                                 </Panel>
                                 <div className="listsearch-header fl-wrap" style={{
                                     display: 'flex',
@@ -186,7 +183,7 @@ export function ListResult() {
                                 }}>
                                     <h3>
                                         Results For : <span>{criteria.term}</span> |
-                                        {results && results.length !== 0 && ` ${results.length} Vehicles listed below from ${cheapestCar.vehicle.currency} ${cheapestCar.vehicle.price}`}
+                                        {search.vehicle && search.vehicle.length !== 0 && ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar.vehicle.currency} ${cheapestCar.vehicle.price}`}
                                     </h3>
                                     <div className="listing-view-layout">
                                         <ul>

@@ -104,6 +104,11 @@ export const SortFilterCars: React.FC = () => {
         $('#transmission-select').niceSelect()
     }, []);
 
+    useEffect(() => {
+        // @ts-ignore
+        $('#transmission-select').niceSelect('update')
+    }, [transmissionOptions]);
+
     return (
         <>
             <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', marginTop: 0 }}>
