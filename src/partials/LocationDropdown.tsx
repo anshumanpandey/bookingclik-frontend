@@ -69,11 +69,11 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     }}
                     onInputChange={(e, v) => {
                         if (v === '') return
-                        refetch({ params: { search: v }})
+                        return refetch({ params: { search: v }})
                     }}
                     defaultValue={defaultValue}
                     loading={open && data !== null}
-                    options={data || []}
+                    options={(data && data.length !== 0) ? data : []}
                     getOptionLabel={(option: IataCode) => option.location}
                     filterOptions={x => x}
                     classes={{
