@@ -21,7 +21,7 @@ export const SearchForm: React.FC<{ criteria: CarsSearchCriteria }> = ({ criteri
     const [searchRequest, doSearch] = useAxios<SearchResponse>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
     useEffect(() => {
-        if (!searchRequest.data) return 
+        if (!searchRequest.data) return
         setSearch(searchRequest.data.scrape)
     }, [searchRequest])
 
@@ -167,40 +167,44 @@ export function ListResult() {
                                         {moment(state.search.results.scrape.details.pickup.datetime, "DD/MM/YYYY H:mm").format("ddd, MMM D, H:mma")} -
                                         {moment(state.search.results.scrape.details.dropoff.datetime, "DD/MM/YYYY H:mm").format("ddd, MMM D, H:mma")}
                                     </h3>
-                                    <div style={{ float: 'right', color: '#4db7fe'}}>
+                                    <div style={{ float: 'right', color: '#4db7fe' }}>
                                         <h4>Change Search <i className="fa fa-search"></i></h4>
                                     </div>
                                 </div>} >
 
                                     <SearchForm criteria={criteria} />
                                 </Panel>
-                                <div className="listsearch-header fl-wrap" style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    paddingTop: 10,
-                                    paddingBottom: 10,
-                                }}>
-                                    <h3>
-                                        Results For : <span>{criteria.term}</span> |
+                                {search.vehicle.length !== 0 && (
+                                    <>
+                                        <div className="listsearch-header fl-wrap" style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            paddingTop: 10,
+                                            paddingBottom: 10,
+                                        }}>
+                                            <h3>
+                                                Results For : <span>{criteria.term}</span> |
                                         {search.vehicle && search.vehicle.length !== 0 && ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar.vehicle.currency} ${cheapestCar.vehicle.price}`}
-                                    </h3>
-                                    <div className="listing-view-layout">
-                                        <ul>
-                                            <li onClick={() => setLayout('GRID')}>
-                                                <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active' : ''}`}>
-                                                    <i className="fa fa-th-large"></i>
-                                                </div>
-                                            </li>
-                                            <li onClick={() => setLayout('LIST')}>
-                                                <div style={{ cursor: 'pointer' }} className={`list ${layout === 'LIST' ? 'active' : ''}`}>
-                                                    <i className="fa fa-list-ul"></i>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <SortFilterCars />
+                                            </h3>
+                                            <div className="listing-view-layout">
+                                                <ul>
+                                                    <li onClick={() => setLayout('GRID')}>
+                                                        <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active' : ''}`}>
+                                                            <i className="fa fa-th-large"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li onClick={() => setLayout('LIST')}>
+                                                        <div style={{ cursor: 'pointer' }} className={`list ${layout === 'LIST' ? 'active' : ''}`}>
+                                                            <i className="fa fa-list-ul"></i>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <SortFilterCars />
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="list-main-wrap fl-wrap card-listing">

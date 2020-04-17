@@ -99,15 +99,10 @@ export const SortFilterCars: React.FC = () => {
     const [, setTransmission] = useFilterState('transmission');
     const [transmissionOptions] = useFilterState('transmissionOptions');
 
-    useEffect(() => {
-        // @ts-ignore
-        $('#transmission-select').niceSelect()
-    }, []);
-
-    useEffect(() => {
-        // @ts-ignore
-        $('#transmission-select').niceSelect('update')
-    }, [transmissionOptions]);
+    // @ts-ignore
+    useEffect(() => {$('#transmission-select').niceSelect()}, []);
+    // @ts-ignore
+    useEffect(() => {$('#transmission-select').niceSelect('update')}, [transmissionOptions]);
 
     return (
         <>
