@@ -76,11 +76,18 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </Avatar>
                         <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
                         <p>ACRISS {props.vehicle.acriss}</p>
-                        <p>Seats {props.vehicle.seats}</p>
                     </div>
                     <div className="geodir-category-options fl-wrap">
                         <div className="listing-rating card-popup-rainingvis" data-starrating2="5">
-                            <span>Transmission {props.vehicle.transmission}</span>
+                            <span>
+                                <img src="http://www.right-cars.com/public/img/icons/manual.png"/>Transmission {props.vehicle.transmission}
+                            </span>
+                            <span>
+                                <img src="http://www.right-cars.com/public/img/icons/seats.png"/>Seats {props.vehicle.seats}
+                            </span>
+                            <span>
+                                <img src="http://www.right-cars.com/public/img/icons/door.png"/>doors {props.vehicle.doors}
+                            </span>
                         </div>
                         <div className="geodir-category-location">
                             <a href="#0" className="map-item">Price {props.vehicle.price} {props.vehicle.currency}</a>
