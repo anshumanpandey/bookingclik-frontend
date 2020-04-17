@@ -13,7 +13,6 @@ export function Main() {
             <div id="wrapper">
                 <div className="content">
                     <section className="scroll-con-sec hero-section" style={{ paddingTop: '100px' }} data-scrollax-parent="true" id="sec1">
-                        <div className="bg" data-bg="images/bg/1.jpg" data-scrollax="properties: { translateY: '200px' }"></div>
                         <div className="overlay"></div>
                         <div className="hero-section-wrap fl-wrap">
                             <div id="tabs-container">
