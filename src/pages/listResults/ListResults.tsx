@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { IataCode, SearchResponse, CarsSearchCriteria } from '../../types';
 import { DefaultListSearchFilters, ListCarsFilter } from './SearchFilter';
 import { useFilterState } from './FiltersGlobalState';
+import { useSortState, PriceSortOrder } from './SortGlobalState';
 
 export const SearchForm: React.FC<{ onSearch: (r: ResponseValues<SearchResponse>) => void, criteria: CarsSearchCriteria }> = ({ onSearch, criteria }) => {
     const [startDate, setStartDate] = useState<string | null>(criteria.puDate || null);
@@ -73,6 +74,8 @@ export function ListResult() {
     const [noSeats, setNoSeats] = useFilterState('noSeats');
     const [transmission] = useFilterState('transmission');
     const [, setTransmissionOptions] = useFilterState('transmissionOptions');
+    
+    const [sortPrice, setSortPrice] = useSortState('price');
 
     useEffect(() => {
         if (!state || !state.hasOwnProperty('search')) {
@@ -128,11 +131,20 @@ export function ListResult() {
                 })
                 .filter(c => airConditioner === true ? c.vehicle.airConditioner === true : true)
                 .filter(c => transmission !== null ? c.vehicle.transmission === transmission : true)
-                .map((v: any, idx: number) => <ListingItem key={v.name} {...v} criteria={state.search.criteria} />)}
+                .sort((a: any,b: any) => {
+                    if (sortPrice === PriceSortOrder.DESC) return a.vehicle.price - b.vehicle.price
+                    if (sortPrice === PriceSortOrder.ASC) return b.vehicle.price - a.vehicle.price
+                    return a.vehicle.price - b.vehicle.price
+                })
+                .map((v: any, idx: number) => <ListingItem key={idx} {...v} criteria={state.search.criteria} />)}
             </>
         );
     }
 
+    let cheapestCar = null
+    if (results) {
+        cheapestCar = results.sort((a,b) => a.vehicle.price - b.vehicle.price)[0];
+    }
     return (
         <>
             <Header />
@@ -144,8 +156,7 @@ export function ListResult() {
                                 <div className="listsearch-header fl-wrap">
                                     <h3>
                                         Results For : <span>{criteria.term}</span> | 
-                                        {results && results.length !== 0 && ` ${results.length} cars founds!`} | 
-                                        Lowest price {results && results.length !== 0 && Math.min(...results.reduce((prev, next) => {prev.push(parseFloat(next.vehicle.price)); return prev}, []))}
+                                        {results && results.length !== 0 && ` ${results.length} Vehicles listed below from ${cheapestCar.vehicle.currency} ${cheapestCar.vehicle.price}`}
                                     </h3>
                                     <div className="listing-view-layout">
                                         <ul>

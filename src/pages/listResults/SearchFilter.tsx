@@ -3,6 +3,7 @@ import { LocationDropdown } from '../../partials/LocationDropdown';
 import { IataCode, CarsFilterProps, CarsSearchCriteria } from '../../types';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
+import { useSortState, PriceSortOrder } from './SortGlobalState';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -67,10 +68,12 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
     const [endDate, setEndDate] = useState<string | null>(doDate || null);
     const [code, setCode] = useState<IataCode>(location || undefined);
 
+    const [sortPrice, setSortPrice] = useSortState('price');
+
     const [airConditioner, setAirConditioner] = useFilterState('airConditioner');
     const [noDoors, setNoDoors] = useFilterState('noDoors');
     const [noSeats, setNoSeats] = useFilterState('noSeats');
-    const [ ,setTransmission] = useFilterState('transmission');
+    const [, setTransmission] = useFilterState('transmission');
     const [transmissionOptions] = useFilterState('transmissionOptions');
 
     useEffect(() => {
@@ -94,72 +97,92 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
 
                 <div className="profile-edit-container add-list-container">
                     <div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
-                        <h4>Filter</h4>
+                        <h4 className="more-filter-option" style={{ float: 'left' }}>Filter and Sort</h4>
                     </div>
-                    <div className="custom-form">
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="act-widget fl-wrap">
-                                    <div className="act-widget-header">
-                                        <h4>A/C</h4>
-                                        <div className="onoffswitch">
-                                            <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="myonoffswitch5" checked={airConditioner} onChange={() => setAirConditioner(!airConditioner)} />
-                                            <label className="onoffswitch-label" htmlFor="myonoffswitch5">
-                                                <span className="onoffswitch-inner"></span>
-                                                <span className="onoffswitch-switch"></span>
-                                            </label>
+                    <div className="hidden-listing-filter fl-wrap">
+                        <div className="custom-form">
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="act-widget fl-wrap">
+                                        <div className="act-widget-header">
+                                            <h4>A/C</h4>
+                                            <div className="onoffswitch">
+                                                <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="myonoffswitch5" checked={airConditioner} onChange={() => setAirConditioner(!airConditioner)} />
+                                                <label className="onoffswitch-label" htmlFor="myonoffswitch5">
+                                                    <span className="onoffswitch-inner"></span>
+                                                    <span className="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {transmissionOptions && transmissionOptions.length !== 0 && (
+                                    <div className="col-md-6" onClick={(e) => {
+                                        const value = $('#transmission-select').val();
+                                        if (!value) return
+
+                                        if (transmissionOptions.includes(value.toString())) {
+                                            setTransmission(value.toString())
+                                        } else {
+                                            setTransmission(null)
+                                        }
+
+                                    }}>
+                                        <label>Transmission</label>
+                                        <select id="transmission-select" data-placeholder="Transmission" className="chosen-select no-search-select" >
+                                            <option value="all">All</option>
+                                            {transmissionOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                        </select>
+                                    </div>
+                                )}
+
+                            </div>
+
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="quantity act-widget-header fl-wrap">
+                                        <span><i className="fa fa-cars"></i>No. Doors : </span>
+                                        <div className="quantity-item">
+                                            <input type="button" style={{ marginBottom: 0 }} readOnly value="-" onClick={() => noDoors - 1 >= 0 ? setNoDoors(noDoors - 1) : undefined} className="minus" />
+                                            <input type="text" style={{ marginBottom: 0 }} name="quantity" title="Qty" className="qty" step="1" readOnly value={noDoors} />
+                                            <input type="button" style={{ marginBottom: 0 }} readOnly value="+" onClick={() => noDoors + 1 >= 0 ? setNoDoors(noDoors + 1) : undefined} className="plus" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <div className="quantity act-widget-header fl-wrap">
+                                        <span><i className="fa fa-user-plus"></i>No. Seats : </span>
+                                        <div className="quantity-item">
+                                            <input type="button" style={{ marginBottom: 0 }} readOnly value="-" onClick={() => noSeats - 1 >= 0 ? setNoSeats(noSeats - 1) : undefined} className="minus" />
+                                            <input type="text" style={{ marginBottom: 0 }} readOnly name="quantity" title="Qty" className="qty" step="1" value={noSeats} />
+                                            <input type="button" style={{ marginBottom: 0 }} readOnly value="+" onClick={() => noSeats + 1 >= 0 ? setNoSeats(noSeats + 1) : undefined} className="plus" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-                            {transmissionOptions && transmissionOptions.length !== 0 && (
-                                <div className="col-md-6" onClick={(e) => {
-                                    const value = $('#transmission-select').val();
-                                    if (!value) return
-
-                                    if (transmissionOptions.includes(value.toString())) {
-                                        setTransmission(value.toString())
-                                    } else {
-                                        setTransmission(null)
-                                    }
-                                    
-                                }}>
-                                    <label>Transmission</label>
-                                    <select id="transmission-select" data-placeholder="Transmission" className="chosen-select no-search-select" >
-                                        <option value="all">All</option>
-                                        {transmissionOptions.map(opt => <option value={opt}>{opt}</option>)}
-                                    </select>
-                                </div>
-                            )}
-
                         </div>
 
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="quantity act-widget-header fl-wrap">
-                                    <span><i className="fa fa-cars"></i>No. Doors : </span>
-                                    <div className="quantity-item">
-                                        <input type="button" style={{ marginBottom: 0 }} value="-" onClick={() => noDoors - 1 >= 0 ? setNoDoors(noDoors - 1) : undefined} className="minus" />
-                                        <input type="text" style={{ marginBottom: 0 }} name="quantity" title="Qty" className="qty" step="1" value={noDoors} />
-                                        <input type="button" style={{ marginBottom: 0 }} value="+" onClick={() => noDoors + 1 >= 0 ? setNoDoors(noDoors + 1) : undefined} className="plus" />
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="custom-form">
 
-                            <div className="col-md-6">
-                                <div className="quantity act-widget-header fl-wrap">
-                                    <span><i className="fa fa-user-plus"></i>No. Seats : </span>
-                                    <div className="quantity-item">
-                                        <input type="button" style={{ marginBottom: 0 }} value="-" onClick={() => noSeats - 1 >= 0 ? setNoSeats(noSeats - 1) : undefined} className="minus" />
-                                        <input type="text" style={{ marginBottom: 0 }} name="quantity" title="Qty" className="qty" step="1" value={noSeats} />
-                                        <input type="button" style={{ marginBottom: 0 }} value="+" onClick={() => noSeats + 1 >= 0 ? setNoSeats(noSeats + 1) : undefined} className="plus" />
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="list-single-header-item-opt fl-wrap" onClick={() => setSortPrice(sortPrice == PriceSortOrder.ASC ? PriceSortOrder.DESC : PriceSortOrder.ASC)}>
+                                        <div className="list-single-header-cat fl-wrap">
+                                            <a href="#" onClick={(e) => e.preventDefault()}>Price {sortPrice}</a>
+                                        </div>
                                     </div>
+
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </>
