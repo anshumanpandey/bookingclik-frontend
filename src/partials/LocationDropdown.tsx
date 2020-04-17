@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useAxios from 'axios-hooks'
+import { throttle } from "throttle-debounce";
 // @ts-ignore
 import { InputBase, CircularProgress, withStyles, WithStyles, createStyles } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -17,7 +17,6 @@ let styles = createStyles({
     }
 })
 
-type Response = { list: IataCode[], dictionary: { [k: string]: IataCode } }
 interface Prop {
     onChange: (str: IataCode) => void,
     customeClasses?: string,
@@ -53,6 +52,8 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
         )
     };
 
+    const searchCode = throttle(1000, (v: string) => refetch({ params: { search: v }}))
+
     return (
         <>
             <div className={customeClasses ? customeClasses : "main-search-input-item"} style={{
@@ -69,7 +70,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     }}
                     onInputChange={(e, v) => {
                         if (v === '') return
-                        return refetch({ params: { search: v }})
+                        return searchCode(v)
                     }}
                     defaultValue={defaultValue}
                     loading={open && data !== null}
