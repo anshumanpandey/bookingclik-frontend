@@ -26,6 +26,7 @@ const Avatar = styled.div`
 
 
 export type ListingItemProps = {
+    layout?: 'GRID' | 'LIST',
     criteria: {
         doDate: string;
         puDate: string;
@@ -45,7 +46,7 @@ export type ListingItemProps = {
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const image_url = props.vehicle.image_preview_url ? `${props.vehicle.baseUrl}${props.vehicle.image_preview_url}` : "images/all/1.jpg"
     return (
-        <div className="listing-item">
+        <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <div className="geodir-category-img">
                     <img src={image_url} alt="" style={{ height: '100%' }} />
