@@ -1971,6 +1971,11 @@ section.gray-section .section-separator {
 	display:none;
 	margin-bottom:30px;
 }
+
+.hidden-panel {
+	display:none;
+	margin-bottom:30px;
+}
 .fs-map-btn {
 	border:none;
 	float:left;

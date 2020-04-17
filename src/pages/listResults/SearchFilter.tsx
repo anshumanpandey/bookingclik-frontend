@@ -4,6 +4,7 @@ import { IataCode, CarsFilterProps, CarsSearchCriteria } from '../../types';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
+import { Panel } from '../../partials/Panel';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -96,10 +97,9 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
                 </div>
 
                 <div className="profile-edit-container add-list-container">
-                    <div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
-                        <h4 className="more-filter-option" style={{ float: 'left' }}>Filter and Sort</h4>
-                    </div>
-                    <div className="hidden-listing-filter fl-wrap">
+                    <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
+                        <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
+                    </div>} >
                         <div className="custom-form">
                             <div className="row">
                                 <div className="col-md-6">
@@ -164,7 +164,10 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
                                 </div>
                             </div>
                         </div>
-
+                    </Panel>
+                    <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
+                        <h4 className="more-filter-option" style={{ float: 'left' }}>Sort</h4>
+                    </div>}>
                         <div className="custom-form">
 
                             <div className="row">
@@ -180,7 +183,7 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
 
                             </div>
                         </div>
-                    </div>
+                    </Panel>
 
 
                 </div>

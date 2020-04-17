@@ -1971,6 +1971,11 @@ section.gray-section .section-separator {
 	display:none;
 	margin-bottom:30px;
 }
+
+.hidden-panel {
+	display:none;
+	margin-bottom:30px;
+}
 .fs-map-btn {
 	border:none;
 	float:left;
@@ -2030,7 +2035,7 @@ section.gray-section .section-separator {
 }
 .listing-item {
 	float:left;
-	width:50%;
+	width:33%;
 	padding:0 8px;
 	margin-bottom:12px;
 }
