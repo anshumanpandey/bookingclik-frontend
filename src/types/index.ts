@@ -1,11 +1,7 @@
+import moment from "moment";
+
 export type IataCode = { id: number, code: string, location: string }
 
-export type CarsFilterProps = {
-    onChange: (d: CarsSearchCriteria) => void,
-    style?: React.CSSProperties,
-};
-
-export type CarsSearchCriteria = { term: 'cars', location: IataCode, puDate: string | null, doDate: string | null }
 
 export interface Vehicle {
     doors: string;

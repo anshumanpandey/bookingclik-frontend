@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import {Decimal} from 'decimal.js';
 import { Vehicle } from '../types';
+import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
 
 const ListingItemBody = styled.div`
 display: flex;
@@ -29,14 +30,14 @@ const Avatar = styled.div`
 
 export type ListingItemProps = {
     layout?: 'GRID' | 'LIST',
-    criteria: {
-        doDate: string;
-        puDate: string;
-    };
     vehicle: Vehicle
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const image_url = props.vehicle.image_preview_url ? `${props.vehicle.baseUrl}${props.vehicle.image_preview_url}` : "images/all/1.jpg"
+
+    const [doDate] = useSearchWidgetState('doDate')
+    const [puDate] = useSearchWidgetState('puDate')
+    
     let transmissionNode = (<>
         <img src="http://www.right-cars.com/public/img/icons/manual.png" />{props.vehicle.transmission}
     </>);
@@ -60,8 +61,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
                             <input type="hidden" name="driverage" value="33" />
                             <input type="hidden" name="pickuplocation" value={props.vehicle.custom_location} />
-                            <input type="hidden" name="pickup_date" value={props.criteria.puDate.replace(/\//g, '-')} />
-                            <input type="hidden" name="dropoff_date" value={props.criteria.doDate.replace(/\//g, '-')} />
+                            <input type="hidden" name="pickup_date" value={puDate?.format('DD-MM-YYYY')} />
+                            <input type="hidden" name="dropoff_date" value={doDate?.format('DD-MM-YYYY')} />
 
                             <input type="hidden" name="pickuptime" value={dayjs().format('H:mm')} />
                             <input type="hidden" name="dropofftime" value={dayjs().format('H:mm')} />

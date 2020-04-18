@@ -4,38 +4,47 @@ import useAxios, { ResponseValues } from 'axios-hooks'
 import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
-import { IataCode, SearchResponse, CarsSearchCriteria } from '../../types';
+import { IataCode, SearchResponse } from '../../types';
 import { DefaultListSearchFilters, ListCarsFilter, SortFilterCars } from './SearchFilter';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
 import moment from 'moment';
 import { useSearchState } from './SearchGlobalState';
+import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
+import { DATE_FORMAT, TIME_FORMAT } from '../../utils/DateFormat';
 
-export const SearchForm: React.FC<{ criteria: CarsSearchCriteria }> = ({ criteria }) => {
-    const [startDate, setStartDate] = useState<string | null>(criteria.puDate || null);
-    const [endDate, setEndDate] = useState<string | null>(criteria.doDate || null);
-    const [iataCode, setIatacode] = useState<IataCode>(criteria.location || undefined);
+export const SearchForm: React.FC = () => {
+    const [puDate] = useSearchWidgetState('puDate')
+    const [term] = useSearchWidgetState('term')
+    const [doTime] = useSearchWidgetState('doTime')
+    const [doDate] = useSearchWidgetState('doDate')
+    const [puTime] = useSearchWidgetState('puTime')
+    const [iataCode] = useSearchWidgetState('code')
+
     const [, setSearch] = useSearchState('scrape')
 
     const [searchRequest, doSearch] = useAxios<SearchResponse>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
-    useEffect(() => {
-        if (!searchRequest.data) return
-        setSearch(searchRequest.data.scrape)
-    }, [searchRequest])
-
     const send = () => {
-        if (!(iataCode && startDate && endDate)) {
+        if (!iataCode) {
             return;
         }
-        const searchCriteria = { location: iataCode.code, puDate: startDate, doDate: endDate };
+
+        const searchCriteria = {
+            location: iataCode.code,
+            puDate: puDate ? puDate.format(DATE_FORMAT): moment().format(DATE_FORMAT),
+            puTime: puTime ? puTime.format(TIME_FORMAT): moment().format(TIME_FORMAT),
+            doDate: doDate ? doDate.format(DATE_FORMAT): moment().format(DATE_FORMAT),
+            doTime: doTime ? doTime.format(TIME_FORMAT): moment().format(TIME_FORMAT),
+        };
+
         doSearch({ params: searchCriteria })
             .then((res) => {
                 setSearch(res.data.scrape)
             })
     }
-    const Filter = criteria.term.toLowerCase() === 'cars' ? ListCarsFilter : DefaultListSearchFilters;
+    const Filter = term.toLowerCase() === 'cars' ? ListCarsFilter : DefaultListSearchFilters;
 
     return (
         <>
@@ -47,13 +56,7 @@ export const SearchForm: React.FC<{ criteria: CarsSearchCriteria }> = ({ criteri
             )}
             <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <Filter
-                        {...criteria}
-                        onChange={(r: CarsSearchCriteria) => {
-                            setStartDate(r.puDate)
-                            setEndDate(r.doDate)
-                            setIatacode(r.location)
-                        }} />
+                    <Filter />
                     <button onClick={() => send()} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
                 </div>
             </div>
@@ -62,8 +65,15 @@ export const SearchForm: React.FC<{ criteria: CarsSearchCriteria }> = ({ criteri
 }
 
 export function ListResult() {
-    const history = useHistory<any>();
+    const history = useHistory<{ results: SearchResponse }>();
     const state = history.location.state;
+
+    const [doDate] = useSearchWidgetState('doDate')
+    const [doTime] = useSearchWidgetState('doTime')
+    const [puDate] = useSearchWidgetState('puDate')
+    const [puTime] = useSearchWidgetState('puTime')
+    const [iataCode] = useSearchWidgetState('code')
+    const [term] = useSearchWidgetState('term')
 
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('GRID');
 
@@ -79,10 +89,11 @@ export function ListResult() {
     const [sortPrice] = useSortState('price');
 
     useEffect(() => {
-        if (!state || !state.hasOwnProperty('search')) {
+        if (!state || !state.hasOwnProperty('results')) {
             history.push('/')
         }
-        setSearch(state.search.results.scrape)
+        // @ts-ignore
+        setSearch(state.results.scrape)
     }, []);
 
     useEffect(() => {
@@ -96,11 +107,9 @@ export function ListResult() {
     }, [search.details]);
 
 
-    if (!state || !state.hasOwnProperty('search')) {
+    if (!state || !state.hasOwnProperty('results')) {
         return <></>;
     }
-
-    const criteria = state.search.criteria;
 
     let Body = (<div className="section-title">
         <h2>No results founds!</h2>
@@ -153,7 +162,7 @@ export function ListResult() {
                         if (sortPrice === PriceSortOrder.ASC) return b.vehicle.price - a.vehicle.price
                         return a.vehicle.price - b.vehicle.price
                     })
-                    .map((v: any, idx: number) => <ListingItem key={idx} {...v} criteria={state.search.criteria} layout={layout} />)}
+                    .map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
             </>
         );
     }
@@ -174,17 +183,17 @@ export function ListResult() {
                                     <h3>
                                         <i className="fa fa-car" ></i>
                                         {'   '}
-                                        <span>{criteria.location.location} ({criteria.location.code})</span> |
+                                        <span>{iataCode?.location} ({iataCode?.code})</span> |
                                         {' '}
-                                        {moment(state.search.results.scrape.details.pickup.datetime, "DD/MM/YYYY H:mm").format("ddd, MMM D, H:mma")} -
-                                        {moment(state.search.results.scrape.details.dropoff.datetime, "DD/MM/YYYY H:mm").format("ddd, MMM D, H:mma")}
+                                        {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
+                                        {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
                                     </h3>
                                     <div style={{ float: 'right', color: '#4db7fe' }}>
                                         <h4>Change Search <i className="fa fa-search"></i></h4>
                                     </div>
                                 </div>} >
 
-                                    <SearchForm criteria={criteria} />
+                                    <SearchForm />
                                 </Panel>
                                 {search.vehicle.length !== 0 && (
                                     <>
@@ -196,7 +205,7 @@ export function ListResult() {
                                             paddingBottom: 10,
                                         }}>
                                             <h3>
-                                                Results For : <span>{criteria.term}</span> |
+                                                Results For : <span>{term}</span> |
                                                 {search.vehicle && search.vehicle.length !== 0 &&
                                                 ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
                                             </h3>

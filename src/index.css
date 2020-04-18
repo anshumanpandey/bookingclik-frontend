@@ -35,3 +35,8 @@
     display: flex;
     align-items: center;
 }
+
+.rc-time-picker.time-input, .rc-time-picker.time-input input {
+    height: 100%;
+    width: 100%;
+}

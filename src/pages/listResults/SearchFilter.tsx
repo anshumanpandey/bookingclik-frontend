@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { Typography, Slider } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
-import { IataCode, CarsFilterProps, CarsSearchCriteria } from '../../types';
+import { IataCode } from '../../types';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
 import { useSearchState } from './SearchGlobalState';
+import moment from 'moment';
+import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
+import { TimeInput } from '../../partials/TimeInput';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -66,26 +69,39 @@ export const DefaultListSearchFilters: React.FC = () => {
 }
 
 
-export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({ onChange, puDate, doDate, location }) => {
-    const [startDate, setStartDate] = useState<string | null>(puDate || null);
-    const [endDate, setEndDate] = useState<string | null>(doDate || null);
-    const [code, setCode] = useState<IataCode>(location || undefined);
+export const ListCarsFilter: React.FC = () => {
+    const [puDate, setPuDate] = useSearchWidgetState("puDate")
+    const [puTime, setPuTime] = useSearchWidgetState("puTime")
 
-    useEffect(() => {
-        if (code) {
-            onChange({ term: 'cars', puDate: startDate, doDate: endDate, location: code })
-        }
-    }, [startDate, endDate, code]);
+    const [doDate, setDoDate] = useSearchWidgetState("doDate")
+    const [doTime, setDoTime] = useSearchWidgetState("doTime")
+
+    const [iataCode, setIataCode] = useSearchWidgetState("code")
 
     return (
         <>
 
-            <LocationDropdown secondary={true} defaultValue={location} style={{ backgroundColor: '#4DB7FE', color: 'white' }} customeClasses="listsearch-input-item listResultSelect" onChange={setCode} />
+            <LocationDropdown
+                secondary={true}
+                defaultValue={iataCode}
+                style={{ backgroundColor: '#4DB7FE', color: 'white' }}
+                customeClasses="listsearch-input-item listResultSelect"
+                onChange={setIataCode}
+            />
             <div className="listsearch-input-item">
-                <DateInput defaultValue={puDate} onChange={(v) => setStartDate(v)} />
+                <DateInput defaultValue={puDate} onChange={(v) => setPuDate(v)} />
             </div>
+
             <div className="listsearch-input-item">
-                <DateInput defaultValue={doDate} onChange={(v) => setEndDate(v)} />
+                <TimeInput defaultValue={puTime} onChange={(v) => setPuTime(v)} />
+            </div>
+            
+            <div className="listsearch-input-item">
+                <DateInput defaultValue={doDate} onChange={(v) => setDoDate(v)} />
+            </div>
+
+            <div className="listsearch-input-item">
+                <TimeInput defaultValue={doTime} onChange={(v) => setDoTime(v)} />
             </div>
 
         </>

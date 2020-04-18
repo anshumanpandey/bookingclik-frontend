@@ -14,6 +14,9 @@ let styles = createStyles({
     },
     inputRoot: {
         flexWrap: 'unset'
+    },
+    popupIndicator: {
+        display: 'none'
     }
 })
 
@@ -21,7 +24,7 @@ interface Prop {
     onChange: (str: IataCode) => void,
     customeClasses?: string,
     style?: React.CSSProperties,
-    defaultValue?: IataCode,
+    defaultValue?: IataCode | null,
     secondary?: boolean,
     classes?: {
         input: string
@@ -72,13 +75,13 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                         if (v === '') return
                         return searchCode(v)
                     }}
-                    defaultValue={defaultValue}
+                    defaultValue={defaultValue || undefined}
                     loading={open && data !== null}
                     options={(data && data.length !== 0) ? data : []}
                     getOptionLabel={(option: IataCode) => option.location}
                     filterOptions={x => x}
                     classes={{
-                        inputRoot: classes.inputRoot
+                        inputRoot: classes.inputRoot,
                     }}
                     renderInput={(params) => {
                         return (
@@ -94,7 +97,6 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                                 endAdornment={(
                                     <React.Fragment>
                                         {loading ? <CircularProgress color="inherit" size={15} /> : null}
-                                        {params.InputProps.endAdornment}
                                     </React.Fragment>
                                 )}
                             />
