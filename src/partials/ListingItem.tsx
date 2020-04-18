@@ -49,7 +49,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
-                <div className="geodir-category-img">
+                <div className="geodir-category-img" style={{ minHeight: '10rem' }}>
                     <img src={image_url} alt="" style={{ height: '100%' }} />
                     <div className="overlay"></div>
                     <div className="list-post-counter"><span>{props.vehicle.doors} doors</span></div>
@@ -78,15 +78,18 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         <p>ACRISS {props.vehicle.acriss}</p>
                     </div>
                     <div className="geodir-category-options fl-wrap">
-                        <div className="listing-rating card-popup-rainingvis" data-starrating2="5">
+                        <div className="listing-rating card-popup-rainingvis" data-starrating2="5" style={{
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                        }}>
                             <span>
-                                <img src="http://www.right-cars.com/public/img/icons/manual.png"/>Transmission {props.vehicle.transmission}
+                                <img src="http://www.right-cars.com/public/img/icons/manual.png"/>{props.vehicle.transmission}
                             </span>
                             <span>
-                                <img src="http://www.right-cars.com/public/img/icons/seats.png"/>Seats {props.vehicle.seats}
+                                <img src="http://www.right-cars.com/public/img/icons/seats.png"/>{props.vehicle.seats}
                             </span>
                             <span>
-                                <img src="http://www.right-cars.com/public/img/icons/door.png"/>doors {props.vehicle.doors}
+                                <img src="http://www.right-cars.com/public/img/icons/door.png"/>{props.vehicle.doors}
                             </span>
                         </div>
                         <div className="geodir-category-location">
