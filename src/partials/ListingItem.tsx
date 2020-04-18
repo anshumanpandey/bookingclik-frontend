@@ -44,6 +44,8 @@ export type ListingItemProps = {
         custom_location: string
         image_preview_url?: string
         baseUrl?: string
+        client_name?: string
+        client_logo?: string
     }
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
@@ -82,8 +84,11 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 document.getElementById('book-now-form')?.submit();
                             }} href="#">Book Now</a>
                         </form>
-                        <Avatar className="listing-avatar"><a href="author-single.html"><img src="images/avatar/1.jpg" alt="" /></a>
-                            <span className="avatar-tooltip">Added By  <strong>Lisa Smith</strong></span>
+                        <Avatar className="listing-avatar">
+                            <a href="#">
+                                <img src={props.vehicle.client_logo ? `${process.env.REACT_APP_BACKEND_URL}/upload/${props.vehicle.client_logo}`: "images/avatar/1.jpg"} alt="" />
+                            </a>
+                            {props.vehicle.client_name && (<span className="avatar-tooltip">By  <strong>{props.vehicle.client_name}</strong></span>)}
                         </Avatar>
                         <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
                         <p>ACRISS {props.vehicle.acriss}</p>

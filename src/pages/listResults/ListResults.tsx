@@ -194,11 +194,13 @@ export function ListResult() {
                                                             <i className="fa fa-th-large"></i>
                                                         </div>
                                                     </li>
+                                                    {/*
+                                                    TODO: enable this later
                                                     <li onClick={() => setLayout('LIST')}>
                                                         <div style={{ cursor: 'pointer' }} className={`list ${layout === 'LIST' ? 'active' : ''}`}>
                                                             <i className="fa fa-list-ul"></i>
                                                         </div>
-                                                    </li>
+                                                    </li>*/}
                                                 </ul>
                                             </div>
                                         </div>
