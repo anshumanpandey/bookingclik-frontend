@@ -12,67 +12,63 @@ export function Main() {
             <Header />
             <div id="wrapper">
                 <div className="content">
-                    <section className="scroll-con-sec hero-section" style={{ paddingTop: '100px' }} data-scrollax-parent="true" id="sec1">
-                        <div className="overlay"></div>
-                        <div className="hero-section-wrap fl-wrap">
-                            <div id="tabs-container">
-                                <ul className="tabs-menu" style={{ margin: 'unset', border: 'unset', display: 'flex', justifyContent: 'space-evenly' }}>
-                                    <li className="current">
-                                        <a style={{ borderRadius: "3px" }} href="#tab-cars">
-                                            <i className="fa fa-car" ></i>
-                                            {'  '}
+
+                    <div id="tabs-container" style={{ padding: 0 }}>
+                        <ul className="tabs-menu" style={{ margin: 'unset', border: 'unset', display: 'flex', paddingTop: '1rem' }}>
+                            <li className="current" style={{ marginLeft: '4rem'}}>
+                                <a href="#tab-cars">
+                                    <i className="fa fa-car" ></i>
+                                    {'  '}
                                         Cars
                                     </a>
-                                    </li>
-                                    <li>
-                                        <a style={{ borderRadius: "3px" }} href="#tab-hotels">
-                                            <i className="fa fa-hotel" ></i>
-                                            {'  '}
+                            </li>
+                            <li>
+                                <a href="#tab-hotels">
+                                    <i className="fa fa-hotel" ></i>
+                                    {'  '}
                                         Hotels
                                         </a>
-                                    </li>
-                                    <li>
-                                        <a style={{ borderRadius: "3px" }} href="#tab-flights">
-                                            <i className="fa fa-plane-departure"></i>
-                                            {'  '}
+                            </li>
+                            <li>
+                                <a href="#tab-flights">
+                                    <i className="fa fa-plane-departure"></i>
+                                    {'  '}
                                         Flights
                                         </a>
-                                    </li>
-                                    <li>
-                                        <a style={{ borderRadius: "3px" }} href="#tab-cruises">
-                                            <i className="fa fa-ship"></i>
-                                            {'  '}
+                            </li>
+                            <li>
+                                <a href="#tab-cruises">
+                                    <i className="fa fa-ship"></i>
+                                    {'  '}
                                         Cruises
                                         </a>
-                                    </li>
-                                </ul>
-                                <div className="tab">
-                                    <div id="tab-cars" className="tab-content">
-                                        <CarsTab />
-                                    </div>
-                                </div>
-                                <div className="tab">
-                                    <div id="tab-hotels" className="tab-content">
-                                        <HotelsTab />
-                                    </div>
-                                </div>
-                                <div className="tab">
-                                    <div id="tab-flights" className="tab-content">
-                                        <FlightsTab />
-                                    </div>
-                                </div>
-                                <div className="tab">
-                                    <div id="tab-cruises" className="tab-content">
-                                        <CruisesTab />
-                                    </div>
-                                </div>
+                            </li>
+                        </ul>
+                        <div className="tab">
+                            <div id="tab-cars" className="tab-content" style={{ padding: 0 }}>
+                                <CarsTab />
                             </div>
                         </div>
-                        <div className="bubble-bg"> </div>
-                        <div className="header-sec-link">
-                            <div className="container"><a href="#sec2" className="custom-scroll-link">Let's Start</a></div>
+                        <div className="tab">
+                            <div id="tab-hotels" className="tab-content" style={{ padding: 0 }}>
+                                <HotelsTab />
+                            </div>
                         </div>
-                    </section>
+                        <div className="tab">
+                            <div id="tab-flights" className="tab-content" style={{ padding: 0 }}>
+                                <FlightsTab />
+                            </div>
+                        </div>
+                        <div className="tab">
+                            <div id="tab-cruises" className="tab-content" style={{ padding: 0 }}>
+                                <CruisesTab />
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                     <section id="sec2">
                         <div className="container">
                             <div className="section-title">

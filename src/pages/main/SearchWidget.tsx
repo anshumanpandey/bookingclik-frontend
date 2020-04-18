@@ -44,16 +44,30 @@ export const SearchWidget: React.FC<{ term: Terms}> = ({ term }) => {
   }
 
   return (
-    <div className="main-search-input-wrap">
-      <div className="main-search-input fl-wrap" style={{ display: 'flex' }}>
-        <CurrentFilter style={{
-          borderTopLeftRadius: '30px',
-          borderBottomLeftRadius: '30px',
-        }} onChange={setSearchCriteria} />
-        <button className="main-search-button" onClick={() => send()}>
+    <div className="main-search-input-wrap" style={{ maxWidth: '1096px'}}>
+    <div style={{ 
+      height: "13rem",
+      zIndex: -4,
+      position: "relative",
+      backgroundColor: "#2f3b59",
+      padding: "2rem",
+      marginTop: "5rem",
+      borderRadius: '0.25rem',
+    }}>
+      <div className="main-search-input fl-wrap" style={{ display: 'flex', flexDirection: 'column',boxShadow: 'unset', padding: 0, background: 'unset', marginTop: 0, height: '100%',justifyContent: 'space-around' }}>
+        <div>
+          <CurrentFilter style={{
+            borderTopLeftRadius: '30px',
+            borderBottomLeftRadius: '30px',
+          }} onChange={setSearchCriteria} />
+        </div>
+        <div>
+        <button className="main-search-button" onClick={() => send()} style={{ position: 'relative', borderRadius: '0.25rem', float: 'right' }}>
           Search {loading && <CircularProgress color="inherit" size={15} />}
         </button>
+        </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -5,12 +5,28 @@ import { Terms } from '../../types';
 export const HotelsTab: React.FC = () => {
 
     return (
-        <div className="container">
-            <div className="intro-item fl-wrap">
-                <h2>We will help you to find Hotels</h2>
-                <h3>Find great hotels.</h3>
+
+        <section className="scroll-con-sec hero-section" style={{ paddingTop: '100px', height: '80vh' }} data-scrollax-parent="true" id="sec1">
+            <div className="bg"  data-bg="images/bg/hotel.jpg" data-scrollax="properties: { translateY: '200px' }"></div>
+
+            <div className="overlay"></div>
+            <div className="hero-section-wrap fl-wrap">
+
+
+
+                <div className="container">
+                    <div className="intro-item fl-wrap">
+                        <h2 style={{ textAlign: 'left', width: '90%',float: 'right'}}>Find your place to stay</h2>                        
+                    </div>
+                    <SearchWidget term={Terms.Hotels} />
+                </div>
+
+
             </div>
-            <SearchWidget term={Terms.Hotels} />
-        </div>
+            <div className="bubble-bg"> </div>
+            <div className="header-sec-link">
+                <div className="container"><a href="#sec2" className="custom-scroll-link">Let's Start</a></div>
+            </div>
+        </section>
     )
 }

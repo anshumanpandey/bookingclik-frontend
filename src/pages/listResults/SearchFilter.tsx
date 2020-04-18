@@ -202,8 +202,8 @@ export const SortFilterCars: React.FC = () => {
                                         max={mostExpensiveCar ? parseFloat(mostExpensiveCar.vehicle.price) : 0}
                                         value={priceRange}
                                         onChange={(e, v) => {
-                                            if (!Array.isArray(v)) return 
-                                            setPriceRange([ v[0], v[1]])
+                                            if (!Array.isArray(v)) return
+                                            setPriceRange([v[0], v[1]])
                                         }}
                                         valueLabelDisplay="auto"
                                         aria-labelledby="range-slider"

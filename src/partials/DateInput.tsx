@@ -5,7 +5,12 @@ import Calendar from 'rc-calendar';
 import DatePicker from 'rc-calendar/lib/Picker';
 import 'rc-calendar/assets/index.css';
 
-export const DateInput: React.FC<{onChange: (v: string) => void, defaultValue?: string | null }> = ({onChange, defaultValue}) => {
+type Props = {
+    onChange: (v: string) => void,
+    defaultValue?: string | null
+    style?: React.CSSProperties
+}
+export const DateInput: React.FC<Props> = ({onChange, defaultValue, style}) => {
     const [date, setDate] = useState<moment.Moment | null>(defaultValue ? moment(defaultValue, "DD/MM/YYYY") : null);
 
     useEffect(() => {
@@ -29,6 +34,7 @@ export const DateInput: React.FC<{onChange: (v: string) => void, defaultValue?: 
                     return (
                         <input
                             readOnly={true}
+                            style={style}
                             placeholder={`Date: ${moment().format('DD/MM/YYYY')}`}
                             value={value ? value.format("DD/MM/YYYY") : undefined}
                         />

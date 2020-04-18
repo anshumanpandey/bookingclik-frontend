@@ -16,16 +16,40 @@ export const CarSearchWidgetFilters: React.FC<CarsFilterProps> = ({ onChange }) 
 
     return (
         <>
-            <LocationDropdown onChange={setCode} style={{
-                borderTopLeftRadius: '30px',
-                borderBottomLeftRadius: '30px',
-            }} />
-            <div className="main-search-input-item">
-                <DateInput onChange={(v) => setPuDate(v)} />
+        <div className="row" style={{ color: 'white', textAlign: 'left' }}>
+            <div className="col-md-4" style={{ paddingRight: 0, paddingLeft: 0}}>
+                <label>Location</label>
             </div>
-            <div className="main-search-input-item">
-                <DateInput onChange={(v) => setDoDate(v)} />
+
+            <div className="col-md-4" style={{ paddingRight: 0, paddingLeft: 0}}>
+                <label>Pick up Date</label>
             </div>
+
+            <div className="col-md-4" style={{ paddingRight: 0, paddingLeft: 0}}>
+                <label>Drop off Date</label>
+            </div>
+        </div>
+
+        <div className="row" style={{ backgroundColor: 'white', borderRadius: '0.25rem'}}>
+            <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0}}>
+                <LocationDropdown onChange={setCode} style={{
+                    borderTopLeftRadius: '30px',
+                    borderBottomLeftRadius: '30px',
+                    width: '100%'
+                }} />
+            </div>
+            <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0}}>
+                <div className="main-search-input-item" style={{ width:'100%' }}>
+                    <DateInput onChange={(v) => setPuDate(v)} />
+                </div>
+            </div>
+            <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0}}>
+
+                <div className="main-search-input-item" style={{ borderRight: 'unset', width:'100%' }}>
+                    <DateInput onChange={(v) => setDoDate(v)} />
+                </div>
+            </div>
+        </div>
         </>
     );
 }
