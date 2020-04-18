@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
+import { Typography, Slider } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { IataCode, CarsFilterProps, CarsSearchCriteria } from '../../types';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
+import { useSearchState } from './SearchGlobalState';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -91,18 +93,23 @@ export const ListCarsFilter: React.FC<CarsFilterProps & CarsSearchCriteria> = ({
 }
 
 export const SortFilterCars: React.FC = () => {
+    const [search] = useSearchState('scrape')
+
     const [sortPrice, setSortPrice] = useSortState('price');
 
     const [airConditioner, setAirConditioner] = useFilterState('airConditioner');
+    const [priceRange, setPriceRange] = useFilterState('priceRange');
     const [noDoors, setNoDoors] = useFilterState('noDoors');
     const [noSeats, setNoSeats] = useFilterState('noSeats');
     const [, setTransmission] = useFilterState('transmission');
     const [transmissionOptions] = useFilterState('transmissionOptions');
 
     // @ts-ignore
-    useEffect(() => {$('#transmission-select').niceSelect()}, []);
+    useEffect(() => { $('#transmission-select').niceSelect() }, []);
     // @ts-ignore
-    useEffect(() => {$('#transmission-select').niceSelect('update')}, [transmissionOptions]);
+    useEffect(() => { $('#transmission-select').niceSelect('update') }, [transmissionOptions]);
+
+    const mostExpensiveCar: any | undefined = search.vehicle.sort((a, b) => b.vehicle.price - a.vehicle.price)[0]
 
     return (
         <>
@@ -113,9 +120,9 @@ export const SortFilterCars: React.FC = () => {
                         <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
                     </div>} >
                         <div className="custom-form">
-                            <div className="row" style={{ display: 'flex'}}>
+                            <div className="row" style={{ display: 'flex' }}>
                                 <div className="col-md-6">
-                                    <div className="act-widget fl-wrap" style={{ marginBottom: 0}}>
+                                    <div className="act-widget fl-wrap" style={{ marginBottom: 0 }}>
                                         <div className="act-widget-header">
                                             <h4>A/C</h4>
                                             <div className="onoffswitch">
@@ -147,10 +154,10 @@ export const SortFilterCars: React.FC = () => {
                                             height: '100%',
                                             paddingBottom: '15px',
                                         }}>
-                                        <select id="transmission-select" data-placeholder="Transmission" className="no-search-select transmission-select" >
-                                            <option value="all">Transmission</option>
-                                            {transmissionOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                                        </select>
+                                            <select id="transmission-select" data-placeholder="Transmission" className="no-search-select transmission-select" >
+                                                <option value="all">Transmission</option>
+                                                {transmissionOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                            </select>
                                         </div>
                                     </div>
                                 )}
@@ -161,8 +168,8 @@ export const SortFilterCars: React.FC = () => {
                                 <div className="col-md-6">
                                     <div className="quantity act-widget-header fl-wrap">
                                         <span>
-                                        <img src="http://www.right-cars.com/public/img/icons/door.png"/>
-                                            No. Doors : 
+                                            <img src="http://www.right-cars.com/public/img/icons/door.png" />
+                                            No. Doors :
                                         </span>
                                         <div className="quantity-item">
                                             <input type="button" style={{ marginBottom: 0 }} readOnly value="-" onClick={() => noDoors - 1 >= 0 ? setNoDoors(noDoors - 1) : undefined} className="minus" />
@@ -176,7 +183,7 @@ export const SortFilterCars: React.FC = () => {
                                     <div className="quantity act-widget-header fl-wrap">
                                         <span>
                                             <img src="http://www.right-cars.com/public/img/icons/seats.png" />
-                                            No. Seats : 
+                                            No. Seats :
                                         </span>
                                         <div className="quantity-item">
                                             <input type="button" style={{ marginBottom: 0 }} readOnly value="-" onClick={() => noSeats - 1 >= 0 ? setNoSeats(noSeats - 1) : undefined} className="minus" />
@@ -184,6 +191,23 @@ export const SortFilterCars: React.FC = () => {
                                             <input type="button" style={{ marginBottom: 0 }} readOnly value="+" onClick={() => noSeats + 1 >= 0 ? setNoSeats(noSeats + 1) : undefined} className="plus" />
                                         </div>
                                     </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <Typography id="range-slider" gutterBottom>
+                                        Price range
+                                    </Typography>
+                                    <Slider
+                                        min={0}
+                                        max={mostExpensiveCar ? parseFloat(mostExpensiveCar.vehicle.price) : 0}
+                                        value={priceRange}
+                                        onChange={(e, v) => {
+                                            if (!Array.isArray(v)) return 
+                                            setPriceRange([ v[0], v[1]])
+                                        }}
+                                        valueLabelDisplay="auto"
+                                        aria-labelledby="range-slider"
+                                    />
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import {Decimal} from 'decimal.js';
+import { Vehicle } from '../types';
 
 const ListingItemBody = styled.div`
 display: flex;
@@ -32,21 +33,7 @@ export type ListingItemProps = {
         doDate: string;
         puDate: string;
     };
-    vehicle: {
-        doors: string;
-        seats: string;
-        name: string;
-        transmission: string;
-        acriss: string;
-        price: number;
-        secondary_price: number;
-        currency?: string,
-        custom_location: string
-        image_preview_url?: string
-        baseUrl?: string
-        client_name?: string
-        client_logo?: string
-    }
+    vehicle: Vehicle
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const image_url = props.vehicle.image_preview_url ? `${props.vehicle.baseUrl}${props.vehicle.image_preview_url}` : "images/all/1.jpg"

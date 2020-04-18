@@ -62,7 +62,7 @@ export const SearchForm: React.FC<{ criteria: CarsSearchCriteria }> = ({ criteri
 }
 
 export function ListResult() {
-    const history = useHistory<{ search: { criteria: { term: string } & CarsSearchCriteria, results: SearchResponse } }>();
+    const history = useHistory<any>();
     const state = history.location.state;
 
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('GRID');
@@ -72,6 +72,7 @@ export function ListResult() {
     const [airConditioner] = useFilterState('airConditioner');
     const [noDoors] = useFilterState('noDoors');
     const [noSeats] = useFilterState('noSeats');
+    const [priceRange] = useFilterState('priceRange');
     const [transmission] = useFilterState('transmission');
     const [, setTransmissionOptions] = useFilterState('transmissionOptions');
 
@@ -89,7 +90,7 @@ export function ListResult() {
         const options: Set<string> = search.vehicle.reduce((prev, next) => {
             prev.add(next.vehicle.transmission)
             return prev
-        }, new Set())
+        }, new Set<string>())
 
         setTransmissionOptions(Array.from(options.values()))
     }, [search.details]);
@@ -112,7 +113,7 @@ export function ListResult() {
         Body = (
             <>
                 {search.vehicle
-                    .filter(c => airConditioner === true ? c.airConditioner === true : true)
+                    .filter(c => airConditioner === true ? c.vehicle.airConditioner === "Yes" : true)
                     .filter(c => {
                         if (noDoors <= 0) {
                             return true
@@ -121,21 +122,32 @@ export function ListResult() {
                         if (c.vehicle.doors.includes('/')) {
                             const valuePair = c.vehicle.doors.split('/');
                             // if we only get one value use it 
-                            if (valuePair.length == 1) return valuePair[0] >= noDoors
-                            const sortedValues = valuePair.sort((a: number, b: number) => a - b);
-                            if (sortedValues.length !== 0) return sortedValues.pop() >= noDoors
+                            if (valuePair.length == 1) return parseInt(valuePair[0]) >= noDoors
+                            const sortedValues = valuePair.sort((a, b) => parseInt(a) - parseInt(a));
+                            const lastValue = sortedValues.pop()
+                            if (!lastValue) return parseInt(valuePair[0]) >= noDoors
+                            if (sortedValues.length !== 0) return parseInt(lastValue) >= noDoors
                         }
 
-                        return c.vehicle.doors >= noDoors
+                        return parseInt(c.vehicle.doors) >= noDoors
                     })
                     .filter(c => {
                         if (noSeats <= 0) {
                             return true
                         }
-                        return c.vehicle.doors >= noSeats
+                        return c.vehicle.seats >= noSeats
                     })
-                    .filter(c => airConditioner === true ? c.vehicle.airConditioner === true : true)
+                    .filter(c => airConditioner === true ? c.vehicle.airConditioner === "Yes" : true)
                     .filter(c => transmission !== null ? c.vehicle.transmission === transmission : true)
+                    .filter(c => transmission !== null ? c.vehicle.transmission === transmission : true)
+                    .filter(c => {
+                        if (priceRange[0] == 0) return true
+                        return c.vehicle.price >= priceRange[0];
+                    })
+                    .filter(c => {
+                        if (priceRange[1] == 0) return true
+                        return c.vehicle.price <= priceRange[1];
+                    })
                     .sort((a: any, b: any) => {
                         if (sortPrice === PriceSortOrder.DESC) return a.vehicle.price - b.vehicle.price
                         if (sortPrice === PriceSortOrder.ASC) return b.vehicle.price - a.vehicle.price
@@ -185,7 +197,8 @@ export function ListResult() {
                                         }}>
                                             <h3>
                                                 Results For : <span>{criteria.term}</span> |
-                                        {search.vehicle && search.vehicle.length !== 0 && ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar.vehicle.currency} ${cheapestCar.vehicle.price}`}
+                                                {search.vehicle && search.vehicle.length !== 0 &&
+                                                ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
                                             </h3>
                                             <div className="listing-view-layout">
                                                 <ul>
