@@ -37,7 +37,8 @@ export type ListingItemProps = {
         name: string;
         transmission: string;
         acriss: string;
-        price: string;
+        price: number;
+        secondary_price: number;
         currency?: string,
         custom_location: string
         image_preview_url?: string
@@ -46,10 +47,19 @@ export type ListingItemProps = {
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const image_url = props.vehicle.image_preview_url ? `${props.vehicle.baseUrl}${props.vehicle.image_preview_url}` : "images/all/1.jpg"
+    let transmissionNode = (<>
+        <img src="http://www.right-cars.com/public/img/icons/manual.png" />{props.vehicle.transmission}
+    </>);
+
+    if (props.vehicle.transmission === "Automatic") {
+        transmissionNode = (<>
+            <img src="http://www.right-cars.com/public/img/icons/automatic.png" />{props.vehicle.transmission}
+        </>);
+    }
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
-                <div className="geodir-category-img" style={{ minHeight: '10rem' }}>
+                <div className="geodir-category-img" style={{ minHeight: '13rem' }}>
                     <img src={image_url} alt="" style={{ height: '100%' }} />
                     <div className="overlay"></div>
                     <div className="list-post-counter"><span>{props.vehicle.doors} doors</span></div>
@@ -69,7 +79,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             <a className="listing-geodir-category capitalize" onClick={() => {
                                 //@ts-ignore
                                 document.getElementById('book-now-form')?.submit();
-                            }}  href="#">Book Now</a>
+                            }} href="#">Book Now</a>
                         </form>
                         <Avatar className="listing-avatar"><a href="author-single.html"><img src="images/avatar/1.jpg" alt="" /></a>
                             <span className="avatar-tooltip">Added By  <strong>Lisa Smith</strong></span>
@@ -83,17 +93,35 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             justifyContent: 'space-around',
                         }}>
                             <span>
-                                <img src="http://www.right-cars.com/public/img/icons/manual.png"/>{props.vehicle.transmission}
+                                {transmissionNode}
                             </span>
                             <span>
-                                <img src="http://www.right-cars.com/public/img/icons/seats.png"/>{props.vehicle.seats}
+                                <img src="http://www.right-cars.com/public/img/icons/seats.png" />{props.vehicle.seats}
                             </span>
                             <span>
-                                <img src="http://www.right-cars.com/public/img/icons/door.png"/>{props.vehicle.doors}
+                                <img src="http://www.right-cars.com/public/img/icons/door.png" />{props.vehicle.doors}
+                            </span>
+                            <span>
+                                <img src="http://www.right-cars.com/public/img/icons/AC.png" />Yes
                             </span>
                         </div>
-                        <div className="geodir-category-location">
-                            <a href="#0" className="map-item">Price {props.vehicle.price} {props.vehicle.currency}</a>
+                        <div className="geodir-category-location" style={{ padding: 0 }}>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between'
+                            }}>
+                                <div className="evticket-meta">
+                                    <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.price}</div>
+                                </div>
+                                {props.vehicle.secondary_price && <div className="evticket-meta">
+                                    <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.price}</div>
+                                </div>}
+                            </div>
+                            {props.vehicle.secondary_price && (
+                                <div className="evticket-meta fl-wrap" style={{ paddingLeft: '20px', paddingTop: 0 }}>
+                                    <div className="evticket-available" style={{ float: 'left' }}>Save: <span>{props.vehicle.currency} {props.vehicle.price - props.vehicle.secondary_price}</span></div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </ListingItemBody>
