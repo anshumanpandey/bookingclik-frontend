@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
+import {Decimal} from 'decimal.js';
 
 const ListingItemBody = styled.div`
 display: flex;
@@ -114,12 +115,14 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                     <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.price}</div>
                                 </div>
                                 {props.vehicle.secondary_price && <div className="evticket-meta">
-                                    <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.price}</div>
+                                    <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.secondary_price}</div>
                                 </div>}
                             </div>
                             {props.vehicle.secondary_price && (
                                 <div className="evticket-meta fl-wrap" style={{ paddingLeft: '20px', paddingTop: 0 }}>
-                                    <div className="evticket-available" style={{ float: 'left' }}>Save: <span>{props.vehicle.currency} {props.vehicle.price - props.vehicle.secondary_price}</span></div>
+                                    <div className="evticket-available" style={{ float: 'left' }}>
+                                        Save: <span>{props.vehicle.currency} {Decimal.sub(props.vehicle.secondary_price, props.vehicle.price).toNumber()}</span>
+                                    </div>
                                 </div>
                             )}
                         </div>
