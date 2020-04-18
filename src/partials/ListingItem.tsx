@@ -91,18 +91,18 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                     <div className="geodir-category-options fl-wrap">
                         <div className="listing-rating card-popup-rainingvis" data-starrating2="5" style={{
                             display: 'flex',
-                            justifyContent: 'space-around',
+                            justifyContent: 'space-between',
                         }}>
-                            <span>
+                            <span style={{ marginLeft: 0 }}>
                                 {transmissionNode}
                             </span>
-                            <span>
+                            <span style={{ marginLeft: 0 }}>
                                 <img src="http://www.right-cars.com/public/img/icons/seats.png" />{props.vehicle.seats}
                             </span>
-                            <span>
+                            <span style={{ marginLeft: 0 }}>
                                 <img src="http://www.right-cars.com/public/img/icons/door.png" />{props.vehicle.doors}
                             </span>
-                            <span>
+                            <span style={{ marginLeft: 0 }}>
                                 <img src="http://www.right-cars.com/public/img/icons/AC.png" />Yes
                             </span>
                         </div>
@@ -111,15 +111,15 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 display: 'flex',
                                 justifyContent: 'space-between'
                             }}>
-                                <div className="evticket-meta">
+                                <div className="evticket-meta" style={{ paddingLeft: 0 }}>
                                     <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.price}</div>
                                 </div>
-                                {props.vehicle.secondary_price && <div className="evticket-meta">
+                                {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>
                                     <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.secondary_price}</div>
                                 </div>}
                             </div>
                             {props.vehicle.secondary_price && (
-                                <div className="evticket-meta fl-wrap" style={{ paddingLeft: '20px', paddingTop: 0 }}>
+                                <div className="evticket-meta fl-wrap" style={{ paddingLeft: '0px', paddingTop: 0 }}>
                                     <div className="evticket-available" style={{ float: 'left' }}>
                                         Save: <span>{props.vehicle.currency} {Decimal.sub(props.vehicle.secondary_price, props.vehicle.price).toNumber()}</span>
                                     </div>
