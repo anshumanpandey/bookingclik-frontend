@@ -14,7 +14,7 @@ export function Main() {
                 <div className="content">
 
                     <div id="tabs-container" style={{ padding: 0 }}>
-                        <ul className="tabs-menu" style={{ margin: 'unset', border: 'unset', display: 'flex', paddingTop: '1rem' }}>
+                        <ul className="tabs-menu main-page" style={{ margin: 'unset', border: 'unset', display: 'flex', paddingTop: '1rem' }}>
                             <li className="current" style={{ marginLeft: '4rem'}}>
                                 <a href="#tab-cars">
                                     <i className="fa fa-car" ></i>

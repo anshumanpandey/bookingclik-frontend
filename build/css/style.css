@@ -1417,7 +1417,7 @@ section.gray-section .section-separator {
 }
 .tabs-menu  li {
 	float:left;
-	margin-right:20px;
+	margin-right: 0.4rem;
 }
 .tabs-menu  li a{
 	float:left;

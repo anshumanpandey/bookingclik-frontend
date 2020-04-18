@@ -91,8 +91,8 @@ export function ListResult() {
     useEffect(() => {
         if (!state || !state.hasOwnProperty('results')) {
             history.push('/')
+            return
         }
-        // @ts-ignore
         setSearch(state.results.scrape)
     }, []);
 
