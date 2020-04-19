@@ -14,36 +14,36 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties}> = (
     return (
         <>
             <div className="row" style={{ color: 'white', textAlign: 'left' }}>
-                <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label>Location</label>
-                </div>
-
-                <div className="col-md-3" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label>Pick up Date</label>
+                <div className="col-md-4" style={{ paddingRight: 0, paddingLeft: 0 }}>
+                    <label style={{ fontSize: '0.88rem'}}>Location</label>
                 </div>
 
                 <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label>Pick up Time</label>
-                </div>
-
-                <div className="col-md-3" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label>Drop off Date</label>
+                    <label style={{ fontSize: '0.88rem'}}>Pick up Date</label>
                 </div>
 
                 <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label>Drop off Time</label>
+                    <label style={{ fontSize: '0.88rem'}}>Pick up Time</label>
+                </div>
+
+                <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
+                    <label style={{ fontSize: '0.88rem'}}>Drop off Date</label>
+                </div>
+
+                <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
+                    <label style={{ fontSize: '0.88rem'}}>Drop off Time</label>
                 </div>
             </div>
 
             <div className="row" style={{ backgroundColor: 'white', borderRadius: '0.25rem' }}>
-                <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                     <LocationDropdown onChange={setIataCode} style={{
                         borderTopLeftRadius: '30px',
                         borderBottomLeftRadius: '30px',
                         width: '100%'
                     }} />
                 </div>
-                <div className="col-md-3" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                     <div className="main-search-input-item" style={{ width: '100%' }}>
                         <DateInput onChange={(v) => setPuDate(v)} />
                     </div>
@@ -61,7 +61,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties}> = (
                     </div>
                 </div>
 
-                <div className="col-md-3" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
 
                     <div className="main-search-input-item" style={{ width: '100%' }}>
                         <DateInput onChange={(v) => setDoDate(v)} />
