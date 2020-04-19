@@ -4,7 +4,7 @@ import useAxios, { ResponseValues } from 'axios-hooks'
 import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
-import { IataCode, SearchResponse } from '../../types';
+import { SearchResponse, Terms } from '../../types';
 import { DefaultListSearchFilters, ListCarsFilter, SortFilterCars } from './SearchFilter';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
@@ -33,10 +33,10 @@ export const SearchForm: React.FC = () => {
 
         const searchCriteria = {
             location: iataCode.code,
-            puDate: puDate ? puDate.format(DATE_FORMAT): moment().format(DATE_FORMAT),
-            puTime: puTime ? puTime.format(TIME_FORMAT): moment().format(TIME_FORMAT),
-            doDate: doDate ? doDate.format(DATE_FORMAT): moment().format(DATE_FORMAT),
-            doTime: doTime ? doTime.format(TIME_FORMAT): moment().format(TIME_FORMAT),
+            puDate: puDate ? puDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
+            puTime: puTime ? puTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
+            doDate: doDate ? doDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
+            doTime: doTime ? doTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
         };
 
         doSearch({ params: searchCriteria })
@@ -44,7 +44,7 @@ export const SearchForm: React.FC = () => {
                 setSearch(res.data.scrape)
             })
     }
-    const Filter = term.toLowerCase() === 'cars' ? ListCarsFilter : DefaultListSearchFilters;
+    const Filter = term === Terms.Cars ? ListCarsFilter : DefaultListSearchFilters;
 
     return (
         <>
@@ -66,7 +66,15 @@ export const SearchForm: React.FC = () => {
 
 export function ListResult() {
     const history = useHistory<{ results: SearchResponse }>();
-    const state = history.location.state;
+    const state = {
+        results: { "scrape": { "details": { "pickup": { "location": "DBV", "datetime": "13/07/2020 20:00" }, "dropoff": { "location": "DBV", "datetime": "16/07/2020 20:00" } }, "vehicle": [{ "vehicle": { "name": "VW UP", "custom_location": "DBVA01", "doors": "2/4", "transmission": "Manual", "acriss": "MCMR", "price": "155.62", "currency": "EUR", "image_preview_url": "/images/side-vwup.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Hyundai i10", "custom_location": "DBVA01", "doors": "4", "transmission": "Manual", "acriss": "MDMR", "price": "155.62", "currency": "EUR", "image_preview_url": "/images/side-hyundaii10.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Suzuki Swift", "custom_location": "DBVA01", "doors": "2/4", "transmission": "Manual", "acriss": "ECMR", "price": "157.64", "currency": "EUR", "image_preview_url": "/images/side-suzukiswift.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "VW Polo", "custom_location": "DBVA01", "doors": "4/5", "transmission": "Manual", "acriss": "EDMR", "price": "157.89", "currency": "EUR", "image_preview_url": "/images/side-vwpolo.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Vauxhall Astra", "custom_location": "DBVA01", "doors": "2/4", "transmission": "Manual", "acriss": "CCMR", "price": "202.62", "currency": "EUR", "image_preview_url": "/images/side-vauxhallastra.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Ford Focus", "custom_location": "DBVA01", "doors": "4/5", "transmission": "Manual", "acriss": "CDMR", "price": "202.92", "currency": "EUR", "image_preview_url": "/images/side-fordfocus.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "VW UP", "custom_location": "DBVA01", "doors": "2/4", "transmission": "Automatic", "acriss": "MCAR", "price": "223.45", "currency": "EUR", "image_preview_url": "/images/side-vwup.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Ford Fiesta", "custom_location": "DBVA01", "doors": "4/5", "transmission": "Automatic", "acriss": "EDAR", "price": "228.16", "currency": "EUR", "image_preview_url": "/images/side-fordfiesta.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Skoda Rapid", "custom_location": "DBVA01", "doors": "5", "transmission": "Manual", "acriss": "IDMR", "price": "285.32", "currency": "EUR", "image_preview_url": "/images/side-skodarapid.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Skoda Octavia", "custom_location": "DBVA01", "doors": "5", "transmission": "Manual", "acriss": "SDMR", "price": "296.53", "currency": "EUR", "image_preview_url": "/images/side-skodaoctavia.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "VW Golf", "custom_location": "DBVA01", "doors": "4/5", "transmission": "Automatic", "acriss": "CDAR", "price": "309.64", "currency": "EUR", "image_preview_url": "/images/side-vwgolf.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "BMW 1 Series", "custom_location": "DBVA01", "doors": "4", "transmission": "Automatic", "acriss": "DDAR", "price": "339.12", "currency": "EUR", "image_preview_url": "/images/side-bmw1series.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Suzuki Vitara", "custom_location": "DBVA01", "doors": "5", "transmission": "Manual", "acriss": "SFMR", "price": "351.64", "currency": "EUR", "image_preview_url": "/images/side-suzukivitara.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Skoda Octavia", "custom_location": "DBVA01", "doors": "5", "transmission": "Manual", "acriss": "SWMR", "price": "361.55", "currency": "EUR", "image_preview_url": "/images/side-skodaoctaviacombi.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "VW Passat", "custom_location": "DBVA01", "doors": "5", "transmission": "Manual", "acriss": "FDMR", "price": "372.76", "currency": "EUR", "image_preview_url": "/images/side-vwpassat.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Ford Focus Turnier", "custom_location": "DBVA01", "doors": "5", "transmission": "Manual", "acriss": "CWMR", "price": "381.46", "currency": "EUR", "image_preview_url": "/images/side-fordfocusestate.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Ford Focus Turnier", "custom_location": "DBVA01", "doors": "5", "transmission": "Automatic", "acriss": "CWAR", "price": "393.93", "currency": "EUR", "image_preview_url": "/images/side-fordfocusestate.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "VW Passat", "custom_location": "DBVA01", "doors": "5", "transmission": "Automatic", "acriss": "FDAR", "price": "419.55", "currency": "EUR", "image_preview_url": "/images/side-vwpassat.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Vauxhall Zafira", "custom_location": "DBVA01", "doors": "5", "transmission": "Manual", "acriss": "SVMR", "price": "438.54", "currency": "EUR", "image_preview_url": "/images/side-vauxhallzafira.png\r\n", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Vauxhall Zafira", "custom_location": "DBVA01", "doors": "5", "transmission": "Automatic", "acriss": "SVAR", "price": "481.12", "currency": "EUR", "image_preview_url": "/images/side-vauxhallzafira.png\r\n", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Renault Trafic", "custom_location": "DBVA01", "doors": "4", "transmission": "Manual", "acriss": "FVMR", "price": "554.12", "currency": "EUR", "image_preview_url": "/images/side-renaulttrafic.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "VW Tiguan", "custom_location": "DBVA01", "doors": "5", "transmission": "Automatic", "acriss": "RFAR", "price": "568.90", "currency": "EUR", "image_preview_url": "/images/side-vwtiguan.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "BMW 5 Series", "custom_location": "DBVA01", "doors": "5", "transmission": "Automatic", "acriss": "PDAR", "price": "716.24", "currency": "EUR", "image_preview_url": "/images/side-bmw5series.png", "baseUrl": "https://www.right-cars.com" } }, { "vehicle": { "name": "Mercedes-Benz Vito", "custom_location": "DBVA01", "doors": "4", "transmission": "Automatic", "acriss": "UVAR", "price": "821.58", "currency": "EUR", "image_preview_url": "/images/side-mercedesvito.png", "baseUrl": "https://www.right-cars.com" } }] } },
+        criteria: {
+            term: "cars",
+            doDate: 'string',
+            puDate: 'string',
+            location: { id: 1, code: 'DBV', location: 'Dubrovnik' }
+        }
+    };
 
     const [doDate] = useSearchWidgetState('doDate')
     const [doTime] = useSearchWidgetState('doTime')
@@ -93,6 +101,7 @@ export function ListResult() {
             history.push('/')
             return
         }
+        // @ts-ignore
         setSearch(state.results.scrape)
     }, []);
 
@@ -177,38 +186,23 @@ export function ListResult() {
             <div id="wrapper">
                 <div className="content">
                     <div className="col-list-wrap left-list" style={{ width: '100%' }}>
-                        <div className="listsearch-options fl-wrap" id="lisfw" >
-                            <div className="container">
-                                <Panel buttonNode={<div className="listsearch-header fl-wrap">
-                                    <h3>
-                                        <i className="fa fa-car" ></i>
-                                        {'   '}
-                                        <span>{iataCode?.location} ({iataCode?.code})</span> |
-                                        {' '}
-                                        {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
-                                        {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
-                                    </h3>
-                                    <div style={{ float: 'right', color: '#4db7fe' }}>
-                                        <h4>Change Search <i className="fa fa-search"></i></h4>
-                                    </div>
-                                </div>} >
+                        <div className="row" style={{ marginBottom: '1.5rem' }} >
+                            <div className="col-md-12 listsearch-options">
+                                <div className="container">
 
-                                    <SearchForm />
-                                </Panel>
-                                {search.vehicle.length !== 0 && (
-                                    <>
-                                        <div className="listsearch-header fl-wrap" style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            paddingTop: 10,
-                                            paddingBottom: 10,
-                                        }}>
-                                            <h3>
-                                                Results For : <span>{term}</span> |
-                                                {search.vehicle && search.vehicle.length !== 0 &&
-                                                ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
-                                            </h3>
+                                    <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <h3>
+                                            <i className="fa fa-car" ></i>
+                                            {'   '}
+                                            <span>{iataCode?.location} ({iataCode?.code})</span> |
+                                        {' '}
+                                            {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
+                                            {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
+                                        </h3>
+                                        <div>
+                                            <div style={{ float: 'right', color: '#4db7fe' }}>
+                                                <h4>Change Search <i className="fa fa-search"></i></h4>
+                                            </div>
                                             <div className="listing-view-layout">
                                                 <ul>
                                                     <li onClick={() => setLayout('GRID')}>
@@ -226,18 +220,71 @@ export function ListResult() {
                                                 </ul>
                                             </div>
                                         </div>
-                                        <SortFilterCars />
-                                    </>
-                                )}
+                                    </div>} >
+
+                                        <SearchForm />
+                                    </Panel>
+                                </div>
                             </div>
                         </div>
-                        <div className="list-main-wrap fl-wrap card-listing">
-                            <a className="custom-scroll-link back-to-filters btf-l" href="#lisfw"><i className="fa fa-angle-double-up"></i><span>Back to Filters</span></a>
-                            <div className="container" style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                {Body}
+                        <div className="row" >
+                            <div className="col-md-4" style={{ paddingRight: 0 }}>
+                                <div className="fl-wrap" id="lisfw" style={{ background: 'white', borderRadius: '6px' }} >
+                                    <div className="container">
+
+                                        {search.vehicle.length !== 0 && (
+                                            <>
+                                                <div className="listsearch-header fl-wrap" style={{
+                                                    paddingTop: 10,
+                                                    paddingBottom: 10,
+                                                }}>
+                                                    <h3>
+                                                        Results For: <span>{term}</span>
+                                                    </h3>
+                                                    <h3>
+                                                        {search.vehicle && search.vehicle.length !== 0 &&
+                                                            ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
+                                                    </h3>
+                                                </div>
+                                                <SortFilterCars />
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                            {/* <a className="load-more-button" href="#">Load more <i className="fa fa-circle-o-notch"></i> </a>*/}
+                            <div className="col-md-6">
+                                <div className="list-main-wrap fl-wrap card-listing" style={{ borderRadius: '6px', padding: 0 }}>
+                                    <div className="container" style={{ width: '100%', margin: 0 }}>
+                                        {Body}
+                                    </div>
+                                    {/* <a className="load-more-button" href="#">Load more <i className="fa fa-circle-o-notch"></i> </a>*/}
+                                </div>
+                            </div>
+                            <div className="col-md-2">
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+                                <p>ADS</p>
+
+                            </div>
                         </div>
+
                     </div>
                     <div className="limit-box fl-wrap"></div>
                     <section className="gradient-bg">

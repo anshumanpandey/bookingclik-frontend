@@ -38,16 +38,11 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
     const [{ data, loading, error }, refetch] = useHttp<IataCode[]>({ url: '/iataCodes' })
 
     const [open, setOpen] = useState(false);
-
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
 
     useEffect(() => {
-        if (data && data.length > 0) {
-            setReadyToShow(true);
-
-            onChange(data[0]);
-        }
-    }, [data]);
+        if (defaultValue) onChange(defaultValue)
+    }, []);
 
     const LoadingIndicator = () => {
         return (
@@ -81,6 +76,10 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     loading={open && data !== null}
                     options={(data && data.length !== 0) ? data : []}
                     loadingText={<></>}
+                    onChange={(event: any, value: IataCode| null) => {
+                        if (!value) return
+                        onChange(value)
+                    }}
                     renderOption={(option: IataCode) => {
                         return (
                             <>

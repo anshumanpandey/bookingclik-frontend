@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { SearchWidget } from './SearchWidget';
 import { Terms } from '../../types';
+import { useSearchWidgetState } from './useSearchWidgetGlobalState';
 
 export const CarsTab: React.FC = () => {
+
+    const [, setTerm] = useSearchWidgetState('term')
+
+    useEffect(() => {
+        setTerm(Terms.Cars);
+    });
 
     return (
         <>

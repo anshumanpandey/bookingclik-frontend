@@ -20,11 +20,6 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   const [doDate] = useSearchWidgetState('doDate')
   const [doTime] = useSearchWidgetState('doTime')
   const [iataCode] = useSearchWidgetState('code')
-  const [, setTerm] = useSearchWidgetState('term')
-
-  useEffect(() => {
-    setTerm(term);
-  }, []);
 
   const CurrentFilter = optionToSearch === 'cars' ? CarSearchWidgetFilters : DefaultSearchWidgetFilters;
 

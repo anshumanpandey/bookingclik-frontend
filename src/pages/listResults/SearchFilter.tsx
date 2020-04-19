@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { Typography, Slider } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
-import { IataCode } from '../../types';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
@@ -136,8 +135,8 @@ export const SortFilterCars: React.FC = () => {
                         <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
                     </div>} >
                         <div className="custom-form">
-                            <div className="row" style={{ display: 'flex' }}>
-                                <div className="col-md-6">
+                            <div className="row">
+                                <div className="col-md-12">
                                     <div className="act-widget fl-wrap" style={{ marginBottom: 0 }}>
                                         <div className="act-widget-header">
                                             <h4>A/C</h4>
@@ -154,7 +153,7 @@ export const SortFilterCars: React.FC = () => {
 
 
                                 {(
-                                    <div className="col-md-6" onClick={(e) => {
+                                    <div className="col-md-12" style={{ marginBottom: '20px'}} onClick={(e) => {
                                         const value = $('#transmission-select').val();
                                         if (!value) return
 
@@ -168,7 +167,6 @@ export const SortFilterCars: React.FC = () => {
                                         <div style={{
                                             width: '100%',
                                             height: '100%',
-                                            paddingBottom: '15px',
                                         }}>
                                             <select id="transmission-select" data-placeholder="Transmission" className="no-search-select transmission-select" >
                                                 <option value="all">Transmission</option>
@@ -178,10 +176,7 @@ export const SortFilterCars: React.FC = () => {
                                     </div>
                                 )}
 
-                            </div>
-
-                            <div className="row">
-                                <div className="col-md-6">
+                                <div className="col-md-12">
                                     <div className="quantity act-widget-header fl-wrap">
                                         <span>
                                             <img src="http://www.right-cars.com/public/img/icons/door.png" />
@@ -195,7 +190,7 @@ export const SortFilterCars: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-md-6">
+                                <div className="col-md-12">
                                     <div className="quantity act-widget-header fl-wrap">
                                         <span>
                                             <img src="http://www.right-cars.com/public/img/icons/seats.png" />
@@ -209,7 +204,7 @@ export const SortFilterCars: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-md-6">
+                                <div className="col-md-12">
                                     <Typography id="range-slider" gutterBottom>
                                         Price range
                                     </Typography>
@@ -234,7 +229,7 @@ export const SortFilterCars: React.FC = () => {
                         <div className="custom-form">
 
                             <div className="row">
-                                <div className="col-md-6">
+                                <div className="col-md-12">
                                     <div className="list-single-header-item-opt fl-wrap" onClick={() => setSortPrice(sortPrice == PriceSortOrder.ASC ? PriceSortOrder.DESC : PriceSortOrder.ASC)}>
                                         <div className="list-single-header-cat fl-wrap">
                                             <a href="#" onClick={(e) => e.preventDefault()}>Price {sortPrice}</a>
