@@ -199,7 +199,7 @@ export function ListResult() {
                                             {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
                                         </h3>
-                                        <div>
+                                        <div style={{ display: 'flex', alignItems: 'center'}}>
                                             <div style={{ float: 'right', color: '#4db7fe' }}>
                                                 <h4>Change Search <i className="fa fa-search"></i></h4>
                                             </div>
@@ -227,10 +227,10 @@ export function ListResult() {
                                 </div>
                             </div>
                         </div>
-                        <div className="row" >
-                            <div className="col-md-4" style={{ paddingRight: 0 }}>
+                        <div style={{ display: 'flex', width: '100%' }} >
+                            <div style={{ paddingRight: 0, width: '30%' }}>
                                 <div className="fl-wrap" id="lisfw" style={{ background: 'white', borderRadius: '6px' }} >
-                                    <div className="container">
+                                    <div className="container" style={{ margin: '0 auto' }}>
 
                                         {search.vehicle.length !== 0 && (
                                             <>
@@ -252,7 +252,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-6">
+                            <div style={{ width: '50%' }}>
                                 <div className="list-main-wrap fl-wrap card-listing" style={{ borderRadius: '6px', padding: 0 }}>
                                     <div className="container" style={{ width: '100%', margin: 0 }}>
                                         {Body}
@@ -260,7 +260,7 @@ export function ListResult() {
                                     {/* <a className="load-more-button" href="#">Load more <i className="fa fa-circle-o-notch"></i> </a>*/}
                                 </div>
                             </div>
-                            <div className="col-md-2">
+                            <div style={{ width: '20%' }}>
                                 <p>ADS</p>
                                 <p>ADS</p>
                                 <p>ADS</p>
