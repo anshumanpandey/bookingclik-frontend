@@ -41,6 +41,11 @@
     width: 100%;
 }
 
+.tabs-menu.main-page li a{
+    background-color: #4db7fe;
+    color: white;
+}
+
 .tabs-menu.main-page li a:hover, .tabs-menu.main-page .current a{
     background-color: #2f3b59;
 }
