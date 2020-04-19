@@ -13,11 +13,13 @@ let styles = createStyles({
         fontSize: '0.8rem'
     },
     inputRoot: {
-        flexWrap: 'unset'
+        flexWrap: 'unset',
+        width: '100%!important',
+
     },
     popupIndicator: {
         display: 'none'
-    }
+    },
 })
 
 interface Prop {
@@ -78,6 +80,15 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     defaultValue={defaultValue || undefined}
                     loading={open && data !== null}
                     options={(data && data.length !== 0) ? data : []}
+                    loadingText={<></>}
+                    renderOption={(option: IataCode) => {
+                        return (
+                            <>
+                            <i style={{ color: 'rgba(0,0,0,.25)', marginRight: '0.8rem' }} className="fas fa-car"></i>
+                            {option.location}
+                            </>
+                        );
+                    }}
                     getOptionLabel={(option: IataCode) => option.location}
                     filterOptions={x => x}
                     classes={{

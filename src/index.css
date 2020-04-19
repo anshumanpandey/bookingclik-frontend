@@ -49,3 +49,35 @@
 .tabs-menu.main-page li a:hover, .tabs-menu.main-page .current a{
     background-color: #2f3b59;
 }
+
+.MuiAutocomplete-popper:before, .MuiAutocomplete-popper:after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 100%;
+    width: 0;
+    height: 0;
+  }
+
+.MuiAutocomplete-popper:after {
+    left: 45%;
+    border: 10px solid transparent;
+    border-bottom-color: #fff;
+}
+
+.MuiAutocomplete-popper {
+    position: unset !important;
+}
+
+.MuiAutocomplete-popper > div{
+    border-radius: .375rem;
+}
+
+.MuiAutocomplete-popper .MuiAutocomplete-option{
+    height: 3rem;
+}
+
+.MuiAutocomplete-popper .MuiAutocomplete-option:not(:last-child){
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+

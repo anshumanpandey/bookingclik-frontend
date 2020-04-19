@@ -23,21 +23,21 @@ export function Main() {
                                     </a>
                             </li>
                             <li>
-                                <a href="#tab-hotels">
+                                <a href="#tab-hotels" className="disabled">
                                     <i className="fa fa-hotel" ></i>
                                     {'  '}
                                         Hotels
                                         </a>
                             </li>
                             <li>
-                                <a href="#tab-flights">
+                                <a href="#tab-flights" className="disabled">
                                     <i className="fa fa-plane-departure"></i>
                                     {'  '}
                                         Flights
                                         </a>
                             </li>
                             <li>
-                                <a href="#tab-cruises">
+                                <a href="#tab-cruises" className="disabled">
                                     <i className="fa fa-ship"></i>
                                     {'  '}
                                         Cruises

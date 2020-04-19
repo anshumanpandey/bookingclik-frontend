@@ -300,7 +300,7 @@ function initCitybook() {
         }
     });
     //   tabs------------------
-    $(".tabs-menu a").on("click", function (a) {
+    $(".tabs-menu a").not('.disabled').on("click", function (a) {
         a.preventDefault();
         $(this).parent().addClass("current");
         $(this).parent().siblings().removeClass("current");
