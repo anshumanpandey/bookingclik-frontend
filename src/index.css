@@ -65,10 +65,6 @@
     border-bottom-color: #fff;
 }
 
-.MuiAutocomplete-popper {
-    position: unset !important;
-}
-
 .MuiAutocomplete-popper > div{
     border-radius: .375rem;
 }

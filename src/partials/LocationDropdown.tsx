@@ -17,8 +17,8 @@ let styles = createStyles({
         width: '100%!important',
 
     },
-    popupIndicator: {
-        display: 'none'
+    paper: {
+        margin: 0
     },
 })
 
@@ -92,6 +92,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     filterOptions={x => x}
                     classes={{
                         inputRoot: classes.inputRoot,
+                        paper: classes.paper,
                     }}
                     renderInput={(params) => {
                         return (

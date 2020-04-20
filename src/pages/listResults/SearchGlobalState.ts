@@ -1,8 +1,7 @@
 import { createGlobalState } from "react-hooks-global-state"
 import { SearchResponse } from "../../types";
 
-const initialState =
-{
+const initialState = {
     scrape: {
         details: { 
             pickup: { location: "DBV", datetime: "13/07/2020 20:00" },

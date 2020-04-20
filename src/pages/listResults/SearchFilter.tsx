@@ -9,6 +9,7 @@ import { useSearchState } from './SearchGlobalState';
 import moment from 'moment';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { TimeInput } from '../../partials/TimeInput';
+import { TagSearchWidget } from '../../widget/TagSearchWidget';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -153,26 +154,12 @@ export const SortFilterCars: React.FC = () => {
 
 
                                 {(
-                                    <div className="col-md-12" style={{ marginBottom: '20px'}} onClick={(e) => {
-                                        const value = $('#transmission-select').val();
-                                        if (!value) return
-
-                                        if (transmissionOptions.includes(value.toString())) {
-                                            setTransmission(value.toString())
-                                        } else {
-                                            setTransmission(null)
-                                        }
-
-                                    }}>
-                                        <div style={{
-                                            width: '100%',
-                                            height: '100%',
-                                        }}>
-                                            <select id="transmission-select" data-placeholder="Transmission" className="no-search-select transmission-select" >
-                                                <option value="all">Transmission</option>
-                                                {transmissionOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                                            </select>
-                                        </div>
+                                    <div className="col-md-12">
+                                        <TagSearchWidget
+                                            options={[ 'A', 'B']}
+                                            category={'Transmission'}
+                                            onChange={() => {}}
+                                        />
                                     </div>
                                 )}
 
