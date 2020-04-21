@@ -13,6 +13,7 @@ import moment from 'moment';
 import { useSearchState } from './SearchGlobalState';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { DATE_FORMAT, TIME_FORMAT } from '../../utils/DateFormat';
+import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
 
 export const SearchForm: React.FC = () => {
     const [puDate] = useSearchWidgetState('puDate')
@@ -86,6 +87,8 @@ export function ListResult() {
     const [transmission] = useFilterState('transmission');
     const [, setTransmissionOptions] = useFilterState('transmissionOptions');
 
+    const [dynamicFilters] = useDynamicFiltersState('activeFilters');
+
     const [sortPrice] = useSortState('price');
 
     useEffect(() => {
@@ -120,50 +123,60 @@ export function ListResult() {
     </div>)
 
     if (search.vehicle.length > 0) {
+        let filteredValues = search.vehicle
+            .filter(c => airConditioner === true ? c.vehicle.airConditioner === "Yes" : true)
+            .filter(c => {
+                if (noDoors <= 0) {
+                    return true
+                }
+                // doors property is a string with format NUM/NUM
+                if (c.vehicle.doors.includes('/')) {
+                    const valuePair = c.vehicle.doors.split('/');
+                    // if we only get one value use it 
+                    if (valuePair.length == 1) return parseInt(valuePair[0]) >= noDoors
+                    const sortedValues = valuePair.sort((a, b) => parseInt(a) - parseInt(a));
+                    const lastValue = sortedValues.pop()
+                    if (!lastValue) return parseInt(valuePair[0]) >= noDoors
+                    if (sortedValues.length !== 0) return parseInt(lastValue) >= noDoors
+                }
+
+                return parseInt(c.vehicle.doors) >= noDoors
+            })
+            .filter(c => {
+                if (noSeats <= 0) {
+                    return true
+                }
+                return c.vehicle.seats >= noSeats
+            })
+            .filter(c => airConditioner === true ? c.vehicle.airConditioner === "Yes" : true)
+            .filter(c => {
+                if (priceRange[0] == 0) return true
+                return c.vehicle.price >= priceRange[0];
+            })
+            .filter(c => {
+                if (priceRange[1] == 0) return true
+                return c.vehicle.price <= priceRange[1];
+            })
+            .sort((a: any, b: any) => {
+                if (sortPrice === PriceSortOrder.DESC) return a.vehicle.price - b.vehicle.price
+                if (sortPrice === PriceSortOrder.ASC) return b.vehicle.price - a.vehicle.price
+                return a.vehicle.price - b.vehicle.price
+            })
+
+            if (!dynamicFilters.every(filter => filter.activeValues.length === 0)){
+                dynamicFilters.map(filter => {
+
+                    filteredValues = filteredValues.filter(({ vehicle }) => {
+                        const vehiclePropertyValue = vehicle[filter.category.propertyToWatch]
+                        return filter.activeValues.some(activeValue => activeValue.value === vehiclePropertyValue)
+                    });
+    
+    
+                })
+            }
         Body = (
             <>
-                {search.vehicle
-                    .filter(c => airConditioner === true ? c.vehicle.airConditioner === "Yes" : true)
-                    .filter(c => {
-                        if (noDoors <= 0) {
-                            return true
-                        }
-                        // doors property is a string with format NUM/NUM
-                        if (c.vehicle.doors.includes('/')) {
-                            const valuePair = c.vehicle.doors.split('/');
-                            // if we only get one value use it 
-                            if (valuePair.length == 1) return parseInt(valuePair[0]) >= noDoors
-                            const sortedValues = valuePair.sort((a, b) => parseInt(a) - parseInt(a));
-                            const lastValue = sortedValues.pop()
-                            if (!lastValue) return parseInt(valuePair[0]) >= noDoors
-                            if (sortedValues.length !== 0) return parseInt(lastValue) >= noDoors
-                        }
-
-                        return parseInt(c.vehicle.doors) >= noDoors
-                    })
-                    .filter(c => {
-                        if (noSeats <= 0) {
-                            return true
-                        }
-                        return c.vehicle.seats >= noSeats
-                    })
-                    .filter(c => airConditioner === true ? c.vehicle.airConditioner === "Yes" : true)
-                    .filter(c => transmission !== null ? c.vehicle.transmission === transmission : true)
-                    .filter(c => transmission !== null ? c.vehicle.transmission === transmission : true)
-                    .filter(c => {
-                        if (priceRange[0] == 0) return true
-                        return c.vehicle.price >= priceRange[0];
-                    })
-                    .filter(c => {
-                        if (priceRange[1] == 0) return true
-                        return c.vehicle.price <= priceRange[1];
-                    })
-                    .sort((a: any, b: any) => {
-                        if (sortPrice === PriceSortOrder.DESC) return a.vehicle.price - b.vehicle.price
-                        if (sortPrice === PriceSortOrder.ASC) return b.vehicle.price - a.vehicle.price
-                        return a.vehicle.price - b.vehicle.price
-                    })
-                    .map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
+                {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
             </>
         );
     }
@@ -191,7 +204,7 @@ export function ListResult() {
                                             {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
                                         </h3>
-                                        <div style={{ display: 'flex', alignItems: 'center'}}>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <div style={{ float: 'right', color: '#4db7fe' }}>
                                                 <h4>Change Search <i className="fa fa-search"></i></h4>
                                             </div>

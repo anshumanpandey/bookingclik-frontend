@@ -156,8 +156,8 @@ export const SortFilterCars: React.FC = () => {
                                 {(
                                     <div className="col-md-12">
                                         <TagSearchWidget
-                                            options={[ 'A', 'B']}
-                                            category={'Transmission'}
+                                            options={[ {label: 'Automatic', value: 'Automatic'}, {label: 'Manual', value: 'Manual'}]}
+                                            category={{name: 'Transmission', propertyToWatch: 'transmission'}}
                                             onChange={() => {}}
                                         />
                                     </div>

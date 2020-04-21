@@ -18,6 +18,7 @@ export interface Vehicle {
     client_name?: string
     client_logo?: string
     airConditioner: string
+    [k: string]: any | undefined
 }
 
 export interface Pickup {
