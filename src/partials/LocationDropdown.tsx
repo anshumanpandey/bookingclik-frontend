@@ -41,6 +41,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
 
     useEffect(() => {
+        console.log(defaultValue)
         if (defaultValue) onChange(defaultValue)
     }, []);
 
@@ -80,14 +81,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                         if (!value) return
                         onChange(value)
                     }}
-                    renderOption={(option: IataCode) => {
-                        return (
-                            <>
-                            <i style={{ color: 'rgba(0,0,0,.25)', marginRight: '0.8rem' }} className="fas fa-car"></i>
-                            {option.location}
-                            </>
-                        );
-                    }}
+
                     getOptionLabel={(option: IataCode) => option.location}
                     filterOptions={x => x}
                     classes={{

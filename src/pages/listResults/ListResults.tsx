@@ -14,8 +14,11 @@ import { useSearchState } from './SearchGlobalState';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { DATE_FORMAT, TIME_FORMAT } from '../../utils/DateFormat';
 import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
+import { useGlobalState } from '../../state';
+const qs = require('qs');
 
 export const SearchForm: React.FC = () => {
+    const [,setLoading] = useGlobalState('loading')
     const [puDate] = useSearchWidgetState('puDate')
     const [term] = useSearchWidgetState('term')
     const [doTime] = useSearchWidgetState('doTime')
@@ -23,22 +26,45 @@ export const SearchForm: React.FC = () => {
     const [puTime] = useSearchWidgetState('puTime')
     const [iataCode] = useSearchWidgetState('code')
 
+    const [dynamicFilters] = useDynamicFiltersState('activeFilters');
+
     const [, setSearch] = useSearchState('scrape')
 
-    const [searchRequest, doSearch] = useAxios<SearchResponse>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
+    const [searchRequest, doSearch] = useAxios<SearchResponse>({
+        url: `${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`,
+        paramsSerializer: params => {
+            return qs.stringify(params)
+        }
+    }, { manual: true })
+
+    useEffect(() => {
+        setLoading(searchRequest.loading)
+    }, [searchRequest]);
+
+    useEffect(() => {
+        send()
+    }, [dynamicFilters]);
 
     const send = () => {
         if (!iataCode) {
             return;
         }
 
-        const searchCriteria = {
+        let searchCriteria = {
             location: iataCode.code,
             puDate: puDate ? puDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
             puTime: puTime ? puTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
             doDate: doDate ? doDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
             doTime: doTime ? doTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
         };
+
+        if (!dynamicFilters.every(filter => filter.activeValues.length === 0)) {
+            searchCriteria = {
+                ...searchCriteria,
+                //@ts-ignore
+                filters: dynamicFilters.map(filter => ({ [filter.category.propertyToWatch]: filter.activeValues.map(v => v.value) }))
+            }
+        }
 
         doSearch({ params: searchCriteria })
             .then((res) => {
@@ -49,12 +75,6 @@ export const SearchForm: React.FC = () => {
 
     return (
         <>
-            {searchRequest.loading && (
-                <div className="loader-wrap">
-                    <div className="pin"></div>
-                    <div className="pulse"></div>
-                </div>
-            )}
             <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                     <Filter />
@@ -162,18 +182,6 @@ export function ListResult() {
                 if (sortPrice === PriceSortOrder.ASC) return b.vehicle.price - a.vehicle.price
                 return a.vehicle.price - b.vehicle.price
             })
-
-            if (!dynamicFilters.every(filter => filter.activeValues.length === 0)){
-                dynamicFilters.map(filter => {
-
-                    filteredValues = filteredValues.filter(({ vehicle }) => {
-                        const vehiclePropertyValue = vehicle[filter.category.propertyToWatch]
-                        return filter.activeValues.some(activeValue => activeValue.value === vehiclePropertyValue)
-                    });
-    
-    
-                })
-            }
         Body = (
             <>
                 {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}

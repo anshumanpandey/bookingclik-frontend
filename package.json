@@ -25,6 +25,7 @@
     "decimal.js": "^10.2.0",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "qs": "^6.9.3",
     "rc-calendar": "^9.15.10",
     "rc-time-picker": "^3.7.3",
     "react": "^16.13.1",
