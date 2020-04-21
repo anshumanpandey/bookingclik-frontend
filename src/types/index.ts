@@ -2,6 +2,17 @@ import moment from "moment";
 
 export type IataCode = { id: number, code: string, location: string }
 
+export interface DynamicFilter {
+    id: number;
+    offering: string;
+    responseProperty: string;
+    name: string;
+    disabled: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    values: any[];
+}
+
 
 export interface Vehicle {
     doors: string;

@@ -15,6 +15,7 @@ export const TagSearchWidget: React.FC<Props> = ({ options, category }) => {
         display: 'flex',
         flexDirection: 'column' as 'column',
         marginBottom: '1rem',
+        marginTop: 'unset',
     }
 
     useEffect(() => {

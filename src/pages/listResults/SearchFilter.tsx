@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
+import useAxios, { ResponseValues } from 'axios-hooks'
 import { Typography, Slider } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { DateInput } from '../../partials';
@@ -10,6 +11,7 @@ import moment from 'moment';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { TimeInput } from '../../partials/TimeInput';
 import { TagSearchWidget } from '../../widget/TagSearchWidget';
+import { Terms, DynamicFilter } from '../../types';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -95,7 +97,7 @@ export const ListCarsFilter: React.FC = () => {
             <div className="listsearch-input-item">
                 <TimeInput defaultValue={puTime} onChange={(v) => setPuTime(v)} />
             </div>
-            
+
             <div className="listsearch-input-item">
                 <DateInput defaultValue={doDate} onChange={(v) => setDoDate(v)} />
             </div>
@@ -119,6 +121,11 @@ export const SortFilterCars: React.FC = () => {
     const [noSeats, setNoSeats] = useFilterState('noSeats');
     const [, setTransmission] = useFilterState('transmission');
     const [transmissionOptions] = useFilterState('transmissionOptions');
+    const [term] = useSearchWidgetState("term")
+
+    const [filterReq] = useAxios<DynamicFilter[]>({
+        url: `${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/categories/${Terms.Cars}`,
+    })
 
     // @ts-ignore
     useEffect(() => { $('#transmission-select').niceSelect() }, []);
@@ -152,16 +159,18 @@ export const SortFilterCars: React.FC = () => {
                                     </div>
                                 </div>
 
-
-                                {(
-                                    <div className="col-md-12">
-                                        <TagSearchWidget
-                                            options={[ {label: 'Automatic', value: 'Automatic'}, {label: 'Manual', value: 'Manual'}]}
-                                            category={{name: 'Transmission', propertyToWatch: 'transmission'}}
-                                            onChange={() => {}}
-                                        />
-                                    </div>
-                                )}
+                                {filterReq.data && filterReq.data.map((filter: any) => {
+                                    if (filter.values.length === 0) return <></>;
+                                    return (
+                                        <div className="col-md-12">
+                                            <TagSearchWidget
+                                                options={filter.values.map((f:any) => ({ label: f.name, value: f.value }))}
+                                                category={{ name: filter.name, propertyToWatch: filter.responseProperty }}
+                                                onChange={() => { }}
+                                            />
+                                        </div>
+                                    );
+                                })}
 
                                 <div className="col-md-12">
                                     <div className="quantity act-widget-header fl-wrap">
