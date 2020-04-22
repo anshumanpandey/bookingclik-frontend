@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { throttle } from "throttle-debounce";
 // @ts-ignore
 import { InputBase, CircularProgress, withStyles, WithStyles, createStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { VariableSizeList } from 'react-window';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import { IataCode } from '../types';
 import { useHttp } from '../utils/AxiosConfig';
 
@@ -34,6 +39,83 @@ interface Prop {
     }
 }
 
+const LISTBOX_PADDING = 15; // px
+function renderRow(props: any) {
+    const { data, index, style } = props;
+    return React.cloneElement(data[index], {
+        style: {
+            ...style,
+            top: style.top + LISTBOX_PADDING,
+        },
+    });
+}
+
+const OuterElementContext = React.createContext({});
+
+const OuterElementType = React.forwardRef((props, ref) => {
+    const outerProps = React.useContext(OuterElementContext);
+    // @ts-ignore
+    return <div ref={ref} {...props} {...outerProps} />;
+});
+
+function useResetCache(data: any) {
+    const ref = React.useRef(null);
+    React.useEffect(() => {
+        if (ref && ref.current) {
+            // @ts-ignore
+            ref.current.resetAfterIndex(0, true);
+        }
+    }, [data]);
+    return ref;
+}
+
+const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) {
+    const { children, ...other } = props;
+    const itemData = React.Children.toArray(children);
+    const theme = useTheme();
+    const smUp = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true });
+    const itemCount = itemData.length;
+    const itemSize = smUp ? 40 : 52;
+
+    const getChildSize = (child: any) => {
+        if (React.isValidElement(child) && child.type === ListSubheader) {
+            return 50;
+        }
+
+        return itemSize;
+    };
+
+    const getHeight = () => {
+        if (itemCount > 8) {
+            return 8 * itemSize;
+        }
+        return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
+    };
+
+    const gridRef = useResetCache(itemCount);
+
+    return (
+        // @ts-ignore
+        <div ref={ref}>
+            <OuterElementContext.Provider value={other}>
+                <VariableSizeList
+                    itemData={itemData}
+                    height={getHeight() + 2 * LISTBOX_PADDING}
+                    width="100%"
+                    ref={gridRef}
+                    outerElementType={OuterElementType}
+                    innerElementType="ul"
+                    itemSize={(index) => getChildSize(itemData[index])}
+                    overscanCount={5}
+                    itemCount={itemCount}
+                >
+                    {renderRow}
+                </VariableSizeList>
+            </OuterElementContext.Provider>
+        </div>
+    );
+});
+
 const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>> = ({ secondary, onChange, customeClasses, classes, style, defaultValue }) => {
     const [{ data, loading, error }, refetch] = useHttp<IataCode[]>({ url: '/iataCodes' })
 
@@ -53,7 +135,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
         )
     };
 
-    const searchCode = throttle(1000, (v: string) => refetch({ params: { search: v }}))
+    const searchCode = throttle(1000, (v: string) => refetch({ params: { search: v } }))
 
     return (
         <>
@@ -73,19 +155,22 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                         if (v === '') return
                         return searchCode(v)
                     }}
+                    disableListWrap={true}
+                    // @ts-ignore
+                    ListboxComponent={ListboxComponent}
                     defaultValue={defaultValue || undefined}
                     loading={open && data !== null}
                     options={(data && data.length !== 0) ? data : []}
                     loadingText={<></>}
-                    onChange={(event: any, value: IataCode| null) => {
+                    onChange={(event: any, value: IataCode | null) => {
                         if (!value) return
                         onChange(value)
                     }}
                     renderOption={(option: IataCode) => {
                         return (
                             <>
-                            <i style={{ color: 'rgba(0,0,0,.25)', marginRight: '0.8rem' }} className="fas fa-car"></i>
-                            {option.location}
+                                <i style={{ color: 'rgba(0,0,0,.25)', marginRight: '0.8rem' }} className="fas fa-car"></i>
+                                {option.location}
                             </>
                         );
                     }}
