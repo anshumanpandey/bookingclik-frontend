@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Header, Footer } from '../../partials';
-import { SearchWidget } from './SearchWidget';
 import { CarsTab } from './CarsTab';
 import { HotelsTab } from './HotelsTab';
 import { FlightsTab } from './FlightsTab';
 import { CruisesTab } from './CruisesTab';
+import { useSplashScreen } from '../../utils/UseSplashScreen';
 
 export function Main() {
+    
+    useSplashScreen()
     return (
         <>
             <Header />

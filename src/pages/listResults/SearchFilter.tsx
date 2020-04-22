@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import useAxios, { ResponseValues } from 'axios-hooks'
-import { Typography, Slider } from '@material-ui/core';
+import { Typography, Slider, CircularProgress } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
@@ -128,84 +128,91 @@ export const SortFilterCars: React.FC = () => {
     // @ts-ignore
     useEffect(() => { $('#transmission-select').niceSelect('update') }, [transmissionOptions]);
 
-    const mostExpensiveCar: any | undefined = search.vehicle.sort((a, b) => b.vehicle.price - a.vehicle.price)[0]
+    let body = <CircularProgress color="inherit" />
 
-    return (
-        <>
-            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', marginTop: 0 }}>
+    if (filterReq.error) {
+        body = <h3>Error loading filters</h3>
+    } else {
+        body = (                <div className="profile-edit-container add-list-container">
+        <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
+            <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
+        </div>} >
+            <div className="custom-form">
+                <div className="row">
 
-                <div className="profile-edit-container add-list-container">
-                    <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
-                        <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
-                    </div>} >
-                        <div className="custom-form">
-                            <div className="row">
-
-                                {filterReq.data && filterReq.data.map((filter) => {
-                                    if (filter.type === 'tag' && filter.values.length !== 0){
-                                        return (
-                                            <div className="col-md-12">
-                                                <TagSearchWidget
-                                                    options={filter.values.map((f:any) => ({ label: f.name, value: f.value }))}
-                                                    category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
-                                                    onChange={() => { }}
-                                                />
-                                            </div>
-                                        );
-                                    }
-
-                                    if (filter.type === 'number'){
-                                        return (
-                                            <div className="col-md-12">
-                                                <NumberSearchWidget
-                                                    options={filter.values.map((f:any) => ({ label: f.name, value: f.value }))}
-                                                    category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
-                                                    onChange={() => { }}
-                                                />
-                                            </div>
-                                        );
-                                    }
-
-                                    if (filter.type === 'range'){
-                                        const mostExpensive = search.vehicle.sort((a, b) => b.vehicle.price - a.vehicle.price)[0].vehicle
-                                        return (
-                                            <div className="col-md-12">
-                                                <RangeSearchWidget
-                                                    minValue={'0'}
-                                                    maxValue={'1000'}
-                                                    category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
-                                                    onChange={() => { }}
-                                                />
-                                            </div>
-                                        );
-                                    }
-                                })}
-
-                            </div>
-                        </div>
-                    </Panel>
-                    <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
-                        <h4 className="more-filter-option" style={{ float: 'left' }}>Sort</h4>
-                    </div>}>
-                        <div className="custom-form">
-
-                            <div className="row">
+                    {filterReq.data && filterReq.data.map((filter) => {
+                        if (filter.type === 'tag' && filter.values.length !== 0){
+                            return (
                                 <div className="col-md-12">
-                                    <div className="list-single-header-item-opt fl-wrap" onClick={() => setSortPrice(sortPrice == PriceSortOrder.ASC ? PriceSortOrder.DESC : PriceSortOrder.ASC)}>
-                                        <div className="list-single-header-cat fl-wrap">
-                                            <a href="#" onClick={(e) => e.preventDefault()}>Price {sortPrice}</a>
-                                        </div>
-                                    </div>
-
+                                    <TagSearchWidget
+                                        key={filter.createdAt}
+                                        options={filter.values.map((f:any) => ({ label: f.name, value: f.value }))}
+                                        category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
+                                        onChange={() => { }}
+                                    />
                                 </div>
+                            );
+                        }
 
+                        if (filter.type === 'number'){
+                            return (
+                                <div className="col-md-12">
+                                    <NumberSearchWidget
+                                        key={filter.createdAt}
+                                        options={filter.values.map((f:any) => ({ label: f.name, value: f.value }))}
+                                        category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
+                                        onChange={() => { }}
+                                    />
+                                </div>
+                            );
+                        }
 
+                        if (filter.type === 'range'){
+                            return (
+                                <div className="col-md-12">
+                                    <RangeSearchWidget
+                                        key={filter.createdAt}
+                                        minValue={'0'}
+                                        maxValue={'1000'}
+                                        category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
+                                        onChange={() => { }}
+                                    />
+                                </div>
+                            );
+                        }
+                    })}
+
+                </div>
+            </div>
+        </Panel>
+        <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
+            <h4 className="more-filter-option" style={{ float: 'left' }}>Sort</h4>
+        </div>}>
+            <div className="custom-form">
+
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="list-single-header-item-opt fl-wrap" onClick={() => setSortPrice(sortPrice == PriceSortOrder.ASC ? PriceSortOrder.DESC : PriceSortOrder.ASC)}>
+                            <div className="list-single-header-cat fl-wrap">
+                                <a href="#" onClick={(e) => e.preventDefault()}>Price {sortPrice}</a>
                             </div>
                         </div>
-                    </Panel>
+
+                    </div>
 
 
                 </div>
+            </div>
+        </Panel>
+
+
+    </div>);
+    }
+    
+    return (
+        <>
+            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', minHeight: '50%', flexDirection: 'column', marginTop: 0 }}>
+                {body}
             </div>
         </>
     );

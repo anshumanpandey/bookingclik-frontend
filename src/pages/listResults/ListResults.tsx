@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import useAxios, { ResponseValues } from 'axios-hooks'
 //@ts-ignore
 import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
-import { SearchResponse, Terms } from '../../types';
+import { SearchResponse, Terms, IataCode } from '../../types';
 import { DefaultListSearchFilters, ListCarsFilter, SortFilterCars } from './SearchFilter';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
-import moment from 'moment';
+import moment, { MonthWeekdayFn } from 'moment';
 import { useSearchState } from './SearchGlobalState';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { DATE_FORMAT, TIME_FORMAT } from '../../utils/DateFormat';
 import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
 import { useGlobalState } from '../../state';
-const qs = require('qs');
+import queryString from 'query-string';
+import qs from 'qs';
+import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 
 export const SearchForm: React.FC = () => {
     const [, setLoading] = useGlobalState('loading')
@@ -37,12 +39,13 @@ export const SearchForm: React.FC = () => {
         }
     }, { manual: true })
 
-    useEffect(() => {
+    useDidUpdateEffect(() => {
+        console.log(0)
         setLoading(searchRequest.loading)
     }, [searchRequest]);
 
     useEffect(() => {
-        console.log(dynamicFilters)
+        if (dynamicFilters.length === 0) return
         send()
     }, [dynamicFilters]);
 
@@ -80,8 +83,6 @@ export const SearchForm: React.FC = () => {
             filters: filterToSend
         };
 
-        console.log(searchCriteria)
-
         doSearch({ params: searchCriteria })
             .then((res) => {
                 setSearch(res.data.scrape)
@@ -102,33 +103,62 @@ export const SearchForm: React.FC = () => {
 }
 
 export function ListResult() {
-    const history = useHistory<{ results: SearchResponse }>();
+    const history = useHistory<{ results: SearchResponse, params: { location: IataCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
     const state = history.location.state;
 
-    const [doDate] = useSearchWidgetState('doDate')
-    const [doTime] = useSearchWidgetState('doTime')
-    const [puDate] = useSearchWidgetState('puDate')
-    const [puTime] = useSearchWidgetState('puTime')
-    const [iataCode] = useSearchWidgetState('code')
+    const [doDate, setDoDate] = useSearchWidgetState('doDate')
+    const [doTime, setDoTime] = useSearchWidgetState('doTime')
+    const [puDate, setPuDate] = useSearchWidgetState('puDate')
+    const [puTime, setPuTime] = useSearchWidgetState('puTime')
+    const [iataCode, setIataCode] = useSearchWidgetState('code')
     const [term] = useSearchWidgetState('term')
-
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('GRID');
-
     const [search, setSearch] = useSearchState('scrape')
-
     const [, setTransmissionOptions] = useFilterState('transmissionOptions');
-
-    const [dynamicFilters] = useDynamicFiltersState('activeFilters');
-
     const [sortPrice] = useSortState('price');
+    const [, setLoading] = useGlobalState('loading')
+
+    const [{ data, loading, error }, doSearch] = useAxios(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
+
+
+    const urlParams = queryString.parse(history.location.search)
+    let isMissingParams = false
+    if (!urlParams.doDate || !urlParams.doTime || !urlParams.puDate || !urlParams.puDate || !urlParams.location || !urlParams.code) {
+        isMissingParams = true
+    }
 
     useEffect(() => {
-        if (!state || !state.hasOwnProperty('results')) {
+        if (isMissingParams) {
             history.push('/')
             return
         }
+        const params = {
+            id: urlParams.id,
+            location: urlParams.location,
+            code: urlParams.code,
+            puDate: moment(urlParams.puDate?.toString(), DATE_FORMAT),
+            puTime: moment(urlParams.puTime?.toString(), TIME_FORMAT),
+
+            doDate: moment(urlParams.doDate?.toString(), DATE_FORMAT),
+            doTime: moment(urlParams.doTime?.toString(), TIME_FORMAT),
+        }
+        setDoDate(params.doDate);
+        setDoTime(params.doTime);
+        setPuDate(params.puDate);
+        setPuTime(params.puTime);
+        urlParams.location && urlParams.code && urlParams.id && setIataCode({ id: parseInt(urlParams.id.toString()), code: urlParams.code.toString(), location: urlParams.location.toString() });
         // @ts-ignore
-        setSearch(state.results.scrape)
+        if (!state || !state.hasOwnProperty('results')) {
+            setLoading(true)
+            doSearch({ params })
+                .then(r => {
+                    setSearch(r.data.scrape)
+                    setLoading(false)
+                })
+                .catch(() => setLoading(false))
+        } else {
+            setSearch(state.results.scrape)
+        }
     }, []);
 
     useEffect(() => {
@@ -142,7 +172,7 @@ export function ListResult() {
     }, [search.details]);
 
 
-    if (!state || !state.hasOwnProperty('results')) {
+    if (isMissingParams) {
         return <></>;
     }
 
@@ -161,9 +191,9 @@ export function ListResult() {
                 return a.vehicle.price - b.vehicle.price
             })
         Body = (
-            <>
+            <div>
                 {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
-            </>
+            </div>
         );
     }
 
@@ -186,7 +216,7 @@ export function ListResult() {
                                             <i className="fa fa-car" ></i>
                                             {'   '}
                                             <span>{iataCode?.location} ({iataCode?.code})</span> |
-                                        {' '}
+                                        {'  '}
                                             {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
                                         </h3>

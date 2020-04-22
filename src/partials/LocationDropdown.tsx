@@ -123,7 +123,6 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
 
     useEffect(() => {
-        console.log(defaultValue)
         if (defaultValue) onChange(defaultValue)
     }, []);
 

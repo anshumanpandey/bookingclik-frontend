@@ -8,6 +8,7 @@ import { CarSearchWidgetFilters, DefaultSearchWidgetFilters } from './SearchFilt
 import moment from 'moment';
 import { useSearchWidgetState } from './useSearchWidgetGlobalState';
 import { DATE_FORMAT, TIME_FORMAT } from '../../utils/DateFormat';
+import qs from 'qs';
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 
@@ -40,18 +41,33 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
     if (!searchCriteria.location) return
 
     const params = {
-     location: searchCriteria.location.code,
-     puDate: searchCriteria.puDate.format(DATE_FORMAT),
-     puTime: searchCriteria.puTime.format(TIME_FORMAT),
+      id: searchCriteria.location.id,
+      location: searchCriteria.location.location,
+      code: searchCriteria.location.code,
+      puDate: searchCriteria.puDate.format(DATE_FORMAT),
+      puTime: searchCriteria.puTime.format(TIME_FORMAT),
 
-     doDate: searchCriteria.doDate.format(DATE_FORMAT),
-     doTime: searchCriteria.doTime.format(TIME_FORMAT),
+      doDate: searchCriteria.doDate.format(DATE_FORMAT),
+      doTime: searchCriteria.doTime.format(TIME_FORMAT),
     }
 
     doSearch({ params })
       .then(res => {
-        history.push('/results', {
-          results: res.data
+        history.push({
+          pathname: '/results',
+          search: `?${qs.stringify(params)}`,
+          state: {
+            results: res.data,
+            params: {
+              term: term,
+              puDate: searchCriteria.puDate.valueOf(),
+              puTime: searchCriteria.puTime.valueOf(),
+
+              doDate: searchCriteria.doDate.valueOf(),
+              doTime: searchCriteria.doTime.valueOf(),
+              location: iataCode
+            }
+          }
         });
       });
   }

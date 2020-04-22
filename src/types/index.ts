@@ -9,8 +9,8 @@ export interface DynamicFilter {
     name: string;
     type: string;
     disabled: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
     values: any[];
 }
 

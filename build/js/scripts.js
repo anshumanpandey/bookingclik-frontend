@@ -2,11 +2,12 @@
 function initCitybook() {
     "use strict";
     //   loader ------------------
-    $(".loader-wrap").fadeOut(300, function () {
+    //COMMENT: modified
+    /*$(".loader-wrap").fadeOut(300, function () {
         $("#main").animate({
             opacity: "1"
         }, 300);
-    });
+    });*/
     //   Background image ------------------
     var a = $(".bg");
     a.each(function (a) {
