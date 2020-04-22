@@ -7,10 +7,11 @@ import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
 import { useSearchState } from './SearchGlobalState';
-import moment from 'moment';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { TimeInput } from '../../partials/TimeInput';
 import { TagSearchWidget } from '../../widget/TagSearchWidget';
+import { NumberSearchWidget } from '../../widget/NumberSearchWidget';
+import { RangeSearchWidget } from '../../widget/RangeSearchWidget';
 import { Terms, DynamicFilter } from '../../types';
 
 export const DefaultListSearchFilters: React.FC = () => {
@@ -115,11 +116,6 @@ export const SortFilterCars: React.FC = () => {
 
     const [sortPrice, setSortPrice] = useSortState('price');
 
-    const [airConditioner, setAirConditioner] = useFilterState('airConditioner');
-    const [priceRange, setPriceRange] = useFilterState('priceRange');
-    const [noDoors, setNoDoors] = useFilterState('noDoors');
-    const [noSeats, setNoSeats] = useFilterState('noSeats');
-    const [, setTransmission] = useFilterState('transmission');
     const [transmissionOptions] = useFilterState('transmissionOptions');
     const [term] = useSearchWidgetState("term")
 
@@ -144,78 +140,47 @@ export const SortFilterCars: React.FC = () => {
                     </div>} >
                         <div className="custom-form">
                             <div className="row">
-                                <div className="col-md-12">
-                                    <div className="act-widget fl-wrap" style={{ marginBottom: 0 }}>
-                                        <div className="act-widget-header">
-                                            <h4>A/C</h4>
-                                            <div className="onoffswitch">
-                                                <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="myonoffswitch5" checked={airConditioner} onChange={() => setAirConditioner(!airConditioner)} />
-                                                <label className="onoffswitch-label" htmlFor="myonoffswitch5">
-                                                    <span className="onoffswitch-inner"></span>
-                                                    <span className="onoffswitch-switch"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                {filterReq.data && filterReq.data.map((filter: any) => {
-                                    if (filter.values.length === 0) return <></>;
-                                    return (
-                                        <div className="col-md-12">
-                                            <TagSearchWidget
-                                                options={filter.values.map((f:any) => ({ label: f.name, value: f.value }))}
-                                                category={{ name: filter.name, propertyToWatch: filter.responseProperty }}
-                                                onChange={() => { }}
-                                            />
-                                        </div>
-                                    );
+                                {filterReq.data && filterReq.data.map((filter) => {
+                                    if (filter.type === 'tag' && filter.values.length !== 0){
+                                        return (
+                                            <div className="col-md-12">
+                                                <TagSearchWidget
+                                                    options={filter.values.map((f:any) => ({ label: f.name, value: f.value }))}
+                                                    category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
+                                                    onChange={() => { }}
+                                                />
+                                            </div>
+                                        );
+                                    }
+
+                                    if (filter.type === 'number'){
+                                        return (
+                                            <div className="col-md-12">
+                                                <NumberSearchWidget
+                                                    options={filter.values.map((f:any) => ({ label: f.name, value: f.value }))}
+                                                    category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
+                                                    onChange={() => { }}
+                                                />
+                                            </div>
+                                        );
+                                    }
+
+                                    if (filter.type === 'range'){
+                                        const mostExpensive = search.vehicle.sort((a, b) => b.vehicle.price - a.vehicle.price)[0].vehicle
+                                        return (
+                                            <div className="col-md-12">
+                                                <RangeSearchWidget
+                                                    minValue={'0'}
+                                                    maxValue={'1000'}
+                                                    category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
+                                                    onChange={() => { }}
+                                                />
+                                            </div>
+                                        );
+                                    }
                                 })}
 
-                                <div className="col-md-12">
-                                    <div className="quantity act-widget-header fl-wrap">
-                                        <span>
-                                            <img src="http://www.right-cars.com/public/img/icons/door.png" />
-                                            No. Doors :
-                                        </span>
-                                        <div className="quantity-item">
-                                            <input type="button" style={{ marginBottom: 0 }} readOnly value="-" onClick={() => noDoors - 1 >= 0 ? setNoDoors(noDoors - 1) : undefined} className="minus" />
-                                            <input type="text" style={{ marginBottom: 0 }} name="quantity" title="Qty" className="qty" step="1" readOnly value={noDoors} />
-                                            <input type="button" style={{ marginBottom: 0 }} readOnly value="+" onClick={() => noDoors + 1 >= 0 ? setNoDoors(noDoors + 1) : undefined} className="plus" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="col-md-12">
-                                    <div className="quantity act-widget-header fl-wrap">
-                                        <span>
-                                            <img src="http://www.right-cars.com/public/img/icons/seats.png" />
-                                            No. Seats :
-                                        </span>
-                                        <div className="quantity-item">
-                                            <input type="button" style={{ marginBottom: 0 }} readOnly value="-" onClick={() => noSeats - 1 >= 0 ? setNoSeats(noSeats - 1) : undefined} className="minus" />
-                                            <input type="text" style={{ marginBottom: 0 }} readOnly name="quantity" title="Qty" className="qty" step="1" value={noSeats} />
-                                            <input type="button" style={{ marginBottom: 0 }} readOnly value="+" onClick={() => noSeats + 1 >= 0 ? setNoSeats(noSeats + 1) : undefined} className="plus" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="col-md-12">
-                                    <Typography id="range-slider" gutterBottom>
-                                        Price range
-                                    </Typography>
-                                    <Slider
-                                        min={0}
-                                        max={mostExpensiveCar ? parseFloat(mostExpensiveCar.vehicle.price) : 0}
-                                        value={priceRange}
-                                        onChange={(e, v) => {
-                                            if (!Array.isArray(v)) return
-                                            setPriceRange([v[0], v[1]])
-                                        }}
-                                        valueLabelDisplay="auto"
-                                        aria-labelledby="range-slider"
-                                    />
-                                </div>
                             </div>
                         </div>
                     </Panel>

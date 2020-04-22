@@ -18,7 +18,7 @@ import { useGlobalState } from '../../state';
 const qs = require('qs');
 
 export const SearchForm: React.FC = () => {
-    const [,setLoading] = useGlobalState('loading')
+    const [, setLoading] = useGlobalState('loading')
     const [puDate] = useSearchWidgetState('puDate')
     const [term] = useSearchWidgetState('term')
     const [doTime] = useSearchWidgetState('doTime')
@@ -42,6 +42,7 @@ export const SearchForm: React.FC = () => {
     }, [searchRequest]);
 
     useEffect(() => {
+        console.log(dynamicFilters)
         send()
     }, [dynamicFilters]);
 
@@ -50,21 +51,36 @@ export const SearchForm: React.FC = () => {
             return;
         }
 
+        const filterToSend = []
+
+        if (dynamicFilters.some(filter => filter.category.type === 'tag' && filter.activeValues.length !== 0)) {
+            filterToSend.push(...dynamicFilters
+                .filter(filter => filter.category.type === 'tag' && filter.activeValues.length !== 0)
+                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.activeValues.map(v => v.value) })))
+        }
+
+        if (dynamicFilters.some(filter => filter.category.type === 'number' && filter.counter !== 0)) {
+            filterToSend.push(...dynamicFilters
+                .filter(filter => filter.category.type === 'number' && filter.counter !== 0)
+                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.counter })))
+        }
+
+        if (dynamicFilters.some(filter => filter.category.type === 'range' && filter.counter !== 0)) {
+            filterToSend.push(...dynamicFilters
+                .filter(filter => filter.range && filter.range.length == 2 && filter.range.some(v => v !== 0))
+                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.range })))
+        }
+
         let searchCriteria = {
-            location: iataCode.code,
+            location: 'DBV',
             puDate: puDate ? puDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
             puTime: puTime ? puTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
             doDate: doDate ? doDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
             doTime: doTime ? doTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
+            filters: filterToSend
         };
 
-        if (!dynamicFilters.every(filter => filter.activeValues.length === 0)) {
-            searchCriteria = {
-                ...searchCriteria,
-                //@ts-ignore
-                filters: dynamicFilters.map(filter => ({ [filter.category.propertyToWatch]: filter.activeValues.map(v => v.value) }))
-            }
-        }
+        console.log(searchCriteria)
 
         doSearch({ params: searchCriteria })
             .then((res) => {
@@ -100,11 +116,6 @@ export function ListResult() {
 
     const [search, setSearch] = useSearchState('scrape')
 
-    const [airConditioner] = useFilterState('airConditioner');
-    const [noDoors] = useFilterState('noDoors');
-    const [noSeats] = useFilterState('noSeats');
-    const [priceRange] = useFilterState('priceRange');
-    const [transmission] = useFilterState('transmission');
     const [, setTransmissionOptions] = useFilterState('transmissionOptions');
 
     const [dynamicFilters] = useDynamicFiltersState('activeFilters');
@@ -144,39 +155,6 @@ export function ListResult() {
 
     if (search.vehicle.length > 0) {
         let filteredValues = search.vehicle
-            .filter(c => airConditioner === true ? c.vehicle.airConditioner === "Yes" : true)
-            .filter(c => {
-                if (noDoors <= 0) {
-                    return true
-                }
-                // doors property is a string with format NUM/NUM
-                if (c.vehicle.doors.includes('/')) {
-                    const valuePair = c.vehicle.doors.split('/');
-                    // if we only get one value use it 
-                    if (valuePair.length == 1) return parseInt(valuePair[0]) >= noDoors
-                    const sortedValues = valuePair.sort((a, b) => parseInt(a) - parseInt(a));
-                    const lastValue = sortedValues.pop()
-                    if (!lastValue) return parseInt(valuePair[0]) >= noDoors
-                    if (sortedValues.length !== 0) return parseInt(lastValue) >= noDoors
-                }
-
-                return parseInt(c.vehicle.doors) >= noDoors
-            })
-            .filter(c => {
-                if (noSeats <= 0) {
-                    return true
-                }
-                return c.vehicle.seats >= noSeats
-            })
-            .filter(c => airConditioner === true ? c.vehicle.airConditioner === "Yes" : true)
-            .filter(c => {
-                if (priceRange[0] == 0) return true
-                return c.vehicle.price >= priceRange[0];
-            })
-            .filter(c => {
-                if (priceRange[1] == 0) return true
-                return c.vehicle.price <= priceRange[1];
-            })
             .sort((a: any, b: any) => {
                 if (sortPrice === PriceSortOrder.DESC) return a.vehicle.price - b.vehicle.price
                 if (sortPrice === PriceSortOrder.ASC) return b.vehicle.price - a.vehicle.price
@@ -245,23 +223,19 @@ export function ListResult() {
                                 <div className="fl-wrap" id="lisfw" style={{ background: 'white', borderRadius: '6px' }} >
                                     <div className="container" style={{ margin: '0 auto' }}>
 
-                                        {search.vehicle.length !== 0 && (
-                                            <>
-                                                <div className="listsearch-header fl-wrap" style={{
-                                                    paddingTop: 10,
-                                                    paddingBottom: 10,
-                                                }}>
-                                                    <h3>
-                                                        Results For: <span>{term}</span>
-                                                    </h3>
-                                                    <h3>
-                                                        {search.vehicle && search.vehicle.length !== 0 &&
-                                                            ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
-                                                    </h3>
-                                                </div>
-                                                <SortFilterCars />
-                                            </>
-                                        )}
+                                        <div className="listsearch-header fl-wrap" style={{
+                                            paddingTop: 10,
+                                            paddingBottom: 10,
+                                        }}>
+                                            <h3>
+                                                Results For: <span>{term}</span>
+                                            </h3>
+                                            <h3>
+                                                {search.vehicle && search.vehicle.length !== 0 &&
+                                                    ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
+                                            </h3>
+                                        </div>
+                                        <SortFilterCars />
                                     </div>
                                 </div>
                             </div>

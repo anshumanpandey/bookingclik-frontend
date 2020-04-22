@@ -1,8 +1,10 @@
 import { createGlobalState } from "react-hooks-global-state"
 
 type DinamicFilter = {
-    category: { name: string, propertyToWatch: string },
-    activeValues: { label: string, value: string}[]
+    category: { name: string, propertyToWatch: string, type: string },
+    activeValues: { label: string, value: string}[],
+    counter?: number
+    range?: [number, number]
 }
 
 type ContextType = {

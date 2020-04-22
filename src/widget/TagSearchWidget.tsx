@@ -4,7 +4,7 @@ import { useDynamicFiltersState } from './DynamicFilterState';
 
 type Props = {
     options: { label: string, value: string}[]
-    category: { name: string, propertyToWatch: string }
+    category: { name: string, propertyToWatch: string, type: string }
     onChange: (v: string[]) => void
 }
 export const TagSearchWidget: React.FC<Props> = ({ options, category }) => {
@@ -20,6 +20,7 @@ export const TagSearchWidget: React.FC<Props> = ({ options, category }) => {
 
     useEffect(() => {
         setDinamicFilters(prev => {
+            if (optionsSelected.length == 0) return prev
             const currentCategory = prev.find(p => p.category.name === category.name);
 
             //category is on state
@@ -32,13 +33,12 @@ export const TagSearchWidget: React.FC<Props> = ({ options, category }) => {
                 const valuesNotActiveAnymore = currentCategory.activeValues.filter(v => !optionsSelected.includes(v));
                 if (valuesNotActiveAnymore.length !== 0) currentCategory.activeValues = currentCategory.activeValues.filter(v => !valuesNotActiveAnymore.includes(v));
 
-                const newValues = [ ...prev.filter(p => p.category !== currentCategory.category), currentCategory]
-                console.log('new properties',newValues[0].activeValues)
+                const newValues = [ ...prev.filter(p => p.category.name !== currentCategory.category.name), currentCategory]
                 return newValues;
             }
 
             prev.push({ category, activeValues: optionsSelected})
-            return prev;
+            return [...prev];
         })
     }, [optionsSelected]);
 
@@ -55,7 +55,7 @@ export const TagSearchWidget: React.FC<Props> = ({ options, category }) => {
 
                             setOptions(prev => {
                                 if (found) {
-                                    return prev.filter(o => o.label !== found.label)
+                                    return [...prev.filter(o => o.label !== found.label)]
                                 }
 
                                 return [...prev, option];

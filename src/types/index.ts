@@ -7,6 +7,7 @@ export interface DynamicFilter {
     offering: string;
     responseProperty: string;
     name: string;
+    type: string;
     disabled: boolean;
     createdAt: Date;
     updatedAt: Date;
