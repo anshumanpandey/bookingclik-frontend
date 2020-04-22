@@ -20,7 +20,7 @@ export const TagSearchWidget: React.FC<Props> = ({ options, category }) => {
 
     useEffect(() => {
         setDinamicFilters(prev => {
-            if (optionsSelected.length == 0) return prev
+            if (optionsSelected.length == 0) return [...prev.filter(p => p.category.name !== category.name)]
             const currentCategory = prev.find(p => p.category.name === category.name);
 
             //category is on state
