@@ -43,6 +43,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
     const params = {
       id: searchCriteria.location.id,
       location: searchCriteria.location.location,
+      locationId: searchCriteria.location.code,
       code: searchCriteria.location.code,
       puDate: searchCriteria.puDate.format(DATE_FORMAT),
       puTime: searchCriteria.puTime.format(TIME_FORMAT),

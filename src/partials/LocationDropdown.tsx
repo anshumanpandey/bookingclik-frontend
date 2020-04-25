@@ -31,7 +31,7 @@ interface Prop {
     onChange: (str: IataCode) => void,
     customeClasses?: string,
     style?: React.CSSProperties,
-    defaultValue?: IataCode | null,
+    defaultCode: IataCode | null,
     secondary?: boolean,
     classes?: {
         input: string
@@ -116,15 +116,20 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
     );
 });
 
-const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>> = ({ secondary, onChange, customeClasses, classes, style, defaultValue }) => {
+const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>> = ({ secondary, onChange, customeClasses, classes, style, defaultCode }) => {
     const [{ data, loading, error }, refetch] = useHttp<IataCode[]>({ url: '/iataCodes' })
 
+    const [innerDefaultValut, setInnerDefaultValue] = useState(defaultCode);
     const [open, setOpen] = useState(false);
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
 
     useEffect(() => {
-        if (defaultValue) onChange(defaultValue)
+        if (defaultCode) onChange(defaultCode)
     }, []);
+
+    useEffect(() => {
+        defaultCode && setInnerDefaultValue(defaultCode)
+    }, [defaultCode]);
 
     const LoadingIndicator = () => {
         return (
@@ -135,7 +140,6 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
     };
 
     const searchCode = throttle(1000, (v: string) => refetch({ params: { search: v } }))
-
     return (
         <>
             <div className={customeClasses ? customeClasses : "main-search-input-item"} style={{
@@ -157,9 +161,9 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     disableListWrap={true}
                     // @ts-ignore
                     ListboxComponent={ListboxComponent}
-                    defaultValue={defaultValue || undefined}
+                    value={innerDefaultValut}
                     loading={open && data !== null}
-                    options={(data && data.length !== 0) ? data : []}
+                    options={(data) ? data : []}
                     loadingText={<></>}
                     onChange={(event: any, value: IataCode | null) => {
                         if (!value) return
@@ -183,13 +187,13 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                         return (
                             <InputBase
                                 {...params.InputProps}
+                                inputProps={params.inputProps}
                                 id={params.id}
                                 disabled={params.disabled}
                                 classes={{
                                     input: `${classes.input} ${secondary ? 'secondary' : undefined} `,
                                 }}
                                 placeholder="Select Pickup Location"
-                                inputProps={params.inputProps}
                                 endAdornment={(
                                     <React.Fragment>
                                         {loading ? <CircularProgress color="inherit" size={15} /> : null}

@@ -13,7 +13,6 @@ type Props = {
 }
 export const DateInput: React.FC<Props> = ({onChange, defaultValue, style}) => {
     const [date, setDate] = useState<moment.Moment | null>(defaultValue ? defaultValue : null);
-
     useEffect(() => {
         if (date) onChange(date)
     }, []);
@@ -22,7 +21,7 @@ export const DateInput: React.FC<Props> = ({onChange, defaultValue, style}) => {
     return (
             <DatePicker
                 animation="slide-up"
-                value={date}
+                value={defaultValue || undefined}
                 disabled={false}
                 calendar={calendar}
                 onChange={(v: any) =>{
@@ -36,7 +35,7 @@ export const DateInput: React.FC<Props> = ({onChange, defaultValue, style}) => {
                             readOnly={true}
                             style={{...style, height: '100%'}}
                             placeholder={`Date: ${moment().format(DATE_FORMAT)}`}
-                            value={value ? value.format(DATE_FORMAT) : undefined}
+                            value={defaultValue ? defaultValue.format(DATE_FORMAT) : undefined}
                         />
                     )
                 }

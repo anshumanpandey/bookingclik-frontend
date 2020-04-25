@@ -37,7 +37,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties}> = (
 
             <div className="row" style={{ backgroundColor: 'white', borderRadius: '0.25rem' }}>
                 <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
-                    <LocationDropdown onChange={setIataCode} style={{
+                    <LocationDropdown defaultCode={null} onChange={setIataCode} style={{
                         borderTopLeftRadius: '30px',
                         borderBottomLeftRadius: '30px',
                         width: '100%'

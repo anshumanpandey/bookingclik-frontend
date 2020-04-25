@@ -86,7 +86,7 @@ export const ListCarsFilter: React.FC = () => {
 
             <LocationDropdown
                 secondary={true}
-                defaultValue={iataCode}
+                defaultCode={iataCode}
                 style={{ backgroundColor: '#4DB7FE', color: 'white' }}
                 customeClasses="listsearch-input-item listResultSelect"
                 onChange={setIataCode}

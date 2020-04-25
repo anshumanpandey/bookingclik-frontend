@@ -20,6 +20,7 @@ import qs from 'qs';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 
 export const SearchForm: React.FC = () => {
+    const history = useHistory<{ results: SearchResponse, params: { location: IataCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
     const [, setLoading] = useGlobalState('loading')
     const [puDate] = useSearchWidgetState('puDate')
     const [term] = useSearchWidgetState('term')
@@ -40,7 +41,6 @@ export const SearchForm: React.FC = () => {
     }, { manual: true })
 
     useDidUpdateEffect(() => {
-        console.log(0)
         setLoading(searchRequest.loading)
     }, [searchRequest]);
 
@@ -75,7 +75,10 @@ export const SearchForm: React.FC = () => {
         }
 
         let searchCriteria = {
-            location: 'DBV',
+            id: iataCode.id,
+            locationId: iataCode.code,
+            location: iataCode.location,
+            code: iataCode.code,
             puDate: puDate ? puDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
             puTime: puTime ? puTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
             doDate: doDate ? doDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
@@ -85,6 +88,10 @@ export const SearchForm: React.FC = () => {
 
         doSearch({ params: searchCriteria })
             .then((res) => {
+                history.push({
+                    pathname: '/results',
+                    search: `?${qs.stringify(searchCriteria)}`,
+                });
                 setSearch(res.data.scrape)
             })
     }
@@ -120,7 +127,6 @@ export function ListResult() {
 
     const [{ data, loading, error }, doSearch] = useAxios(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
-
     const urlParams = queryString.parse(history.location.search)
     let isMissingParams = false
     if (!urlParams.doDate || !urlParams.doTime || !urlParams.puDate || !urlParams.puDate || !urlParams.location || !urlParams.code) {
@@ -135,18 +141,21 @@ export function ListResult() {
         const params = {
             id: urlParams.id,
             location: urlParams.location,
+            locationId: urlParams.code,
             code: urlParams.code,
-            puDate: moment(urlParams.puDate?.toString(), DATE_FORMAT),
-            puTime: moment(urlParams.puTime?.toString(), TIME_FORMAT),
+            puDate: urlParams.puDate?.toString(),
+            puTime: urlParams.puTime?.toString(),
 
-            doDate: moment(urlParams.doDate?.toString(), DATE_FORMAT),
-            doTime: moment(urlParams.doTime?.toString(), TIME_FORMAT),
+            doDate: urlParams.doDate?.toString(),
+            doTime: urlParams.doTime?.toString(),
         }
-        setDoDate(params.doDate);
-        setDoTime(params.doTime);
-        setPuDate(params.puDate);
-        setPuTime(params.puTime);
+        setDoDate(moment(urlParams.doDate?.toString(), DATE_FORMAT));
+        setDoTime(moment(urlParams.doTime?.toString(), TIME_FORMAT));
+        setPuDate(moment(urlParams.puDate?.toString(), DATE_FORMAT));
+        setPuTime(moment(urlParams.puTime?.toString(), TIME_FORMAT));
+        
         urlParams.location && urlParams.code && urlParams.id && setIataCode({ id: parseInt(urlParams.id.toString()), code: urlParams.code.toString(), location: urlParams.location.toString() });
+
         // @ts-ignore
         if (!state || !state.hasOwnProperty('results')) {
             setLoading(true)
