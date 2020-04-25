@@ -57,7 +57,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 </div>
                 <ListingItemBody className="geodir-category-content fl-wrap">
                     <div>
-                        <form id="book-now-form" target="_blank" method="post" action="http://right-cars.com/booking-vehicle.php">
+                        <form id="book-now-form" target="_blank" method="post" action={props.vehicle.clickThroughUrl}>
 
                             <input type="hidden" name="driverage" value="33" />
                             <input type="hidden" name="pickuplocation" value={props.vehicle.custom_location} />
@@ -68,6 +68,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             <input type="hidden" name="dropofftime" value={dayjs().format('H:mm')} />
 
                             <a className="listing-geodir-category capitalize" onClick={() => {
+                                if (!props.vehicle.clickThroughUrl) return
                                 //@ts-ignore
                                 document.getElementById('book-now-form')?.submit();
                             }} href="#">Book Now</a>

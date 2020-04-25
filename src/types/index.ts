@@ -30,6 +30,7 @@ export interface Vehicle {
     client_name?: string
     client_logo?: string
     airConditioner: string
+    clickThroughUrl: string
     [k: string]: any | undefined
 }
 
