@@ -179,6 +179,8 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     loadingText={<></>}
                     onChange={(event: any, value: IataCode | null) => {
                         if (!value) return
+                        
+                        setInnerDefaultValue(value)
                         onChange(value)
                     }}
                     renderOption={(option: IataCode) => {
