@@ -7,9 +7,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { VariableSizeList } from 'react-window';
+import axios, { CancelTokenSource } from 'axios';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import { IataCode } from '../types';
 import { useHttp } from '../utils/AxiosConfig';
+
+const CancelToken = axios.CancelToken;
 
 let styles = createStyles({
     input: {
@@ -122,6 +125,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
     const [innerDefaultValut, setInnerDefaultValue] = useState(defaultCode);
     const [open, setOpen] = useState(false);
     const [readyToShow, setReadyToShow] = useState<boolean>(!loading);
+    const [lastReqToken, setLastReqToken] = useState<CancelTokenSource | null>(null)
 
     useEffect(() => {
         if (defaultCode) onChange(defaultCode)
@@ -139,7 +143,15 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
         )
     };
 
-    const searchCode = throttle(1000, (v: string) => refetch({ params: { search: v } }))
+    const searchCode = throttle(1000, (v: string) => {
+        if (lastReqToken) lastReqToken?.cancel()
+
+        const source = CancelToken.source()
+        setLastReqToken(source);
+        refetch({ params: { search: v }, cancelToken: source.token })
+        .then(() => setLastReqToken(null))
+        .catch(() => setLastReqToken(null))
+    })
     return (
         <>
             <div className={customeClasses ? customeClasses : "main-search-input-item"} style={{
