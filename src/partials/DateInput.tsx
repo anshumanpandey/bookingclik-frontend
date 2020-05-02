@@ -21,7 +21,7 @@ export const DateInput: React.FC<Props> = ({onChange, defaultValue, style}) => {
     return (
             <DatePicker
                 animation="slide-up"
-                value={defaultValue || undefined}
+                value={date}
                 disabled={false}
                 calendar={calendar}
                 onChange={(v: any) =>{
@@ -35,7 +35,7 @@ export const DateInput: React.FC<Props> = ({onChange, defaultValue, style}) => {
                             readOnly={true}
                             style={{...style, height: '100%'}}
                             placeholder={`Date: ${moment().format(DATE_FORMAT)}`}
-                            value={defaultValue ? defaultValue.format(DATE_FORMAT) : undefined}
+                            value={date ? date.format(DATE_FORMAT) : undefined}
                         />
                     )
                 }
