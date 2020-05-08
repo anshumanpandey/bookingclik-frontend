@@ -9,7 +9,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { VariableSizeList } from 'react-window';
 import axios, { CancelTokenSource } from 'axios';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
-import { IataCode } from '../types';
+import { GRCGDSCode } from '../types';
 import { useHttp } from '../utils/AxiosConfig';
 
 const CancelToken = axios.CancelToken;
@@ -31,10 +31,10 @@ let styles = createStyles({
 })
 
 interface Prop {
-    onChange: (str: IataCode) => void,
+    onChange: (str: GRCGDSCode) => void,
     customeClasses?: string,
     style?: React.CSSProperties,
-    defaultCode: IataCode | null,
+    defaultCode: GRCGDSCode | null,
     secondary?: boolean,
     classes?: {
         input: string
@@ -120,7 +120,9 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 });
 
 const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>> = ({ secondary, onChange, customeClasses, classes, style, defaultCode }) => {
-    const [{ data, loading, error }, refetch] = useHttp<IataCode[]>({ url: '/iataCodes' })
+    const [{ data, loading, error }, refetch] = useHttp<GRCGDSCode[]>({
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/public/locationCodes`
+    })
 
     const [innerDefaultValut, setInnerDefaultValue] = useState(defaultCode);
     const [open, setOpen] = useState(false);
@@ -144,7 +146,10 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
     };
 
     const searchCode = throttle(1000, (v: string) => {
-        if (lastReqToken) lastReqToken?.cancel()
+        if (lastReqToken) {
+            console.log('canceling prev resq')
+            lastReqToken.cancel()
+        }
 
         const source = CancelToken.source()
         setLastReqToken(source);
@@ -177,21 +182,21 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     loading={open && data !== null}
                     options={(data) ? data : []}
                     loadingText={<></>}
-                    onChange={(event: any, value: IataCode | null) => {
+                    onChange={(event: any, value: GRCGDSCode | null) => {
                         if (!value) return
                         
                         setInnerDefaultValue(value)
                         onChange(value)
                     }}
-                    renderOption={(option: IataCode) => {
+                    renderOption={(option: GRCGDSCode) => {
                         return (
                             <>
                                 <i style={{ color: 'rgba(0,0,0,.25)', marginRight: '0.8rem' }} className="fas fa-car"></i>
-                                {option.location}
+                                {option.locationname}
                             </>
                         );
                     }}
-                    getOptionLabel={(option: IataCode) => option.location}
+                    getOptionLabel={(option: GRCGDSCode) => option.locationname}
                     filterOptions={x => x}
                     classes={{
                         inputRoot: classes.inputRoot,

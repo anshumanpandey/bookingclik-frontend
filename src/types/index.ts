@@ -1,6 +1,12 @@
 import moment from "moment";
 
-export type IataCode = { id: number, code: string, location: string }
+export type GRCGDSCode = {
+    id: number,
+    internalcode: string,
+    locationname: string,
+    locationvariation: string,
+    country: string
+}
 
 export interface DynamicFilter {
     id: number;

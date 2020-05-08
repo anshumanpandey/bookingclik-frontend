@@ -1,6 +1,6 @@
 import { createGlobalState } from "react-hooks-global-state"
 import moment from "moment";
-import { IataCode, Terms } from "../../types";
+import { GRCGDSCode, Terms } from "../../types";
 
 type ContextType = {
     term: Terms
@@ -11,7 +11,7 @@ type ContextType = {
     puTime: moment.Moment | null,
     doTime: moment.Moment | null,
 
-    code: IataCode | null,
+    code: GRCGDSCode | null,
 }
 const initialState = {
     term: Terms.Cars,

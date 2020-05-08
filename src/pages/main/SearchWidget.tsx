@@ -3,11 +3,12 @@ import dayjs from 'dayjs';
 import useAxios from 'axios-hooks'
 import { CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { IataCode, Terms } from '../../types';
+import { GRCGDSCode, Terms } from '../../types';
 import { CarSearchWidgetFilters, DefaultSearchWidgetFilters } from './SearchFilter';
 import moment from 'moment';
 import { useSearchWidgetState } from './useSearchWidgetGlobalState';
 import { DATE_FORMAT, TIME_FORMAT } from '../../utils/DateFormat';
+import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -24,35 +25,39 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
 
   const CurrentFilter = optionToSearch === 'cars' ? CarSearchWidgetFilters : DefaultSearchWidgetFilters;
 
-  const [{ data, loading, error }, doSearch] = useAxios<IataCode[]>(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
+  const [{ data, loading, error }, doSearch] = useAxios<GRCGDSCode[]>({
+    url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
+    method: 'POST'
+  }, { manual: true })
 
   const send = () => {
     const date = moment();
+
+    if (!iataCode) return
+
     const searchCriteria = {
-      term: term,
-      puDate: puDate || date,
-      puTime: puTime || date.add(1, 'week'),
+      pickUpDate: puDate || date,
+      pickUpTime: puTime || date.add(1, 'week'),
 
-      doDate: doDate || date,
-      doTime: doTime || date,
-      location: iataCode
+      dropOffDate: doDate || date,
+      dropOffTime: doTime || date,
+
+      pickUpLocation: iataCode,
+      dropOffLocation: iataCode
     }
-
-    if (!searchCriteria.location) return
 
     const params = {
-      id: searchCriteria.location.id,
-      location: searchCriteria.location.location,
-      locationId: searchCriteria.location.code,
-      code: searchCriteria.location.code,
-      puDate: searchCriteria.puDate.format(DATE_FORMAT),
-      puTime: searchCriteria.puTime.format(TIME_FORMAT),
+      pickUpLocation: searchCriteria.pickUpLocation.internalcode,
+      dropOffLocation: searchCriteria.pickUpLocation.internalcode,
 
-      doDate: searchCriteria.doDate.format(DATE_FORMAT),
-      doTime: searchCriteria.doTime.format(TIME_FORMAT),
+      pickUpDate: searchCriteria.pickUpDate.unix(),
+      pickUpTime: searchCriteria.pickUpTime.unix(),
+
+      dropOffDate: searchCriteria.dropOffDate.unix(),
+      dropOffTime: searchCriteria.dropOffTime.unix(),
     }
 
-    doSearch({ params })
+    doSearch({ data: { json: BuildJsonQuery(searchCriteria) } })
       .then(res => {
         history.push({
           pathname: '/results',
@@ -61,11 +66,11 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
             results: res.data,
             params: {
               term: term,
-              puDate: searchCriteria.puDate.valueOf(),
-              puTime: searchCriteria.puTime.valueOf(),
+              puDate: searchCriteria.pickUpDate.unix(),
+              puTime: searchCriteria.pickUpTime.unix(),
 
-              doDate: searchCriteria.doDate.valueOf(),
-              doTime: searchCriteria.doTime.valueOf(),
+              doDate: searchCriteria.dropOffDate.unix(),
+              doTime: searchCriteria.dropOffTime.unix(),
               location: iataCode
             }
           }

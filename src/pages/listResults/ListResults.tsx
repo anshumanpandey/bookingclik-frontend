@@ -4,7 +4,7 @@ import useAxios, { ResponseValues } from 'axios-hooks'
 import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
-import { SearchResponse, Terms, IataCode } from '../../types';
+import { SearchResponse, Terms, GRCGDSCode } from '../../types';
 import { DefaultListSearchFilters, ListCarsFilter, SortFilterCars } from './SearchFilter';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
@@ -20,7 +20,7 @@ import qs from 'qs';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 
 export const SearchForm: React.FC = () => {
-    const history = useHistory<{ results: SearchResponse, params: { location: IataCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
+    const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
     const [, setLoading] = useGlobalState('loading')
     const [puDate] = useSearchWidgetState('puDate')
     const [term] = useSearchWidgetState('term')
@@ -34,7 +34,7 @@ export const SearchForm: React.FC = () => {
     const [, setSearch] = useSearchState('scrape')
 
     const [searchRequest, doSearch] = useAxios<SearchResponse>({
-        url: `${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`,
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/search`,
         paramsSerializer: params => {
             return qs.stringify(params)
         }
@@ -76,9 +76,9 @@ export const SearchForm: React.FC = () => {
 
         let searchCriteria = {
             id: iataCode.id,
-            locationId: iataCode.code,
-            location: iataCode.location,
-            code: iataCode.code,
+            locationId: iataCode.internalcode,
+            location: iataCode.locationname,
+            code: iataCode.internalcode,
             puDate: puDate ? puDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
             puTime: puTime ? puTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
             doDate: doDate ? doDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
@@ -110,7 +110,7 @@ export const SearchForm: React.FC = () => {
 }
 
 export function ListResult() {
-    const history = useHistory<{ results: SearchResponse, params: { location: IataCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
+    const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
     const state = history.location.state;
 
     const [doDate, setDoDate] = useSearchWidgetState('doDate')
@@ -128,16 +128,10 @@ export function ListResult() {
     const [{ data, loading, error }, doSearch] = useAxios(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
 
     const urlParams = queryString.parse(history.location.search)
-    let isMissingParams = false
-    if (!urlParams.doDate || !urlParams.doTime || !urlParams.puDate || !urlParams.puDate || !urlParams.location || !urlParams.code) {
-        isMissingParams = true
-    }
+    console.log(history.location.search)
+    console.log(urlParams)
 
     useEffect(() => {
-        if (isMissingParams) {
-            history.push('/')
-            return
-        }
         const params = {
             id: urlParams.id,
             location: urlParams.location,
@@ -149,12 +143,11 @@ export function ListResult() {
             doDate: urlParams.doDate?.toString(),
             doTime: urlParams.doTime?.toString(),
         }
-        setDoDate(moment(urlParams.doDate?.toString(), DATE_FORMAT));
-        setDoTime(moment(urlParams.doTime?.toString(), TIME_FORMAT));
-        setPuDate(moment(urlParams.puDate?.toString(), DATE_FORMAT));
-        setPuTime(moment(urlParams.puTime?.toString(), TIME_FORMAT));
+        setDoDate(moment(urlParams.doDate?.toString()));
+        setDoTime(moment(urlParams.doTime?.toString()));
+        setPuDate(moment(urlParams.puDate?.toString()));
+        setPuTime(moment(urlParams.puTime?.toString()));
         
-        urlParams.location && urlParams.code && urlParams.id && setIataCode({ id: parseInt(urlParams.id.toString()), code: urlParams.code.toString(), location: urlParams.location.toString() });
 
         // @ts-ignore
         if (!state || !state.hasOwnProperty('results')) {
@@ -180,10 +173,8 @@ export function ListResult() {
         setTransmissionOptions(Array.from(options.values()))
     }, [search.details]);
 
+    console.log(puDate)
 
-    if (isMissingParams) {
-        return <></>;
-    }
 
     let Body = (<div className="section-title">
         <h2>No results founds!</h2>
@@ -224,7 +215,7 @@ export function ListResult() {
                                         <h3>
                                             <i className="fa fa-car" ></i>
                                             {'   '}
-                                            <span>{iataCode?.location} ({iataCode?.code})</span> |
+                                            <span>{iataCode?.locationname} ({iataCode?.internalcode})</span> |
                                         {'  '}
                                             {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
