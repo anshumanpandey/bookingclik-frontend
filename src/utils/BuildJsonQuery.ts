@@ -43,6 +43,14 @@ export default (params: Params) => {
       const keysToSend = carTypeFilter.activeValues.reduce((p,n) => {p = p+n.value; return p}, "")
       filtersToSend.push(keysToSend)
     }
+
+    const carPriceFilter = params.filters.find(f => f.category.propertyToWatch == 'price')
+    if (!carPriceFilter){
+      filtersToSend.push('*')
+    } else {
+      const keysToSend = carPriceFilter.activeValues.map(n => n.value).join(',')
+      filtersToSend.push(keysToSend)
+    }
   }
 
   return {
