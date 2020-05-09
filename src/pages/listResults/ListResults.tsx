@@ -86,7 +86,6 @@ export const SearchForm: React.FC = () => {
             pickUpTime: puTime ? puTime.unix() : moment().unix(),
             dropOffDate: doDate ? doDate.unix() : moment().unix(),
             dropOffTime: doTime ? doTime.unix() : moment().unix(),
-            filters: filterToSend
         };
 
         const jsonParams = {

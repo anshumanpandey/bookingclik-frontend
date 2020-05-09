@@ -7,9 +7,9 @@ import { GRCGDSCode, Terms } from '../../types';
 import { CarSearchWidgetFilters, DefaultSearchWidgetFilters } from './SearchFilter';
 import moment from 'moment';
 import { useSearchWidgetState } from './useSearchWidgetGlobalState';
-import { DATE_FORMAT, TIME_FORMAT } from '../../utils/DateFormat';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
+
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 

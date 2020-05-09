@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
-import useAxios, { ResponseValues } from 'axios-hooks'
-import { Typography, Slider, CircularProgress } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import useAxios from 'axios-hooks'
+import { CircularProgress } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
-import { useSearchState } from './SearchGlobalState';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { TimeInput } from '../../partials/TimeInput';
 import { TagSearchWidget } from '../../widget/TagSearchWidget';
 import { NumberSearchWidget } from '../../widget/NumberSearchWidget';
 import { RangeSearchWidget } from '../../widget/RangeSearchWidget';
 import { Terms, DynamicFilter } from '../../types';
+import { useLocation } from 'react-router-dom';
+import qs from 'qs';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -112,12 +113,8 @@ export const ListCarsFilter: React.FC = () => {
 }
 
 export const SortFilterCars: React.FC = () => {
-    const [search] = useSearchState('scrape')
-
     const [sortPrice, setSortPrice] = useSortState('price');
-
     const [transmissionOptions] = useFilterState('transmissionOptions');
-    const [term] = useSearchWidgetState("term")
 
     const [filterReq] = useAxios<DynamicFilter[]>({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/categories/${Terms.Cars}`,
