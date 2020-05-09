@@ -151,8 +151,8 @@ export function ListResult() {
         if (!state || !state.hasOwnProperty('results')) {
             setLoading(true)
 
-            if (!urlParams.pickUpLocation) return
-            if (!urlParams.dropOffLocation) return
+            if (!urlParams.pickUpLocationCode) return
+            if (!urlParams.dropOffLocationCode) return
 
             const params = {
                 pickUpLocation: {
