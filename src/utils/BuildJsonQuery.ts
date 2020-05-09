@@ -15,7 +15,7 @@ type Params = {
 export default (params: Params) => {
 
   return {
-    "GRCGDS_VehAvailRateRQDeep": {
+    "GRCGDS_VehAvailRateRQ": {
       "@xmlns": "http://www.opentravel.org/OTA/2003/05",
       "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
       "@xsi:schemaLocation": "http://www.opentravel.org/OTA/2003/05OTA_VehAvailRateRQ.xsd",
@@ -35,8 +35,10 @@ export default (params: Params) => {
         "Currency": { "@Code": "EUR" },
         "@Type": "",
         "VehRentalCore": {
-          "@PickUpDateTime": params.pickUpDate.format(`YYYY-MM-DD`) + 'T' + params.pickUpTime.format(`HH:mm:ss`),
-          "@ReturnDateTime": params.dropOffDate.format(`YYYY-MM-DD`) + 'T' + params.dropOffTime.format(`HH:mm:ss`),
+          "@PickUpDate": params.pickUpDate.format(`YYYY-MM-DD`),
+          "@PickUpTime": params.pickUpTime.format(`HH:mm:ss`),
+          "@ReturnDate": params.dropOffDate.format(`YYYY-MM-DD`),
+          "@ReturnTime": params.dropOffTime.format(`HH:mm:ss`),
           "PickUpLocation": { "@LocationCode": params.pickUpLocation.internalcode },
           "ReturnLocation": { "@LocationCode": params.dropOffLocation.internalcode }
         },

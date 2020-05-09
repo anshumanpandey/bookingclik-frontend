@@ -64,15 +64,6 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
           search: `?${qs.stringify(params)}`,
           state: {
             results: res.data,
-            params: {
-              term: term,
-              puDate: searchCriteria.pickUpDate.unix(),
-              puTime: searchCriteria.pickUpTime.unix(),
-
-              doDate: searchCriteria.dropOffDate.unix(),
-              doTime: searchCriteria.dropOffTime.unix(),
-              location: iataCode
-            }
           }
         });
       });

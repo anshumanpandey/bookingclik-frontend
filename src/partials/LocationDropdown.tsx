@@ -196,7 +196,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                             </>
                         );
                     }}
-                    getOptionLabel={(option: GRCGDSCode) => option.locationname}
+                    getOptionLabel={(option: GRCGDSCode) => option.locationname || option.internalcode}
                     filterOptions={x => x}
                     classes={{
                         inputRoot: classes.inputRoot,

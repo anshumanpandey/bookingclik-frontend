@@ -1,11 +1,11 @@
 import moment from "moment";
 
 export type GRCGDSCode = {
-    id: number,
+    id?: number,
     internalcode: string,
-    locationname: string,
-    locationvariation: string,
-    country: string
+    locationname?: string,
+    locationvariation?: string,
+    country?: string
 }
 
 export interface DynamicFilter {

@@ -18,6 +18,7 @@ import { useGlobalState } from '../../state';
 import queryString from 'query-string';
 import qs from 'qs';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
+import BuildJsonQuery from '../../utils/BuildJsonQuery';
 
 export const SearchForm: React.FC = () => {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
@@ -113,6 +114,7 @@ export function ListResult() {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
     const state = history.location.state;
 
+    const [code, setCode] = useSearchWidgetState('code')
     const [doDate, setDoDate] = useSearchWidgetState('doDate')
     const [doTime, setDoTime] = useSearchWidgetState('doTime')
     const [puDate, setPuDate] = useSearchWidgetState('puDate')
@@ -125,34 +127,40 @@ export function ListResult() {
     const [sortPrice] = useSortState('price');
     const [, setLoading] = useGlobalState('loading')
 
-    const [{ data, loading, error }, doSearch] = useAxios(`${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/search`, { manual: true })
+    const [{ data, loading, error }, doSearch] = useAxios({
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
+        method: 'POST'
+    }, { manual: true })
 
     const urlParams = queryString.parse(history.location.search)
-    console.log(history.location.search)
-    console.log(urlParams)
 
     useEffect(() => {
-        const params = {
-            id: urlParams.id,
-            location: urlParams.location,
-            locationId: urlParams.code,
-            code: urlParams.code,
-            puDate: urlParams.puDate?.toString(),
-            puTime: urlParams.puTime?.toString(),
-
-            doDate: urlParams.doDate?.toString(),
-            doTime: urlParams.doTime?.toString(),
-        }
-        setDoDate(moment(urlParams.doDate?.toString()));
-        setDoTime(moment(urlParams.doTime?.toString()));
-        setPuDate(moment(urlParams.puDate?.toString()));
-        setPuTime(moment(urlParams.puTime?.toString()));
-        
+        console.log('init')
 
         // @ts-ignore
         if (!state || !state.hasOwnProperty('results')) {
             setLoading(true)
-            doSearch({ params })
+
+            if (!urlParams.pickUpLocation) return
+            if (!urlParams.dropOffLocation) return
+
+            const params = {
+                pickUpLocation: { internalcode: urlParams.pickUpLocation.toString() } as GRCGDSCode,
+                pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())): moment(),
+                pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())): moment(),
+    
+                dropOffLocation: { internalcode: urlParams.dropOffLocation.toString() } as GRCGDSCode,
+                dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())): moment(),
+                dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())): moment(),
+            }
+            setCode({ internalcode: urlParams.pickUpLocation?.toString() });
+            setDoDate(params.dropOffDate);
+            setDoTime(params.dropOffTime);
+            setPuDate(params.pickUpDate);
+            setPuTime(params.pickUpTime);
+
+
+            doSearch({ data: { json: BuildJsonQuery(params) } })
                 .then(r => {
                     setSearch(r.data.scrape)
                     setLoading(false)
@@ -172,8 +180,6 @@ export function ListResult() {
 
         setTransmissionOptions(Array.from(options.values()))
     }, [search.details]);
-
-    console.log(puDate)
 
 
     let Body = (<div className="section-title">
