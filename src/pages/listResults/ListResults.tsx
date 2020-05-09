@@ -133,7 +133,7 @@ export function ListResult() {
     const [puTime, setPuTime] = useSearchWidgetState('puTime')
     const [iataCode, setIataCode] = useSearchWidgetState('code')
     const [term] = useSearchWidgetState('term')
-    const [layout, setLayout] = useState<'GRID' | 'LIST'>('GRID');
+    const [layout, setLayout] = useState<'GRID' | 'LIST'>('LIST');
     const [search, setSearch] = useSearchState('scrape')
     const [, setTransmissionOptions] = useFilterState('transmissionOptions');
     const [sortPrice] = useSortState('price');
@@ -273,7 +273,7 @@ export function ListResult() {
                             </div>
                         </div>
                         <div style={{ display: 'flex', width: '100%' }} >
-                            <div style={{ paddingRight: 0, width: '30%' }}>
+                            <div style={{ paddingRight: 0, width: '25%' }}>
                                 <div className="fl-wrap" id="lisfw" style={{ background: 'white', borderRadius: '6px' }} >
                                     <div className="container" style={{ margin: '0 auto' }}>
 

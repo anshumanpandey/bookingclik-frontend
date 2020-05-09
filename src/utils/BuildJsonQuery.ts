@@ -28,7 +28,15 @@ export default (params: Params) => {
       filtersToSend.push(keysToSend)
     }
 
-    const carTypeFilter = params.filters.find(f => f.category.propertyToWatch == 'car_class')
+    const carClassFilter = params.filters.find(f => f.category.propertyToWatch == 'car_class')
+    if (!carClassFilter){
+      filtersToSend.push('*')
+    } else {
+      const keysToSend = carClassFilter.activeValues.reduce((p,n) => {p = p+n.value; return p}, "")
+      filtersToSend.push(keysToSend)
+    }
+
+    const carTypeFilter = params.filters.find(f => f.category.propertyToWatch == 'car_type')
     if (!carTypeFilter){
       filtersToSend.push('*')
     } else {
