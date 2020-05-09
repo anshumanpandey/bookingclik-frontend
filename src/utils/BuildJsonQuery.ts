@@ -1,5 +1,6 @@
 import { Moment } from "moment"
 import { GRCGDSCode } from "../types"
+import { DinamicFilter } from "../widget/DynamicFilterState";
 
 type Params = {
   pickUpDate: Moment
@@ -10,18 +11,26 @@ type Params = {
 
   pickUpLocation: GRCGDSCode
   dropOffLocation: GRCGDSCode
+
+  filters?: DinamicFilter[]
 }
 
 export default (params: Params) => {
+
+  let filterBy = "";
+  if (params.filters) {
+    filterBy = params.filters.reduce((prev, next) => {
+      prev = `${prev}${next.activeValues.reduce((p,n) => { p = `${p}${n.value}`; return p}, "")}`
+      return prev
+    }, "");
+
+  }
 
   return {
     "GRCGDS_VehAvailRateRQ": {
       "@xmlns": "http://www.opentravel.org/OTA/2003/05",
       "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
       "@xsi:schemaLocation": "http://www.opentravel.org/OTA/2003/05OTA_VehAvailRateRQ.xsd",
-      "@TimeStamp": "2010-11-12T11:00:00",
-      "@Target": "Test",
-      "@Version": "1.002",
       "POS": {
         "Source": {
           "RequestorID": {
@@ -33,7 +42,7 @@ export default (params: Params) => {
       "VehAvailRQCore": {
         "@Status": "Available",
         "Currency": { "@Code": "EUR" },
-        "@Type": "",
+        "@Type": `${filterBy}`,
         "VehRentalCore": {
           "@PickUpDate": params.pickUpDate.format(`YYYY-MM-DD`),
           "@PickUpTime": params.pickUpTime.format(`HH:mm:ss`),
@@ -42,7 +51,6 @@ export default (params: Params) => {
           "PickUpLocation": { "@LocationCode": params.pickUpLocation.internalcode },
           "ReturnLocation": { "@LocationCode": params.dropOffLocation.internalcode }
         },
-        "DriverType": { "@Age": "30" },
       },
       "VehAvailRQInfo": {
         "Customer": {

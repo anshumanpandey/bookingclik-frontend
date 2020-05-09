@@ -35,7 +35,8 @@ export const SearchForm: React.FC = () => {
     const [, setSearch] = useSearchState('scrape')
 
     const [searchRequest, doSearch] = useAxios<SearchResponse>({
-        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/search`,
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
+        method: 'POST',
         paramsSerializer: params => {
             return qs.stringify(params)
         }
@@ -75,23 +76,33 @@ export const SearchForm: React.FC = () => {
                 .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.range })))
         }
 
-        let searchCriteria = {
-            id: iataCode.id,
-            locationId: iataCode.internalcode,
-            location: iataCode.locationname,
-            code: iataCode.internalcode,
-            puDate: puDate ? puDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
-            puTime: puTime ? puTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
-            doDate: doDate ? doDate.format(DATE_FORMAT) : moment().format(DATE_FORMAT),
-            doTime: doTime ? doTime.format(TIME_FORMAT) : moment().format(TIME_FORMAT),
+        let urlParams = {
+            pickUpLocation: iataCode.internalcode,
+            dropOffLocation: iataCode.internalcode,
+
+            pickUpDate: puDate ? puDate.unix() : moment().unix(),
+            pickUpTime: puTime ? puTime.unix() : moment().unix(),
+            dropOffDate: doDate ? doDate.unix() : moment().unix(),
+            dropOffTime: doTime ? doTime.unix() : moment().unix(),
             filters: filterToSend
         };
 
-        doSearch({ params: searchCriteria })
+        const jsonParams = {
+            pickUpLocation: iataCode,
+            dropOffLocation: iataCode,
+
+            pickUpDate: puDate ? puDate : moment(),
+            pickUpTime: puTime ? puTime : moment(),
+            dropOffDate: doDate ? doDate : moment(),
+            dropOffTime: doTime ? doTime : moment(),
+            filters: dynamicFilters
+        }
+
+        doSearch({ data: { json: BuildJsonQuery(jsonParams) } })
             .then((res) => {
                 history.push({
                     pathname: '/results',
-                    search: `?${qs.stringify(searchCriteria)}`,
+                    search: `?${qs.stringify(urlParams)}`,
                 });
                 setSearch(res.data.scrape)
             })
@@ -114,7 +125,6 @@ export function ListResult() {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
     const state = history.location.state;
 
-    const [code, setCode] = useSearchWidgetState('code')
     const [doDate, setDoDate] = useSearchWidgetState('doDate')
     const [doTime, setDoTime] = useSearchWidgetState('doTime')
     const [puDate, setPuDate] = useSearchWidgetState('puDate')
@@ -153,7 +163,7 @@ export function ListResult() {
                 dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())): moment(),
                 dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())): moment(),
             }
-            setCode({ internalcode: urlParams.pickUpLocation?.toString() });
+            setIataCode({ internalcode: urlParams.pickUpLocation?.toString() });
             setDoDate(params.dropOffDate);
             setDoTime(params.dropOffTime);
             setPuDate(params.pickUpDate);

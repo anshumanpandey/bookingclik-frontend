@@ -120,7 +120,7 @@ export const SortFilterCars: React.FC = () => {
     const [term] = useSearchWidgetState("term")
 
     const [filterReq] = useAxios<DynamicFilter[]>({
-        url: `${process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : window.location.origin}/categories/${Terms.Cars}`,
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/categories/${Terms.Cars}`,
     })
 
     // @ts-ignore
