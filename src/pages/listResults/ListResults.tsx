@@ -77,8 +77,10 @@ export const SearchForm: React.FC = () => {
         }
 
         let urlParams = {
-            pickUpLocation: iataCode.internalcode,
-            dropOffLocation: iataCode.internalcode,
+            pickUpLocationCode: iataCode.internalcode,
+            pickUpLocationName: iataCode.locationname,
+            dropOffLocationCode: iataCode.internalcode,
+            dropOffLocationName: iataCode.locationname,
 
             pickUpDate: puDate ? puDate.unix() : moment().unix(),
             pickUpTime: puTime ? puTime.unix() : moment().unix(),

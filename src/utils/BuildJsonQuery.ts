@@ -17,20 +17,28 @@ type Params = {
 
 export default (params: Params) => {
 
-  let filterBy = "";
-  if (params.filters) {
-    filterBy = params.filters.reduce((prev, next) => {
-      prev = `${prev}${next.activeValues.reduce((p,n) => { p = `${p}${n.value}`; return p}, "")}`
-      return prev
-    }, "");
+  let filtersToSend = [];
 
+  if (params.filters) {
+    const transmissionFilter = params.filters.find(f => f.category.propertyToWatch == 'transmission')
+    if (!transmissionFilter){
+      filtersToSend.push('*')
+    } else {
+      const keysToSend = transmissionFilter.activeValues.reduce((p,n) => {p = p+n.value; return p}, "")
+      filtersToSend.push(keysToSend)
+    }
+
+    const carTypeFilter = params.filters.find(f => f.category.propertyToWatch == 'car_class')
+    if (!carTypeFilter){
+      filtersToSend.push('*')
+    } else {
+      const keysToSend = carTypeFilter.activeValues.reduce((p,n) => {p = p+n.value; return p}, "")
+      filtersToSend.push(keysToSend)
+    }
   }
 
   return {
     "GRCGDS_VehAvailRateRQ": {
-      "@xmlns": "http://www.opentravel.org/OTA/2003/05",
-      "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-      "@xsi:schemaLocation": "http://www.opentravel.org/OTA/2003/05OTA_VehAvailRateRQ.xsd",
       "POS": {
         "Source": {
           "RequestorID": {
@@ -42,7 +50,7 @@ export default (params: Params) => {
       "VehAvailRQCore": {
         "@Status": "Available",
         "Currency": { "@Code": "EUR" },
-        "@Type": `${filterBy}`,
+        "@Type": `${filtersToSend.join(';')}`,
         "VehRentalCore": {
           "@PickUpDate": params.pickUpDate.format(`YYYY-MM-DD`),
           "@PickUpTime": params.pickUpTime.format(`HH:mm:ss`),
