@@ -47,8 +47,10 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
     }
 
     const params = {
-      pickUpLocation: searchCriteria.pickUpLocation.internalcode,
-      dropOffLocation: searchCriteria.pickUpLocation.internalcode,
+      pickUpLocationCode: searchCriteria.pickUpLocation.internalcode,
+      pickUpLocationName: searchCriteria.pickUpLocation.locationname,
+      dropOffLocationCode: searchCriteria.pickUpLocation.internalcode,
+      dropOffLocationName: searchCriteria.pickUpLocation.locationname,
 
       pickUpDate: searchCriteria.pickUpDate.unix(),
       pickUpTime: searchCriteria.pickUpTime.unix(),

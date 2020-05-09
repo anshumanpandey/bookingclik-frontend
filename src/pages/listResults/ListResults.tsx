@@ -155,15 +155,21 @@ export function ListResult() {
             if (!urlParams.dropOffLocation) return
 
             const params = {
-                pickUpLocation: { internalcode: urlParams.pickUpLocation.toString() } as GRCGDSCode,
+                pickUpLocation: {
+                    internalcode: urlParams.pickUpLocationCode?.toString(),
+                    locationname: urlParams.pickUpLocationName?.toString()
+                } as GRCGDSCode,
                 pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())): moment(),
                 pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())): moment(),
     
-                dropOffLocation: { internalcode: urlParams.dropOffLocation.toString() } as GRCGDSCode,
+                dropOffLocation: {
+                    internalcode: urlParams.dropOffLocationCode?.toString(),
+                    locationname: urlParams.dropOffLocationName?.toString()
+                } as GRCGDSCode,
                 dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())): moment(),
                 dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())): moment(),
             }
-            setIataCode({ internalcode: urlParams.pickUpLocation?.toString() });
+            setIataCode(params.pickUpLocation);
             setDoDate(params.dropOffDate);
             setDoTime(params.dropOffTime);
             setPuDate(params.pickUpDate);
