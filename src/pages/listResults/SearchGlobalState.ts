@@ -1,15 +1,49 @@
-import { createGlobalState } from "react-hooks-global-state"
-import { SearchResponse } from "../../types";
+import { createGlobalState, createStore } from "react-hooks-global-state"
+import { SearchResponse, Scrape } from "../../types";
+
+type FilteredScrape = {
+    filteredScrape: Scrape
+}
+
+const normalReducer = (state: any, action: { type: string, state: any }) => {
+    switch (action.type) {
+        case 'set': return { filteredScrape: action.state };
+        default: return state;
+    }
+};
 
 const initialState = {
     scrape: {
-        details: { 
+        details: {
             pickup: { location: "DBV", datetime: "13/07/2020 20:00" },
-            dropoff: { location: "DBV", datetime: "16/07/2020 20:00" } 
+            dropoff: { location: "DBV", datetime: "16/07/2020 20:00" }
+        },
+        vehicle: []
+    },
+}
+
+
+const filteredReducer = (state: any, action: { type: string, state: any }) => {
+    switch (action.type) {
+        case 'set': {
+            return { filteredScrape: {...action.state} };
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
+const initialFilteredState = {
+    filteredScrape: {
+        details: {
+            pickup: { location: "DBV", datetime: "13/07/2020 20:00" },
+            dropoff: { location: "DBV", datetime: "16/07/2020 20:00" }
         },
         vehicle: []
     }
 }
 
 
-export const { useGlobalState: useSearchState } = createGlobalState<SearchResponse>(initialState);
+export const { dispatch: dispatchSearchState, useGlobalState: useSearchState } = createStore(normalReducer, initialState)
+export const { dispatch: dispatchFilteredState, useGlobalState: useFilteredSearchState } = createStore(filteredReducer, initialFilteredState)

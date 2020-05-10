@@ -9,10 +9,11 @@ import { Panel } from '../../partials/Panel';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { TimeInput } from '../../partials/TimeInput';
 import { TagSearchWidget } from '../../widget/TagSearchWidget';
+import { SimpleTagSearchWidget } from '../../widget/SimpleTagSearchWidget';
 import { NumberSearchWidget } from '../../widget/NumberSearchWidget';
 import { RangeSearchWidget } from '../../widget/RangeSearchWidget';
 import { Terms, DynamicFilter } from '../../types';
-import { useSearchState } from './SearchGlobalState';
+import { useSearchState, dispatchFilteredState, useFilteredSearchState} from './SearchGlobalState';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -112,7 +113,8 @@ export const ListCarsFilter: React.FC = () => {
 }
 
 export const SortFilterCars: React.FC = () => {
-    const [search, setSearch] = useSearchState('scrape')
+    const [search] = useSearchState('scrape')
+    
     const [sortPrice, setSortPrice] = useSortState('price');
     const [transmissionOptions] = useFilterState('transmissionOptions');
 
@@ -127,13 +129,13 @@ export const SortFilterCars: React.FC = () => {
 
     let body = <CircularProgress color="inherit" />
 
-    const carRentalCompanyOptions = Array.from(search.vehicle.reduce((prev, next) => {
+    const carRentalCompanyOptions = Array.from(search.vehicle.reduce((prev: { add: (arg0: any) => void; }, next: { vehicle: { suppliername: any; carrentalcompanyname: any; }; }) => {
         const key = next.vehicle.suppliername ? next.vehicle.suppliername : next.vehicle.carrentalcompanyname
         if (key) {
             prev.add(key)
         }
         return prev
-    }, new Set<string>()).values()).map(token => ({ label: token, value: token }))
+    }, new Set<string>()).values()).map(token => ({ label: token, value: token })) as { label: string, value: string }[]
 
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>
@@ -189,10 +191,20 @@ export const SortFilterCars: React.FC = () => {
 
                         {carRentalCompanyOptions.length !== 0 && (
                             <div className="col-md-12">
-                                <TagSearchWidget
+                                <SimpleTagSearchWidget
                                     options={carRentalCompanyOptions}
                                     category={{ name: 'Rental car company', propertyToWatch: 'rental_car_company', type: 'tag' }}
-                                    onChange={() => { }}
+                                    onChange={(valuesToFilterFor) => {
+                                        let cars = search.vehicle;
+                                        if (valuesToFilterFor.length != 0) {
+                                            cars = search.vehicle.filter((v: any) => {
+                                                return valuesToFilterFor.includes(v.vehicle.carrentalcompanyname || '') ||
+                                                    valuesToFilterFor.includes(v.vehicle.suppliername || '')
+                                            })
+                                        }
+
+                                        dispatchFilteredState({ type: 'set', state: {...search, vehicle: cars} })
+                                    }}
                                 />
                             </div>
                         )}

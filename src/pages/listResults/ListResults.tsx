@@ -10,7 +10,7 @@ import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
 import moment from 'moment';
-import { useSearchState } from './SearchGlobalState';
+import { dispatchSearchState, useSearchState, dispatchFilteredState, useFilteredSearchState } from './SearchGlobalState';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
 import { useGlobalState } from '../../state';
@@ -30,8 +30,6 @@ export const SearchForm: React.FC = () => {
     const [iataCode] = useSearchWidgetState('code')
 
     const [dynamicFilters] = useDynamicFiltersState('activeFilters');
-
-    const [, setSearch] = useSearchState('scrape')
 
     const [searchRequest, doSearch] = useAxios<SearchResponse>({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
@@ -104,7 +102,8 @@ export const SearchForm: React.FC = () => {
                     pathname: '/results',
                     search: `?${qs.stringify(urlParams)}`,
                 });
-                setSearch(res.data.scrape)
+                debugger
+                dispatchSearchState({ type: 'set', state: res.data.scrape})
             })
     }
     const Filter = term === Terms.Cars ? ListCarsFilter : DefaultListSearchFilters;
@@ -136,6 +135,7 @@ export function ListResult() {
     const [, setTransmissionOptions] = useFilterState('transmissionOptions');
     const [sortPrice] = useSortState('price');
     const [, setLoading] = useGlobalState('loading')
+    const [filetredSearch] = useFilteredSearchState('filteredScrape');
 
     const [{ data, loading, error }, doSearch] = useAxios({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
@@ -153,6 +153,7 @@ export function ListResult() {
 
             if (!urlParams.pickUpLocationCode) return
             if (!urlParams.dropOffLocationCode) return
+
 
             const params = {
                 pickUpLocation: {
@@ -179,23 +180,14 @@ export function ListResult() {
             doSearch({ data: { json: BuildJsonQuery(params) } })
                 .then(r => {
                     setSearch(r.data.scrape)
+                    dispatchFilteredState({ type: 'set', state: r.data.scrape})
                     setLoading(false)
                 })
                 .catch(() => setLoading(false))
         } else {
-            setSearch(state.results.scrape)
+            dispatchFilteredState({ type: 'set', state: state.results.scrape})
         }
     }, []);
-
-    useEffect(() => {
-        if (!search.vehicle) return
-        const options: Set<string> = search.vehicle.reduce((prev, next) => {
-            prev.add(next.vehicle.transmission)
-            return prev
-        }, new Set<string>())
-
-        setTransmissionOptions(Array.from(options.values()))
-    }, [search.details]);
 
 
     let Body = (<div className="section-title">
@@ -205,8 +197,8 @@ export function ListResult() {
         <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
     </div>)
 
-    if (search.vehicle.length > 0) {
-        let filteredValues = search.vehicle
+    if (filetredSearch.vehicle.length > 0) {
+        let filteredValues = filetredSearch.vehicle
             .sort((a: any, b: any) => {
                 if (sortPrice === PriceSortOrder.DESC) return a.vehicle.price - b.vehicle.price
                 if (sortPrice === PriceSortOrder.ASC) return b.vehicle.price - a.vehicle.price
@@ -220,8 +212,8 @@ export function ListResult() {
     }
 
     let cheapestCar = null
-    if (search.vehicle) {
-        cheapestCar = search.vehicle.sort((a, b) => a.vehicle.price - b.vehicle.price)[0];
+    if (filetredSearch.vehicle) {
+        cheapestCar = filetredSearch.vehicle.sort((a :any, b:any) => a.vehicle.price - b.vehicle.price)[0];
     }
     return (
         <>
@@ -283,8 +275,8 @@ export function ListResult() {
                                                 Results For: <span>{term}</span>
                                             </h3>
                                             <h3>
-                                                {search.vehicle && search.vehicle.length !== 0 &&
-                                                    ` ${search.vehicle.length} Vehicles listed below from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
+                                                {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
+                                                    ` ${filetredSearch.vehicle.length} Vehicles listed below from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
                                             </h3>
                                         </div>
                                         <SortFilterCars />
