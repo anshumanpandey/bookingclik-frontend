@@ -51,6 +51,14 @@ export default (params: Params) => {
       const keysToSend = carPriceFilter.activeValues.map(n => n.value).join(',')
       filtersToSend.push(keysToSend)
     }
+
+    const companyNameFilter = params.filters.find(f => f.category.propertyToWatch == 'rental_car_company')
+    if (!companyNameFilter){
+      filtersToSend.push('*')
+    } else {
+      const keysToSend = companyNameFilter.activeValues.map(n => n.value).join(',')
+      filtersToSend.push(keysToSend)
+    }
   }
 
   return {

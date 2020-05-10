@@ -32,9 +32,9 @@ export interface Vehicle {
     currency?: string,
     custom_location: string
     image_preview_url?: string
-    baseUrl?: string
-    client_name?: string
-    client_logo?: string
+    suppliername?: string
+    carrentalcompanyname?: string
+    supplier_logo?: string
     airConditioner: string
     clickThroughUrl: string
     [k: string]: any | undefined

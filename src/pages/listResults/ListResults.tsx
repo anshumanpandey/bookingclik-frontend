@@ -9,10 +9,9 @@ import { DefaultListSearchFilters, ListCarsFilter, SortFilterCars } from './Sear
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
-import moment, { MonthWeekdayFn } from 'moment';
+import moment from 'moment';
 import { useSearchState } from './SearchGlobalState';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
-import { DATE_FORMAT, TIME_FORMAT } from '../../utils/DateFormat';
 import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
 import { useGlobalState } from '../../state';
 import queryString from 'query-string';
