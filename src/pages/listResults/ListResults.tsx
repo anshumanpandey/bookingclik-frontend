@@ -235,8 +235,8 @@ export function ListResult() {
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
                                                 </h3>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <div style={{ float: 'right', color: '#4db7fe' }}>
-                                                        <h4>Change Search <i className="fa fa-search"></i></h4>
+                                                    <div style={{ float: 'right' }}>
+                                                        <h4 className="highlight-text">Change Search <i className="fa fa-search"></i></h4>
                                                     </div>
                                                     <div className="listing-view-layout">
                                                         <ul>
