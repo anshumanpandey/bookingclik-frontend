@@ -103,7 +103,7 @@ export const SearchForm: React.FC = () => {
                     search: `?${qs.stringify(urlParams)}`,
                 });
                 debugger
-                dispatchSearchState({ type: 'set', state: res.data.scrape})
+                dispatchSearchState({ type: 'set', state: res.data.scrape })
             })
     }
     const Filter = term === Terms.Cars ? ListCarsFilter : DefaultListSearchFilters;
@@ -160,15 +160,15 @@ export function ListResult() {
                     internalcode: urlParams.pickUpLocationCode?.toString(),
                     locationname: urlParams.pickUpLocationName?.toString()
                 } as GRCGDSCode,
-                pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())): moment(),
-                pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())): moment(),
-    
+                pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())) : moment(),
+                pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())) : moment(),
+
                 dropOffLocation: {
                     internalcode: urlParams.dropOffLocationCode?.toString(),
                     locationname: urlParams.dropOffLocationName?.toString()
                 } as GRCGDSCode,
-                dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())): moment(),
-                dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())): moment(),
+                dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())) : moment(),
+                dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())) : moment(),
             }
             setIataCode(params.pickUpLocation);
             setDoDate(params.dropOffDate);
@@ -180,12 +180,12 @@ export function ListResult() {
             doSearch({ data: { json: BuildJsonQuery(params) } })
                 .then(r => {
                     setSearch(r.data.scrape)
-                    dispatchFilteredState({ type: 'set', state: r.data.scrape})
+                    dispatchFilteredState({ type: 'set', state: r.data.scrape })
                     setLoading(false)
                 })
                 .catch(() => setLoading(false))
         } else {
-            dispatchFilteredState({ type: 'set', state: state.results.scrape})
+            dispatchFilteredState({ type: 'set', state: state.results.scrape })
         }
     }, []);
 
@@ -213,110 +213,81 @@ export function ListResult() {
 
     let cheapestCar = null
     if (filetredSearch.vehicle) {
-        cheapestCar = filetredSearch.vehicle.sort((a :any, b:any) => a.vehicle.price - b.vehicle.price)[0];
+        cheapestCar = filetredSearch.vehicle.sort((a: any, b: any) => a.vehicle.price - b.vehicle.price)[0];
     }
     return (
         <>
             <Header />
             <div id="wrapper">
                 <div className="content">
-                    <div className="col-list-wrap left-list" style={{ width: '100%' }}>
-                        <div className="row" style={{ marginBottom: '1.5rem' }} >
-                            <div className="col-md-12 listsearch-options">
-                                <div className="container">
-
-                                    <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <h3>
-                                            <i className="fa fa-car" ></i>
-                                            {'   '}
-                                            <span>{iataCode?.locationname} ({iataCode?.internalcode})</span> |
+                    <section className="gray-bg no-pading no-top-padding" id="sec1">
+                        <div className="col-list-wrap fh-col-list-wrap  left-list">
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col-md-12">
+                                            <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <h3>
+                                                    <i className="fa fa-car" ></i>
+                                                    {'   '}
+                                                    <span>{iataCode?.locationname} ({iataCode?.internalcode})</span> |
                                         {'  '}
-                                            {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
+                                                    {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
-                                        </h3>
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ float: 'right', color: '#4db7fe' }}>
-                                                <h4>Change Search <i className="fa fa-search"></i></h4>
-                                            </div>
-                                            <div className="listing-view-layout">
-                                                <ul>
-                                                    <li onClick={() => setLayout('GRID')}>
-                                                        <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active' : ''}`}>
-                                                            <i className="fa fa-th-large"></i>
-                                                        </div>
-                                                    </li>
-                                                    {/*
+                                                </h3>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <div style={{ float: 'right', color: '#4db7fe' }}>
+                                                        <h4>Change Search <i className="fa fa-search"></i></h4>
+                                                    </div>
+                                                    <div className="listing-view-layout">
+                                                        <ul>
+                                                            <li onClick={() => setLayout('GRID')}>
+                                                                <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active' : ''}`}>
+                                                                    <i className="fa fa-th-large"></i>
+                                                                </div>
+                                                            </li>
+                                                            {/*
                                                     TODO: enable this later
                                                     <li onClick={() => setLayout('LIST')}>
                                                         <div style={{ cursor: 'pointer' }} className={`list ${layout === 'LIST' ? 'active' : ''}`}>
                                                             <i className="fa fa-list-ul"></i>
                                                         </div>
                                                     </li>*/}
-                                                </ul>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>} >
+
+                                                <SearchForm />
+                                            </Panel>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <div className="fl-wrap">
+                                            <div className="listsearch-header fl-wrap" style={{
+                                                paddingTop: 10,
+                                                paddingBottom: 10,
+                                            }}>
+                                                <h3>
+                                                    Results For: <span>{term}</span>
+                                                </h3>
+                                                <h3>
+                                                    {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
+                                                        ` ${filetredSearch.vehicle.length} Vehicles listed below from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
+                                                </h3>
                                             </div>
+                                            <SortFilterCars />
                                         </div>
-                                    </div>} >
-
-                                        <SearchForm />
-                                    </Panel>
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{ display: 'flex', width: '100%' }} >
-                            <div style={{ paddingRight: 0, width: '25%' }}>
-                                <div className="fl-wrap" id="lisfw" style={{ background: 'white', borderRadius: '6px' }} >
-                                    <div className="container" style={{ margin: '0 auto' }}>
-
-                                        <div className="listsearch-header fl-wrap" style={{
-                                            paddingTop: 10,
-                                            paddingBottom: 10,
-                                        }}>
-                                            <h3>
-                                                Results For: <span>{term}</span>
-                                            </h3>
-                                            <h3>
-                                                {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
-                                                    ` ${filetredSearch.vehicle.length} Vehicles listed below from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
-                                            </h3>
+                                    </div>
+                                    <div className="col-md-8">
+                                        <div className="list-main-wrap fl-wrap card-listing">
+                                            {Body}
                                         </div>
-                                        <SortFilterCars />
                                     </div>
                                 </div>
                             </div>
-                            <div style={{ width: '50%' }}>
-                                <div className="list-main-wrap fl-wrap card-listing" style={{ borderRadius: '6px', padding: 0 }}>
-                                    <div className="container" style={{ width: '100%', margin: 0 }}>
-                                        {Body}
-                                    </div>
-                                    {/* <a className="load-more-button" href="#">Load more <i className="fa fa-circle-o-notch"></i> </a>*/}
-                                </div>
-                            </div>
-                            <div style={{ width: '20%' }}>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-                                <p>ADS</p>
-
-                            </div>
                         </div>
-
-                    </div>
+                    </section>
                     <div className="limit-box fl-wrap"></div>
                     <section className="gradient-bg">
                         <div className="cirle-bg">

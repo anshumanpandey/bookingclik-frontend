@@ -89,22 +89,22 @@ export const ListCarsFilter: React.FC = () => {
                 secondary={true}
                 defaultCode={iataCode}
                 style={{ backgroundColor: '#4DB7FE', color: 'white' }}
-                customeClasses="listsearch-input-item listResultSelect"
+                customeClasses="listsearch-input-item m-b-0"
                 onChange={setIataCode}
             />
-            <div className="listsearch-input-item">
+            <div className="listsearch-input-item m-b-0">
                 <DateInput defaultValue={puDate} onChange={(v) => setPuDate(v)} />
             </div>
 
-            <div className="listsearch-input-item">
+            <div className="listsearch-input-item m-b-0">
                 <TimeInput defaultValue={puTime} onChange={(v) => setPuTime(v)} />
             </div>
 
-            <div className="listsearch-input-item">
+            <div className="listsearch-input-item m-b-0">
                 <DateInput defaultValue={doDate} onChange={(v) => setDoDate(v)} />
             </div>
 
-            <div className="listsearch-input-item">
+            <div className="listsearch-input-item m-b-0">
                 <TimeInput defaultValue={doTime} onChange={(v) => setDoTime(v)} />
             </div>
 
