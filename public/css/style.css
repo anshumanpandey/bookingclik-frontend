@@ -50,7 +50,7 @@ body{
 	font-size: 13px;
 	height:100%;
 	text-align:center;
-	background:#2F3B59;
+	background:#004767;
 	color:#000;
 	font-family: 'Quicksand', sans-serif;
 }
@@ -99,7 +99,7 @@ blockquote p {
 	width:100%;
 	height:100%;
 	z-index:100;
-	background:#2F3B59;
+	background:#004767;
 	-webkit-transform: translate3d(0,0,0);
 }
 .pin{
@@ -119,7 +119,7 @@ blockquote p {
     height: 14px;
 	top:8px;
 	left:8px;
-    background :#2F3B59;
+    background :#004767;
     position: absolute;
     border-radius: 50%;
 }
@@ -325,7 +325,7 @@ blockquote p {
 	box-shadow: 0px 0px 0px 7px rgba(0,0,0,0.2);
 }
 .dark-header {
-	background:#2F3B59;
+	background:#004767;
 }
 .fs-header {
 	padding:0px 50px;
@@ -1357,7 +1357,7 @@ section.gray-section .section-separator {
 	background:#55acee;
 }
 .close-reg:hover  , .custom-form .log-submit-btn:hover , .soc-log a:hover{
-	background: #2F3B59;
+	background: #004767;
 }
 .log-separator  span{
 	position:relative;
@@ -3643,7 +3643,7 @@ article .list-single-main-item {
 	width:36px;
 	height:36px;
 	line-height:36px;
-    background: #2F3B59;
+    background: #004767;
 	border-radius:4px;
 	box-shadow:0px 0px 0px 5px rgba(255,255,255,0.4);
 }
@@ -3714,7 +3714,7 @@ article .list-single-main-item {
 	box-shadow:0px 0px 0px 4px rgba(255,255,255,0.4);
 }
 .mapnavigation a , .mapzoom-in:hover  , .mapzoom-out:hover{
-	background: #2F3B59;
+	background: #004767;
 }
 /*-------------accordion---------------------------------------*/
 .accordion {
@@ -4375,7 +4375,7 @@ article .list-single-main-item {
 	font-weight:600;
 }
 .btn.color-bg:hover{
-	background:#2F3B59;
+	background:#004767;
 }
 .btn i {
 	padding-left:10px;
@@ -6828,7 +6828,7 @@ section.list-single-section {
 	z-index:30;
 }
 .header-user-name {
-	background: #2F3B59;
+	background: #004767;
 	padding:15px 20px;
 	border-radius:6px;
 }
