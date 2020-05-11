@@ -35,7 +35,7 @@ export const Soon = () => {
                     </h3>
                     </div>
                     <div className="subcribe-form fl-wrap">
-                        <p>For More details please email admin@carrentalclik.com</p>
+                        <p>For More details please email admin@bookingclik.com</p>
                     </div>
                 </div>
             </div>
