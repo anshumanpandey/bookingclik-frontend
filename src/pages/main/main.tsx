@@ -18,10 +18,6 @@ export function Main() {
                     <div id="tabs-container" style={{ padding: 0 }}>
                         <CarsTab />
                     </div>
-
-
-
-
                     <section id="sec2">
                         <div className="container">
                             <div className="section-title">
