@@ -16,56 +16,7 @@ export function Main() {
                 <div className="content">
 
                     <div id="tabs-container" style={{ padding: 0 }}>
-                        <ul className="tabs-menu main-page" style={{ margin: 'unset', border: 'unset', display: 'flex', paddingTop: '1rem' }}>
-                            <li className="current" style={{ marginLeft: '4rem'}}>
-                                <a href="#tab-cars">
-                                    <i className="fa fa-car" ></i>
-                                    {'  '}
-                                        Cars
-                                    </a>
-                            </li>
-                            <li>
-                                <a href="#tab-hotels" className="disabled">
-                                    <i className="fa fa-hotel" ></i>
-                                    {'  '}
-                                        Hotels
-                                        </a>
-                            </li>
-                            <li>
-                                <a href="#tab-flights" className="disabled">
-                                    <i className="fa fa-plane-departure"></i>
-                                    {'  '}
-                                        Flights
-                                        </a>
-                            </li>
-                            <li>
-                                <a href="#tab-cruises" className="disabled">
-                                    <i className="fa fa-ship"></i>
-                                    {'  '}
-                                        Cruises
-                                        </a>
-                            </li>
-                        </ul>
-                        <div className="tab">
-                            <div id="tab-cars" className="tab-content" style={{ padding: 0 }}>
-                                <CarsTab />
-                            </div>
-                        </div>
-                        <div className="tab">
-                            <div id="tab-hotels" className="tab-content" style={{ padding: 0 }}>
-                                <HotelsTab />
-                            </div>
-                        </div>
-                        <div className="tab">
-                            <div id="tab-flights" className="tab-content" style={{ padding: 0 }}>
-                                <FlightsTab />
-                            </div>
-                        </div>
-                        <div className="tab">
-                            <div id="tab-cruises" className="tab-content" style={{ padding: 0 }}>
-                                <CruisesTab />
-                            </div>
-                        </div>
+                        <CarsTab />
                     </div>
 
 
