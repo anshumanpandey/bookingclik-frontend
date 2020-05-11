@@ -146,10 +146,14 @@ export function ListResult() {
 
     useEffect(() => {
         console.log('init')
+        console.log(state)
 
         // @ts-ignore
         if (!state || !state.hasOwnProperty('results')) {
             setLoading(true)
+
+            console.log(urlParams.pickUpLocationCode)
+            console.log(urlParams.dropOffLocationCode)
 
             if (!urlParams.pickUpLocationCode) return
             if (!urlParams.dropOffLocationCode) return
@@ -262,7 +266,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-4">
+                                    <div className="col-md-3">
                                         <div className="fl-wrap">
                                             <div className="listsearch-header fl-wrap" style={{
                                                 paddingTop: 10,
@@ -279,7 +283,7 @@ export function ListResult() {
                                             <SortFilterCars />
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
+                                    <div className="col-md-7">
                                         <div className="list-main-wrap fl-wrap card-listing">
                                             {Body}
                                         </div>

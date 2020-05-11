@@ -13,7 +13,7 @@ import { SimpleTagSearchWidget } from '../../widget/SimpleTagSearchWidget';
 import { NumberSearchWidget } from '../../widget/NumberSearchWidget';
 import { RangeSearchWidget } from '../../widget/RangeSearchWidget';
 import { Terms, DynamicFilter } from '../../types';
-import { useSearchState, dispatchFilteredState, useFilteredSearchState} from './SearchGlobalState';
+import { useSearchState, dispatchFilteredState, useFilteredSearchState } from './SearchGlobalState';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -114,7 +114,7 @@ export const ListCarsFilter: React.FC = () => {
 
 export const SortFilterCars: React.FC = () => {
     const [search] = useSearchState('scrape')
-    
+
     const [sortPrice, setSortPrice] = useSortState('price');
     const [transmissionOptions] = useFilterState('transmissionOptions');
 
@@ -142,6 +142,26 @@ export const SortFilterCars: React.FC = () => {
     } else {
         body = (<div className="profile-edit-container add-list-container">
             <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
+                <h4 className="more-filter-option" style={{ float: 'left' }}>Sort</h4>
+            </div>}>
+                <div className="custom-form">
+
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="list-single-header-item-opt fl-wrap" onClick={() => setSortPrice(sortPrice == PriceSortOrder.ASC ? PriceSortOrder.DESC : PriceSortOrder.ASC)}>
+                                <div className="list-single-header-cat fl-wrap">
+                                    <a href="#" onClick={(e) => e.preventDefault()}>Price {sortPrice}</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </Panel>
+
+            <Panel defaultOpen={true} buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
                 <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
             </div>} >
                 <div className="custom-form">
@@ -203,7 +223,7 @@ export const SortFilterCars: React.FC = () => {
                                             })
                                         }
 
-                                        dispatchFilteredState({ type: 'set', state: {...search, vehicle: cars} })
+                                        dispatchFilteredState({ type: 'set', state: { ...search, vehicle: cars } })
                                     }}
                                 />
                             </div>
@@ -212,27 +232,6 @@ export const SortFilterCars: React.FC = () => {
                     </div>
                 </div>
             </Panel>
-            <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
-                <h4 className="more-filter-option" style={{ float: 'left' }}>Sort</h4>
-            </div>}>
-                <div className="custom-form">
-
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="list-single-header-item-opt fl-wrap" onClick={() => setSortPrice(sortPrice == PriceSortOrder.ASC ? PriceSortOrder.DESC : PriceSortOrder.ASC)}>
-                                <div className="list-single-header-cat fl-wrap">
-                                    <a href="#" onClick={(e) => e.preventDefault()}>Price {sortPrice}</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                    </div>
-                </div>
-            </Panel>
-
-
         </div>);
     }
 

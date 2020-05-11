@@ -48,7 +48,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         </>);
     }
     return (
-        <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
+        <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`} style={{
+            height: '14rem'
+        }}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <div className="geodir-category-img" style={{ minHeight: '13rem' }}>
                     <img src={image_url} alt="" style={{ height: '100%' }} />
@@ -57,29 +59,17 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 </div>
                 <ListingItemBody className="geodir-category-content fl-wrap">
                     <div>
-                        <form id="book-now-form" target="_blank" method="post" action={props.vehicle.clickThroughUrl}>
+                    {
+                        props.vehicle.deeplink &&
+                        <a style={{ zIndex: 100 }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>}
 
-                            <input type="hidden" name="driverage" value="33" />
-                            <input type="hidden" name="pickuplocation" value={props.vehicle.custom_location} />
-                            <input type="hidden" name="pickup_date" value={puDate?.format('DD-MM-YYYY')} />
-                            <input type="hidden" name="dropoff_date" value={doDate?.format('DD-MM-YYYY')} />
-
-                            <input type="hidden" name="pickuptime" value={dayjs().format('H:mm')} />
-                            <input type="hidden" name="dropofftime" value={dayjs().format('H:mm')} />
-
-                            <a className="listing-geodir-category capitalize" onClick={() => {
-                                if (!props.vehicle.clickThroughUrl) return
-                                //@ts-ignore
-                                document.getElementById('book-now-form')?.submit();
-                            }} href="#">Book Now</a>
-                        </form>
                         <Avatar className="listing-avatar">
                             <a href="#">
                                 <img src={props.vehicle.client_logo ? `${process.env.REACT_APP_BACKEND_URL}/upload/${props.vehicle.client_logo}`: "images/avatar/1.jpg"} alt="" />
                             </a>
                             {props.vehicle.client_name && (<span className="avatar-tooltip">By  <strong>{props.vehicle.client_name}</strong></span>)}
                         </Avatar>
-                        <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
+                        <h3><a href="listing-single.html">{props.vehicle.name}</a> or similar</h3>
                         <p>ACRISS {props.vehicle.acriss}</p>
                     </div>
                     <div className="geodir-category-options fl-wrap">
