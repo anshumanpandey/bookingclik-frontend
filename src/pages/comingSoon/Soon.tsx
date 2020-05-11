@@ -9,7 +9,12 @@ export const Soon = () => {
                 <div className="overlay"></div>
                 <div className="bubble-bg"></div>
             </div>
-            <div className="cs-wrapper fl-wrap">
+            <div className="cs-wrapper fl-wrap" style={{
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
                 <div className="container counter-widget" data-countdate="09/12/2019">
                     <div>
                         <h1 
@@ -22,7 +27,7 @@ export const Soon = () => {
                     </div>
                     <span className="section-separator"></span>
                     <h1 className="soon-title">Our website is coming soon!</h1>
-                    <h3 className="soon-title-2">Launch Date for 13th May!</h3>
+                    <h3 className="soon-title-2">Launch Date - 13th May, 2020</h3>
 
                     <div className="countdown fl-wrap">
                         <h3 style={{
