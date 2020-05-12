@@ -1834,6 +1834,14 @@ section.gray-section .section-separator {
 	font-weight:700;
 	color:#5D6275;
 }
+
+.big-header {
+	float:left;
+	text-align:left;
+	font-size:22px;
+	font-weight:700;
+	color:#5D6275;
+}
 .listsearch-input-wrap {
 	margin-top:30px;
 }

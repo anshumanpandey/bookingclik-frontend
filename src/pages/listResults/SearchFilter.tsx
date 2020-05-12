@@ -112,7 +112,7 @@ export const ListCarsFilter: React.FC = () => {
     );
 }
 
-export const SortFilterCars: React.FC = () => {
+export const SearchFilterCars: React.FC = () => {
     const [search] = useSearchState('scrape')
 
     const [sortPrice, setSortPrice] = useSortState('price');
@@ -141,26 +141,6 @@ export const SortFilterCars: React.FC = () => {
         body = <h3>Error loading filters</h3>
     } else {
         body = (<div className="profile-edit-container add-list-container">
-            <Panel buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
-                <h4 className="more-filter-option" style={{ float: 'left' }}>Sort</h4>
-            </div>}>
-                <div className="custom-form">
-
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="list-single-header-item-opt fl-wrap" onClick={() => setSortPrice(sortPrice == PriceSortOrder.ASC ? PriceSortOrder.DESC : PriceSortOrder.ASC)}>
-                                <div className="list-single-header-cat fl-wrap">
-                                    <a href="#" onClick={(e) => e.preventDefault()}>Price {sortPrice}</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                    </div>
-                </div>
-            </Panel>
-
             <Panel defaultOpen={true} buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
                 <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
             </div>} >

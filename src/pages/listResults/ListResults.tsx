@@ -5,7 +5,7 @@ import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
 import { SearchResponse, Terms, GRCGDSCode } from '../../types';
-import { DefaultListSearchFilters, ListCarsFilter, SortFilterCars } from './SearchFilter';
+import { DefaultListSearchFilters, ListCarsFilter, SearchFilterCars } from './SearchFilter';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
@@ -18,6 +18,7 @@ import queryString from 'query-string';
 import qs from 'qs';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
+import { SortFilterCars } from './SortFilters';
 
 export const SearchForm: React.FC = () => {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
@@ -201,6 +202,11 @@ export function ListResult() {
         <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
     </div>)
 
+    let cheapestCar = null
+    if (filetredSearch.vehicle) {
+        cheapestCar = filetredSearch.vehicle.sort((a: any, b: any) => a.vehicle.price - b.vehicle.price)[0];
+    }
+
     if (filetredSearch.vehicle.length > 0) {
         let filteredValues = filetredSearch.vehicle
             .sort((a: any, b: any) => {
@@ -209,16 +215,23 @@ export function ListResult() {
                 return a.vehicle.price - b.vehicle.price
             })
         Body = (
-            <div>
+            <>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
+                    <h3 className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
+                {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
+                            ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
+                    </h3>
+                    <SortFilterCars />
+                </div>
                 {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
-            </div>
+            </>
         );
     }
 
-    let cheapestCar = null
-    if (filetredSearch.vehicle) {
-        cheapestCar = filetredSearch.vehicle.sort((a: any, b: any) => a.vehicle.price - b.vehicle.price)[0];
-    }
     return (
         <>
             <Header />
@@ -229,40 +242,40 @@ export function ListResult() {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-12">
-                                            <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <h3>
-                                                    <i className="fa fa-car" ></i>
-                                                    {'   '}
-                                                    <span>{iataCode?.locationname} ({iataCode?.internalcode})</span> |
+                                        <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <h3>
+                                                <i className="fa fa-car" ></i>
+                                                {'   '}
+                                                <span>{iataCode?.locationname} ({iataCode?.internalcode})</span> |
                                         {'  '}
-                                                    {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
+                                                {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
-                                                </h3>
-                                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <div style={{ float: 'right' }}>
-                                                        <h4 className="highlight-text">Change Search <i className="fa fa-search"></i></h4>
-                                                    </div>
-                                                    <div className="listing-view-layout">
-                                                        <ul>
-                                                            <li onClick={() => setLayout('GRID')}>
-                                                                <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active' : ''}`}>
-                                                                    <i className="fa fa-th-large"></i>
-                                                                </div>
-                                                            </li>
-                                                            {/*
+                                            </h3>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <div style={{ float: 'right' }}>
+                                                    <h4 className="highlight-text">Change Search <i className="fa fa-search"></i></h4>
+                                                </div>
+                                                <div className="listing-view-layout">
+                                                    <ul>
+                                                        <li onClick={() => setLayout('GRID')}>
+                                                            <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active' : ''}`}>
+                                                                <i className="fa fa-th-large"></i>
+                                                            </div>
+                                                        </li>
+                                                        {/*
                                                     TODO: enable this later
                                                     <li onClick={() => setLayout('LIST')}>
                                                         <div style={{ cursor: 'pointer' }} className={`list ${layout === 'LIST' ? 'active' : ''}`}>
                                                             <i className="fa fa-list-ul"></i>
                                                         </div>
                                                     </li>*/}
-                                                        </ul>
-                                                    </div>
+                                                    </ul>
                                                 </div>
-                                            </div>} >
+                                            </div>
+                                        </div>} >
 
-                                                <SearchForm />
-                                            </Panel>
+                                            <SearchForm />
+                                        </Panel>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -275,21 +288,17 @@ export function ListResult() {
                                                 <h3>
                                                     Results For: <span>{term}</span>
                                                 </h3>
-                                                <h3>
-                                                    {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
-                                                        ` ${filetredSearch.vehicle.length} Vehicles listed below from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
-                                                </h3>
                                             </div>
-                                            <SortFilterCars />
+                                            <SearchFilterCars />
                                         </div>
                                     </div>
                                     <div className="col-md-7">
-                                        <div className="list-main-wrap fl-wrap card-listing">
+                                        <div className="fl-wrap card-listing">
                                             {Body}
                                         </div>
                                     </div>
                                     <div className="col-md-2">
-                                        <div className="list-main-wrap fl-wrap card-listing">
+                                        <div className="fl-wrap card-listing">
                                             <p>ADS</p>
                                             <p>ADS</p>
                                             <p>ADS</p>

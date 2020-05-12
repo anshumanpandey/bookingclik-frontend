@@ -49,10 +49,10 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     }
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`} style={{
-            height: '14rem'
+            height: '10rem'
         }}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
-                <div className="geodir-category-img" style={{ minHeight: '13rem' }}>
+                <div className="geodir-category-img" style={{ width: '40%'}}>
                     <img src={image_url} alt="" style={{ height: '100%' }} />
                     <div className="overlay"></div>
                     <div className="list-post-counter"><span>{props.vehicle.doors} doors</span></div>
@@ -61,7 +61,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                     <div>
                     {
                         props.vehicle.deeplink &&
-                        <a style={{ zIndex: 100 }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>}
+                        <a style={{ zIndex: 100 }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
+                        }
 
                         <Avatar className="listing-avatar">
                             <a href="#">
@@ -69,7 +70,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             </a>
                             {props.vehicle.client_name && (<span className="avatar-tooltip">By  <strong>{props.vehicle.client_name}</strong></span>)}
                         </Avatar>
-                        <h3><a href="listing-single.html">{props.vehicle.name}</a> or similar</h3>
+                        <h3><a href="listing-single.html">{props.vehicle.name}</a> <span>or similar</span></h3>
                         <p>ACRISS {props.vehicle.acriss}</p>
                     </div>
                     <div className="geodir-category-options fl-wrap">
