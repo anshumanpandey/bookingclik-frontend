@@ -130,14 +130,14 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         {props.vehicle.fuel_policy && (
                             <div className="geodir-category-location" style={{ padding: 0, display: 'flex' }}>
                                 <i style={{
-                                    fontSize: '2.3rem',
+                                    fontSize: '1.8rem',
                                     marginRight: '1rem',
                                 }} className="fas fa-gas-pump"></i>
                                 <div>
                                     {props.vehicle.carrentalcompanyname && (
-                                        <h4 style={{ textAlign: 'left' }}><strong>Fuel Policy</strong></h4>
+                                        <h5 style={{ textAlign: 'left' }}><strong>Fuel Policy</strong></h5>
                                     )}
-                                    <h3 style={{ marginBottom: 0 }}>{fuelPolicy}</h3>
+                                    <h4 style={{ marginBottom: 0, textAlign: 'left' }}>{fuelPolicy}</h4>
                                 </div>
                             </div>
                         )}
