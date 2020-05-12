@@ -47,6 +47,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
             <img src="http://www.right-cars.com/public/img/icons/automatic.png" />{props.vehicle.transmission}
         </>);
     }
+
+    console.log(props.vehicle.deeplink)
+
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`} style={{
             height: '10rem'
@@ -61,7 +64,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                     <div>
                     {
                         props.vehicle.deeplink &&
-                        <a style={{ zIndex: 100 }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
+                        <a style={{ left: '-70%', top: '0.5rem' }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
                         }
 
                         <Avatar className="listing-avatar">
