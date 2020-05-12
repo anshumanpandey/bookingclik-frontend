@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { Decimal } from 'decimal.js';
 import { Vehicle } from '../types';
 import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
+import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
 
 const ListingItemBody = styled.div`
 padding-top: 1rem !important;
@@ -70,6 +71,13 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 </div>
                 <ListingItemBody className="geodir-category-content">
                     <div>
+                    {props.vehicle.acriss && (
+                        <h4 style={{
+                            fontSize: '0.8rem',
+                            textAlign: 'left',
+                            fontWeight: 'bold',
+                        }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
+                    )}
                         {
                             props.vehicle.deeplink &&
                             <a style={{ left: '-70%', top: '0.5rem' }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
