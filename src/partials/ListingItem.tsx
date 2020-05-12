@@ -36,6 +36,11 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [puDate] = useSearchWidgetState('puDate')
 
     const carTransmission = props.vehicle.transmission || (props.vehicle.automatic == true ? 'Automatic' : null) || (props.vehicle.manual == true ? 'Manual' : null)
+
+    let AC = 'N/A'
+    if (props.vehicle.ac === true) AC = 'Yes'
+    if (props.vehicle.ac === false) AC = 'No'
+
     let suplierLogoUrl = "images/avatar/1.jpg"
     if (props.vehicle.supplier_logo) {
         if (RegExp('http').test(props.vehicle.supplier_logo)) {
@@ -45,9 +50,19 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         }
     }
 
+    let fuelPolicy = props.vehicle.fuel_policy
+    if (props.vehicle.fuel_policy == 1) fuelPolicy = 'FullToFull'
+    if (props.vehicle.fuel_policy == 2) fuelPolicy = 'FullToEmpty'
+    if (props.vehicle.fuel_policy == 3) fuelPolicy = 'EmptyToEmpty'
+    if (props.vehicle.fuel_policy == 4) fuelPolicy = 'HalfToEmpty'
+    if (props.vehicle.fuel_policy == 5) fuelPolicy = 'QuarterToEmpty'
+    if (props.vehicle.fuel_policy == 6) fuelPolicy = 'HalfToHalf'
+    if (props.vehicle.fuel_policy == 7) fuelPolicy = 'QuarterToQuarter'
+    if (props.vehicle.fuel_policy == 8) fuelPolicy = 'PrepaidFullToFull'
+    if (props.vehicle.fuel_policy == 9) fuelPolicy = 'PrepaidFullToEmpty'
+
     return (
-        <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`} style={{
-        }}>
+        <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <div className="geodir-category-img" style={{ width: '40%' }}>
                     <img src={image_url} alt="" style={{ height: '100%' }} />
@@ -67,23 +82,21 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             display: 'flex',
                             justifyContent: 'space-between',
                         }}>
-                            {carTransmission && (
-                                <span style={{ marginLeft: 0 }}>
-                                    <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-car-side"></i> {carTransmission}
-                                </span>
-                            )}
                             <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-male"></i> {props.vehicle.seats}
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-car-side"></i> {carTransmission || 'N/A'}
                             </span>
                             <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-door-closed"></i> {props.vehicle.doors}
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-male"></i> {props.vehicle.seats || 'N/A'} Seats
                             </span>
                             <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-icicles"></i> {props.vehicle.ac ? 'Yes' : 'No'}
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-door-closed"></i> {props.vehicle.doors || 'N/A'} Doors
+                            </span>
+                            <span style={{ marginLeft: 0 }}>
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-icicles"></i> {AC} AC
                             </span>
                             {props.vehicle.luggages && (
                                 <span style={{ marginLeft: 0 }}>
-                                    <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-briefcase"></i> {props.vehicle.luggages}
+                                    <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-briefcase"></i> {props.vehicle.luggages || 'N/A'} Bags
                                 </span>
                             )}
                         </div>
@@ -108,13 +121,28 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             )}
                         </div>
 
+                        {props.vehicle.fuel_policy && (
+                            <div className="geodir-category-location" style={{ padding: 0, display: 'flex' }}>
+                                <i style={{
+                                    fontSize: '2.3rem',
+                                    marginRight: '1rem',
+                                }} className="fas fa-gas-pump"></i>
+                                <div>
+                                    {props.vehicle.carrentalcompanyname && (
+                                        <h4 style={{ textAlign: 'left' }}><strong>Fuel Policy</strong></h4>
+                                    )}
+                                    <h3 style={{ marginBottom: 0 }}>{fuelPolicy}</h3>
+                                </div>
+                            </div>
+                        )}
+
                         <div className="geodir-category-location" style={{ padding: 0 }}>
                             {props.vehicle.carrentalcompanyname && (
-                                <h4 style={{ textAlign: 'left'}}>Supplied by <strong>{props.vehicle.carrentalcompanyname}</strong></h4>
+                                <h4 style={{ textAlign: 'left' }}>Supplied by <strong>{props.vehicle.carrentalcompanyname}</strong></h4>
                             )}
                             <Avatar className="">
                                 <a href="#">
-                                    <img style={{ height: '3.5rem' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                                    <img style={{ height: '2.5rem' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                                 </a>
                             </Avatar>
                         </div>
