@@ -6,6 +6,7 @@ import { Vehicle } from '../types';
 import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
 
 const ListingItemBody = styled.div`
+padding-top: 1rem !important;
 display: flex;
 flex-direction: column;
 flex: 1;
@@ -37,18 +38,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
     const [doDate] = useSearchWidgetState('doDate')
     const [puDate] = useSearchWidgetState('puDate')
-    
-    let transmissionNode = (<>
-        <img src="http://www.right-cars.com/public/img/icons/manual.png" />{props.vehicle.transmission}
-    </>);
-
-    if (props.vehicle.transmission === "Automatic") {
-        transmissionNode = (<>
-            <img src="http://www.right-cars.com/public/img/icons/automatic.png" />{props.vehicle.transmission}
-        </>);
-    }
-
-    console.log(props.vehicle.deeplink)
 
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`} style={{
@@ -60,7 +49,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                     <div className="overlay"></div>
                     <div className="list-post-counter"><span>{props.vehicle.doors} doors</span></div>
                 </div>
-                <ListingItemBody className="geodir-category-content fl-wrap">
+                <ListingItemBody className="geodir-category-content">
                     <div>
                     {
                         props.vehicle.deeplink &&
@@ -77,29 +66,34 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         <p>ACRISS {props.vehicle.acriss}</p>
                     </div>
                     <div className="geodir-category-options fl-wrap">
-                        <div className="listing-rating card-popup-rainingvis" data-starrating2="5" style={{
+                        <div className="card-popup-rainingvis" data-starrating2="5" style={{
                             display: 'flex',
                             justifyContent: 'space-between',
                         }}>
                             <span style={{ marginLeft: 0 }}>
-                                {transmissionNode}
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-car-side"></i> {props.vehicle.transmission}
                             </span>
                             <span style={{ marginLeft: 0 }}>
-                                <img src="http://www.right-cars.com/public/img/icons/seats.png" />{props.vehicle.seats}
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-male"></i> {props.vehicle.seats}
                             </span>
                             <span style={{ marginLeft: 0 }}>
-                                <img src="http://www.right-cars.com/public/img/icons/door.png" />{props.vehicle.doors}
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-door-closed"></i> {props.vehicle.doors}
                             </span>
                             <span style={{ marginLeft: 0 }}>
-                                <img src="http://www.right-cars.com/public/img/icons/AC.png" />Yes
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-icicles"></i> {props.vehicle.ac ? 'Yes': 'No'}
                             </span>
+                            {props.vehicle.luggages && (
+                                <span style={{ marginLeft: 0 }}>
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-briefcase"></i> {props.vehicle.luggages}
+                            </span>
+                            )}                            
                         </div>
                         <div className="geodir-category-location" style={{ padding: 0 }}>
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-between'
                             }}>
-                                <div className="evticket-meta" style={{ paddingLeft: 0 }}>
+                                <div className="evticket-meta" style={{ paddingLeft: 0, paddingBottom: 0, paddingTop: '0.5rem', }}>
                                     <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.price}</div>
                                 </div>
                                 {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>

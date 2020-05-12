@@ -184,12 +184,34 @@ export function ListResult() {
 
             doSearch({ data: { json: BuildJsonQuery(params) } })
                 .then(r => {
-                    setSearch(r.data.scrape)
+                    dispatchSearchState({ type: 'set', state: r.data.scrape })
                     dispatchFilteredState({ type: 'set', state: r.data.scrape })
                     setLoading(false)
                 })
                 .catch(() => setLoading(false))
         } else {
+            const params = {
+                pickUpLocation: {
+                    internalcode: urlParams.pickUpLocationCode?.toString(),
+                    locationname: urlParams.pickUpLocationName?.toString()
+                } as GRCGDSCode,
+                pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())) : moment(),
+                pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())) : moment(),
+
+                dropOffLocation: {
+                    internalcode: urlParams.dropOffLocationCode?.toString(),
+                    locationname: urlParams.dropOffLocationName?.toString()
+                } as GRCGDSCode,
+                dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())) : moment(),
+                dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())) : moment(),
+            }
+            setIataCode(params.pickUpLocation);
+            setDoDate(params.dropOffDate);
+            setDoTime(params.dropOffTime);
+            setPuDate(params.pickUpDate);
+            setPuTime(params.pickUpTime);
+
+            dispatchSearchState({ type: 'set', state: state.results.scrape })
             dispatchFilteredState({ type: 'set', state: state.results.scrape })
         }
     }, []);

@@ -7,7 +7,7 @@ type FilteredScrape = {
 
 const normalReducer = (state: any, action: { type: string, state: any }) => {
     switch (action.type) {
-        case 'set': return { filteredScrape: action.state };
+        case 'set': return { scrape: {...action.state} };
         default: return state;
     }
 };
