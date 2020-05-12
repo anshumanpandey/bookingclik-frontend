@@ -27,7 +27,7 @@ export const Soon = () => {
                     </div>
                     <span className="section-separator"></span>
                     <h1 className="soon-title">Our website is coming soon!</h1>
-                    <h3 className="soon-title-2">Launch Date - 13th May, 2020</h3>
+                    <h3 className="soon-title-2">Launch Date - 15th May, 2020</h3>
 
                     <div className="countdown fl-wrap">
                         <h3 style={{

@@ -246,7 +246,6 @@ export function ListResult() {
                 {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
                             ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
                     </h3>
-                    <SortFilterCars />
                 </div>
                 {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
             </>
@@ -300,7 +299,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-3">
+                                    <div className="col-md-3"> 
                                         <div className="fl-wrap">
                                             <div className="listsearch-header fl-wrap" style={{
                                                 paddingTop: 10,
@@ -320,29 +319,8 @@ export function ListResult() {
                                     </div>
                                     <div className="col-md-2">
                                         <div className="fl-wrap card-listing">
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
-                                            <p>ADS</p>
+                                            <img style={{ maxWidth: '100%'}} src={'images/all/dummy_ad.jpg'}></img>
+                                            <img style={{ maxWidth: '100%'}} src={'images/all/dummy_ad.jpg'}></img>
                                         </div>
                                     </div>
                                 </div>
