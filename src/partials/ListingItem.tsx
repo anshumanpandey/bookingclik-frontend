@@ -23,7 +23,9 @@ const ListingItemInner = styled.article`
     }
 `;
 
-const Avatar = styled.div``;
+const Avatar = styled.div`
+    float: left
+`;
 
 
 export type ListingItemProps = {
@@ -144,12 +146,10 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
                         <div className="geodir-category-location" style={{ padding: 0 }}>
                             {props.vehicle.carrentalcompanyname && (
-                                <h4 style={{ textAlign: 'left' }}>Supplied by <strong>{props.vehicle.carrentalcompanyname}</strong></h4>
+                                <h4 style={{ textAlign: 'left' }}>Supplied by</h4>
                             )}
-                            <Avatar className="">
-                                <a href="#">
-                                    <img style={{ height: '2.5rem' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
-                                </a>
+                            <Avatar>
+                                <img style={{ height: '2.5rem' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                             </Avatar>
                         </div>
 
