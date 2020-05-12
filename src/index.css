@@ -81,3 +81,31 @@
 .m-b-0{
     margin-bottom: 0!important;
 }
+
+.icon.icon--car.icon--doors::before {
+    left: 0;
+    margin-left: 0;
+    width: 16px;
+    height: 16px;
+    display: block;
+    content: '';
+    background: url('/images/icons/car-icons-v5.svg') no-repeat 0 0;
+        background-position-x: 0px;
+        background-position-y: -32px;
+        background-size: auto;
+    background-size: 16px 384px;
+}
+
+.icon.icon--car.icon--transmission::before {
+    left: 0;
+    margin-left: 0;
+    width: 16px;
+    height: 16px;
+    display: block;
+    content: '';
+    background: url('/images/icons/car-icons-v5.svg') no-repeat 0 0;
+        background-position-x: 0px;
+        background-position-y: -48px;
+        background-size: auto;
+    background-size: 16px 384px;
+}

@@ -76,10 +76,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 fontWeight: 'bold',
                             }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
                         )}
-                        {
-                            props.vehicle.deeplink &&
-                            <a style={{ left: '-70%', top: '0.5rem' }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
-                        }
                         <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
                         <p>ACRISS {props.vehicle.acriss}</p>
                     </div>
@@ -88,14 +84,14 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             display: 'flex',
                             justifyContent: 'space-between',
                         }}>
-                            <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-car-side"></i> {carTransmission || 'N/A'}
+                            <span style={{ marginLeft: 0, display: 'flex' }} className="icon icon--car icon--transmission">
+                                {carTransmission || 'N/A'}
                             </span>
                             <span style={{ marginLeft: 0 }}>
                                 <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-male"></i> {props.vehicle.seats || 'N/A'} Seats
                             </span>
-                            <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-door-closed"></i> {props.vehicle.doors || 'N/A'} Doors
+                            <span style={{ marginLeft: 0, display: 'flex' }} className="icon icon--car icon--doors">
+                                {props.vehicle.doors || 'N/A'} Doors
                             </span>
                             {props.vehicle.ac && (
                                 <span style={{ marginLeft: 0 }}>
@@ -129,29 +125,59 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             )}
                         </div>
 
-                        {props.vehicle.fuel_policy && (
-                            <div className="geodir-category-location" style={{ padding: 0, display: 'flex' }}>
-                                <i style={{
-                                    fontSize: '1.8rem',
-                                    marginRight: '1rem',
-                                }} className="fas fa-gas-pump"></i>
-                                <div>
-                                    {props.vehicle.carrentalcompanyname && (
-                                        <h5 style={{ textAlign: 'left' }}><strong>Fuel Policy</strong></h5>
-                                    )}
-                                    <h4 style={{ marginBottom: 0, textAlign: 'left' }}>{fuelPolicy}</h4>
+                        <div className="row">
+                            <div className="col-md-6">
+                                {props.vehicle.fuel_policy && (
+                                    <div className="geodir-category-location" style={{ padding: 0, display: 'flex' }}>
+                                        <i style={{
+                                            fontSize: '1.8rem',
+                                            marginRight: '1rem',
+                                        }} className="fas fa-gas-pump"></i>
+                                        <div>
+                                            {props.vehicle.carrentalcompanyname && (
+                                                <h5 style={{ textAlign: 'left' }}><strong>Fuel Policy</strong></h5>
+                                            )}
+                                            <h4 style={{ marginBottom: 0, textAlign: 'left' }}>{fuelPolicy}</h4>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="col-md-6">
+                                <div className="geodir-category-location" style={{ padding: 0 }}>
+
+                                    {props.vehicle.winter_tyres_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green'}} className="fas fa-check"></i> Winter Tyres Included</p>}
+                                    {props.vehicle.snow_chains_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green'}} className="fas fa-check"></i> Snow Chains Included</p>}
+                                    {props.vehicle.road_tax_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green'}} className="fas fa-check"></i>Road Tax Included</p>}
+                                    {props.vehicle.unlimited_mileage && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green'}} className="fas fa-check"></i>Unlimited Mileage</p>}
                                 </div>
                             </div>
-                        )}
-
-                        <div className="geodir-category-location" style={{ padding: 0 }}>
-                            {props.vehicle.carrentalcompanyname && (
-                                <h4 style={{ textAlign: 'left' }}>Supplied by</h4>
-                            )}
-                            <Avatar>
-                                <img style={{ height: '2.5rem' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
-                            </Avatar>
                         </div>
+
+
+
+                        <div className="geodir-category-location" style={{ padding: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
+                            <div>
+                                {props.vehicle.carrentalcompanyname && (
+                                    <h4 style={{ textAlign: 'left' }}>Supplied by</h4>
+                                )}
+                                <Avatar>
+                                    <img style={{ width: '70px', height: '35px' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                                </Avatar>
+                            </div>
+                            {
+                                props.vehicle.deeplink &&
+                                <a style={{
+                                    height: 'min-content',
+                                    color: 'white',
+                                    backgroundColor: '#004767',
+                                    padding: '10px 25px',
+                                    borderRadius: '4px',
+                                    boxShadow: '0px 0px 0px 7px rgba(255,255,255,0.4)'
+                                }} target='_blank' className="capitalize" href={props.vehicle.deeplink}>Book Now</a>
+                            }
+                        </div>
+
 
                     </div>
                 </ListingItemBody>
