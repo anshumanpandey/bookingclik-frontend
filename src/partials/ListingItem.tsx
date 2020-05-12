@@ -31,7 +31,8 @@ export type ListingItemProps = {
     vehicle: Vehicle
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
-    const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/1.jpg"
+    const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/car_not_found.png"
+    console.log(props.vehicle.image_preview_url)
 
     const [doDate] = useSearchWidgetState('doDate')
     const [puDate] = useSearchWidgetState('puDate')
@@ -66,7 +67,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <div className="geodir-category-img" style={{ width: '40%' }}>
-                    <img src={image_url} alt="" style={{ height: '100%' }} />
+                    <img src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} style={{ height: '100%' }} />
                     <div className="overlay"></div>
                 </div>
                 <ListingItemBody className="geodir-category-content">
