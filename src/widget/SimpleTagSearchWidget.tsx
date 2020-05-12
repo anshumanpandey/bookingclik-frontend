@@ -28,7 +28,7 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
             {options.map(option => {
                 return (
                     <div key={option.label}>
-                        <input type="checkbox" name={`tag-search-${option.label}`} checked={optionsSelected.find(selectedOption => selectedOption.label === option.label) !== undefined} onChange={() => {
+                        <input style={{ marginBottom: 0 }} type="checkbox" id={`tag-search-${option.label}`} name={`tag-search-${option.label}`} checked={optionsSelected.find(selectedOption => selectedOption.label === option.label) !== undefined} onChange={() => {
                             const found = optionsSelected.find(selectedOption => selectedOption.label === option.label);
 
                             setOptions(prev => {
@@ -39,7 +39,7 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                                 return [...prev, option];
                             })
                         }} />
-                        <label htmlFor="check-aa">{option.label}</label>
+                        <label htmlFor={`tag-search-${option.label}`}>{option.label}</label>
                     </div>
                 );
             })}

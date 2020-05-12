@@ -103,7 +103,6 @@ export const SearchForm: React.FC = () => {
                     pathname: '/results',
                     search: `?${qs.stringify(urlParams)}`,
                 });
-                debugger
                 dispatchSearchState({ type: 'set', state: res.data.scrape })
             })
     }
