@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-import {Decimal} from 'decimal.js';
+import { Decimal } from 'decimal.js';
 import { Vehicle } from '../types';
 import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
 
@@ -39,29 +39,31 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [doDate] = useSearchWidgetState('doDate')
     const [puDate] = useSearchWidgetState('puDate')
 
+    const carTransmission = props.vehicle.transmission || (props.vehicle.automatic == true ? 'Automatic' : null) || (props.vehicle.manual == true ? 'Manual' : null)
+
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`} style={{
             height: '10rem'
         }}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
-                <div className="geodir-category-img" style={{ width: '40%'}}>
+                <div className="geodir-category-img" style={{ width: '40%' }}>
                     <img src={image_url} alt="" style={{ height: '100%' }} />
                     <div className="overlay"></div>
                 </div>
                 <ListingItemBody className="geodir-category-content">
                     <div>
-                    {
-                        props.vehicle.deeplink &&
-                        <a style={{ left: '-70%', top: '0.5rem' }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
+                        {
+                            props.vehicle.deeplink &&
+                            <a style={{ left: '-70%', top: '0.5rem' }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
                         }
 
                         <Avatar className="listing-avatar">
                             <a href="#">
-                                <img src={props.vehicle.client_logo ? `${process.env.REACT_APP_BACKEND_URL}/upload/${props.vehicle.client_logo}`: "images/avatar/1.jpg"} alt="" />
+                                <img src={props.vehicle.client_logo ? `${process.env.REACT_APP_BACKEND_URL}/upload/${props.vehicle.client_logo}` : "images/avatar/1.jpg"} alt="" />
                             </a>
                             {props.vehicle.client_name && (<span className="avatar-tooltip">By  <strong>{props.vehicle.client_name}</strong></span>)}
                         </Avatar>
-                        <h3><a href="listing-single.html">{props.vehicle.name}</a> <span>or similar</span></h3>
+                        <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
                         <p>ACRISS {props.vehicle.acriss}</p>
                     </div>
                     <div className="geodir-category-options fl-wrap">
@@ -69,9 +71,11 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             display: 'flex',
                             justifyContent: 'space-between',
                         }}>
-                            <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-car-side"></i> {props.vehicle.transmission}
-                            </span>
+                            {carTransmission && (
+                                <span style={{ marginLeft: 0 }}>
+                                    <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-car-side"></i> {carTransmission}
+                                </span>
+                            )}
                             <span style={{ marginLeft: 0 }}>
                                 <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-male"></i> {props.vehicle.seats}
                             </span>
@@ -79,13 +83,13 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-door-closed"></i> {props.vehicle.doors}
                             </span>
                             <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-icicles"></i> {props.vehicle.ac ? 'Yes': 'No'}
+                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-icicles"></i> {props.vehicle.ac ? 'Yes' : 'No'}
                             </span>
                             {props.vehicle.luggages && (
                                 <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-briefcase"></i> {props.vehicle.luggages}
-                            </span>
-                            )}                            
+                                    <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-briefcase"></i> {props.vehicle.luggages}
+                                </span>
+                            )}
                         </div>
                         <div className="geodir-category-location" style={{ padding: 0 }}>
                             <div style={{
