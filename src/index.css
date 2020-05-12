@@ -109,3 +109,16 @@
         background-size: auto;
     background-size: 16px 384px;
 }
+
+.TimeInput.MuiInputBase-root{
+    height: 100%;
+}
+
+.TimeInput .MuiInputBase-input{
+    font-size: 0.8rem;
+}
+
+
+.gray-text{
+    color: gray!important
+}

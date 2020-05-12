@@ -301,14 +301,6 @@ export function ListResult() {
                                 <div className="row">
                                     <div className="col-md-3"> 
                                         <div className="fl-wrap">
-                                            <div className="listsearch-header fl-wrap" style={{
-                                                paddingTop: 10,
-                                                paddingBottom: 10,
-                                            }}>
-                                                <h3>
-                                                    Results For: <span>{term}</span>
-                                                </h3>
-                                            </div>
                                             <SearchFilterCars />
                                         </div>
                                     </div>
@@ -319,8 +311,7 @@ export function ListResult() {
                                     </div>
                                     <div className="col-md-2">
                                         <div className="fl-wrap card-listing">
-                                            <img style={{ maxWidth: '100%'}} src={'images/all/dummy_ad.jpg'}></img>
-                                            <img style={{ maxWidth: '100%'}} src={'images/all/dummy_ad.jpg'}></img>
+                                            <img style={{ maxWidth: '100%'}} src={'images/all/ad.png'}></img>
                                         </div>
                                     </div>
                                 </div>

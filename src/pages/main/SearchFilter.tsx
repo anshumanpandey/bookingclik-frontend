@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TimePicker from 'rc-time-picker';
-import { DateInput, LocationDropdown } from '../../partials';
+import { DateInput, LocationDropdown, TimeInput } from '../../partials';
 import { useSearchWidgetState } from './useSearchWidgetGlobalState';
 import { TIME_FORMAT } from '../../utils/DateFormat';
 
@@ -51,12 +51,8 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties}> = (
 
                 <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                     <div className="main-search-input-item" style={{ width: '100%' }}>
-                        <TimePicker
-                            placeholder={`Time: ${TIME_FORMAT}`}
-                            showSecond={false}
+                        <TimeInput
                             onChange={setPuTime}
-                            format={TIME_FORMAT}
-                            inputReadOnly
                         />
                     </div>
                 </div>
@@ -69,12 +65,8 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties}> = (
                 </div>
                 <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                     <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
-                        <TimePicker
-                            placeholder={`Time: ${TIME_FORMAT}`}
-                            showSecond={false}
+                        <TimeInput
                             onChange={setDoTime}
-                            format={TIME_FORMAT}
-                            inputReadOnly
                         />
                     </div>
                 </div>

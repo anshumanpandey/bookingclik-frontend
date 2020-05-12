@@ -68,6 +68,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     if (props.vehicle.fuel_policy == 8) fuelPolicy = 'PrepaidFullToFull'
     if (props.vehicle.fuel_policy == 9) fuelPolicy = 'PrepaidFullToEmpty'
 
+    let currencySymbol = '$'
+    if (props.vehicle.currency == 'EUR') currencySymbol = '€'
+
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
@@ -166,10 +169,10 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                     justifyContent: 'space-between'
                                 }}>
                                     <div className="evticket-meta" style={{ paddingLeft: 0, paddingBottom: 0, paddingTop: '0.5rem', }}>
-                                        <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.price}</div>
+                                        <div className="evticket-price"><span>{currencySymbol}</span> {props.vehicle.price}</div>
                                     </div>
                                     {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>
-                                        <div className="evticket-price"><span>{props.vehicle.currency}</span> {props.vehicle.secondary_price}</div>
+                                        <div className="evticket-price"><span>{currencySymbol}</span> {props.vehicle.secondary_price}</div>
                                     </div>}
                                 </div>
                                 {
