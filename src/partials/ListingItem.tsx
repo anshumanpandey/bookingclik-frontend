@@ -22,12 +22,7 @@ const ListingItemInner = styled.article`
     }
 `;
 
-const Avatar = styled.div`
-    width: 100%;
-    .listing-item.list-layout &{
-        margin-top: -80px;
-    }
-`;
+const Avatar = styled.div``;
 
 
 export type ListingItemProps = {
@@ -52,7 +47,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`} style={{
-            height: '10rem'
         }}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <div className="geodir-category-img" style={{ width: '40%' }}>
@@ -65,13 +59,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             props.vehicle.deeplink &&
                             <a style={{ left: '-70%', top: '0.5rem' }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
                         }
-
-                        <Avatar className="listing-avatar">
-                            <a href="#">
-                                <img src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
-                            </a>
-                            {props.vehicle.carrentalcompanyname && (<span className="avatar-tooltip">By <strong>{props.vehicle.carrentalcompanyname}</strong></span>)}
-                        </Avatar>
                         <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
                         <p>ACRISS {props.vehicle.acriss}</p>
                     </div>
@@ -120,6 +107,18 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 </div>
                             )}
                         </div>
+
+                        <div className="geodir-category-location" style={{ padding: 0 }}>
+                            {props.vehicle.carrentalcompanyname && (
+                                <h4 style={{ textAlign: 'left'}}>Supplied by <strong>{props.vehicle.carrentalcompanyname}</strong></h4>
+                            )}
+                            <Avatar className="">
+                                <a href="#">
+                                    <img style={{ height: '3.5rem' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                                </a>
+                            </Avatar>
+                        </div>
+
                     </div>
                 </ListingItemBody>
             </ListingItemInner>
