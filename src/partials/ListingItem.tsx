@@ -38,10 +38,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
     const carTransmission = props.vehicle.transmission || (props.vehicle.automatic == true ? 'Automatic' : null) || (props.vehicle.manual == true ? 'Manual' : null)
 
-    let AC = 'N/A'
-    if (props.vehicle.ac === true) AC = 'Yes'
-    if (props.vehicle.ac === false) AC = 'No'
-
     let suplierLogoUrl = "images/avatar/1.jpg"
     if (props.vehicle.supplier_logo) {
         if (RegExp('http').test(props.vehicle.supplier_logo)) {
@@ -71,13 +67,13 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 </div>
                 <ListingItemBody className="geodir-category-content">
                     <div>
-                    {props.vehicle.acriss && (
-                        <h4 style={{
-                            fontSize: '0.8rem',
-                            textAlign: 'left',
-                            fontWeight: 'bold',
-                        }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
-                    )}
+                        {props.vehicle.acriss && (
+                            <h4 style={{
+                                fontSize: '0.8rem',
+                                textAlign: 'left',
+                                fontWeight: 'bold',
+                            }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
+                        )}
                         {
                             props.vehicle.deeplink &&
                             <a style={{ left: '-70%', top: '0.5rem' }} target='_blank' className="listing-geodir-category capitalize" href={props.vehicle.deeplink}>Book Now</a>
@@ -99,9 +95,11 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             <span style={{ marginLeft: 0 }}>
                                 <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-door-closed"></i> {props.vehicle.doors || 'N/A'} Doors
                             </span>
-                            <span style={{ marginLeft: 0 }}>
-                                <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-icicles"></i> {AC} AC
-                            </span>
+                            {props.vehicle.ac && (
+                                <span style={{ marginLeft: 0 }}>
+                                    <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-icicles"></i> AC
+                                </span>
+                            )}
                             {props.vehicle.luggages && (
                                 <span style={{ marginLeft: 0 }}>
                                     <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-briefcase"></i> {props.vehicle.luggages || 'N/A'} Bags
