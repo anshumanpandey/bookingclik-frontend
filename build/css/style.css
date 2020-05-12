@@ -52,7 +52,7 @@ body{
 	text-align:center;
 	background:#004767;
 	color:#000;
-	font-family: 'Quicksand', sans-serif;
+	font-family: 'Roboto', 'Thaoma','Quicksand', sans-serif;
 }
 @-o-viewport {width: device-width;}
 @-ms-viewport {width: device-width;}
