@@ -47,7 +47,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 <div className="geodir-category-img" style={{ width: '40%'}}>
                     <img src={image_url} alt="" style={{ height: '100%' }} />
                     <div className="overlay"></div>
-                    <div className="list-post-counter"><span>{props.vehicle.doors} doors</span></div>
                 </div>
                 <ListingItemBody className="geodir-category-content">
                     <div>
