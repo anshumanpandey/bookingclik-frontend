@@ -33,7 +33,7 @@ function initCitybook() {
             return a;
         }
     });
-    $(".scroll-nav-wrapper").scrollToFixed({
+    $(".scroll-nav-wrapper:not(.no-fixed)").scrollToFixed({
         minWidth: 768,
         zIndex: 12,
         marginTop: 80,

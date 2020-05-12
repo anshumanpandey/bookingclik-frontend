@@ -104,8 +104,8 @@ export const ListCarsFilter: React.FC = () => {
                 <div style={{ display: 'flex' }}>
                     <div className="listsearch-input-item" style={{ width: '30%', display: 'flex', alignItems: 'stretch' }}>
                         <DateInput style={{
-                            borderBottomLeftRadius: '16px',
-                            borderTopLeftRadius: '16px',
+                            borderBottomLeftRadius: '6px',
+                            borderTopLeftRadius: '6px',
                             borderTopRightRadius: 0,
                             borderBottomRightRadius: 0,
                             border: 'unset'

@@ -111,9 +111,9 @@ export const SearchForm: React.FC = () => {
     return (
         <>
             <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ width: '100%', display: 'flex', flexDirection: 'column'}}>
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                     <Filter />
-                    <button style={{ float: 'right', width: '25%', alignSelf: 'end'}} onClick={() => send()} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
+                    <button style={{ float: 'right', width: '25%', alignSelf: 'end' }} onClick={() => send()} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
                 </div>
             </div>
         </>
@@ -238,12 +238,38 @@ export function ListResult() {
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    flexDirection: 'column'
                 }}>
-                    <h3 className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
+                    <div className="row" style={{ width: '100%'}}>
+                        <div className="scroll-nav-wrapper no-fixed fl-wrap" style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            paddingLeft: '1rem',
+                            paddingRight: '1rem',
+                        }}>
+                            <div style={{
+                                color: '#878C9F',
+                                borderRadius: '6px',
+                                padding: '5px 15px',
+                                fontSize: '13px',
+                                fontWeight: 500,
+                                alignSelf: 'center',
+                            }}>Sort By:</div>
+
+                            <nav className="scroll-nav scroll-init">
+                                <ul>
+                                    <li><a className="act-scrlink" href="#sec1">Price</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
                 {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
-                            ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
-                    </h3>
+                                ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
+                        </h3>
+                    </div>
                 </div>
                 {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
             </>
@@ -297,7 +323,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-3"> 
+                                    <div className="col-md-3">
                                         <div className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
@@ -309,7 +335,7 @@ export function ListResult() {
                                     </div>
                                     <div className="col-md-2">
                                         <div className="fl-wrap card-listing">
-                                            <img style={{ maxWidth: '100%'}} src={'images/all/ad.png'}></img>
+                                            <img style={{ maxWidth: '100%' }} src={'images/all/ad.png'}></img>
                                         </div>
                                     </div>
                                 </div>
