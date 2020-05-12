@@ -129,10 +129,8 @@ export function ListResult() {
     const [puDate, setPuDate] = useSearchWidgetState('puDate')
     const [puTime, setPuTime] = useSearchWidgetState('puTime')
     const [iataCode, setIataCode] = useSearchWidgetState('code')
-    const [term] = useSearchWidgetState('term')
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('LIST');
     const [search, setSearch] = useSearchState('scrape')
-    const [, setTransmissionOptions] = useFilterState('transmissionOptions');
     const [sortPrice] = useSortState('price');
     const [, setLoading] = useGlobalState('loading')
     const [filetredSearch] = useFilteredSearchState('filteredScrape');
