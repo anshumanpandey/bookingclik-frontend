@@ -89,7 +89,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
             }} />
           </div>
           <div>
-            <button className="main-search-button" onClick={() => send()} style={{ position: 'relative', borderRadius: '0.25rem', float: 'right', fontSize: '1.3rem', fontWeight: 'bold' }}>
+            <button className="main-search-button" onClick={() => send()} style={{ position: 'relative', marginTop: '1rem', borderRadius: '0.25rem', float: 'right', fontSize: '1.3rem', fontWeight: 'bold' }}>
               Search {loading && <CircularProgress color="inherit" size={15} />}
             </button>
           </div>

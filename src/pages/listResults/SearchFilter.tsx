@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import useAxios from 'axios-hooks'
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Checkbox, FormControlLabel, FormLabel } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
@@ -85,27 +85,54 @@ export const ListCarsFilter: React.FC = () => {
     return (
         <>
 
-            <LocationDropdown
-                secondary={true}
-                defaultCode={iataCode}
-                style={{ backgroundColor: '#4DB7FE', color: 'white' }}
-                customeClasses="listsearch-input-item m-b-0"
-                onChange={setIataCode}
-            />
-            <div className="listsearch-input-item m-b-0">
-                <DateInput defaultValue={puDate} onChange={(v) => setPuDate(v)} />
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <LocationDropdown
+                    secondary={true}
+                    defaultCode={iataCode}
+                    style={{ backgroundColor: '#4DB7FE', color: 'white' }}
+                    customeClasses="listsearch-input-item m-b-0"
+                    onChange={setIataCode}
+                />
+                <FormControlLabel
+                    control={<Checkbox style={{ alignSelf: 'flex-start' }} />}
+                    label={'Return car on same location'}
+
+                />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
+                <FormLabel style={{ alignSelf: 'flex-start' }}>Pick-up date</FormLabel>
+                <div style={{ display: 'flex' }}>
+                    <div className="listsearch-input-item" style={{ width: '30%', display: 'flex', alignItems: 'stretch' }}>
+                        <DateInput style={{
+                            borderBottomLeftRadius: '16px',
+                            borderTopLeftRadius: '16px',
+                            borderTopRightRadius: 0,
+                            borderBottomRightRadius: 0,
+                            border: 'unset'
+                        }} defaultValue={puDate} onChange={(v) => setPuDate(v)} />
+                    </div>
+
+                    <div className="listsearch-input-item" style={{ width: '30%' }}>
+                        <TimeInput style={{ borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }} grayBackgraound={true} defaultValue={puTime} onChange={(v) => setPuTime(v)} />
+                    </div>
+                </div>
             </div>
 
-            <div className="listsearch-input-item m-b-0">
-                <TimeInput defaultValue={puTime} onChange={(v) => setPuTime(v)} />
-            </div>
+            <div style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
+                <FormLabel style={{ alignSelf: 'flex-start' }}>Drop-off date</FormLabel>
+                <div style={{ display: 'flex' }}>
+                    <div className="listsearch-input-item" style={{ width: '30%', display: 'flex', alignItems: 'stretch' }}>
+                        <DateInput style={{
+                            borderTopRightRadius: 0,
+                            borderBottomRightRadius: 0,
+                            border: 'unset'
+                        }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
+                    </div>
 
-            <div className="listsearch-input-item m-b-0">
-                <DateInput defaultValue={doDate} onChange={(v) => setDoDate(v)} />
-            </div>
-
-            <div className="listsearch-input-item m-b-0">
-                <TimeInput defaultValue={doTime} onChange={(v) => setDoTime(v)} />
+                    <div className="listsearch-input-item" style={{ width: '30%' }}>
+                        <TimeInput style={{ borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }} grayBackgraound={true} defaultValue={doTime} onChange={(v) => setDoTime(v)} />
+                    </div>
+                </div>
             </div>
 
         </>

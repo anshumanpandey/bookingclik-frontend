@@ -111,9 +111,9 @@ export const SearchForm: React.FC = () => {
     return (
         <>
             <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'column'}}>
                     <Filter />
-                    <button onClick={() => send()} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
+                    <button style={{ float: 'right', width: '25%', alignSelf: 'end'}} onClick={() => send()} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
                 </div>
             </div>
         </>

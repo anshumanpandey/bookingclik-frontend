@@ -941,7 +941,6 @@ section.gray-section .section-separator {
 	float:left;
 	width:33.3%;
 	box-sizing:border-box;
-	border-right:1px solid #eee;
 	height:50px;
 	position:relative;
 }

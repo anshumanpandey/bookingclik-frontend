@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import TimePicker from 'rc-time-picker';
+import { FormControlLabel, FormLabel, Checkbox } from '@material-ui/core';
 import { DateInput, LocationDropdown, TimeInput } from '../../partials';
 import { useSearchWidgetState } from './useSearchWidgetGlobalState';
 import { TIME_FORMAT } from '../../utils/DateFormat';
 
-export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties}> = () => {
+export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = () => {
     const [, setDoDate] = useSearchWidgetState('doDate')
     const [, setDoTime] = useSearchWidgetState('doTime')
     const [, setPuDate] = useSearchWidgetState('puDate')
@@ -13,61 +13,78 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties}> = (
 
     return (
         <>
-            <div className="row" style={{ color: 'white', textAlign: 'left' }}>
-                <div className="col-md-4" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label style={{ fontSize: '0.88rem'}}>Location</label>
-                </div>
-
-                <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label style={{ fontSize: '0.88rem'}}>Pick up Date</label>
-                </div>
-
-                <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label style={{ fontSize: '0.88rem'}}>Pick up Time</label>
-                </div>
-
-                <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label style={{ fontSize: '0.88rem'}}>Drop off Date</label>
-                </div>
-
-                <div className="col-md-2" style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    <label style={{ fontSize: '0.88rem'}}>Drop off Time</label>
-                </div>
-            </div>
-
-            <div className="row" style={{ backgroundColor: 'white', borderRadius: '0.25rem' }}>
-                <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+            <div className="row">
+                <div className="col-md-12" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                     <LocationDropdown defaultCode={null} onChange={setIataCode} style={{
                         borderTopLeftRadius: '30px',
                         borderBottomLeftRadius: '30px',
-                        width: '100%'
+                        width: '100%',
+                        backgroundColor: 'white',
+                        borderRadius: '0.25rem'
                     }} />
+                    <FormControlLabel
+                        style={{ color: 'white' }}
+                        control={<Checkbox style={{ color: 'white', alignSelf: 'flex-start' }} />}
+                        label={'Return car on same location'}
+
+                    />
                 </div>
-                <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
-                    <div className="main-search-input-item" style={{ width: '100%' }}>
-                        <DateInput onChange={(v) => setPuDate(v)} />
+            </div>
+            <div className="row" style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                    <FormLabel style={{ color: 'white', alignSelf: 'flex-start', flexDirection: 'column' }}>Pick-up date</FormLabel>
+                    <div>
+                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+
+                            <div className="main-search-input-item" style={{ width: '100%' }}>
+                                <DateInput style={{
+                                    borderTopRightRadius: 0,
+                                    borderBottomRightRadius: 0,
+                                    border: 'unset',
+                                    borderBottomLeftRadius: '6px',
+                                    borderTopLeftRadius: '6px',
+                                }} onChange={(v) => setPuDate(v)} />
+                            </div>
+                        </div>
+
+                        <div className="col-md-5" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                            <div className="main-search-input-item" style={{ width: '100%' }}>
+                                <TimeInput
+                                    style={{ backgroundColor: 'white', borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
+                                    onChange={setPuTime}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
-                    <div className="main-search-input-item" style={{ width: '100%' }}>
-                        <TimeInput
-                            onChange={setPuTime}
-                        />
-                    </div>
-                </div>
 
-                <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
 
-                    <div className="main-search-input-item" style={{ width: '100%' }}>
-                        <DateInput onChange={(v) => setDoDate(v)} />
-                    </div>
-                </div>
-                <div className="col-md-2" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
-                    <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
-                        <TimeInput
-                            onChange={setDoTime}
-                        />
+                <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                        <div className="col-md-11 col-md-offset-1" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                        <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Drop-off date</FormLabel>
+                        <div>
+                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+
+                            <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
+                                <DateInput style={{
+                                    borderTopRightRadius: 0,
+                                    borderBottomRightRadius: 0,
+                                    borderBottomLeftRadius: '6px',
+                                    borderTopLeftRadius: '6px',
+                                }} onChange={(v) => setDoDate(v)} />
+                            </div>
+                            </div>
+
+                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                            <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
+                                <TimeInput
+                                    style={{ backgroundColor: 'white', borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
+                                    onChange={setDoTime}
+                                />
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
