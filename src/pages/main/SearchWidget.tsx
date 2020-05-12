@@ -74,7 +74,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   return (
     <div className="main-search-input-wrap" style={{ maxWidth: '1096px' }}>
       <div style={{
-        height: "13rem",
+        height: "16rem",
         position: "relative",
         backgroundColor: "black",
         padding: "2rem",
