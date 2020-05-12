@@ -28,7 +28,8 @@ export const SearchForm: React.FC = () => {
     const [doTime] = useSearchWidgetState('doTime')
     const [doDate] = useSearchWidgetState('doDate')
     const [puTime] = useSearchWidgetState('puTime')
-    const [iataCode] = useSearchWidgetState('code')
+    const [pickUpCode] = useSearchWidgetState('pickUpCode')
+    const [dropoffCode] = useSearchWidgetState('dropoffCode')
 
     const [dynamicFilters] = useDynamicFiltersState('activeFilters');
 
@@ -50,9 +51,8 @@ export const SearchForm: React.FC = () => {
     }, [dynamicFilters]);
 
     const send = () => {
-        if (!iataCode) {
-            return;
-        }
+        if (!pickUpCode) return;
+        if (!dropoffCode) return;
 
         const filterToSend = []
 
@@ -75,20 +75,20 @@ export const SearchForm: React.FC = () => {
         }
 
         let urlParams = {
-            pickUpLocationCode: iataCode.internalcode,
-            pickUpLocationName: iataCode.locationname,
-            dropOffLocationCode: iataCode.internalcode,
-            dropOffLocationName: iataCode.locationname,
-
+            pickUpLocationCode: pickUpCode.internalcode,
+            pickUpLocationName: pickUpCode.locationname,
             pickUpDate: puDate ? puDate.unix() : moment().unix(),
             pickUpTime: puTime ? puTime.unix() : moment().unix(),
+
+            dropOffLocationCode: dropoffCode.internalcode,
+            dropOffLocationName: dropoffCode.locationname,
             dropOffDate: doDate ? doDate.unix() : moment().unix(),
-            dropOffTime: doTime ? doTime.unix() : moment().unix(),
+            dropOffTime: doTime ? doTime.unix() : moment().unix(),            
         };
 
         const jsonParams = {
-            pickUpLocation: iataCode,
-            dropOffLocation: iataCode,
+            pickUpLocation: pickUpCode,
+            dropOffLocation: dropoffCode,
 
             pickUpDate: puDate ? puDate : moment(),
             pickUpTime: puTime ? puTime : moment(),
@@ -128,7 +128,8 @@ export function ListResult() {
     const [doTime, setDoTime] = useSearchWidgetState('doTime')
     const [puDate, setPuDate] = useSearchWidgetState('puDate')
     const [puTime, setPuTime] = useSearchWidgetState('puTime')
-    const [iataCode, setIataCode] = useSearchWidgetState('code')
+    const [pickUpCode, setPickUpCode] = useSearchWidgetState('pickUpCode')
+    const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('LIST');
     const [search, setSearch] = useSearchState('scrape')
     const [sortPrice] = useSortState('price');
@@ -150,9 +151,6 @@ export function ListResult() {
         if (!state || !state.hasOwnProperty('results')) {
             setLoading(true)
 
-            console.log(urlParams.pickUpLocationCode)
-            console.log(urlParams.dropOffLocationCode)
-
             if (!urlParams.pickUpLocationCode) return
             if (!urlParams.dropOffLocationCode) return
 
@@ -172,7 +170,8 @@ export function ListResult() {
                 dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())) : moment(),
                 dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())) : moment(),
             }
-            setIataCode(params.pickUpLocation);
+            setPickUpCode(params.pickUpLocation);
+            setDropoffCode(params.dropOffLocation);
             setDoDate(params.dropOffDate);
             setDoTime(params.dropOffTime);
             setPuDate(params.pickUpDate);
@@ -202,7 +201,8 @@ export function ListResult() {
                 dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())) : moment(),
                 dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())) : moment(),
             }
-            setIataCode(params.pickUpLocation);
+            setPickUpCode(params.pickUpLocation);
+            setDropoffCode(params.dropOffLocation);
             setDoDate(params.dropOffDate);
             setDoTime(params.dropOffTime);
             setPuDate(params.pickUpDate);
@@ -290,7 +290,7 @@ export function ListResult() {
                                             <h3>
                                                 <i className="fa fa-car" ></i>
                                                 {'   '}
-                                                <span>{iataCode?.locationname} ({iataCode?.internalcode})</span> |
+                                                <span>{pickUpCode?.locationname} ({pickUpCode?.internalcode})</span> |
                                         {'  '}
                                                 {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}

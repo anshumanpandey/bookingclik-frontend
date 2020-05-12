@@ -9,13 +9,15 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     const [, setDoTime] = useSearchWidgetState('doTime')
     const [, setPuDate] = useSearchWidgetState('puDate')
     const [, setPuTime] = useSearchWidgetState('puTime')
-    const [, setIataCode] = useSearchWidgetState('code')
+    const [, setPickupCode] = useSearchWidgetState('pickUpCode')
+    const [, setDropoffCode] = useSearchWidgetState('dropoffCode')
+    const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
 
     return (
         <>
             <div className="row">
-                <div className="col-md-12" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
-                    <LocationDropdown defaultCode={null} onChange={setIataCode} style={{
+                <div className="col-md-12" style={{ marginBottom: displayDropoffInput ? '1rem': 0 ,display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                    <LocationDropdown defaultCode={null} onChange={setPickupCode} style={{
                         borderTopLeftRadius: '30px',
                         borderBottomLeftRadius: '30px',
                         width: '100%',
@@ -24,10 +26,19 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                     }} />
                     <FormControlLabel
                         style={{ color: 'white' }}
-                        control={<Checkbox style={{ color: 'white', alignSelf: 'flex-start' }} />}
+                        control={<Checkbox onChange={() => setDisplayDropoffInput(p => !p)} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
                         label={'Return car on same location'}
 
                     />
+                    { displayDropoffInput && (
+                        <LocationDropdown defaultCode={null} onChange={setDropoffCode} style={{
+                            borderTopLeftRadius: '30px',
+                            borderBottomLeftRadius: '30px',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            borderRadius: '0.25rem'
+                        }} />
+                    )}
                 </div>
             </div>
             <div className="row" style={{ display: 'flex', justifyContent: 'space-around' }}>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks'
 import { CircularProgress, Checkbox, FormControlLabel, FormLabel } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
@@ -80,23 +80,29 @@ export const ListCarsFilter: React.FC = () => {
     const [doDate, setDoDate] = useSearchWidgetState("doDate")
     const [doTime, setDoTime] = useSearchWidgetState("doTime")
 
-    const [iataCode, setIataCode] = useSearchWidgetState("code")
+    const [pickUpCode, setPickUpCode] = useSearchWidgetState("pickUpCode")
+    const [dropoffCode, setdropoffCode] = useSearchWidgetState("dropoffCode")
 
     return (
         <>
 
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ marginBottom: '1rem',display: 'flex', flexDirection: 'column' }}>
                 <LocationDropdown
                     secondary={true}
-                    defaultCode={iataCode}
+                    defaultCode={pickUpCode}
                     style={{ backgroundColor: '#4DB7FE', color: 'white' }}
                     customeClasses="listsearch-input-item m-b-0"
-                    onChange={setIataCode}
+                    onChange={setPickUpCode}
                 />
-                <FormControlLabel
-                    control={<Checkbox style={{ alignSelf: 'flex-start' }} />}
-                    label={'Return car on same location'}
+            </div>
+            <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
 
+                <LocationDropdown
+                    secondary={true}
+                    defaultCode={dropoffCode}
+                    style={{ backgroundColor: '#4DB7FE', color: 'white' }}
+                    customeClasses="listsearch-input-item m-b-0"
+                    onChange={setdropoffCode}
                 />
             </div>
             <div style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>

@@ -21,7 +21,8 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   const [puTime] = useSearchWidgetState('puTime')
   const [doDate] = useSearchWidgetState('doDate')
   const [doTime] = useSearchWidgetState('doTime')
-  const [iataCode] = useSearchWidgetState('code')
+  const [pickUpCode] = useSearchWidgetState('pickUpCode')
+  const [dropoffCode] = useSearchWidgetState('dropoffCode')
 
   const CurrentFilter = optionToSearch === 'cars' ? CarSearchWidgetFilters : DefaultSearchWidgetFilters;
 
@@ -33,7 +34,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   const send = () => {
     const date = moment();
 
-    if (!iataCode) return
+    if (!pickUpCode) return
 
     const searchCriteria = {
       pickUpDate: puDate || date,
@@ -42,15 +43,15 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
       dropOffDate: doDate || date,
       dropOffTime: doTime || date,
 
-      pickUpLocation: iataCode,
-      dropOffLocation: iataCode
+      pickUpLocation: pickUpCode,
+      dropOffLocation: dropoffCode ? dropoffCode : pickUpCode
     }
 
     const params = {
       pickUpLocationCode: searchCriteria.pickUpLocation.internalcode,
       pickUpLocationName: searchCriteria.pickUpLocation.locationname,
-      dropOffLocationCode: searchCriteria.pickUpLocation.internalcode,
-      dropOffLocationName: searchCriteria.pickUpLocation.locationname,
+      dropOffLocationCode: searchCriteria.dropOffLocation ? searchCriteria.dropOffLocation.internalcode: searchCriteria.pickUpLocation.internalcode,
+      dropOffLocationName: searchCriteria.dropOffLocation ? searchCriteria.dropOffLocation.locationname: searchCriteria.pickUpLocation.locationname,
 
       pickUpDate: searchCriteria.pickUpDate.unix(),
       pickUpTime: searchCriteria.pickUpTime.unix(),
@@ -74,7 +75,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   return (
     <div className="main-search-input-wrap" style={{ maxWidth: '1096px' }}>
       <div style={{
-        height: "16rem",
+        display: "flex",
         position: "relative",
         backgroundColor: "black",
         padding: "2rem",

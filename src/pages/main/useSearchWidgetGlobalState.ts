@@ -11,7 +11,8 @@ type ContextType = {
     puTime: moment.Moment | null,
     doTime: moment.Moment | null,
 
-    code: GRCGDSCode | null,
+    pickUpCode: GRCGDSCode | null,
+    dropoffCode: GRCGDSCode | null,
 }
 const initialState = {
     term: Terms.Cars,
@@ -20,7 +21,8 @@ const initialState = {
 
     puTime: moment().add(3, 'day'),
     doTime: moment().add(5, 'day'),
-    code: null,
+    pickUpCode: null,
+    dropoffCode: null,
 }
 
 export const { useGlobalState: useSearchWidgetState } = createGlobalState<ContextType>(initialState);
