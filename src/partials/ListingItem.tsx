@@ -23,6 +23,7 @@ const ListingItemInner = styled.article`
 `;
 
 const Avatar = styled.div`
+    width: 100%;
     .listing-item.list-layout &{
         margin-top: -80px;
     }
@@ -40,6 +41,14 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [puDate] = useSearchWidgetState('puDate')
 
     const carTransmission = props.vehicle.transmission || (props.vehicle.automatic == true ? 'Automatic' : null) || (props.vehicle.manual == true ? 'Manual' : null)
+    let suplierLogoUrl = "images/avatar/1.jpg"
+    if (props.vehicle.supplier_logo) {
+        if (RegExp('http').test(props.vehicle.supplier_logo)) {
+            suplierLogoUrl = props.vehicle.supplier_logo
+        } else {
+            suplierLogoUrl = `${process.env.REACT_APP_GRCGDS_BACKEND}/public/upload/${props.vehicle.supplier_logo}`
+        }
+    }
 
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`} style={{
@@ -59,9 +68,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
                         <Avatar className="listing-avatar">
                             <a href="#">
-                                <img src={props.vehicle.client_logo ? `${process.env.REACT_APP_BACKEND_URL}/upload/${props.vehicle.client_logo}` : "images/avatar/1.jpg"} alt="" />
+                                <img src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                             </a>
-                            {props.vehicle.client_name && (<span className="avatar-tooltip">By  <strong>{props.vehicle.client_name}</strong></span>)}
+                            {props.vehicle.carrentalcompanyname && (<span className="avatar-tooltip">By <strong>{props.vehicle.carrentalcompanyname}</strong></span>)}
                         </Avatar>
                         <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
                         <p>ACRISS {props.vehicle.acriss}</p>
