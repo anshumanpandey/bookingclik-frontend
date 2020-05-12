@@ -32,7 +32,6 @@ export type ListingItemProps = {
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/car_not_found.png"
-    console.log(props.vehicle.image_preview_url)
 
     const [doDate] = useSearchWidgetState('doDate')
     const [puDate] = useSearchWidgetState('puDate')

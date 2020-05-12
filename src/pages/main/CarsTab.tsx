@@ -17,9 +17,9 @@ export const CarsTab: React.FC = () => {
             <div className="bg"  data-bg="images/bg/car.jpg" data-scrollax="properties: { translateY: '200px' }"></div>
 
                 <div className="overlay"></div>
-                <div className="hero-section-wrap fl-wrap">
+                <div className="hero-section-wrap fl-wrap" >
 
-                    <div className="container" >
+                    <div className="container" style={{ margin: 'auto'}}>
                         <div className="intro-item fl-wrap" >
                             <h2 style={{ textAlign: 'left', width: '90%',float: 'right'}}>Find your ride.</h2>
                         </div>
