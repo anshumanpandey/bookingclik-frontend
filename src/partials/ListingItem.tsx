@@ -79,7 +79,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content" style={{ padding: '15px 10px 5px' }}>
-                    <div className="row">
+                    <div className="row" style={{ display: 'flex', alignContent: 'stretch'}}>
                         <div className="col-md-5" style={{ display: 'flex', flexDirection: 'column' }}>
                             <div>
                                 {props.vehicle.acriss && (
@@ -170,7 +170,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
 
 
-                        <div className="col-md-2">
+                        <div className="col-md-2" style={{ display: 'flex'}}>
 
                             <div className="geodir-category-location" style={{
                                 marginTop: '0.5rem',
