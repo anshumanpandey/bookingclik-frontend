@@ -39,7 +39,7 @@ export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, labe
                         return (
                             <input
                                 readOnly={true}
-                                style={{ ...style, height: '100%' }}
+                                style={{ ...style, border:'1px solid black',backgroundColor: 'white',height: '100%' }}
                                 placeholder={`Date: ${moment().format(DATE_FORMAT)}`}
                                 value={val ? val.format(DATE_FORMAT) : undefined}
                             />

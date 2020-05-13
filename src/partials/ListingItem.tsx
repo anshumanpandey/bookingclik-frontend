@@ -35,9 +35,6 @@ export type ListingItemProps = {
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/car_not_found.png"
 
-    const [doDate] = useSearchWidgetState('doDate')
-    const [puDate] = useSearchWidgetState('puDate')
-
     let carTransmission = null
     if (RegExp("(M|N|C)").test(props.vehicle.acriss[2])) {
         carTransmission = "Manual"
@@ -80,7 +77,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content" style={{ padding: '15px 10px 5px' }}>
                     <div className="row" style={{ display: 'flex', alignContent: 'stretch'}}>
-                        <div className="col-md-5" style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column' }}>
                             <div>
                                 {props.vehicle.acriss && (
                                     <h4 style={{
@@ -160,7 +157,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             </div>
                         </div>
 
-                        <div className="col-md-2">
+                        <div className="col-md-3">
                             <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, color: '#157f41' }} >
                                 <p style={{ color: '#157f41', paddingBottom: 0 }}>Included for Free</p>
                                 {props.vehicle.winter_tyres_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}

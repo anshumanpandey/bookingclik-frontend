@@ -24,8 +24,8 @@
 }
 
 .MuiAutocomplete-input.secondary{
-    background-color: #03bfcb;
-    color: white;
+    background-color: white;
+    color: black;
     border: none;
 }
 

@@ -20,7 +20,7 @@ import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import useDidMountEffect from '../../utils/useDidMountEffect';
 
-export const SearchForm: React.FC = () => {
+export const SearchForm: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
     const [puDate] = useSearchWidgetState('puDate')
     const [term] = useSearchWidgetState('term')
@@ -108,10 +108,13 @@ export const SearchForm: React.FC = () => {
 
     return (
         <>
-            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#154a64' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                     <Filter />
-                    <button style={{ float: 'right', width: '25%', alignSelf: 'end' }} onClick={() => send()} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
+                    <button style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {
+                        send()
+                        onSearch()
+                    }} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
                 </div>
             </div>
         </>
@@ -122,6 +125,7 @@ export function ListResult() {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
     const state = history.location.state;
 
+    const [searchPanelOpen, setSearchPanelOpen] = useState(false)
     const [doDate, setDoDate] = useSearchWidgetState('doDate')
     const [doTime, setDoTime] = useSearchWidgetState('doTime')
     const [puDate, setPuDate] = useSearchWidgetState('puDate')
@@ -278,7 +282,7 @@ export function ListResult() {
                     {isfiltering && (
                         <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
                             <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <img src={`${process.env.PUBLIC_URL}images/logo.jpg`} />
+                                <img src={`${process.env.PUBLIC_URL}images/logo.png`} />
                                 <div style={{ position: 'unset' }} className="pulse"></div>
                             </div>
                         </div>
@@ -296,21 +300,22 @@ export function ListResult() {
                 <div className="content">
                     <section className="gray-bg no-pading no-top-padding" style={{ paddingTop: "1rem" }} id="sec1">
                         <div className="col-list-wrap fh-col-list-wrap  left-list">
-                            <div className="container" style={{ maxWidth: 'unset', margin: 'auto'}}>
+                            <div className="container" style={{ maxWidth: 'unset', margin: 'auto' }}>
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                                        <div onClick={() => setSearchPanelOpen(true)} className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <h3 style={{ fontSize: '1.1rem', fontWeight: 'unset' }}>
                                                 <i className="fa fa-car" ></i>
                                                 {'   '}
-                                                <span>{pickUpCode?.locationname} ({pickUpCode?.internalcode})</span> |
+                                                <span style={{ color: '#154a64' }}>{pickUpCode?.locationname} ({pickUpCode?.internalcode})</span> |
                                         {'  '}
                                                 {puDate?.format("ddd, MMM D")}, {puTime?.format(" H:mma")} -
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
                                             </h3>
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                 <div style={{ float: 'right' }}>
-                                                    <h4 className="highlight-text">Change Search <i className="fa fa-search"></i></h4>
+                                                    <h4 style={{ color: '#154a64to-top' }}>Change Search <i className="fa fa-search"></i></h4>
                                                 </div>
                                                 <div className="listing-view-layout">
                                                     <ul>
@@ -329,9 +334,12 @@ export function ListResult() {
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div>} >
-
-                                            <SearchForm />
+                                        </div>
+                                        <Panel open={searchPanelOpen} >
+                                            <SearchForm onSearch={() => {
+                                                console.log('closing')
+                                                setSearchPanelOpen(false)
+                                            }} />
                                         </Panel>
                                     </div>
                                 </div>

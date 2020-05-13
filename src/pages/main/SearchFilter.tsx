@@ -70,7 +70,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                             <div className="main-search-input-item" style={{ width: '100%' }}>
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
-                                    style={{ backgroundColor: 'white', borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
+                                    style={{ backgroundColor: 'white', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
                                     onChange={setPuTime}
                                 />
                             </div>
@@ -102,7 +102,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                             <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
-                                    style={{ backgroundColor: 'white', borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
+                                    style={{ backgroundColor: 'white', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
                                     onChange={setDoTime}
                                 />
                             </div>

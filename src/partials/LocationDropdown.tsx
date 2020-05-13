@@ -212,6 +212,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                                 classes={{
                                     input: `${classes.input} ${secondary ? 'secondary' : undefined} `,
                                 }}
+                                style={{ borderRadius: '6px'}}
                                 placeholder="Select Pickup Location"
                                 endAdornment={(
                                     <React.Fragment>

@@ -83,67 +83,76 @@ export const ListCarsFilter: React.FC = () => {
     const [pickUpCode, setPickUpCode] = useSearchWidgetState("pickUpCode")
     const [dropoffCode, setdropoffCode] = useSearchWidgetState("dropoffCode")
 
+    const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
+
+
     return (
         <>
-            <div style={{ marginBottom: '1rem',display: 'flex', flexDirection: 'column' }}>
+            <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
                 <LocationDropdown
                     secondary={true}
                     defaultCode={pickUpCode}
-                    style={{ backgroundColor: '#03bfcb', color: 'white' }}
+                    style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
                     customeClasses="listsearch-input-item m-b-0"
                     onChange={setPickUpCode}
                 />
             </div>
-            <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
+            <FormControlLabel
+                style={{ color: 'white' }}
+                control={<Checkbox onChange={() => setDisplayDropoffInput(p => !p)} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
+                label={'Return car on same location'}
 
-                <LocationDropdown
-                    secondary={true}
-                    defaultCode={dropoffCode}
-                    style={{ backgroundColor: '#03bfcb', color: 'white' }}
-                    customeClasses="listsearch-input-item m-b-0"
-                    onChange={setdropoffCode}
-                />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
-                <FormLabel style={{ alignSelf: 'flex-start' }}>Pick-up date</FormLabel>
-                <div style={{ display: 'flex' }}>
-                    <div className="listsearch-input-item" style={{ width: '30%', display: 'flex', alignItems: 'stretch' }}>
-                        <DateInput style={{
-                            borderBottomLeftRadius: '6px',
-                            borderTopLeftRadius: '6px',
-                            borderTopRightRadius: 0,
-                            borderBottomRightRadius: 0,
-                            border: 'unset'
-                        }} defaultValue={puDate} onChange={(v) => setPuDate(v)} />
-                    </div>
+            />
+            {displayDropoffInput && (
+                <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
 
-                    <div className="listsearch-input-item" style={{ width: '30%' }}>
-                        <TimeInput
-                            style={{ borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
-                            grayBackgraound={true}
-                            defaultValue={puTime?.set('seconds', 0)}
-                            onChange={(v) => setPuTime(v)} />
+                    <LocationDropdown
+                        secondary={true}
+                        defaultCode={dropoffCode}
+                        style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
+                        customeClasses="listsearch-input-item m-b-0"
+                        onChange={setdropoffCode}
+                    />
+                </div>
+            )}
+            <div style={{ display: 'flex' }}>
+                <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
+                    <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Pick-up date</FormLabel>
+                    <div style={{ display: 'flex' }}>
+                        <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
+                            <DateInput style={{
+                                borderBottomLeftRadius: '6px',
+                                borderTopLeftRadius: '6px',
+                                borderTopRightRadius: 0,
+                                borderBottomRightRadius: 0,
+                                border: 'unset'
+                            }} defaultValue={puDate} onChange={(v) => setPuDate(v)} />
+                        </div>
+
+                        <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}>
+                            <TimeInput
+                                defaultValue={puTime?.set('seconds', 0)}
+                                onChange={(v) => setPuTime(v)} />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div style={{ display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
-                <FormLabel style={{ alignSelf: 'flex-start' }}>Drop-off date</FormLabel>
-                <div style={{ display: 'flex' }}>
-                    <div className="listsearch-input-item" style={{ width: '30%', display: 'flex', alignItems: 'stretch' }}>
-                        <DateInput style={{
-                            borderTopRightRadius: 0,
-                            borderBottomRightRadius: 0,
-                            border: 'unset'
-                        }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
-                    </div>
+                <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
+                    <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Drop-off date</FormLabel>
+                    <div style={{ display: 'flex' }}>
+                        <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
+                            <DateInput style={{
+                                borderTopRightRadius: 0,
+                                borderBottomRightRadius: 0,
+                                border: 'unset'
+                            }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
+                        </div>
 
-                    <div className="listsearch-input-item" style={{ width: '30%' }}>
-                        <TimeInput
-                            style={{ borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
-                            grayBackgraound={true}
-                            defaultValue={doTime?.set('seconds', 0)}
-                            onChange={(v) => setDoTime(v)} />
+                        <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}>
+                            <TimeInput
+                                defaultValue={doTime?.set('seconds', 0)}
+                                onChange={(v) => setDoTime(v)} />
+                        </div>
                     </div>
                 </div>
             </div>

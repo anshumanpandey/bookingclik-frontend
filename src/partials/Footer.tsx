@@ -168,7 +168,7 @@ export const Footer = () => {
                     </div>
                 </div>
             </div>
-            <a className="to-top"><i className="fa fa-angle-up"></i></a>
+            <a style={{ backgroundColor: '#154a64'}} className="to-top"><i className="fa fa-angle-up"></i></a>
         </>
     );
 }
