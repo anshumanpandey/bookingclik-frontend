@@ -33,6 +33,7 @@ export type ListingItemProps = {
     vehicle: Vehicle
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
+    console.log(props)
     const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/car_not_found.png"
 
     const [doDate] = useSearchWidgetState('doDate')
@@ -74,7 +75,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
-                <ListingItemBody className="geodir-category-content">
+                <ListingItemBody className="geodir-category-content" style={{ padding: '15px 10px 5px' }}>
                     <div style={{ display: 'flex' }}>
                         <div className="geodir-category-img" style={{ width: 'unset', marginRight: '2rem' }}>
                             <img style={{ width: 200, height: 113, backgroundColor: 'white' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
@@ -100,12 +101,12 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         {carTransmission || 'N/A'}
                                     </span>
                                 )}
-                                {props.vehicle.seats && (
+                                {(props.vehicle.seats !== null && props.vehicle.seats !== undefined && props.vehicle.seats !== 0) && (
                                     <span style={{ marginLeft: 0 }}>
                                         <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-male"></i> {props.vehicle.seats} Seats
                                     </span>
                                 )}
-                                {props.vehicle.doors && (
+                                {(props.vehicle.doors !== null && props.vehicle.doors !== undefined && (props.vehicle.doors != 0)) && (
                                     <span style={{ marginLeft: 0, display: 'flex' }} className="icon icon--car icon--doors">
                                         {props.vehicle.doors} Doors
                                     </span>
@@ -115,47 +116,49 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-icicles"></i> AC
                                     </span>
                                 )}
-                                {props.vehicle.luggages && (
+                                {props.vehicle.luggages != null && props.vehicle.luggages != undefined && props.vehicle.luggages != 0 && (
                                     <span style={{ marginLeft: 0 }}>
                                         <i style={{ fontSize: '1rem', color: '#004767' }} className="fas fa-briefcase"></i> {props.vehicle.luggages} Bags
                                     </span>
                                 )}
                             </div>
                         </div>
-                    </div>
-                    <div className="geodir-category-options fl-wrap">
-                        <div className="row">
-                            <div className="col-md-6">
-                                {props.vehicle.fuel_policy && (
-                                    <div className="geodir-category-location" style={{ padding: 0, display: 'flex' }}>
-                                        <i style={{
-                                            fontSize: '1.8rem',
-                                            marginRight: '1rem',
-                                        }} className="fas fa-gas-pump"></i>
-                                        <div>
-                                            {props.vehicle.carrentalcompanyname && (
-                                                <h5 style={{ textAlign: 'left' }}><strong>Fuel Policy</strong></h5>
-                                            )}
-                                            <h4 style={{ marginBottom: 0, textAlign: 'left' }}>{fuelPolicy}</h4>
+
+                        <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+
+
+                            <div className="row">
+                                <div className="col-md-6">
+                                    {props.vehicle.fuel_policy && (
+                                        <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex' }}>
+                                            <i style={{
+                                                fontSize: '1.8rem',
+                                                marginRight: '1rem',
+                                            }} className="fas fa-gas-pump"></i>
+                                            <div>
+                                                {props.vehicle.carrentalcompanyname && (
+                                                    <h5 style={{ textAlign: 'left' }}><strong>Fuel Policy</strong></h5>
+                                                )}
+                                                <h4 style={{ marginBottom: 0, textAlign: 'left' }}>{fuelPolicy}</h4>
+                                            </div>
                                         </div>
+                                    )}
+                                </div>
+
+                                <div className="col-md-6">
+                                    <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0 }}>
+
+                                        {props.vehicle.winter_tyres_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green' }} className="fas fa-check"></i> Winter Tyres Included</p>}
+                                        {props.vehicle.snow_chains_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green' }} className="fas fa-check"></i> Snow Chains Included</p>}
+                                        {props.vehicle.road_tax_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green' }} className="fas fa-check"></i>Road Tax Included</p>}
+                                        {props.vehicle.unlimited_mileage && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green' }} className="fas fa-check"></i>Unlimited Mileage</p>}
                                     </div>
-                                )}
-                            </div>
-
-                            <div className="col-md-6">
-                                <div className="geodir-category-location" style={{ padding: 0 }}>
-
-                                    {props.vehicle.winter_tyres_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green' }} className="fas fa-check"></i> Winter Tyres Included</p>}
-                                    {props.vehicle.snow_chains_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green' }} className="fas fa-check"></i> Snow Chains Included</p>}
-                                    {props.vehicle.road_tax_included && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green' }} className="fas fa-check"></i>Road Tax Included</p>}
-                                    {props.vehicle.unlimited_mileage && <p style={{ paddingBottom: 0 }}><i style={{ color: 'green' }} className="fas fa-check"></i>Unlimited Mileage</p>}
                                 </div>
                             </div>
                         </div>
-
-
-
-                        <div className="geodir-category-location" style={{ padding: 0, display: 'flex', justifyContent: 'space-between' }}>
+                    </div>
+                    <div className="geodir-category-options fl-wrap">
+                        <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div>
                                 {props.vehicle.carrentalcompanyname && (
                                     <h4 style={{ textAlign: 'left' }}>Supplied by</h4>
@@ -167,7 +170,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             <div style={{ display: 'flex' }}>
                                 <div style={{
                                     display: 'flex',
-                                    justifyContent: 'space-between'
+                                    justifyContent: 'space-between',
                                 }}>
                                     <div className="evticket-meta" style={{ paddingLeft: 0, paddingBottom: 0, paddingTop: '0.5rem', }}>
                                         <div className="evticket-price"><span>{currencySymbol}</span> {props.vehicle.price}</div>

@@ -22,8 +22,9 @@ export interface DynamicFilter {
 
 
 export interface Vehicle {
-    doors: string;
-    seats: number;
+    doors: string | number;
+    seats: string | number;
+    luggages?: string | number;
     name: string;
     transmission: string;
     acriss: string;
