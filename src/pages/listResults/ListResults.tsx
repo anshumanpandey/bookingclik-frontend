@@ -112,8 +112,8 @@ export const SearchForm: React.FC<{ onSearch: () => void }> = ({ onSearch }) => 
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                     <Filter />
                     <button style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {
-                        send()
                         onSearch()
+                        send()
                     }} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
                 </div>
             </div>
@@ -260,7 +260,7 @@ export function ListResult() {
                                 alignSelf: 'center',
                             }}>Sort By:</div>
 
-                            <nav className="scroll-nav scroll-init">
+                            <nav className="scroll-nav scroll-init sort">
                                 <ul>
                                     <li onClick={() => setSortPrice((prev) => {
                                         if (prev === PriceSortOrder.DESC) return PriceSortOrder.ASC
