@@ -45,7 +45,7 @@ export const TagSearchWidget: React.FC<Props> = ({ options, category }) => {
     return (
         <div className=" fl-wrap filter-tags" style={styles}>
             <Typography gutterBottom style={{ borderBottom: '1px solid #eee' }}>
-                Filter by {category.name}
+                By {category.name}
             </Typography>
             {options.map(option => {
                 return (

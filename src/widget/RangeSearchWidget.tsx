@@ -35,7 +35,7 @@ export const RangeSearchWidget: React.FC<Props> = ({ minValue, maxValue, categor
         <>
             <Typography id="range-slider" gutterBottom>
                 {category.name} range
-                                    </Typography>
+                </Typography>
             <Slider
                 min={parseFloat(minValue)}
                 max={parseFloat(maxValue)}

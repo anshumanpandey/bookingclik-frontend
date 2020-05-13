@@ -23,7 +23,7 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
     return (
         <div className=" fl-wrap filter-tags" style={styles}>
             <Typography gutterBottom style={{ borderBottom: '1px solid #eee' }}>
-                Filter by {category.name}
+                By {category.name}
             </Typography>
             {options.map(option => {
                 return (

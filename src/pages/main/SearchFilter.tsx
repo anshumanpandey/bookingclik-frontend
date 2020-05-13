@@ -3,15 +3,21 @@ import { FormControlLabel, FormLabel, Checkbox } from '@material-ui/core';
 import { DateInput, LocationDropdown, TimeInput } from '../../partials';
 import { useSearchWidgetState } from './useSearchWidgetGlobalState';
 import { TIME_FORMAT } from '../../utils/DateFormat';
+import moment from 'moment';
+import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 
 export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = () => {
-    const [, setDoDate] = useSearchWidgetState('doDate')
+    const [doDate, setDoDate] = useSearchWidgetState('doDate')
     const [, setDoTime] = useSearchWidgetState('doTime')
-    const [, setPuDate] = useSearchWidgetState('puDate')
+    const [puDate, setPuDate] = useSearchWidgetState('puDate')
     const [, setPuTime] = useSearchWidgetState('puTime')
     const [, setPickupCode] = useSearchWidgetState('pickUpCode')
     const [, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
+
+    useDidUpdateEffect(() => {
+        setDoDate(puDate)
+    }, [puDate])
 
     return (
         <>
@@ -54,13 +60,15 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                     border: 'unset',
                                     borderBottomLeftRadius: '6px',
                                     borderTopLeftRadius: '6px',
-                                }} onChange={(v) => setPuDate(v)} />
+                                }}
+                                onChange={(v) => setPuDate(v)} />
                             </div>
                         </div>
 
                         <div className="col-md-5" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                             <div className="main-search-input-item" style={{ width: '100%' }}>
                                 <TimeInput
+                                    defaultValue={moment().set("hour", 10).set("minute", 30)}
                                     style={{ backgroundColor: 'white', borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
                                     onChange={setPuTime}
                                 />
@@ -78,7 +86,10 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                         <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
 
                             <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
-                                <DateInput style={{
+                                <DateInput
+                                    label="555"
+                                    defaultValue={doDate}
+                                    style={{
                                     borderTopRightRadius: 0,
                                     borderBottomRightRadius: 0,
                                     borderBottomLeftRadius: '6px',
@@ -90,6 +101,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                         <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                             <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
                                 <TimeInput
+                                    defaultValue={moment().set("hour", 10).set("minute", 30)}
                                     style={{ backgroundColor: 'white', borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
                                     onChange={setDoTime}
                                 />

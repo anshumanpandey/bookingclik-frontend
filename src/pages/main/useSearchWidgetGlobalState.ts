@@ -17,7 +17,7 @@ type ContextType = {
 const initialState = {
     term: Terms.Cars,
     puDate: moment().add(3, 'day'),
-    doDate: moment().add(5, 'day'),
+    doDate: null,
 
     puTime: moment().add(3, 'day'),
     doTime: moment().add(5, 'day'),

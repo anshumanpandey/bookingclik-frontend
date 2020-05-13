@@ -14,7 +14,7 @@ type Props = {
     label?: string
 }
 export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, label }) => {
-    const [date, setDate] = useState<moment.Moment | null>(defaultValue ? defaultValue : null);
+    const [date, setDate] = useState<moment.Moment | null | undefined>(defaultValue);
     useEffect(() => {
         if (date) onChange(date)
     }, []);
@@ -22,10 +22,9 @@ export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, labe
     const calendar = (<Calendar />);
     return (
         <>
-            {label && <FormLabel style={{ float: 'left' }}>{label}</FormLabel>}
             <DatePicker
                 animation="slide-up"
-                value={date}
+                value={date || defaultValue}
                 disabled={false}
                 calendar={calendar}
                 onChange={(v: any) => {
@@ -34,12 +33,15 @@ export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, labe
                 }}
             >{
                     ({ value }: any) => {
+                        let val = defaultValue
+                        if (date) val = date
+
                         return (
                             <input
                                 readOnly={true}
                                 style={{ ...style, height: '100%' }}
                                 placeholder={`Date: ${moment().format(DATE_FORMAT)}`}
-                                value={date ? date.format(DATE_FORMAT) : undefined}
+                                value={val ? val.format(DATE_FORMAT) : undefined}
                             />
                         )
                     }

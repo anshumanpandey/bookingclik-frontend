@@ -77,19 +77,20 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                 <ListingItemBody className="geodir-category-content">
                     <div style={{ display: 'flex' }}>
                         <div className="geodir-category-img" style={{ width: 'unset', marginRight: '2rem' }}>
-                            <img style={{ width: 200, height: 113 }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                            <img style={{ width: 200, height: 113, backgroundColor: 'white' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                             <div className="overlay"></div>
                         </div>
-                        <div style={{ flexGrow: 1 }}>
-                            {props.vehicle.acriss && (
-                                <h4 style={{
-                                    fontSize: '0.8rem',
-                                    textAlign: 'left',
-                                    fontWeight: 'bold',
-                                }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
-                            )}
-                            <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
-                            <p>ACRISS {props.vehicle.acriss}</p>
+                        <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <div>
+                                {props.vehicle.acriss && (
+                                    <h4 style={{
+                                        fontSize: '0.8rem',
+                                        textAlign: 'left',
+                                        fontWeight: 'bold',
+                                    }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
+                                )}
+                                <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
+                            </div>
                             <div className="card-popup-rainingvis" data-starrating2="5" style={{
                                 display: 'flex',
                                 justifyContent: 'space-around',
@@ -163,7 +164,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                     <img style={{ width: '70px', height: '35px' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                                 </Avatar>
                             </div>
-                            <div style={{ display: 'flex'}}>
+                            <div style={{ display: 'flex' }}>
                                 <div style={{
                                     display: 'flex',
                                     justifyContent: 'space-between'
