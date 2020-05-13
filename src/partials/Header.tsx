@@ -17,7 +17,7 @@ export const Header = () => {
                     height: 'unset'
                 }}>
                     <Link to="/">
-                        <img style={{ height: 'auto',marginLeft: 'auto', marginRight: 'auto', width: '130px', marginTop: '-0.5rem' }} src={`${process.env.PUBLIC_URL}/images/logo.jpg`} alt="" />
+                        <img style={{ height: 'auto',marginLeft: 'auto', marginRight: 'auto', width: '130px', marginTop: '-0.5rem' }} src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="" />
                     </Link>
                 </div>
                 <div className="show-search-button"><i className="fa fa-search"></i> <span>Search</span></div>
