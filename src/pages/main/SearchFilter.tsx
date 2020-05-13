@@ -11,9 +11,9 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     const [, setDoTime] = useSearchWidgetState('doTime')
     const [puDate, setPuDate] = useSearchWidgetState('puDate')
     const [, setPuTime] = useSearchWidgetState('puTime')
-    const [, setPickupCode] = useSearchWidgetState('pickUpCode')
-    const [, setDropoffCode] = useSearchWidgetState('dropoffCode')
-    const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
+    const [pickupCode, setPickupCode] = useSearchWidgetState('pickUpCode')
+    const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
+    const [displayDropoffInput, setDisplayDropoffInput] = useState(dropoffCode ? true : false)
 
     useDidUpdateEffect(() => {
         setDoDate(puDate)
@@ -23,7 +23,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
         <>
             <div className="row">
                 <div className="col-md-12" style={{ marginBottom: displayDropoffInput ? '1rem': 0 ,display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
-                    <LocationDropdown defaultCode={null} onChange={setPickupCode} style={{
+                    <LocationDropdown defaultCode={pickupCode} onChange={setPickupCode} style={{
                         borderTopLeftRadius: '30px',
                         borderBottomLeftRadius: '30px',
                         width: '100%',
@@ -37,7 +37,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
 
                     />
                     { displayDropoffInput && (
-                        <LocationDropdown defaultCode={null} onChange={setDropoffCode} style={{
+                        <LocationDropdown defaultCode={dropoffCode} onChange={setDropoffCode} style={{
                             borderTopLeftRadius: '30px',
                             borderBottomLeftRadius: '30px',
                             width: '100%',
@@ -61,6 +61,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                     borderBottomLeftRadius: '6px',
                                     borderTopLeftRadius: '6px',
                                 }}
+                                defaultValue={puDate}
                                 onChange={(v) => setPuDate(v)} />
                             </div>
                         </div>
@@ -87,7 +88,6 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
 
                             <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
                                 <DateInput
-                                    label="555"
                                     defaultValue={doDate}
                                     style={{
                                     borderTopRightRadius: 0,

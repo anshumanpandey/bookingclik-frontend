@@ -83,6 +83,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         <div style={{
                             display: 'flex',
                             flexDirection: 'column',
+                            paddingRight: '1rem',
+                            maxWidth: '40%',
+                            minWidth: '40%',
                         }}>
                             <div>
                                 {props.vehicle.acriss && (
@@ -117,8 +120,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 </span>
                             </div>
                         </div>
-
-                        <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div style={{ flexGrow: 1, maxWidth: '40%', minWidth: '40%',display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <div className="row">
                                 <div className="col-md-6" style={{
                                     display: 'flex',
@@ -179,6 +181,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
 
                         <div className="geodir-category-location" style={{
+                            maxWidth: '20%',
+                            minWidth: '20%',
                             marginTop: '0.5rem',
                             padding: 0,
                             display: 'flex',
