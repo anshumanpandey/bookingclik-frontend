@@ -79,14 +79,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content" style={{ padding: '15px 10px 5px' }}>
-                    <div style={{ display: 'flex' }}>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            paddingRight: '1rem',
-                            maxWidth: '40%',
-                            minWidth: '40%',
-                        }}>
+                    <div className="row">
+                        <div className="col-md-5" style={{ display: 'flex', flexDirection: 'column' }}>
                             <div>
                                 {props.vehicle.acriss && (
                                     <h4 style={{
@@ -120,107 +114,103 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 </span>
                             </div>
                         </div>
-                        <div style={{ flexGrow: 1, maxWidth: '40%', minWidth: '40%',display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                            <div className="row">
-                                <div className="col-md-6" style={{
-                                    display: 'flex',
-                                    flexDirection: 'column'
-                                }}>
-                                    {props.vehicle.fuel_policy && (
-                                        <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex' }}>
-                                            <i style={{
-                                                fontSize: '1.1rem',
-                                                marginRight: '1rem',
-                                            }} className="fas fa-gas-pump"></i>
-                                            <div>
-                                                {props.vehicle.carrentalcompanyname && (
-                                                    <p style={{ textAlign: 'left', padding: 0 }}>Fuel Policy:</p>
-                                                )}
-                                                <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
-                                            </div>
-                                        </div>
-                                    )}
-                                    <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex' }}>
-                                        <object style={{ height: '1.1rem', marginRight: '1rem'}} type="image/svg+xml" data="images/icons/q1.svg">
-                                        </object>
-                                        <div>
-                                            <p style={{ textAlign: 'left', padding: 0 }}>Mileage:</p>
-                                            <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
-                                        </div>
-                                    </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'flex-start',
-                                        marginTop: '1rem'
-                                    }}>
-                                        {carTransmission && (
-                                            <span style={{ marginBottom: '0.5rem', marginLeft: 0, display: 'flex' }}>
-                                                <i style={{ color: 'inherit' }} className="fas fa-check"></i> {carTransmission || 'N/A'} Transmission
-                                            </span>
-                                        )}
-
-                                        {props.vehicle.ac && (
-                                            <span style={{ marginBottom: '0.5rem', marginLeft: 0 }}>
-                                                <i style={{ color: 'inherit' }} className="fas fa-check"></i> Air Conditioning
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                    <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, color: '#157f41' }} >
-                                        <p style={{ color: '#157f41', paddingBottom: 0 }}>Included for Free</p>
-                                        {props.vehicle.winter_tyres_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
-                                        {props.vehicle.snow_chains_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Snow Chains Included</p>}
-                                        {props.vehicle.road_tax_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i>Road Tax Included</p>}
-                                        {props.vehicle.unlimited_mileage && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i>Unlimited Mileage</p>}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="geodir-category-location" style={{
-                            maxWidth: '20%',
-                            minWidth: '20%',
-                            marginTop: '0.5rem',
-                            padding: 0,
+                        <div className="col-md-3" style={{
                             display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'end',
-                            flexDirection: 'column',
-                            width: 'unset'
+                            flexDirection: 'column'
                         }}>
-                            <div>
-                                {props.vehicle.carrentalcompanyname && (
-                                    <h4 style={{ textAlign: 'left' }}>Supplied by</h4>
-                                )}
-                                <Avatar>
-                                    <img style={{ width: '70px', height: '35px' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
-                                </Avatar>
+                            {props.vehicle.fuel_policy && (
+                                <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex' }}>
+                                    <i style={{
+                                        fontSize: '1.1rem',
+                                        marginRight: '1rem',
+                                    }} className="fas fa-gas-pump"></i>
+                                    <div>
+                                        {props.vehicle.carrentalcompanyname && (
+                                            <p style={{ textAlign: 'left', padding: 0 }}>Fuel Policy:</p>
+                                        )}
+                                        <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
+                                    </div>
+                                </div>
+                            )}
+                            <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex' }}>
+                                <object style={{ height: '1.1rem', marginRight: '1rem' }} type="image/svg+xml" data="images/icons/q1.svg">
+                                </object>
+                                <div>
+                                    <p style={{ textAlign: 'left', padding: 0 }}>Mileage:</p>
+                                    <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
+                                </div>
                             </div>
                             <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                flexGrow: 1,
-                                justifyContent: 'flex-end',
-                                alignItems: 'flex-end',
+                                alignItems: 'flex-start',
+                                marginTop: '1rem'
                             }}>
+                                {carTransmission && (
+                                    <span style={{ marginBottom: '0.5rem', marginLeft: 0, display: 'flex' }}>
+                                        <i style={{ color: 'inherit' }} className="fas fa-check"></i> {carTransmission || 'N/A'} Transmission
+                                    </span>
+                                )}
+
+                                {props.vehicle.ac && (
+                                    <span style={{ marginBottom: '0.5rem', marginLeft: 0 }}>
+                                        <i style={{ color: 'inherit' }} className="fas fa-check"></i> Air Conditioning
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="col-md-2">
+                            <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, color: '#157f41' }} >
+                                <p style={{ color: '#157f41', paddingBottom: 0 }}>Included for Free</p>
+                                {props.vehicle.winter_tyres_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
+                                {props.vehicle.snow_chains_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Snow Chains Included</p>}
+                                {props.vehicle.road_tax_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i>Road Tax Included</p>}
+                            </div>
+                        </div>
+
+
+                        <div className="col-md-2">
+
+                            <div className="geodir-category-location" style={{
+                                marginTop: '0.5rem',
+                                padding: 0,
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'end',
+                                flexDirection: 'column',
+                            }}>
+                                <div>
+                                    {props.vehicle.carrentalcompanyname && (
+                                        <h4 style={{ textAlign: 'left' }}>Supplied by</h4>
+                                    )}
+                                    <Avatar>
+                                        <img style={{ width: '70px', height: '35px' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                                    </Avatar>
+                                </div>
                                 <div style={{
                                     display: 'flex',
-                                    justifyContent: 'space-between',
+                                    flexDirection: 'column',
+                                    flexGrow: 1,
+                                    justifyContent: 'flex-end',
+                                    alignItems: 'flex-end',
                                 }}>
-                                    <div className="evticket-meta" style={{ padding: 'unset' }}>
-                                        <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>{currencySymbol}</span> {props.vehicle.price}</div>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                    }}>
+                                        <div className="evticket-meta" style={{ padding: 'unset' }}>
+                                            <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>{currencySymbol}</span> {props.vehicle.price}</div>
+                                        </div>
+                                        {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>
+                                            <div className="evticket-price"><span>{currencySymbol}</span> {props.vehicle.secondary_price}</div>
+                                        </div>}
                                     </div>
-                                    {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>
-                                        <div className="evticket-price"><span>{currencySymbol}</span> {props.vehicle.secondary_price}</div>
-                                    </div>}
+                                    {
+                                        props.vehicle.deeplink &&
+                                        <a id="book-now-btn" target='_blank' className="capitalize" href={props.vehicle.deeplink}>Select</a>
+                                    }
                                 </div>
-                                {
-                                    props.vehicle.deeplink &&
-                                    <a id="book-now-btn" target='_blank' className="capitalize" href={props.vehicle.deeplink}>Select</a>
-                                }
                             </div>
                         </div>
                     </div>
