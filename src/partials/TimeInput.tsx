@@ -9,11 +9,14 @@ type Props = {
     style?: React.CSSProperties
 }
 export const TimeInput: React.FC<Props> = ({ style, onChange, defaultValue, grayBackgraound }) => {
-    const [hours, setHour] = useState<moment.Moment | undefined>(defaultValue || undefined);
+    const [hours, setHour] = useState<moment.Moment | undefined>(defaultValue ? defaultValue : undefined);
 
     useEffect(() => {
         if (hours) onChange(hours)
     }, [hours]);
+
+    let val = defaultValue
+    if (hours) val = hours
 
     return (
         <>
@@ -21,11 +24,11 @@ export const TimeInput: React.FC<Props> = ({ style, onChange, defaultValue, gray
             className={`TimeInput ${!hours ? 'gray-text' : ''} ${grayBackgraound ? 'gray-background' : ''}`}
             fullWidth={true}
             labelId="demo-simple-select-label"
-            value={hours ? hours.format('H:mm') : 'none'}
+            value={val ? val.format('H:mm') : 'none'}
             input={<InputBase style={style} />}
             onChange={(e) => {
                 if (typeof e.target.value == 'string') {
-                    setHour(moment(e.target.value.toString(), 'HH:mm'))
+                    setHour(moment(e.target.value.toString(), 'H:mm'))
                 }
                 return
             }}

@@ -118,7 +118,11 @@ export const ListCarsFilter: React.FC = () => {
                     </div>
 
                     <div className="listsearch-input-item" style={{ width: '30%' }}>
-                        <TimeInput style={{ borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }} grayBackgraound={true} defaultValue={puTime} onChange={(v) => setPuTime(v)} />
+                        <TimeInput
+                            style={{ borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
+                            grayBackgraound={true}
+                            defaultValue={puTime?.set('seconds', 0)}
+                            onChange={(v) => setPuTime(v)} />
                     </div>
                 </div>
             </div>
@@ -135,7 +139,11 @@ export const ListCarsFilter: React.FC = () => {
                     </div>
 
                     <div className="listsearch-input-item" style={{ width: '30%' }}>
-                        <TimeInput style={{ borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }} grayBackgraound={true} defaultValue={doTime} onChange={(v) => setDoTime(v)} />
+                        <TimeInput
+                            style={{ borderLeft: '1px solid gray', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
+                            grayBackgraound={true}
+                            defaultValue={doTime?.set('seconds', 0)}
+                            onChange={(v) => setDoTime(v)} />
                     </div>
                 </div>
             </div>

@@ -19,8 +19,8 @@ const initialState = {
     puDate: null,
     doDate: null,
 
-    puTime: moment().add(3, 'day'),
-    doTime: moment().add(5, 'day'),
+    puTime: null,
+    doTime: null,
     pickUpCode: null,
     dropoffCode: null,
 }
