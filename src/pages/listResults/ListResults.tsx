@@ -18,6 +18,7 @@ import queryString from 'query-string';
 import qs from 'qs';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
+import useDidMountEffect from '../../utils/useDidMountEffect';
 
 export const SearchForm: React.FC = () => {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
@@ -36,14 +37,15 @@ export const SearchForm: React.FC = () => {
         method: 'POST',
     }, { manual: true })
 
-    useDidUpdateEffect(() => {
+    useDidMountEffect(() => {
+        console.log('dispatchFilteredState')
+
         dispatchFilteredState({ type: 'loading', state: searchRequest.loading })
     }, [searchRequest]);
 
-    useEffect(() => {
-        if (dynamicFilters.length === 0) return
+    useDidMountEffect(() => {
         send()
-    }, [dynamicFilters]);
+    }, [dynamicFilters.length]);
 
     const send = () => {
         if (!pickUpCode) return;
