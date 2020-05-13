@@ -304,7 +304,7 @@ export function ListResult() {
                                 <div className="row">
                                     <div className="col-md-12">
 
-                                        <div onClick={() => setSearchPanelOpen(true)} className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div onClick={() => setSearchPanelOpen(p => !p)} className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <h3 style={{ fontSize: '1.1rem', fontWeight: 'unset' }}>
                                                 <i className="fa fa-car" ></i>
                                                 {'   '}
