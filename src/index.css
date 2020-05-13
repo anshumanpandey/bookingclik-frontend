@@ -89,13 +89,13 @@
     height: 16px;
     display: block;
     content: '';
+    color: #004767;
     background: url('/images/icons/car-icons-v5.svg') no-repeat 0 0;
         background-position-x: 0px;
         background-position-y: -32px;
         background-size: auto;
     background-size: 16px 384px;
 }
-
 .icon.icon--car.icon--transmission::before {
     left: 0;
     margin-left: 0;
@@ -103,6 +103,7 @@
     height: 16px;
     display: block;
     content: '';
+    color: #004767;
     background: url('/images/icons/car-icons-v5.svg') no-repeat 0 0;
         background-position-x: 0px;
         background-position-y: -48px;
@@ -124,4 +125,27 @@
 
 .gray-background {
     background-color: #f9f9f9!important
+}
+
+
+#book-now-btn{
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    background-color: #538fbe;
+    padding: 0.2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    font-size: 1.3rem;
+    border: 1px solid #2d6898;
+    background-color: #0a5bb6;
+ 
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-shadow: 0px -1px 0px rgba(0,0,0,.5);
+    -webkit-box-shadow: 0px 6px 0px #084992;
+    -moz-box-shadow: 0px 6px 0px #084992;
+    box-shadow: 0px 6px 0px #084992;
 }

@@ -88,7 +88,7 @@ export const Footer = () => {
                         <div className="row">
                             <div className="col-md-4">
                                 <div className="about-widget">
-                                    <img src="images/logo.png" alt="" />
+                                    <img src="images/logo.jpg" alt="" />
                                 </div>
                             </div>
                             <div className="col-md-4">

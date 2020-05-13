@@ -268,7 +268,7 @@ export function ListResult() {
                         </div>
                     </div>
                     <div>
-                        <h3 style={{ fontSize: '1.1rem',fontWeight: 'unset'}} className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
+                        <h3 style={{ fontSize: '1.1rem', fontWeight: 'unset' }} className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
                 {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
                                 ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
                         </h3>
@@ -277,8 +277,8 @@ export function ListResult() {
                 <div>
                     {isfiltering && (
                         <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
-                            <div style={{ marginTop: '10rem' }}>
-                                <div style={{ position: 'unset' }} className="pin"></div>
+                            <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <img src="images/logo.jpg" />
                                 <div style={{ position: 'unset' }} className="pulse"></div>
                             </div>
                         </div>
