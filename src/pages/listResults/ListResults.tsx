@@ -266,7 +266,7 @@ export function ListResult() {
                         </div>
                     </div>
                     <div>
-                        <h3 className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
+                        <h3 style={{ fontSize: '1.1rem',fontWeight: 'unset'}} className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
                 {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
                                 ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
                         </h3>
@@ -298,7 +298,7 @@ export function ListResult() {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <h3 style={{ fontSize: '1.2rem' }}>
+                                            <h3 style={{ fontSize: '1.1rem', fontWeight: 'unset' }}>
                                                 <i className="fa fa-car" ></i>
                                                 {'   '}
                                                 <span>{pickUpCode?.locationname} ({pickUpCode?.internalcode})</span> |
@@ -312,11 +312,11 @@ export function ListResult() {
                                                 </div>
                                                 <div className="listing-view-layout">
                                                     <ul>
-                                                        <li onClick={() => setLayout('GRID')}>
+                                                        {/*<li onClick={() => setLayout('GRID')}>
                                                             <div style={{ cursor: 'pointer' }} className={`grid ${layout === 'GRID' ? 'active' : ''}`}>
                                                                 <i className="fa fa-th-large"></i>
                                                             </div>
-                                                        </li>
+                                                        </li>*/}
                                                         {/*
                                                     TODO: enable this later
                                                     <li onClick={() => setLayout('LIST')}>

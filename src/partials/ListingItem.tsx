@@ -78,7 +78,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                     <div style={{ display: 'flex' }}>
                         <div className="geodir-category-img" style={{ width: 'unset', marginRight: '2rem' }}>
                             <img style={{ width: 200, height: 113, backgroundColor: 'white' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
-                            <div className="overlay"></div>
+                            <div style={{ backgroundColor: 'white' }} className="overlay"></div>
                         </div>
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <div>

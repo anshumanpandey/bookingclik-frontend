@@ -89,7 +89,7 @@ export const ListCarsFilter: React.FC = () => {
                 <LocationDropdown
                     secondary={true}
                     defaultCode={pickUpCode}
-                    style={{ backgroundColor: '#4DB7FE', color: 'white' }}
+                    style={{ backgroundColor: '#03bfcb', color: 'white' }}
                     customeClasses="listsearch-input-item m-b-0"
                     onChange={setPickUpCode}
                 />
@@ -99,7 +99,7 @@ export const ListCarsFilter: React.FC = () => {
                 <LocationDropdown
                     secondary={true}
                     defaultCode={dropoffCode}
-                    style={{ backgroundColor: '#4DB7FE', color: 'white' }}
+                    style={{ backgroundColor: '#03bfcb', color: 'white' }}
                     customeClasses="listsearch-input-item m-b-0"
                     onChange={setdropoffCode}
                 />
