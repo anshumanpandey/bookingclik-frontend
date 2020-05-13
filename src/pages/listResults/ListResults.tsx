@@ -305,7 +305,7 @@ export function ListResult() {
                                     <div className="col-md-12">
 
                                         <div onClick={() => setSearchPanelOpen(p => !p)} className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <h3 style={{ fontSize: '1.1rem', fontWeight: 'unset' }}>
+                                            <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset' }}>
                                                 <i className="fa fa-car" ></i>
                                                 {'   '}
                                                 <span style={{ color: '#154a64' }}>{pickUpCode?.locationname} ({pickUpCode?.internalcode})</span> |
