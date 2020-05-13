@@ -18,11 +18,9 @@ import queryString from 'query-string';
 import qs from 'qs';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
-import { SortFilterCars } from './SortFilters';
 
 export const SearchForm: React.FC = () => {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
-    const [, setLoading] = useGlobalState('loading')
     const [puDate] = useSearchWidgetState('puDate')
     const [term] = useSearchWidgetState('term')
     const [doTime] = useSearchWidgetState('doTime')
@@ -36,13 +34,10 @@ export const SearchForm: React.FC = () => {
     const [searchRequest, doSearch] = useAxios<SearchResponse>({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
         method: 'POST',
-        paramsSerializer: params => {
-            return qs.stringify(params)
-        }
     }, { manual: true })
 
     useDidUpdateEffect(() => {
-        setLoading(searchRequest.loading)
+        dispatchFilteredState({ type: 'loading', state: searchRequest.loading })
     }, [searchRequest]);
 
     useEffect(() => {
@@ -83,7 +78,7 @@ export const SearchForm: React.FC = () => {
             dropOffLocationCode: dropoffCode.internalcode,
             dropOffLocationName: dropoffCode.locationname,
             dropOffDate: doDate ? doDate.unix() : moment().unix(),
-            dropOffTime: doTime ? doTime.unix() : moment().unix(),            
+            dropOffTime: doTime ? doTime.unix() : moment().unix(),
         };
 
         const jsonParams = {
@@ -104,6 +99,7 @@ export const SearchForm: React.FC = () => {
                     search: `?${qs.stringify(urlParams)}`,
                 });
                 dispatchSearchState({ type: 'set', state: res.data.scrape })
+                dispatchFilteredState({ type: 'set', state: res.data.scrape })
             })
     }
     const Filter = term === Terms.Cars ? ListCarsFilter : DefaultListSearchFilters;
@@ -132,9 +128,10 @@ export function ListResult() {
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('LIST');
     const [search, setSearch] = useSearchState('scrape')
-    const [sortPrice] = useSortState('price');
+    const [sortPrice, setSortPrice] = useSortState('price');
     const [, setLoading] = useGlobalState('loading')
     const [filetredSearch] = useFilteredSearchState('filteredScrape');
+    const [isfiltering] = useFilteredSearchState('isfiltering');
 
     const [{ data, loading, error }, doSearch] = useAxios({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
@@ -241,10 +238,10 @@ export function ListResult() {
                     justifyContent: 'space-between',
                     flexDirection: 'column'
                 }}>
-                    <div className="row" style={{ width: '100%'}}>
+                    <div className="row" style={{ width: '100%' }}>
                         <div className="scroll-nav-wrapper no-fixed fl-wrap" style={{
                             display: 'flex',
-                            justifyContent: 'space-between',
+                            justifyContent: 'flex-start',
                             paddingLeft: '1rem',
                             paddingRight: '1rem',
                         }}>
@@ -259,7 +256,11 @@ export function ListResult() {
 
                             <nav className="scroll-nav scroll-init">
                                 <ul>
-                                    <li><a className="act-scrlink" href="#sec1">Price</a></li>
+                                    <li onClick={() => setSortPrice((prev) => {
+                                        if (prev === PriceSortOrder.DESC) return PriceSortOrder.ASC
+                                        if (prev === PriceSortOrder.ASC) return PriceSortOrder.DESC
+                                        return PriceSortOrder.ASC
+                                    })}><a className="act-scrlink" href="#sec1">Price</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -271,7 +272,17 @@ export function ListResult() {
                         </h3>
                     </div>
                 </div>
-                {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
+                <div>
+                    {isfiltering && (
+                        <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
+                            <div style={{ marginTop: '10rem' }}>
+                                <div style={{ position: 'unset' }} className="pin"></div>
+                                <div style={{ position: 'unset' }} className="pulse"></div>
+                            </div>
+                        </div>
+                    )}
+                    {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
+                </div>
             </>
         );
     }
@@ -281,13 +292,13 @@ export function ListResult() {
             <Header />
             <div id="wrapper">
                 <div className="content">
-                    <section className="gray-bg no-pading no-top-padding" id="sec1">
+                    <section className="gray-bg no-pading no-top-padding" style={{ paddingTop: "1rem" }} id="sec1">
                         <div className="col-list-wrap fh-col-list-wrap  left-list">
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-12">
                                         <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <h3>
+                                            <h3 style={{ fontSize: '1.2rem' }}>
                                                 <i className="fa fa-car" ></i>
                                                 {'   '}
                                                 <span>{pickUpCode?.locationname} ({pickUpCode?.internalcode})</span> |

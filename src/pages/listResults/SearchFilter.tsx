@@ -85,7 +85,6 @@ export const ListCarsFilter: React.FC = () => {
 
     return (
         <>
-
             <div style={{ marginBottom: '1rem',display: 'flex', flexDirection: 'column' }}>
                 <LocationDropdown
                     secondary={true}

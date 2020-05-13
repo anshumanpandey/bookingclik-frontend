@@ -28,6 +28,9 @@ const filteredReducer = (state: any, action: { type: string, state: any }) => {
         case 'set': {
             return { filteredScrape: {...action.state} };
         }
+        case 'loading': {
+            return { ...state, isfiltering: state };
+        }
         default: {
             return state;
         }
@@ -35,6 +38,7 @@ const filteredReducer = (state: any, action: { type: string, state: any }) => {
 };
 
 const initialFilteredState = {
+    isfiltering: false,
     filteredScrape: {
         details: {
             pickup: { location: "DBV", datetime: "13/07/2020 20:00" },
