@@ -296,7 +296,7 @@ export function ListResult() {
                 <div className="content">
                     <section className="gray-bg no-pading no-top-padding" style={{ paddingTop: "1rem" }} id="sec1">
                         <div className="col-list-wrap fh-col-list-wrap  left-list">
-                            <div className="container" style={{ maxWidth: 'unset'}}>
+                            <div className="container" style={{ maxWidth: 'unset', margin: 'auto'}}>
                                 <div className="row">
                                     <div className="col-md-12">
                                         <Panel buttonNode={<div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
