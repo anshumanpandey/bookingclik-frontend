@@ -26,7 +26,7 @@ function App() {
         <BrowserRouter>
             {loading && (
                 <div className="loader-wrap" style={{ backgroundColor: '#154a64' }}>
-                    <img style={{ position: 'absolute', left: '40%', top: '38%' }} src="images/logo.jpg" />
+                    <img style={{ position: 'absolute', left: '40%', top: '38%' }} src={`${process.env.PUBLIC_URL}images/logo.jpg`} />
                     <div style={{ top: '70%' }} className="pulse"></div>
                 </div>
             )}

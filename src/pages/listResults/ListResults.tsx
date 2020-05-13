@@ -278,7 +278,7 @@ export function ListResult() {
                     {isfiltering && (
                         <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
                             <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <img src="images/logo.jpg" />
+                                <img src={`${process.env.PUBLIC_URL}images/logo.jpg`} />
                                 <div style={{ position: 'unset' }} className="pulse"></div>
                             </div>
                         </div>
