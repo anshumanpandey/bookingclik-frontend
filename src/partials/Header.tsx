@@ -20,8 +20,6 @@ export const Header = () => {
                         <img style={{ height: 'auto',marginLeft: 'auto', marginRight: 'auto', width: '130px', marginTop: '-0.5rem' }} src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="" />
                     </Link>
                 </div>
-                <div className="show-search-button"><i className="fa fa-search"></i> <span>Search</span></div>
-                <div style={{ position: 'unset' }} className="show-reg-form modal-open"><i className="fa fa-sign-in"></i>Sign In</div>
             </div>
         </header>
     );

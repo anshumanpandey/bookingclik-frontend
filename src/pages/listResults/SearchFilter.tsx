@@ -6,7 +6,7 @@ import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
-import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
+import { useSearchWidgetState, dispatchSearchState } from '../main/useSearchWidgetGlobalState';
 import { TimeInput } from '../../partials/TimeInput';
 import { TagSearchWidget } from '../../widget/TagSearchWidget';
 import { SimpleTagSearchWidget } from '../../widget/SimpleTagSearchWidget';
@@ -83,8 +83,7 @@ export const ListCarsFilter: React.FC = () => {
     const [pickUpCode, setPickUpCode] = useSearchWidgetState("pickUpCode")
     const [dropoffCode, setdropoffCode] = useSearchWidgetState("dropoffCode")
 
-    const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
-
+    const [displayDropoffInput, setDisplayDropoffInput] = useState(dropoffCode ? true : false)
 
     return (
         <>
@@ -94,7 +93,7 @@ export const ListCarsFilter: React.FC = () => {
                     defaultCode={pickUpCode}
                     style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
                     customeClasses="listsearch-input-item m-b-0"
-                    onChange={setPickUpCode}
+                    onChange={(v) => dispatchSearchState({ type: 'pickup.code', state: v })} />
                 />
             </div>
             <FormControlLabel
@@ -111,7 +110,7 @@ export const ListCarsFilter: React.FC = () => {
                         defaultCode={dropoffCode}
                         style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
                         customeClasses="listsearch-input-item m-b-0"
-                        onChange={setdropoffCode}
+                        onChange={(v) => dispatchSearchState({ type: 'dropoff.code', state: v })} />
                     />
                 </div>
             )}
@@ -124,13 +123,13 @@ export const ListCarsFilter: React.FC = () => {
                                 borderRadius: '6px',
                                 marginRight: '0.5rem',
                                 border: 'unset'
-                            }} defaultValue={puDate} onChange={(v) => setPuDate(v)} />
+                            }} defaultValue={puDate} onChange={(v) => dispatchSearchState({ type: 'pickup.date', state: v })} />
                         </div>
 
                         <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
                             <TimeInput
                                 defaultValue={puTime?.set('seconds', 0)}
-                                onChange={(v) => setPuTime(v)} />
+                                onChange={(v) => dispatchSearchState({ type: 'pickup.time', state: v })} />
                         </div>
                     </div>
                 </div>
@@ -143,14 +142,14 @@ export const ListCarsFilter: React.FC = () => {
                                 borderRadius: '6px',
                                 border: 'unset',
                                 marginRight: '0.5rem'
-                            }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
+                            }} defaultValue={doDate} onChange={(v) => dispatchSearchState({ type: 'dropoff.date', state: v })} />
                         </div>
 
                         <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
                             <TimeInput
                                 style={{ borderRadius: '6px' }}
                                 defaultValue={doTime?.set('seconds', 0)}
-                                onChange={(v) => setDoTime(v)} />
+                                onChange={(v) => dispatchSearchState({ type: 'dropoff.time', state: v })} />
                         </div>
                     </div>
                 </div>

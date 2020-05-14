@@ -16,12 +16,11 @@ export const CarsTab: React.FC = () => {
             <section className="scroll-con-sec hero-section" style={{ paddingTop: '100px', height: '80vh' }} data-scrollax-parent="true" id="sec1">
             <div className="bg"  data-bg="images/bg/car.jpeg" data-scrollax="properties: { translateY: '200px' }"></div>
 
-                <div className="overlay"></div>
                 <div className="hero-section-wrap fl-wrap" >
 
                     <div className="container" style={{ margin: 'auto'}}>
                         <div className="intro-item fl-wrap" >
-                            <h2 style={{ textAlign: 'left', width: '90%',float: 'right'}}>Find your ride.</h2>
+                            <h2 style={{ textAlign: 'left', maxWidth: '1096px', margin: 'auto' }}>Find your ride.</h2>
                         </div>
                         <SearchWidget term={Terms.Cars} />
                     </div>
