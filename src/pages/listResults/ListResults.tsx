@@ -284,7 +284,10 @@ export function ListResult() {
                             </div>
                         </div>
                     )}
-                    {filteredValues.map((v: any, idx: number) => <ListingItem key={idx} {...v} layout={layout} />)}
+                    {
+                        filteredValues
+                            .map((v: any, idx: number) => <ListingItem key={idx} doDate={doDate} doTime={doTime} puDate={puDate} puTime={puTime} {...v} layout={layout} />)
+                        }
                 </div>
             </>
         );

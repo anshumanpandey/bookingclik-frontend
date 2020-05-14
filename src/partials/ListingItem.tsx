@@ -5,6 +5,7 @@ import { Decimal } from 'decimal.js';
 import { Vehicle } from '../types';
 import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
 import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
+import moment from 'moment';
 
 const ListingItemBody = styled.div`
 padding-top: 1rem !important;
@@ -30,7 +31,11 @@ const Avatar = styled.div`
 
 export type ListingItemProps = {
     layout?: 'GRID' | 'LIST',
-    vehicle: Vehicle
+    vehicle: Vehicle,
+    doDate: moment.Moment
+    doTime: moment.Moment
+    puDate: moment.Moment
+    puTime: moment.Moment
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [showModal, setShowModal] = useState(false);
@@ -231,6 +236,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         justifyContent: 'space-between',
                                     }}>
                                         <div className="evticket-meta" style={{ padding: 'unset' }}>
+                                            Rate for {props.doDate.set('hours',props.doTime.hour()).set('m', props.doTime.minutes()).diff(props.puDate.set('h', props.puTime.hours()).set('minute', props.puTime.minutes()), 'days')} days
                                             <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>{currencySymbol}</span> {props.vehicle.price}</div>
                                         </div>
                                         {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>
