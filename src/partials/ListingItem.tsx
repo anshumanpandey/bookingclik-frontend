@@ -7,7 +7,11 @@ import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
 import moment from 'moment';
 
 const ListingItemBody = styled.div`
-padding-top: 1rem !important;
+width: 100%!important;
+padding-right: 20px !important;
+padding-bottom: 0px !important;
+padding-left: 20px !important;
+padding-top: 0px !important;
 display: flex;
 flex-direction: column;
 flex: 1;
@@ -121,10 +125,10 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
-                <ListingItemBody className="geodir-category-content" style={{ padding: '15px 10px 5px' }}>
+                <ListingItemBody className="geodir-category-content">
                     <div className="row" style={{ display: 'flex', alignContent: 'stretch' }}>
-                        <div className="col-md-5 " style={{ display: 'flex', flexDirection: 'column' }}>
-                            <div>
+                        <div className="col-md-3 " style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <div style={{ marginTop: '0.5rem'}}>
                                 {props.vehicle.acriss && (
                                     <h4 style={{
                                         textTransform: 'uppercase',
@@ -133,10 +137,10 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         fontWeight: 'bold',
                                     }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
                                 )}
-                                <h3 style={{ fontSize: '16px'}}><a href="listing-single.html">{props.vehicle.name}</a></h3>
+                                <h3 style={{ fontSize: '16px', wordBreak: 'break-all' }}><a href="listing-single.html">{props.vehicle.name}</a></h3>
                             </div>
-                            <div className="geodir-category-img" style={{ width: 'unset', marginRight: '2rem' }}>
-                                <img style={{ width: 200, height: 113, backgroundColor: 'white' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                            <div className="geodir-category-img" style={{ width: '110%',position: 'absolute', zIndex: -1,height: '100%', display: 'flex' }}>
+                                <img style={{  transform: 'scaleX(-1)', backgroundColor: 'white', width: '130%', marginTop: '15%', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                             </div>
                             <div className="card-popup-rainingvis" data-starrating2="5" style={{
                                 display: 'flex',
@@ -161,6 +165,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             display: 'flex',
                             flexDirection: 'column',
                         }}>
+                            <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column'}}>
                             {props.vehicle.fuel_policy && (
                                 <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex' }}>
                                     <i style={{
@@ -202,8 +207,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 )}
                             </div>
                         </div>
+                        </div>
 
-                        <div className="col-md-2">
+                        <div className="col-md-3">
                             <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, color: '#157f41' }} >
                                 <p style={{ color: '#157f41', paddingBottom: 0 }}>Included for Free</p>
                                 {props.vehicle.winter_tyres_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
@@ -213,7 +219,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
 
 
-                        <div className="col-md-2" style={{ display: 'flex' }}>
+                        <div className="col-md-3" style={{ display: 'flex', backgroundColor: '#f8f8f8' }}>
 
                             <div className="geodir-category-location" style={{
                                 marginTop: '0.5rem',
