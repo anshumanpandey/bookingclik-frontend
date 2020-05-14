@@ -28,10 +28,6 @@ export const CarsTab: React.FC = () => {
 
 
                 </div>
-                <div className="bubble-bg"> </div>
-                <div className="header-sec-link">
-                    <div className="container"><a href="#sec2" className="custom-scroll-link">Let's Start</a></div>
-                </div>
             </section>
         </>
     )
