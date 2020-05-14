@@ -301,7 +301,7 @@ export function ListResult() {
                                 <div className="row">
                                     <div className="col-md-12">
 
-                                        <div onClick={() => setSearchPanelOpen(p => !p)} className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset' }}>
                                                 <i className="fa fa-car" ></i>
                                                 {'   '}
@@ -311,7 +311,7 @@ export function ListResult() {
                                             {doDate?.format("ddd, MMM D")}, {doTime?.format(" H:mma")}
                                             </h3>
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <div style={{ float: 'right' }}>
+                                                <div onClick={() => setSearchPanelOpen(p => !p)} style={{ float: 'right' }}>
                                                     <h4 style={{ color: '#154a64to-top' }}>Change Search <i className="fa fa-search"></i></h4>
                                                 </div>
                                                 <div className="listing-view-layout">
@@ -361,22 +361,6 @@ export function ListResult() {
                         </div>
                     </section>
                     <div className="limit-box fl-wrap"></div>
-                    <section className="gradient-bg">
-                        <div className="cirle-bg">
-                            <div className="bg" data-bg="images/bg/circle.png"></div>
-                        </div>
-                        <div className="container">
-                            <div className="join-wrap fl-wrap">
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <h3>Join our online community</h3>
-                                        <p>Grow your marketing and be happy with your online business</p>
-                                    </div>
-                                    <div className="col-md-4"><a href="#" className="join-wrap-btn modal-open">Sign Up <i className="fa fa-sign-in"></i></a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </div>
             <Footer />

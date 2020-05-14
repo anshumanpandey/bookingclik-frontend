@@ -123,7 +123,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         fontWeight: 'bold',
                                     }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
                                 )}
-                                <h3><a href="listing-single.html">{props.vehicle.name}</a></h3>
+                                <h3 style={{ fontSize: '16px'}}><a href="listing-single.html">{props.vehicle.name}</a></h3>
                             </div>
                             <div className="geodir-category-img" style={{ width: 'unset', marginRight: '2rem' }}>
                                 <img style={{ width: 200, height: 113, backgroundColor: 'white' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
@@ -214,9 +214,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 flexDirection: 'column',
                             }}>
                                 <div>
-                                    {props.vehicle.carrentalcompanyname && (
-                                        <h4 style={{ textAlign: 'left' }}>Supplied by</h4>
-                                    )}
                                     <Avatar>
                                         <img style={{ width: '70px', height: '35px' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                                     </Avatar>
