@@ -165,8 +165,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         <div className="col-md-3" style={{
                             display: 'flex',
                             flexDirection: 'column',
-                            paddingLeft: '2rem',
-                            paddingRight: 0,
+                            padding: 0,
                         }}>
                             <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column'}}>
                             {props.vehicle.fuel_policy && (
