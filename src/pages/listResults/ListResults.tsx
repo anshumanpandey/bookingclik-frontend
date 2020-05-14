@@ -219,7 +219,6 @@ export function ListResult() {
 
     let Body = (<div className="section-title">
         <h2>No results founds!</h2>
-        <div className="section-subtitle">No results founds!</div>
         <span className="section-separator"></span>
         <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
     </div>)
@@ -282,7 +281,7 @@ export function ListResult() {
                     {isfiltering && (
                         <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
                             <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <img src={`${process.env.PUBLIC_URL}images/logo.png`} />
+                                <img src={`${process.env.PUBLIC_URL}/images/logo.png`} />
                                 <div style={{ position: 'unset' }} className="pulse"></div>
                             </div>
                         </div>
