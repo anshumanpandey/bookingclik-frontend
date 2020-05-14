@@ -24,10 +24,10 @@ export function ListResult() {
     const state = history.location.state;
 
     const [searchPanelOpen, setSearchPanelOpen] = useState(false)
-    const [doDate, setDoDate] = useSearchWidgetState('doDate')
-    const [doTime, setDoTime] = useSearchWidgetState('doTime')
-    const [puDate, setPuDate] = useSearchWidgetState('puDate')
-    const [puTime, setPuTime] = useSearchWidgetState('puTime')
+    const [doDate] = useSearchWidgetState('doDate')
+    const [doTime] = useSearchWidgetState('doTime')
+    const [puDate] = useSearchWidgetState('puDate')
+    const [puTime] = useSearchWidgetState('puTime')
     const [pickUpCode, setPickUpCode] = useSearchWidgetState('pickUpCode')
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('LIST');
@@ -75,10 +75,10 @@ export function ListResult() {
             }
             setPickUpCode(params.pickUpLocation);
             setDropoffCode(params.dropOffLocation);
-            setDoDate(params.dropOffDate);
-            setDoTime(params.dropOffTime);
-            setPuDate(params.pickUpDate);
-            setPuTime(params.pickUpTime);
+            dispatchSearchState({ type: 'dropoff.date', state: params.dropOffDate })
+            dispatchSearchState({ type: 'dropoff.time', state: params.dropOffTime })
+            dispatchSearchState({ type: 'pickup.date', state: params.pickUpDate })
+            dispatchSearchState({ type: 'pickup.time', state: params.pickUpTime })
 
 
             doSearch({ data: { json: BuildJsonQuery(params) } })
@@ -106,10 +106,10 @@ export function ListResult() {
             }
             setPickUpCode(params.pickUpLocation);
             setDropoffCode(params.dropOffLocation);
-            setDoDate(params.dropOffDate);
-            setDoTime(params.dropOffTime);
-            setPuDate(params.pickUpDate);
-            setPuTime(params.pickUpTime);
+            dispatchSearchState({ type: 'dropoff.date', state: params.dropOffDate })
+            dispatchSearchState({ type: 'dropoff.time', state: params.dropOffTime })
+            dispatchSearchState({ type: 'pickup.date', state: params.pickUpDate })
+            dispatchSearchState({ type: 'pickup.time', state: params.pickUpTime })
 
             dispatchSearchState({ type: 'set', state: state.results.scrape })
             dispatchFilteredState({ type: 'set', state: state.results.scrape })

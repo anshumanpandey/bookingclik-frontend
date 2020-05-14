@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { FormControlLabel, FormLabel, Checkbox } from '@material-ui/core';
 import { DateInput, LocationDropdown, TimeInput } from '../../partials';
-import { useSearchWidgetState } from './useSearchWidgetGlobalState';
+import { useSearchWidgetState, dispatchSearchState } from './useSearchWidgetGlobalState';
 import { TIME_FORMAT } from '../../utils/DateFormat';
 import moment from 'moment';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 
 export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = () => {
-    const [doDate, setDoDate] = useSearchWidgetState('doDate')
-    const [, setDoTime] = useSearchWidgetState('doTime')
-    const [puDate, setPuDate] = useSearchWidgetState('puDate')
-    const [, setPuTime] = useSearchWidgetState('puTime')
+    const [doDate] = useSearchWidgetState('doDate')
+    const [puDate] = useSearchWidgetState('puDate')
     const [pickupCode, setPickupCode] = useSearchWidgetState('pickUpCode')
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [displayDropoffInput, setDisplayDropoffInput] = useState(dropoffCode ? true : false)
 
     useDidUpdateEffect(() => {
-        setDoDate(puDate)
+        dispatchSearchState({ type: 'dropoff.date', state: puDate })
     }, [puDate])
 
     return (
@@ -59,7 +57,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                     borderRadius: '6px',
                                 }}
                                 defaultValue={puDate}
-                                onChange={(v) => setPuDate(v)} />
+                                onChange={(v) => dispatchSearchState({ type: 'pickup.date', state: v })} />
                             </div>
                         </div>
 
@@ -68,7 +66,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
                                     style={{ backgroundColor: 'white', borderRadius: '6px' }}
-                                    onChange={setPuTime}
+                                    onChange={(v) => dispatchSearchState({ type: 'pickup.time', state: v })}
                                 />
                             </div>
                         </div>
@@ -88,7 +86,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                     defaultValue={doDate}
                                     style={{
                                     borderRadius: '6px',
-                                }} onChange={(v) => setDoDate(v)} />
+                                }} onChange={(v) => dispatchSearchState({ type: 'dropoff.date', state: v })} />
                             </div>
                             </div>
 
@@ -97,7 +95,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
                                     style={{ backgroundColor: 'white', borderRadius: '6px' }}
-                                    onChange={setDoTime}
+                                    onChange={(v) => dispatchSearchState({ type: 'dropoff.time', state: v })}
                                 />
                             </div>
                         </div>

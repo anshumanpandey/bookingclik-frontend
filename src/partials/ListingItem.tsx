@@ -113,6 +113,11 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     let currencySymbol = '$'
     if (props.vehicle.currency == 'EUR') currencySymbol = '€'
 
+    const dropDate = props.doDate.set('hours',props.doTime.hour()).set('m', props.doTime.minutes())
+    const pickDate = props.puDate.set('hours', props.puTime.hours()).set('m', props.puTime.minutes())
+
+    const daySpan = dropDate.diff(pickDate, 'days')
+
     return (
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
@@ -235,7 +240,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         justifyContent: 'space-between',
                                     }}>
                                         <div className="evticket-meta" style={{ padding: 'unset' }}>
-                                            Rate for {props.doDate.set('hours',props.doTime.hour()).set('m', props.doTime.minutes()).diff(props.puDate.set('h', props.puTime.hours()).set('minute', props.puTime.minutes()), 'days')} days
+                                            Rate for {daySpan} days
                                             <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>{currencySymbol}</span> {props.vehicle.price}</div>
                                         </div>
                                         {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>

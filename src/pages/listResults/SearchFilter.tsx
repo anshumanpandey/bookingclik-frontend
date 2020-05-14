@@ -93,7 +93,6 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
     const [innterDoLocation, setDoLocation] = useState(dropoffCode);
     const [innerDoDate, setDoDate] = useState(doDate);
     const [innerDoTime, setDoTime] = useState(doTime);
-    console.log(puDate)
     const [innerPuDate, setPuDate] = useState(puDate);
     const [innerPuTime, setPuTime] = useState(puTime);
 
@@ -168,7 +167,6 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                     pathname: '/results',
                     search: `?${qs.stringify(urlParams)}`,
                 });
-                dispatchSearchState({ type: 'set', state: res.data.scrape })
                 dispatchFilteredState({ type: 'set', state: res.data.scrape })
             })
     }
