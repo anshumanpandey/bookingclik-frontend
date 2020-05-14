@@ -150,7 +150,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
                         <div className="col-md-3" style={{
                             display: 'flex',
-                            flexDirection: 'column'
+                            flexDirection: 'column',
                         }}>
                             {props.vehicle.fuel_policy && (
                                 <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex' }}>
@@ -160,7 +160,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                     }} className="fas fa-gas-pump"></i>
                                     <div>
                                         {props.vehicle.carrentalcompanyname && (
-                                            <p style={{ textAlign: 'left', padding: 0 }}>Fuel Policy:</p>
+                                            <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
                                         )}
                                         <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
                                     </div>
@@ -170,7 +170,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 <object style={{ height: '1.1rem', marginRight: '1rem' }} type="image/svg+xml" data="images/icons/q1.svg">
                                 </object>
                                 <div>
-                                    <p style={{ textAlign: 'left', padding: 0 }}>Mileage:</p>
+                                    <p style={{ lineHeight: 'unset', textAlign: 'left', padding: 0 }}>Mileage:</p>
                                     <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
                                 </div>
                             </div>
