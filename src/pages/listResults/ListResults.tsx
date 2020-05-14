@@ -213,7 +213,7 @@ export function ListResult() {
                                             </h3>
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                 <div onClick={() => setSearchPanelOpen(p => !p)} style={{ float: 'right' }}>
-                                                    <h4 style={{ color: '#154a64to-top' }}>Change Search <i className="fa fa-search"></i></h4>
+                                                    <h4 style={{ cursor: 'pointer',color: '#154a64to-top' }}>Change Search <i className="fa fa-search"></i></h4>
                                                 </div>
                                                 <div className="listing-view-layout">
                                                     <ul>
