@@ -123,7 +123,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content" style={{ padding: '15px 10px 5px' }}>
                     <div className="row" style={{ display: 'flex', alignContent: 'stretch' }}>
-                        <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div className="col-md-5 " style={{ display: 'flex', flexDirection: 'column' }}>
                             <div>
                                 {props.vehicle.acriss && (
                                     <h4 style={{
@@ -190,20 +190,20 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 marginTop: '1rem'
                             }}>
                                 {carTransmission && (
-                                    <span style={{ marginBottom: '0.5rem', marginLeft: 0, display: 'flex' }}>
+                                    <span style={{ wordBreak: 'break-word', textAlign: 'left',marginBottom: '0.5rem', marginLeft: 0, display: 'flex' }}>
                                         <i style={{ color: 'inherit' }} className="fas fa-check"></i> {carTransmission || 'N/A'} Transmission
                                     </span>
                                 )}
 
                                 {props.vehicle.ac && (
-                                    <span style={{ marginBottom: '0.5rem', marginLeft: 0 }}>
+                                    <span style={{ wordBreak: 'break-word', textAlign: 'left',marginBottom: '0.5rem', marginLeft: 0 }}>
                                         <i style={{ color: 'inherit' }} className="fas fa-check"></i> Air Conditioning
                                     </span>
                                 )}
                             </div>
                         </div>
 
-                        <div className="col-md-3">
+                        <div className="col-md-2">
                             <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, color: '#157f41' }} >
                                 <p style={{ color: '#157f41', paddingBottom: 0 }}>Included for Free</p>
                                 {props.vehicle.winter_tyres_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
@@ -239,7 +239,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         display: 'flex',
                                         justifyContent: 'space-between',
                                     }}>
-                                        <div className="evticket-meta" style={{ padding: 'unset' }}>
+                                        <div className="evticket-meta" style={{ padding: 'unset', display: 'flex', flexDirection: 'column' }}>
                                             Rate for {daySpan} days
                                             <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>{currencySymbol}</span> {props.vehicle.price}</div>
                                         </div>

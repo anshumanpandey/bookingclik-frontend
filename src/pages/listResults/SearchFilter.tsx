@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks'
-import { CircularProgress, Checkbox, FormControlLabel, FormLabel } from '@material-ui/core';
+import { CircularProgress, Checkbox, FormControlLabel, FormLabel, Typography } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { DateInput } from '../../partials';
 import { useFilterState } from './FiltersGlobalState';
@@ -287,7 +287,9 @@ export const SearchFilterCars: React.FC = () => {
     } else {
         body = (<div className="profile-edit-container add-list-container filters-panel">
             <Panel defaultOpen={true} buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
-                <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
+                <Typography gutterBottom style={{ textAlign: 'left' }}>
+                    Filter
+                </Typography>
             </div>} >
                 <div className="custom-form">
                     <div className="row">

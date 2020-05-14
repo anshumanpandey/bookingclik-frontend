@@ -246,13 +246,13 @@ export function ListResult() {
                                             <SearchFilterCars />
                                         </div>
                                     </div>
-                                    <div className="col-md-8">
+                                    <div className="col-md-6">
                                         <div className="fl-wrap card-listing">
                                             {Body}
                                         </div>
                                     </div>
-                                    <div className="col-md-2">
-                                        <div className="fl-wrap card-listing">
+                                    <div className="col-md-4">
+                                        <div className="fl-wrap card-listing" style={{ display: 'flex' }}>
                                             <img style={{ maxWidth: '100%' }} src={'images/all/ad.png'}></img>
                                         </div>
                                     </div>
