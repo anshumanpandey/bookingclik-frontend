@@ -270,12 +270,10 @@ export function ListResult() {
                             </nav>
                         </div>
                     </div>
-                    <div>
-                        <h3 style={{ fontSize: '1.1rem', fontWeight: 'unset' }} className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
+                    <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset', float: 'left', color: 'black', alignSelf: 'flex-start' }} className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
                 {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
                                 ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
                         </h3>
-                    </div>
                 </div>
                 <div>
                     {isfiltering && (

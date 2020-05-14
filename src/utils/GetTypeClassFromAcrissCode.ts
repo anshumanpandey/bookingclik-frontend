@@ -44,6 +44,6 @@ export default (acrissCode: string) => {
     if (acrissCode[1] == 'G') type = 'Crossover'
     if (acrissCode[1] == 'K') type = 'Commercial Van/Truck'
 
-    return `${category} ${type}`
+    return `${category}`
 
 }
