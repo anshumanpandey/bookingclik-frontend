@@ -5,7 +5,7 @@ export const Soon = () => {
     return (
         <>
             <div className="fixed-bg">
-                <div className="bg"  data-bg="images/bg/car.jpg"></div>
+                <div className="bg"  data-bg="images/bg/car.jpeg"></div>
                 <div className="overlay"></div>
                 <div className="bubble-bg"></div>
             </div>

@@ -14,7 +14,7 @@ export const CarsTab: React.FC = () => {
     return (
         <>
             <section className="scroll-con-sec hero-section" style={{ paddingTop: '100px', height: '80vh' }} data-scrollax-parent="true" id="sec1">
-            <div className="bg"  data-bg="images/bg/car.jpg" data-scrollax="properties: { translateY: '200px' }"></div>
+            <div className="bg"  data-bg="images/bg/car.jpeg" data-scrollax="properties: { translateY: '200px' }"></div>
 
                 <div className="overlay"></div>
                 <div className="hero-section-wrap fl-wrap" >
