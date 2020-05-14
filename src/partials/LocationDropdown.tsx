@@ -159,7 +159,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
     })
     return (
         <>
-            <div className={customeClasses ? customeClasses : "main-search-input-item"} style={{
+            <div className={`${customeClasses ? customeClasses : "main-search-input-item"} location-dropdown`} style={{
                 ...style
             }}>
                 <Autocomplete
