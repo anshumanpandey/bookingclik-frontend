@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import { Decimal } from 'decimal.js';
@@ -33,6 +33,7 @@ export type ListingItemProps = {
     vehicle: Vehicle
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
+    const [showModal, setShowModal] = useState(false);
     const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/car_not_found.png"
 
     let carTransmission = null
@@ -58,6 +59,34 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         }
     }
 
+    const RedirectModal: React.FC<{show: boolean}> = ({ show }) => (
+        <div className="main-register-wrap modal" style={{ display: show ? 'block' : 'none'}}>
+            <div className="main-overlay" onClick={() => setShowModal(false)}></div>
+            <div className="main-register-holder">
+                <div className="main-register fl-wrap custom-form" style={{ display: 'flex',flexDirection: 'column', alignItems: 'center' }}>
+                    <img style={{ display: 'unset'}} src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="" />
+                        <h4 style={{
+                            float: 'left',
+                            width: '100%',
+                            textAlign: 'center',
+                            padding: '20px 30px',
+                            marginBottom: '20px',
+                            fontWeight: 600,
+                            color: '#154a64',
+                            fontSize: '1.2rem',
+                        }}>
+                        Thank You for using Car Rental Click website, we are now redirecting you to the car rental company website for you to proceed with your booking. 
+                        </h4>
+                        <div style={{ display: 'flex', justifyContent: 'space-evenly'}}>
+                            <button onClick={() => window.open(props.vehicle.deeplink, '_blank')} className="log-submit-btn">
+                                <span style={{ fontWeight: 'bold', fontSize: '1rem'}}>Ok</span>
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    );
+
     let fuelPolicy = props.vehicle.fuel_policy
     if (props.vehicle.fuel_policy == 1) fuelPolicy = 'Full To Full'
     if (props.vehicle.fuel_policy == 2) fuelPolicy = 'Full To Empty'
@@ -76,7 +105,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content" style={{ padding: '15px 10px 5px' }}>
-                    <div className="row" style={{ display: 'flex', alignContent: 'stretch'}}>
+                    <div className="row" style={{ display: 'flex', alignContent: 'stretch' }}>
                         <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column' }}>
                             <div>
                                 {props.vehicle.acriss && (
@@ -167,7 +196,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
 
 
-                        <div className="col-md-2" style={{ display: 'flex'}}>
+                        <div className="col-md-2" style={{ display: 'flex' }}>
 
                             <div className="geodir-category-location" style={{
                                 marginTop: '0.5rem',
@@ -205,7 +234,10 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                     </div>
                                     {
                                         props.vehicle.deeplink &&
-                                        <a id="book-now-btn" target='_blank' className="capitalize" href={props.vehicle.deeplink}>Select</a>
+                                        <a id="book-now-btn" onClick={(e) => {
+                                            e.preventDefault()
+                                            setShowModal(true)
+                                        }} target='_blank' className="capitalize" href={props.vehicle.deeplink}>Select</a>
                                     }
                                 </div>
                             </div>
@@ -213,6 +245,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                     </div>
                 </ListingItemBody>
             </ListingItemInner>
+            <RedirectModal show={showModal} />
         </div >
 
     );
