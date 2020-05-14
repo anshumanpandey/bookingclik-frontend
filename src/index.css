@@ -147,7 +147,8 @@
     text-shadow: 0px -1px 0px rgba(0,0,0,.5);
     -webkit-box-shadow: 0px 6px 0px #084992;
     -moz-box-shadow: 0px 6px 0px #084992;
-    box-shadow: 0px 6px 0px #084992;
+    border-bottom: 0px 6px 0px #084992;
+    margin-bottom: 0.5rem;
 }
 
 .scroll-nav.sort li a{
