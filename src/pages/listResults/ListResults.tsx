@@ -200,7 +200,7 @@ export function ListResult() {
                         <div className="col-list-wrap fh-col-list-wrap  left-list">
                             <div className="container" style={{ maxWidth: 'unset', margin: 'auto' }}>
                                 <div className="row">
-                                    <div className="col-md-12">
+                                    <div className="col-md-offset-1 col-md-10">
 
                                         <div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset' }}>
@@ -241,7 +241,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-2">
+                                    <div className="col-md-offset-1 col-md-2">
                                         <div className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
@@ -251,7 +251,7 @@ export function ListResult() {
                                             {Body}
                                         </div>
                                     </div>
-                                    <div className="col-md-4">
+                                    <div className="col-md-3">
                                         <div className="fl-wrap card-listing" style={{ display: 'flex' }}>
                                             <img style={{ maxWidth: '100%' }} src={'images/all/ad.png'}></img>
                                         </div>
