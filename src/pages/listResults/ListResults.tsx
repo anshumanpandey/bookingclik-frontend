@@ -15,111 +15,9 @@ import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
 import { useGlobalState } from '../../state';
 import queryString from 'query-string';
-import qs from 'qs';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import useDidMountEffect from '../../utils/useDidMountEffect';
-
-export const SearchForm: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
-    const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
-    const [puDate] = useSearchWidgetState('puDate')
-    const [term] = useSearchWidgetState('term')
-    const [doTime] = useSearchWidgetState('doTime')
-    const [doDate] = useSearchWidgetState('doDate')
-    const [puTime] = useSearchWidgetState('puTime')
-    const [pickUpCode] = useSearchWidgetState('pickUpCode')
-    const [dropoffCode] = useSearchWidgetState('dropoffCode')
-
-    const [dynamicFilters] = useDynamicFiltersState('activeFilters');
-
-    const [searchRequest, doSearch] = useAxios<SearchResponse>({
-        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
-        method: 'POST',
-    }, { manual: true })
-
-    useDidMountEffect(() => {
-        console.log('dispatchFilteredState')
-
-        dispatchFilteredState({ type: 'loading', state: searchRequest.loading })
-    }, [searchRequest]);
-
-    useDidMountEffect(() => {
-        send()
-    }, [dynamicFilters.length]);
-
-    const send = () => {
-        if (!pickUpCode) return;
-        if (!dropoffCode) return;
-
-        const filterToSend = []
-
-        if (dynamicFilters.some(filter => filter.category.type === 'tag' && filter.activeValues.length !== 0)) {
-            filterToSend.push(...dynamicFilters
-                .filter(filter => filter.category.type === 'tag' && filter.activeValues.length !== 0)
-                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.activeValues.map(v => v.value) })))
-        }
-
-        if (dynamicFilters.some(filter => filter.category.type === 'number' && filter.counter !== 0)) {
-            filterToSend.push(...dynamicFilters
-                .filter(filter => filter.category.type === 'number' && filter.counter !== 0)
-                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.counter })))
-        }
-
-        if (dynamicFilters.some(filter => filter.category.type === 'range' && filter.counter !== 0)) {
-            filterToSend.push(...dynamicFilters
-                .filter(filter => filter.range && filter.range.length == 2 && filter.range.some(v => v !== 0))
-                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.range })))
-        }
-
-        let urlParams = {
-            pickUpLocationCode: pickUpCode.internalcode,
-            pickUpLocationName: pickUpCode.locationname,
-            pickUpDate: puDate ? puDate.unix() : moment().unix(),
-            pickUpTime: puTime ? puTime.unix() : moment().unix(),
-
-            dropOffLocationCode: dropoffCode.internalcode,
-            dropOffLocationName: dropoffCode.locationname,
-            dropOffDate: doDate ? doDate.unix() : moment().unix(),
-            dropOffTime: doTime ? doTime.unix() : moment().unix(),
-        };
-
-        const jsonParams = {
-            pickUpLocation: pickUpCode,
-            dropOffLocation: dropoffCode,
-
-            pickUpDate: puDate ? puDate : moment(),
-            pickUpTime: puTime ? puTime : moment(),
-            dropOffDate: doDate ? doDate : moment(),
-            dropOffTime: doTime ? doTime : moment(),
-            filters: dynamicFilters
-        }
-
-        doSearch({ data: { json: BuildJsonQuery(jsonParams) } })
-            .then((res) => {
-                history.push({
-                    pathname: '/results',
-                    search: `?${qs.stringify(urlParams)}`,
-                });
-                dispatchSearchState({ type: 'set', state: res.data.scrape })
-                dispatchFilteredState({ type: 'set', state: res.data.scrape })
-            })
-    }
-    const Filter = term === Terms.Cars ? ListCarsFilter : DefaultListSearchFilters;
-
-    return (
-        <>
-            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#154a64' }}>
-                <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                    <Filter />
-                    <button style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {
-                        onSearch()
-                        send()
-                    }} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
-                </div>
-            </div>
-        </>
-    );
-}
 
 export function ListResult() {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
@@ -145,6 +43,8 @@ export function ListResult() {
     }, { manual: true })
 
     const urlParams = queryString.parse(history.location.search)
+
+    console.log(puDate)
 
     useEffect(() => {
         console.log('init')
@@ -336,20 +236,19 @@ export function ListResult() {
                                             </div>
                                         </div>
                                         <Panel open={searchPanelOpen} >
-                                            <SearchForm onSearch={() => {
-                                                console.log('closing')
+                                            <ListCarsFilter onSearch={() => {
                                                 setSearchPanelOpen(false)
                                             }} />
                                         </Panel>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-3">
+                                    <div className="col-md-2">
                                         <div className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
                                     </div>
-                                    <div className="col-md-7">
+                                    <div className="col-md-8">
                                         <div className="fl-wrap card-listing">
                                             {Body}
                                         </div>

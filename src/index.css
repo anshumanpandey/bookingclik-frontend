@@ -166,4 +166,5 @@
 .filter-tags label, .custom-form .filter-tags label, .filters-panel p, .filters-panel h4{
     color: black;
     font-weight: unset;
+    font-size: 90%;
 }

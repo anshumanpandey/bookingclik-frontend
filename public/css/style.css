@@ -3367,9 +3367,10 @@ article .list-single-main-item {
 	position:relative;
 	border: 1px solid #ccc;
     cursor: pointer;
-    padding: 0;
-    width: 20px;
-    height: 20px;
+	padding: 0;
+	min-width: 15px;
+    width: 15px;
+    height: 15px;
     position: relative;
 	color:#fff;
 	background:#fff !important;

@@ -12,8 +12,14 @@ import { TagSearchWidget } from '../../widget/TagSearchWidget';
 import { SimpleTagSearchWidget } from '../../widget/SimpleTagSearchWidget';
 import { NumberSearchWidget } from '../../widget/NumberSearchWidget';
 import { RangeSearchWidget } from '../../widget/RangeSearchWidget';
-import { Terms, DynamicFilter } from '../../types';
+import { Terms, DynamicFilter, SearchResponse, GRCGDSCode } from '../../types';
 import { useSearchState, dispatchFilteredState, useFilteredSearchState } from './SearchGlobalState';
+import moment from 'moment';
+import useDidMountEffect from '../../utils/useDidMountEffect';
+import { useHistory } from 'react-router-dom';
+import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
+import BuildJsonQuery from '../../utils/BuildJsonQuery';
+import qs from 'qs';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -73,90 +79,184 @@ export const DefaultListSearchFilters: React.FC = () => {
 }
 
 
-export const ListCarsFilter: React.FC = () => {
-    const [puDate, setPuDate] = useSearchWidgetState("puDate")
-    const [puTime, setPuTime] = useSearchWidgetState("puTime")
+export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
+    const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
+    const [puDate] = useSearchWidgetState('puDate')
+    const [term] = useSearchWidgetState('term')
+    const [doTime] = useSearchWidgetState('doTime')
+    const [doDate] = useSearchWidgetState('doDate')
+    const [puTime] = useSearchWidgetState('puTime')
+    const [pickUpCode] = useSearchWidgetState('pickUpCode')
+    const [dropoffCode] = useSearchWidgetState('dropoffCode')
 
-    const [doDate, setDoDate] = useSearchWidgetState("doDate")
-    const [doTime, setDoTime] = useSearchWidgetState("doTime")
-
-    const [pickUpCode, setPickUpCode] = useSearchWidgetState("pickUpCode")
-    const [dropoffCode, setdropoffCode] = useSearchWidgetState("dropoffCode")
+    const [innerPuLocation, setPuLocation] = useState(pickUpCode);
+    const [innterDoLocation, setDoLocation] = useState(dropoffCode);
+    const [innerDoDate, setDoDate] = useState(doDate);
+    const [innerDoTime, setDoTime] = useState(doTime);
+    console.log(puDate)
+    const [innerPuDate, setPuDate] = useState(puDate);
+    const [innerPuTime, setPuTime] = useState(puTime);
 
     const [displayDropoffInput, setDisplayDropoffInput] = useState(dropoffCode ? true : false)
 
+
+    const [dynamicFilters] = useDynamicFiltersState('activeFilters');
+
+    const [searchRequest, doSearch] = useAxios<SearchResponse>({
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
+        method: 'POST',
+    }, { manual: true })
+
+    useDidMountEffect(() => {
+        dispatchFilteredState({ type: 'loading', state: searchRequest.loading })
+    }, [searchRequest]);
+
+    useDidMountEffect(() => {
+        send()
+    }, [dynamicFilters.length]);
+
+    const send = () => {
+        if (!pickUpCode) return;
+        if (!dropoffCode) return;
+
+        const filterToSend = []
+
+        if (dynamicFilters.some(filter => filter.category.type === 'tag' && filter.activeValues.length !== 0)) {
+            filterToSend.push(...dynamicFilters
+                .filter(filter => filter.category.type === 'tag' && filter.activeValues.length !== 0)
+                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.activeValues.map(v => v.value) })))
+        }
+
+        if (dynamicFilters.some(filter => filter.category.type === 'number' && filter.counter !== 0)) {
+            filterToSend.push(...dynamicFilters
+                .filter(filter => filter.category.type === 'number' && filter.counter !== 0)
+                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.counter })))
+        }
+
+        if (dynamicFilters.some(filter => filter.category.type === 'range' && filter.counter !== 0)) {
+            filterToSend.push(...dynamicFilters
+                .filter(filter => filter.range && filter.range.length == 2 && filter.range.some(v => v !== 0))
+                .map(filter => ({ type: filter.category.type, [filter.category.propertyToWatch]: filter.range })))
+        }
+
+        let urlParams = {
+            pickUpLocationCode: pickUpCode.internalcode,
+            pickUpLocationName: pickUpCode.locationname,
+            pickUpDate: puDate ? puDate.unix() : moment().unix(),
+            pickUpTime: puTime ? puTime.unix() : moment().unix(),
+
+            dropOffLocationCode: dropoffCode.internalcode,
+            dropOffLocationName: dropoffCode.locationname,
+            dropOffDate: doDate ? doDate.unix() : moment().unix(),
+            dropOffTime: doTime ? doTime.unix() : moment().unix(),
+        };
+
+        const jsonParams = {
+            pickUpLocation: pickUpCode,
+            dropOffLocation: dropoffCode,
+
+            pickUpDate: puDate ? puDate : moment(),
+            pickUpTime: puTime ? puTime : moment(),
+            dropOffDate: doDate ? doDate : moment(),
+            dropOffTime: doTime ? doTime : moment(),
+            filters: dynamicFilters
+        }
+
+        doSearch({ data: { json: BuildJsonQuery(jsonParams) } })
+            .then((res) => {
+                history.push({
+                    pathname: '/results',
+                    search: `?${qs.stringify(urlParams)}`,
+                });
+                dispatchSearchState({ type: 'set', state: res.data.scrape })
+                dispatchFilteredState({ type: 'set', state: res.data.scrape })
+            })
+    }
     return (
         <>
-            <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
-                <LocationDropdown
-                    secondary={true}
-                    defaultCode={pickUpCode}
-                    style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
-                    customeClasses="listsearch-input-item m-b-0"
-                    onChange={(v) => dispatchSearchState({ type: 'pickup.code', state: v })} />
-                />
+            <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#154a64' }}>
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
+                        <LocationDropdown
+                            secondary={true}
+                            defaultCode={pickUpCode}
+                            style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
+                            customeClasses="listsearch-input-item m-b-0"
+                            onChange={(v) => setPuLocation(v)} />
             </div>
-            <FormControlLabel
-                style={{ color: 'white' }}
-                control={<Checkbox onChange={() => setDisplayDropoffInput(p => !p)} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
-                label={'Return car on same location'}
+                    <FormControlLabel
+                        style={{ color: 'white' }}
+                        control={<Checkbox onChange={() => setDisplayDropoffInput(p => !p)} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
+                        label={'Return car on same location'}
 
-            />
-            {displayDropoffInput && (
-                <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
-
-                    <LocationDropdown
-                        secondary={true}
-                        defaultCode={dropoffCode}
-                        style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
-                        customeClasses="listsearch-input-item m-b-0"
-                        onChange={(v) => dispatchSearchState({ type: 'dropoff.code', state: v })} />
                     />
-                </div>
-            )}
-            <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
-                    <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Pick-up date</FormLabel>
+                    {displayDropoffInput && (
+                        <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
+
+                            <LocationDropdown
+                                secondary={true}
+                                defaultCode={dropoffCode}
+                                style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
+                                customeClasses="listsearch-input-item m-b-0"
+                                onChange={(v) => setDoLocation(v)} />
+                        </div>
+                    )}
                     <div style={{ display: 'flex' }}>
-                        <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
-                            <DateInput style={{
-                                borderRadius: '6px',
-                                marginRight: '0.5rem',
-                                border: 'unset'
-                            }} defaultValue={puDate} onChange={(v) => dispatchSearchState({ type: 'pickup.date', state: v })} />
+                        <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                            <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Pick-up date</FormLabel>
+                            <div style={{ display: 'flex' }}>
+                                <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
+                                    <DateInput style={{
+                                        borderRadius: '6px',
+                                        marginRight: '0.5rem',
+                                        border: 'unset'
+                                    }} defaultValue={puDate} onChange={(v) => setPuDate(v)} />
+                                </div>
+
+                                <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
+                                    <TimeInput
+                                        defaultValue={puTime?.set('seconds', 0)}
+                                        onChange={(v) => setPuTime(v)} />
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
-                            <TimeInput
-                                defaultValue={puTime?.set('seconds', 0)}
-                                onChange={(v) => dispatchSearchState({ type: 'pickup.time', state: v })} />
+                        <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                            <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Drop-off date</FormLabel>
+                            <div style={{ display: 'flex' }}>
+                                <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
+                                    <DateInput style={{
+                                        borderRadius: '6px',
+                                        border: 'unset',
+                                        marginRight: '0.5rem'
+                                    }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
+                                </div>
+
+                                <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
+                                    <TimeInput
+                                        style={{ borderRadius: '6px' }}
+                                        defaultValue={doTime?.set('seconds', 0)}
+                                        onChange={(v) => setDoTime(v)} />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
-                    <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Drop-off date</FormLabel>
-                    <div style={{ display: 'flex' }}>
-                        <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
-                            <DateInput style={{
-                                borderRadius: '6px',
-                                border: 'unset',
-                                marginRight: '0.5rem'
-                            }} defaultValue={doDate} onChange={(v) => dispatchSearchState({ type: 'dropoff.date', state: v })} />
-                        </div>
-
-                        <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
-                            <TimeInput
-                                style={{ borderRadius: '6px' }}
-                                defaultValue={doTime?.set('seconds', 0)}
-                                onChange={(v) => dispatchSearchState({ type: 'dropoff.time', state: v })} />
-                        </div>
-                    </div>
+                    <button style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {                        
+                        dispatchSearchState({ type: 'pickup.date', state: innerPuDate })
+                        dispatchSearchState({ type: 'pickup.time', state: innerPuTime })
+                        dispatchSearchState({ type: 'dropoff.date', state: innerDoDate })
+                        dispatchSearchState({ type: 'dropoff.time', state: innerDoTime })
+                        dispatchSearchState({ type: 'pickup.code', state: innerPuLocation })
+                        dispatchSearchState({ type: 'dropoff.code', state: innterDoLocation })
+                        onSearch()
+                        send()
+                    }} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
                 </div>
             </div>
-
         </>
     );
+
+
 }
 
 export const SearchFilterCars: React.FC = () => {

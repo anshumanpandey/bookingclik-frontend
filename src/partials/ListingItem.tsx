@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import { Decimal } from 'decimal.js';
 import { Vehicle } from '../types';
-import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
 import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
 import moment from 'moment';
 

@@ -44,12 +44,12 @@ export const TagSearchWidget: React.FC<Props> = ({ options, category }) => {
 
     return (
         <div className=" fl-wrap filter-tags" style={styles}>
-            <Typography gutterBottom style={{ borderBottom: '1px solid #eee' }}>
+            <Typography gutterBottom style={{ borderBottom: '1px solid #eee', textAlign: 'left' }}>
                 By {category.name}
             </Typography>
             {options.map(option => {
                 return (
-                    <div key={option.label}>
+                    <div key={option.label} style={{ display: 'flex', alignItems: 'center' }}>
                         <input style={{ marginBottom: 0 }} type="checkbox" id={`tag-search-${option.label}`} name={`tag-search-${option.label}`} checked={optionsSelected.find(selectedOption => selectedOption.label === option.label) !== undefined} onChange={() => {
                             const found = optionsSelected.find(selectedOption => selectedOption.label === option.label);
 
