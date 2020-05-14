@@ -118,6 +118,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             <div>
                                 {props.vehicle.acriss && (
                                     <h4 style={{
+                                        textTransform: 'uppercase',
                                         fontSize: '0.8rem',
                                         textAlign: 'left',
                                         fontWeight: 'bold',
