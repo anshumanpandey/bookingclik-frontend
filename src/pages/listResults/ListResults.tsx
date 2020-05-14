@@ -200,7 +200,7 @@ export function ListResult() {
                         <div className="col-list-wrap fh-col-list-wrap  left-list">
                             <div className="container" style={{ maxWidth: 'unset', margin: 'auto' }}>
                                 <div className="row">
-                                    <div className="col-md-offset-1 col-md-10">
+                                    <div className="col-md-offset-1 col-md-8">
 
                                         <div className="listsearch-header fl-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset' }}>
