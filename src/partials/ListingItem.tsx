@@ -42,7 +42,7 @@ export type ListingItemProps = {
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [showModal, setShowModal] = useState(false);
-    const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/car_not_found.png"
+    const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/no-car-found.jpg"
 
     let carTransmission = null
     if (RegExp("(M|N|C)").test(props.vehicle.acriss[2])) {
