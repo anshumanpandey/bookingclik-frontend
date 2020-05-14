@@ -44,8 +44,6 @@ export function ListResult() {
 
     const urlParams = queryString.parse(history.location.search)
 
-    console.log(puDate)
-
     useEffect(() => {
         console.log('init')
         console.log(state)
