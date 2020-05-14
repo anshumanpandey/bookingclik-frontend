@@ -123,11 +123,11 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const daySpan = dropDate.diff(pickDate, 'days')
 
     return (
-        <div className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
+        <div style={{ height: '13rem', marginBottom: 0 }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content">
-                    <div className="row" style={{ display: 'flex', alignContent: 'stretch' }}>
-                        <div className="col-md-3 " style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div className="row" style={{ display: 'flex', alignContent: 'stretch', height: '100%' }}>
+                        <div className="col-md-4 " style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <div style={{ marginTop: '0.5rem'}}>
                                 {props.vehicle.acriss && (
                                     <h4 style={{
@@ -137,12 +137,13 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         fontWeight: 'bold',
                                     }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
                                 )}
-                                <h3 style={{ fontSize: '16px', wordBreak: 'break-all' }}><a href="listing-single.html">{props.vehicle.name}</a></h3>
+                                <h3 style={{ fontSize: '16px', marginBottom: 0 }}><a href="listing-single.html">{props.vehicle.name}</a></h3>
                             </div>
-                            <div className="geodir-category-img" style={{ width: '110%',position: 'absolute', zIndex: -1,height: '100%', display: 'flex' }}>
-                                <img style={{  transform: 'scaleX(-1)', backgroundColor: 'white', width: '130%', marginTop: '15%', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                            <div className="geodir-category-img" style={{ display: 'flex', height: '200px', width: '150px' }}>
+                                <img style={{  transform: 'scaleX(-1)',backgroundColor: 'white', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                             </div>
                             <div className="card-popup-rainingvis" data-starrating2="5" style={{
+                                marginBottom: '0.5rem',
                                 display: 'flex',
                                 justifyContent: 'space-around',
                             }}>
@@ -164,6 +165,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         <div className="col-md-3" style={{
                             display: 'flex',
                             flexDirection: 'column',
+                            paddingLeft: '2rem',
+                            paddingRight: 0,
                         }}>
                             <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column'}}>
                             {props.vehicle.fuel_policy && (
@@ -192,7 +195,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
-                                marginTop: '1rem'
+                                marginTop: '1rem',
+                                marginBottom: '0.5rem',
                             }}>
                                 {carTransmission && (
                                     <span style={{ wordBreak: 'break-word', textAlign: 'left',marginBottom: '0.5rem', marginLeft: 0, display: 'flex' }}>
@@ -209,12 +213,12 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
                         </div>
 
-                        <div className="col-md-3">
-                            <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, color: '#157f41' }} >
-                                <p style={{ color: '#157f41', paddingBottom: 0 }}>Included for Free</p>
-                                {props.vehicle.winter_tyres_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
-                                {props.vehicle.snow_chains_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Snow Chains Included</p>}
-                                {props.vehicle.road_tax_included && <p style={{ color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i>Road Tax Included</p>}
+                        <div className="col-md-2">
+                            <div className="geodir-category-location" style={{ marginTop: '0.5rem', marginBottom: '0.5rem', padding: 0, color: '#157f41' }} >
+                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}>Included for Free</p>
+                                {props.vehicle.winter_tyres_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
+                                {props.vehicle.snow_chains_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Snow Chains Included</p>}
+                                {props.vehicle.road_tax_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i>Road Tax Included</p>}
                             </div>
                         </div>
 
@@ -226,7 +230,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 padding: 0,
                                 display: 'flex',
                                 justifyContent: 'space-between',
-                                alignItems: 'end',
+                                alignItems: 'center',
                                 flexDirection: 'column',
                             }}>
                                 <div>
@@ -237,15 +241,15 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 <div style={{
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    flexGrow: 1,
-                                    justifyContent: 'flex-end',
+                                    justifyContent: 'center',
                                     alignItems: 'flex-end',
                                 }}>
                                     <div style={{
                                         display: 'flex',
                                         justifyContent: 'space-between',
+                                        width: '100%',
                                     }}>
-                                        <div className="evticket-meta" style={{ padding: 'unset', display: 'flex', flexDirection: 'column' }}>
+                                        <div className="evticket-meta" style={{ width: '100%', padding: 'unset', display: 'flex', flexDirection: 'column' }}>
                                             Rate for {daySpan} days
                                             <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>{currencySymbol}</span> {props.vehicle.price}</div>
                                         </div>
@@ -260,6 +264,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                             setShowModal(true)
                                         }} target='_blank' className="capitalize" href={props.vehicle.deeplink}>Select</a>
                                     }
+                                    <div style={{ marginBottom: '0.5rem' }}></div>
                                 </div>
                             </div>
                         </div>
