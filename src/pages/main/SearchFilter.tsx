@@ -55,22 +55,19 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
 
                             <div className="main-search-input-item" style={{ width: '100%' }}>
                                 <DateInput style={{
-                                    borderTopRightRadius: 0,
-                                    borderBottomRightRadius: 0,
                                     border: 'unset',
-                                    borderBottomLeftRadius: '6px',
-                                    borderTopLeftRadius: '6px',
+                                    borderRadius: '6px',
                                 }}
                                 defaultValue={puDate}
                                 onChange={(v) => setPuDate(v)} />
                             </div>
                         </div>
 
-                        <div className="col-md-5" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                             <div className="main-search-input-item" style={{ width: '100%' }}>
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
-                                    style={{ backgroundColor: 'white', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
+                                    style={{ backgroundColor: 'white', borderRadius: '6px' }}
                                     onChange={setPuTime}
                                 />
                             </div>
@@ -90,10 +87,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                 <DateInput
                                     defaultValue={doDate}
                                     style={{
-                                    borderTopRightRadius: 0,
-                                    borderBottomRightRadius: 0,
-                                    borderBottomLeftRadius: '6px',
-                                    borderTopLeftRadius: '6px',
+                                    borderRadius: '6px',
                                 }} onChange={(v) => setDoDate(v)} />
                             </div>
                             </div>
@@ -102,7 +96,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                             <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
-                                    style={{ backgroundColor: 'white', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}
+                                    style={{ backgroundColor: 'white', borderRadius: '6px' }}
                                     onChange={setDoTime}
                                 />
                             </div>

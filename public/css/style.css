@@ -1863,9 +1863,7 @@ section.gray-section .section-separator {
 }
 .listsearch-input-text input , .listsearch-input-item input {
 	float:left;
-	border:1px solid #eee;
 	background:#fff;
-	background:#f9f9f9;
 	width:100%;
 	padding:15px 20px 15px 20px;
 	border-radius:6px;

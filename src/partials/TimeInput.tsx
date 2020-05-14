@@ -20,11 +20,18 @@ export const TimeInput: React.FC<Props> = ({ style, onChange, defaultValue }) =>
     return (
         <>
         <Select
-            className={`TimeInput ${!hours ? 'gray-text' : ''}`}
+            className={`TimeInput ${!val ? 'gray-text' : ''}`}
             fullWidth={true}
             labelId="demo-simple-select-label"
             value={val ? val.format('H:mm') : 'none'}
-            input={<InputBase style={{ border:'1px solid black', ...style}} />}
+            input={<InputBase
+                startAdornment={(
+                    <div style={{ paddingLeft: '0.5rem' }}>
+                        <i style={{ color: '#154a64'}} className="fa fa-clock"></i>
+                    </div>
+                )}
+                style={{ ...style}}
+            />}
             onChange={(e) => {
                 if (typeof e.target.value == 'string') {
                     setHour(moment(e.target.value.toString(), 'H:mm'))

@@ -121,15 +121,13 @@ export const ListCarsFilter: React.FC = () => {
                     <div style={{ display: 'flex' }}>
                         <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
                             <DateInput style={{
-                                borderBottomLeftRadius: '6px',
-                                borderTopLeftRadius: '6px',
-                                borderTopRightRadius: 0,
-                                borderBottomRightRadius: 0,
+                                borderRadius: '6px',
+                                marginRight: '0.5rem',
                                 border: 'unset'
                             }} defaultValue={puDate} onChange={(v) => setPuDate(v)} />
                         </div>
 
-                        <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}>
+                        <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
                             <TimeInput
                                 defaultValue={puTime?.set('seconds', 0)}
                                 onChange={(v) => setPuTime(v)} />
@@ -142,14 +140,15 @@ export const ListCarsFilter: React.FC = () => {
                     <div style={{ display: 'flex' }}>
                         <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
                             <DateInput style={{
-                                borderTopRightRadius: 0,
-                                borderBottomRightRadius: 0,
-                                border: 'unset'
+                                borderRadius: '6px',
+                                border: 'unset',
+                                marginRight: '0.5rem'
                             }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
                         </div>
 
-                        <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: '6px', borderTopRightRadius: '6px' }}>
+                        <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
                             <TimeInput
+                                style={{ borderRadius: '6px' }}
                                 defaultValue={doTime?.set('seconds', 0)}
                                 onChange={(v) => setDoTime(v)} />
                         </div>

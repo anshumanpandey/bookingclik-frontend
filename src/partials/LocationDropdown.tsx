@@ -154,8 +154,8 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
         const source = CancelToken.source()
         setLastReqToken(source);
         refetch({ params: { search: v }, cancelToken: source.token })
-        .then(() => setLastReqToken(null))
-        .catch(() => setLastReqToken(null))
+            .then(() => setLastReqToken(null))
+            .catch(() => setLastReqToken(null))
     })
     return (
         <>
@@ -184,7 +184,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                     loadingText={<></>}
                     onChange={(event: any, value: GRCGDSCode | null) => {
                         if (!value) return
-                        
+
                         setInnerDefaultValue(value)
                         onChange(value)
                     }}
@@ -212,8 +212,13 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
                                 classes={{
                                     input: `${classes.input} ${secondary ? 'secondary' : undefined} `,
                                 }}
-                                style={{ borderRadius: '6px'}}
+                                style={{ borderRadius: '6px' }}
                                 placeholder="Select Pickup Location"
+                                startAdornment={(
+                                    <div style={{ paddingLeft: '0.5rem' }}>
+                                        <i style={{ color: '#154a64'}} className="fa fa-map-marker-alt"></i>
+                                    </div>
+                                )}
                                 endAdornment={(
                                     <React.Fragment>
                                         {loading ? <CircularProgress color="inherit" size={15} /> : null}

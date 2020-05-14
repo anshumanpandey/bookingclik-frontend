@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { FormLabel } from '@material-ui/core';
+import { FormLabel, InputBase } from '@material-ui/core';
 import Calendar from 'rc-calendar';
 //@ts-ignore
 import DatePicker from 'rc-calendar/lib/Picker';
@@ -37,9 +37,14 @@ export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, labe
                         if (date) val = date
 
                         return (
-                            <input
+                            <InputBase
+                                startAdornment={(
+                                    <div style={{ paddingLeft: '0.5rem' }}>
+                                        <i style={{ color: '#154a64'}} className="fa fa-calendar"></i>
+                                    </div>
+                                )}
                                 readOnly={true}
-                                style={{ ...style, border:'1px solid black',backgroundColor: 'white',height: '100%' }}
+                                style={{ ...style, float: 'left', background: 'white', height: '100%', width: '95%' }}
                                 placeholder={`Date: ${moment().format(DATE_FORMAT)}`}
                                 value={val ? val.format(DATE_FORMAT) : undefined}
                             />
