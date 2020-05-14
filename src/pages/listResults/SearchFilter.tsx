@@ -187,7 +187,7 @@ export const SearchFilterCars: React.FC = () => {
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>
     } else {
-        body = (<div className="profile-edit-container add-list-container">
+        body = (<div className="profile-edit-container add-list-container filters-panel">
             <Panel defaultOpen={true} buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
                 <h4 className="more-filter-option" style={{ float: 'left' }}>Filter</h4>
             </div>} >

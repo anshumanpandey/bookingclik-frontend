@@ -161,3 +161,8 @@
 .TimeInput div[role="button"]{
     font-size: 1rem;
 }
+
+.filter-tags label, .custom-form .filter-tags label, .filters-panel p, .filters-panel h4{
+    color: black;
+    font-weight: unset;
+}
