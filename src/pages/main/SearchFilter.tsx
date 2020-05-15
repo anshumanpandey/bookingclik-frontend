@@ -30,7 +30,10 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                     }} />
                     <FormControlLabel
                         style={{ color: 'white' }}
-                        control={<Checkbox onChange={() => setDisplayDropoffInput(p => !p)} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
+                        control={<Checkbox onChange={() => {
+                            setDisplayDropoffInput(p => !p)
+                            setDropoffCode(pickupCode);
+                        }} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
                         label={'Return car on same location'}
 
                     />

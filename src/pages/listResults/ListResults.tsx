@@ -4,9 +4,9 @@ import useAxios, { ResponseValues } from 'axios-hooks'
 import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
-import { SearchResponse, Terms, GRCGDSCode } from '../../types';
+import { SearchResponse, Terms, GRCGDSCode, Visitor } from '../../types';
 import { DefaultListSearchFilters, ListCarsFilter, SearchFilterCars } from './SearchFilter';
-import { useFilterState } from './FiltersGlobalState';
+import { getUserData } from '../../crud/click-tracker.crud';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
 import moment from 'moment';
@@ -41,6 +41,8 @@ export function ListResult() {
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
         method: 'POST'
     }, { manual: true })
+
+    const [userReq] = useAxios<Visitor>(getUserData())
 
     const urlParams = queryString.parse(history.location.search)
 
@@ -184,7 +186,7 @@ export function ListResult() {
                     )}
                     {
                         filteredValues
-                            .map((v: any, idx: number) => <ListingItem key={idx} doDate={doDate} doTime={doTime} puDate={puDate} puTime={puTime} {...v} layout={layout} />)
+                            .map((v: any, idx: number) => <ListingItem key={idx} currentVisitor={userReq.data} doDate={doDate} doTime={doTime} puDate={puDate} puTime={puTime} {...v} layout={layout} />)
                         }
                 </div>
             </>

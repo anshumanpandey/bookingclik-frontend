@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import dayjs from 'dayjs';
-import { Decimal } from 'decimal.js';
-import { Vehicle } from '../types';
+import useAxios from 'axios-hooks'
+import { track } from '../crud/click-tracker.crud';
+import { Vehicle, Visitor } from '../types';
 import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
 import moment from 'moment';
 import { LoadImageOrPlaceholder } from '../utils/LoadImageOrPlaceholder';
@@ -36,12 +36,15 @@ const Avatar = styled.div`
 export type ListingItemProps = {
     layout?: 'GRID' | 'LIST',
     vehicle: Vehicle,
+    currentVisitor?: Visitor | null,
     doDate: moment.Moment
     doTime: moment.Moment
     puDate: moment.Moment
     puTime: moment.Moment
 }
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
+    const [trackReq, post] = useAxios(track(), { manual: true })
+
     const [showModal, setShowModal] = useState(false);
     const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/no-car-found.jpg"
 
@@ -262,6 +265,10 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         <a id="book-now-btn" onClick={(e) => {
                                             e.preventDefault()
                                             setShowModal(true)
+                                            if (!props.currentVisitor?.ip) return
+                                            if (!props.currentVisitor?.country_code) return
+                                            
+                                            post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_code, supplier_id: props.vehicle.supplier_id }})
                                         }} target='_blank' className="capitalize" href={props.vehicle.deeplink}>Select</a>
                                     }
                                     <div style={{ marginBottom: '0.5rem' }}></div>
