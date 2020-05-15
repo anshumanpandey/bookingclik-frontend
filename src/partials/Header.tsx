@@ -25,7 +25,7 @@ export const Header = () => {
 
     return (
         <>
-            <header ref={(e) => headerRef.current = e} style={{ backgroundColor: '#154a64', display: 'flex', flexDirection: 'row', padding: 0,  }} className="main-header dark-header fs-header sticky">
+            <header style={{ backgroundColor: '#154a64', display: 'flex', flexDirection: 'row', padding: 0, }} className="main-header dark-header fs-header sticky">
                 <div className="header-inner" style={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -42,12 +42,13 @@ export const Header = () => {
                         </Link>
                     </div>
                 </div>
-                <div style={{ top: 'unset', color: 'white' }} className="nav-holder main-menu">
+                <div style={{ top: 'unset', color: 'white', margin: 0 }} className="nav-holder main-menu">
                     <nav style={{ height: '100%' }}>
                         <ul style={{ padding: 0, height: '100%' }}>
                             <li
                                 style={{ height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
                                 className="no-hover"
+                                ref={(e) => headerRef.current = e}
                                 onClick={(e) => setShowModal(p => !p)}>
                                 <i style={{ marginRight: '0.2rem' }} className="fas fa-sign-in-alt"></i>Sign In
                         </li>

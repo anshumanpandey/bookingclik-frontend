@@ -175,4 +175,6 @@
 
 .loginPopover {
     z-index: 12;
+    width: 25rem;
+    left: 0.5%!important
 }
