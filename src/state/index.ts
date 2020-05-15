@@ -25,7 +25,7 @@ const normalReducer = (state: any, action: { type: string, state?: any }): Initi
         }
         case 'token': {
             localStorage.setItem('token', action.state)
-            return { ...state, token: state };
+            return { ...state, token: action.state };
         }
         case 'logout': {
             localStorage.removeItem('token')
