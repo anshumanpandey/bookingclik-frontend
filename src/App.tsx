@@ -5,20 +5,26 @@ import 'rc-time-picker/assets/index.css';
 import './utils/AxiosConfig';
 import { Main } from './pages/main/main';
 import { ListResult } from './pages/listResults/ListResults';
+import { LoginPage } from './pages/brokerLogin/Login';
+import { ProfilePage } from './pages/profile/Profile';
 import { Soon } from './pages/comingSoon/Soon';
 import { useGlobalState } from './state';
+import PrivateRoute from './partials/PrivateRoutes';
+import './utils/AxiosBootstrap'
 
 function App() {
 
     const [loading, setLoading] = useGlobalState('loading');
     let routes = [
-        { path: '/results', component: <ListResult /> },
-        { path: '/', component: <Main /> }
+        { path: '/profile', component: ProfilePage, private: true },
+        { path: '/backLogin', component: LoginPage },
+        { path: '/results', component: ListResult },
+        { path: '/', component: Main }
     ]
 
     if (process.env.REACT_APP_SOON) {
         routes = [
-            { path: '/', component: <Soon /> }
+            { path: '/', component: Soon }
         ]
     }
 
@@ -34,10 +40,13 @@ function App() {
 
                 <Switch>
                     {routes.map(r => {
+                        if (r.private) {
+                            return (
+                                <PrivateRoute key={r.path} path={r.path} component={r.component} />
+                            );
+                        }
                         return (
-                            <Route key={r.path} path={r.path}>
-                                {r.component}
-                            </Route>
+                            <Route key={r.path} path={r.path} component={r.component} />
                         );
                     })}
                 </Switch>
