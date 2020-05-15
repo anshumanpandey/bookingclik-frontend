@@ -3965,6 +3965,15 @@ article .list-single-main-item {
 	position: relative;
 	top:2px;
 }
+.user-profile-menu li svg{
+	padding-right:25px;
+	width:20px;
+	float:left;
+	text-align:center;
+	opacity:0.4;
+	position: relative;
+	top:2px;
+}
 .user-profile-menu li a span {
 	position:absolute;
 	top:50%;

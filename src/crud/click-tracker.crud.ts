@@ -12,3 +12,9 @@ export const getUserData = (): AxiosRequestConfig => {
         url: `https://ipapi.co/json/`,
     }
 }
+
+export const getSupplierInfo = (): AxiosRequestConfig => {
+    return {
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND}/brokers/suppliers/${process.env.REACT_APP_ACCOUNT_ID}`
+    }
+}

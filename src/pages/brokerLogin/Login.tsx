@@ -42,6 +42,7 @@ export const LoginPage: React.FC = () => {
                             post({ data: values })
                                 .then(res => {
                                     dispatchGlobalState({ type: 'token', state: res.data.token })
+                                    dispatchGlobalState({ type: 'profile', state: res.data })
                                     history.push({ pathname: '/profile' });
                                 })
                         }}

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import './index.css';
 import 'rc-time-picker/assets/index.css';
-import './utils/AxiosConfig';
 import { Main } from './pages/main/main';
 import { ListResult } from './pages/listResults/ListResults';
 import { LoginPage } from './pages/brokerLogin/Login';
