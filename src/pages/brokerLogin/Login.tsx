@@ -18,7 +18,7 @@ export const LoginPage: React.FC = () => {
 
     return (
         <>
-                <div className="main-register fl-wrap" style={{ borderRadius: 0,width: '23vw', padding: 'unset', marginBottom: 'unset', boxShadow: 'inset' }}>
+                <div className="main-register fl-wrap" style={{ borderRadius: 0, padding: 'unset', marginBottom: 'unset', boxShadow: 'inset' }}>
                     <div className="custom-form" style={{ padding: '2rem' }}>
                         <Formik
                             initialValues={initialValues}

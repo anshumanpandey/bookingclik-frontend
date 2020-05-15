@@ -25,7 +25,7 @@ export const Header = () => {
 
     return (
         <>
-            <header ref={(e) => headerRef.current = e} style={{ backgroundColor: '#154a64', display: 'flex', flexDirection: 'row' }} className="main-header dark-header fs-header sticky">
+            <header ref={(e) => headerRef.current = e} style={{ backgroundColor: '#154a64', display: 'flex', flexDirection: 'row', padding: 0,  }} className="main-header dark-header fs-header sticky">
                 <div className="header-inner" style={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -34,7 +34,8 @@ export const Header = () => {
                 }}>
                     <div className="logo-holder" style={{
                         top: 'unset',
-                        height: 'unset'
+                        height: 'unset',
+                        marginLeft: '3rem',
                     }}>
                         <Link to="/">
                             <img style={{ height: 'auto', marginLeft: 'auto', marginRight: 'auto', width: '130px', marginTop: '-0.5rem' }} src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="" />
