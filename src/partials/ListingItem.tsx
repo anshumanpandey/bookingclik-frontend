@@ -5,6 +5,7 @@ import { Decimal } from 'decimal.js';
 import { Vehicle } from '../types';
 import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
 import moment from 'moment';
+import { LoadImageOrPlaceholder } from '../utils/LoadImageOrPlaceholder';
 
 const ListingItemBody = styled.div`
 width: 100%!important;
@@ -123,10 +124,10 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const daySpan = dropDate.diff(pickDate, 'days')
 
     return (
-        <div style={{ height: '13rem', marginBottom: 0 }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
+        <div style={{ height: '13rem', marginBottom: 0, background: 'unset' }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content">
-                    <div className="row" style={{ display: 'flex', alignContent: 'stretch', height: '100%' }}>
+                    <div className="row" style={{ display: 'flex', alignContent: 'stretch', height: '100%', marginRight: '-20px' }}>
                         <div className="col-md-4 " style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <div style={{ marginTop: '0.5rem'}}>
                                 {props.vehicle.acriss && (
@@ -140,7 +141,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 <h3 style={{ fontSize: '16px', marginBottom: 0 }}><a href="listing-single.html">{props.vehicle.name}</a></h3>
                             </div>
                             <div className="geodir-category-img" style={{ display: 'flex', height: '200px', width: '150px' }}>
-                                <img style={{  transform: 'scaleX(-1)',backgroundColor: 'white', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                                <LoadImageOrPlaceholder style={{  transform: 'scaleX(-1)',backgroundColor: 'white', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                             </div>
                             <div className="card-popup-rainingvis" data-starrating2="5" style={{
                                 marginBottom: '0.5rem',

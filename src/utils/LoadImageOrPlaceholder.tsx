@@ -1,10 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-export function LoadImageOrPlaceholder(imageSrc: string) {
+type Props = {src: string, alt: string | undefined, style: React.CSSProperties}
+
+export const LoadImageOrPlaceholder: React.FC<Props> = ({ src, alt, style}) => {
+    const [currentSrc, setCurrentSrc] = useState(src);
+    const [flipImage, setFlipImage] = useState(true);
+
     var img = new Image();
-    img.src = imageSrc;
+    img.src = currentSrc;
     img.onerror = () => {
-        img.src = "images/all/no-car-found.jpg"
+        setCurrentSrc("images/all/no-car-found.jpg")
+        setFlipImage(false)
     };
-    return img;
+    let innerStyle = {}
+    if (flipImage === false) {
+        innerStyle = { transform: 'unset' }
+    }
+    return <img
+        style={{...style, ...innerStyle}}
+        src={currentSrc}
+        alt={alt}
+    />    
 }
