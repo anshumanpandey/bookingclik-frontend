@@ -17,7 +17,6 @@ function App() {
     const [loading, setLoading] = useGlobalState('loading');
     let routes = [
         { path: '/profile', component: ProfilePage, private: true },
-        { path: '/backLogin', component: LoginPage },
         { path: '/results', component: ListResult },
         { path: '/', component: Main }
     ]

@@ -172,3 +172,7 @@
 .filter-tags input:checked::after, .custom-form .filter-tags input:checked::after{
     position: unset
 }
+
+.loginPopover {
+    z-index: 12;
+}

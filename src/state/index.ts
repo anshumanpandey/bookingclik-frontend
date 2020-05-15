@@ -4,11 +4,13 @@ type InitialState = {
     loading: boolean
     token: null | string
     error: null | string
+    success: null | string
 }
 const initialState: InitialState = {
     loading: false,
     token: null,
-    error: null
+    error: null,
+    success: null,
 };
 
 const token = localStorage.getItem('token')
@@ -31,6 +33,9 @@ const normalReducer = (state: any, action: { type: string, state?: any }): Initi
         }
         case 'error': {
             return { ...state, error: action.state };
+        }
+        case 'success': {
+            return { ...state, success: action.state };
         }
         default: return state;
     }

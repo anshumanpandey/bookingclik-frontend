@@ -13,7 +13,7 @@ const PrivateRoute: React.FC<{ component: React.ComponentType<any>, [x:string]: 
             token ?
             //@ts-ignore
                 <Component {...props} />
-            : <Redirect to="/backLogin" />
+            : <Redirect to="/" />
         )} />
     );
 };
