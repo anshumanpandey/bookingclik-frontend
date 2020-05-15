@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginPage } from '../pages/brokerLogin/Login';
-import { Popover, Popper, Fade, Paper } from '@material-ui/core';
+import { Popper, Fade, Paper } from '@material-ui/core';
+import { useGlobalState, dispatchGlobalState } from '../state';
 
 export const Header = () => {
+    const [token] = useGlobalState('token');
     const [showModal, setShowModal] = useState<boolean>(false);
     const headerRef = React.useRef<Element | null>(null);
 
@@ -45,13 +47,23 @@ export const Header = () => {
                 <div style={{ top: 'unset', color: 'white', margin: 0 }} className="nav-holder main-menu">
                     <nav style={{ height: '100%' }}>
                         <ul style={{ padding: 0, height: '100%' }}>
-                            <li
-                                style={{ height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
+                            {!token ?(
+                                <li
+                                style={{ cursor: 'pointer',height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
                                 className="no-hover"
                                 ref={(e) => headerRef.current = e}
                                 onClick={(e) => setShowModal(p => !p)}>
                                 <i style={{ marginRight: '0.2rem' }} className="fas fa-sign-in-alt"></i>Sign In
                         </li>
+                            ): 
+                            <li
+                                style={{ cursor: 'pointer',height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
+                                className="no-hover"
+                                ref={(e) => headerRef.current = e}
+                                onClick={(e) => dispatchGlobalState({ type: 'logout' })}>
+                                <i style={{ marginRight: '0.2rem' }} className="fas fa-sign-out-alt"></i>Log out
+                        </li>
+                            }
                         </ul>
                     </nav>
                 </div>
