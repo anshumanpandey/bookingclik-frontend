@@ -4,8 +4,7 @@ import './index.css';
 import 'rc-time-picker/assets/index.css';
 import { Main } from './pages/main/main';
 import { ListResult } from './pages/listResults/ListResults';
-import { LoginPage } from './pages/brokerLogin/Login';
-import { ProfilePage } from './pages/profile/Profile';
+import { ProfilePage } from './pages/dashboard/Dashboard';
 import { Soon } from './pages/comingSoon/Soon';
 import { useGlobalState } from './state';
 import PrivateRoute from './partials/PrivateRoutes';
@@ -15,7 +14,7 @@ function App() {
 
     const [loading, setLoading] = useGlobalState('loading');
     let routes = [
-        { path: '/profile', component: ProfilePage, private: true },
+        { path: '/dashboard', component: ProfilePage, private: true },
         { path: '/results', component: ListResult },
         { path: '/', component: Main }
     ]

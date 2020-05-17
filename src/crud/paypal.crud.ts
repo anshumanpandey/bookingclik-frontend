@@ -6,3 +6,10 @@ export const postTransaction = (): AxiosRequestConfig => {
         url: `${process.env.REACT_APP_GRCGDS_BACKEND}/paypal-transaction-complete`,
     }
 }
+
+export const getTransactions = (): AxiosRequestConfig => {
+    return {
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND}/paypal-transactions`,
+        method: 'GET',
+    }
+}

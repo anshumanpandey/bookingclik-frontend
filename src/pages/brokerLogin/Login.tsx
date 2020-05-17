@@ -43,7 +43,7 @@ export const LoginPage: React.FC = () => {
                                 .then(res => {
                                     dispatchGlobalState({ type: 'token', state: res.data.token })
                                     dispatchGlobalState({ type: 'profile', state: res.data })
-                                    history.push({ pathname: '/profile' });
+                                    history.push({ pathname: '/dashboard' });
                                 })
                         }}
                     >
