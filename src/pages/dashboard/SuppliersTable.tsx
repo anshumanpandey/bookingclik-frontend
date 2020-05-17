@@ -3,9 +3,9 @@ import useAxios from 'axios-hooks'
 import DataTable from 'react-data-table-component';
 import { getSupplierInfo } from '../../crud/click-tracker.crud';
 // @ts-ignore
-import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
+import Calendar from 'rc-calendar';
 // @ts-ignore
-import Picker from 'rc-calendar/lib/Picker';
+import DatePicker from 'rc-calendar/lib/Picker';
 import 'rc-calendar/assets/index.css';
 import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
@@ -28,42 +28,74 @@ export const SuppliersTable: React.FC = () => {
         setFilteredData(data)
     }, [loading]);
 
-    const Calendar = () => {
+    const CalendarInput = () => {
         return (
-            <Picker
-                value={dates}
-                onChange={(values: [moment.Moment, moment.Moment]) => {
-                    return setDates(values);
-                }}
-                animation="slide-up"
-                calendar={<RangeCalendar
-                    showToday={false}
-                    showWeekNumber
-                    dateInputPlaceholder={['start', 'end']}
-                    showOk={false}
-                    showClear
-                    onSelect={(e: any) => setDates(e)}
-                />}
-            >
-                {
-                    () => {
-                        return (
-                            <div style={{ padding: 'unset', margin: 'unset', boxShadow: 'unset' }} className="main-register">
-                                <div className="custom-form">
-                                    <input
-                                        style={{ margin: 0, backgroundColor: 'white' }}
-                                        type="text"
-                                        placeholder="please select"
-                                        readOnly
-                                        className="ant-calendar-picker-input ant-input"
-                                        value={`Showing click between ${dates[0].format('YYYY-MM-DD')} and ${dates[1].format('YYYY-MM-DD')}` || ''}
-                                    />
+            <>
+                <DatePicker
+                    value={dates[0]}
+                    onChange={(value: moment.Moment) => {
+                        return setDates(p => [value, p[1]]);
+                    }}
+                    animation="slide-up"
+                    calendar={<Calendar
+                        showDateInput={false}
+                        format="YYYY-MM-DD"
+                        dateInputPlaceholder="please input"
+                        defaultValue={dates[0]}
+                    />}
+                >
+                    {
+                        () => {
+                            return (
+                                <div style={{ padding: 'unset', margin: 'unset', boxShadow: 'unset' }} className="main-register">
+                                    <div className="custom-form">
+                                        <input
+                                            style={{ margin: 0, backgroundColor: 'white' }}
+                                            type="text"
+                                            placeholder="please select"
+                                            readOnly
+                                            className="ant-calendar-picker-input ant-input"
+                                            value={`${dates[0].format('YYYY-MM-DD')}` || ''}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        );
+                            );
+                        }
                     }
-                }
-            </Picker>
+                </DatePicker>
+                <DatePicker
+                    value={dates[1]}
+                    onChange={(value: moment.Moment) => {
+                        return setDates(p => [p[0], value]);
+                    }}
+                    animation="slide-up"
+                    calendar={<Calendar
+                        showDateInput={false}
+                        format="YYYY-MM-DD"
+                        dateInputPlaceholder="please input"
+                        defaultValue={dates[1]}
+                    />}
+                >
+                    {
+                        () => {
+                            return (
+                                <div style={{ padding: 'unset', margin: 'unset', boxShadow: 'unset' }} className="main-register">
+                                    <div className="custom-form">
+                                        <input
+                                            style={{ margin: 0, backgroundColor: 'white' }}
+                                            type="text"
+                                            placeholder="please select"
+                                            readOnly
+                                            className="ant-calendar-picker-input ant-input"
+                                            value={`${dates[1].format('YYYY-MM-DD')}` || ''}
+                                        />
+                                    </div>
+                                </div>
+                            );
+                        }
+                    }
+                </DatePicker>
+            </>
         );
     }
 
@@ -72,7 +104,7 @@ export const SuppliersTable: React.FC = () => {
             <DataTable
                 actions={
                     <>
-                        <Calendar />
+                        <CalendarInput />
                         <div style={{ padding: 'unset', margin: 'unset', boxShadow: 'unset' }} className="main-register">
                             <div className="custom-form">
                                 <input
