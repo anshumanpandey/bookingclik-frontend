@@ -9,11 +9,24 @@ import Picker from 'rc-calendar/lib/Picker';
 import 'rc-calendar/assets/index.css';
 import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
+import FuzzySearch from 'fuzzy-search';
 
 
 export const SuppliersTable: React.FC = () => {
     const [dates, setDates] = useState<[moment.Moment, moment.Moment]>([moment().startOf('month'), moment().endOf('month')])
+    const [fuzzyString, setFuzzyString] = useState<string | null>(null)
     const [{ data, loading, error }, refetch] = useAxios(getSupplierInfo())
+    const [filteredData, setFilteredData] = useState<any[]>([])
+
+    useEffect(() => {
+        if (fuzzyString === null) return
+        const searcher = new FuzzySearch(data || [], ['clientname']);
+        setFilteredData(searcher.search(fuzzyString))
+    }, [fuzzyString]);
+
+    useEffect(() => {
+        setFilteredData(data)
+    }, [loading]);
 
     const Calendar = () => {
         return (
@@ -35,10 +48,10 @@ export const SuppliersTable: React.FC = () => {
                 {
                     () => {
                         return (
-                            <div style={{ padding: 'unset', margin: 'unset', boxShadow: 'unset'}} className="main-register">
+                            <div style={{ padding: 'unset', margin: 'unset', boxShadow: 'unset' }} className="main-register">
                                 <div className="custom-form">
                                     <input
-                                        style={{ margin: 0, backgroundColor: 'white'}}
+                                        style={{ margin: 0, backgroundColor: 'white' }}
                                         type="text"
                                         placeholder="please select"
                                         readOnly
@@ -57,7 +70,22 @@ export const SuppliersTable: React.FC = () => {
     return (
         <div className="statistic-container fl-wrap">
             <DataTable
-                actions={<Calendar />}
+                actions={
+                    <>
+                        <Calendar />
+                        <div style={{ padding: 'unset', margin: 'unset', boxShadow: 'unset' }} className="main-register">
+                            <div className="custom-form">
+                                <input
+                                    onChange={(e) => setFuzzyString(e.target.value)}
+                                    style={{ margin: 0, backgroundColor: 'white' }}
+                                    placeholder="keyword"
+                                    type="text"
+                                    value={fuzzyString || ''}
+                                />
+                            </div>
+                        </div>
+                    </>
+                }
                 progressPending={loading}
                 columns={[
                     {
@@ -74,7 +102,7 @@ export const SuppliersTable: React.FC = () => {
                         }
                     },
                 ]}
-                data={data}
+                data={filteredData}
             />
         </div>
     )
