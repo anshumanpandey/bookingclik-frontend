@@ -6,6 +6,7 @@ import { logIn } from '../../crud/login.crud';
 import { dispatchGlobalState } from '../../state';
 import { useHistory } from 'react-router-dom';
 import ErrorLabel from '../../partials/ErrorLabel';
+import { CircularProgress } from '@material-ui/core';
 
 interface MyFormValues {
     clientname: string
@@ -84,7 +85,10 @@ export const LoginPage: React.FC = () => {
                                         onBlur={handleBlur}
                                         value={values.password}
                                     />
-                                    <button style={{ backgroundColor: '#154a64' }} type="submit" disabled={loading} className="log-submit-btn"><span>Log In</span></button>
+                                    <button style={{ backgroundColor: loading ? '#154a6460':'#154a64', display: 'flex' }} type="submit" disabled={loading} className="log-submit-btn">
+                                        <span style={{ marginRight: '0.5rem'}}>Log In</span>
+                                        {loading && <CircularProgress style={{ color: 'white'}} size={15} />}
+                                    </button>
                                     <div className="clearfix"></div>
                                 </form>
                             )}

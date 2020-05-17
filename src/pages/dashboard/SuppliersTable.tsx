@@ -110,7 +110,7 @@ export const SuppliersTable: React.FC = () => {
                                 <input
                                     onChange={(e) => setFuzzyString(e.target.value)}
                                     style={{ margin: 0, backgroundColor: 'white' }}
-                                    placeholder="keyword"
+                                    placeholder="Search Car Rental Companies"
                                     type="text"
                                     value={fuzzyString || ''}
                                 />

@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Header, Footer } from '../../partials';
 import { useGlobalState, dispatchGlobalState } from '../../state';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import PaymentIcon from '@material-ui/icons/Payment';
+import MouseIcon from '@material-ui/icons/Mouse';
 import { Link, Route, RouteComponentProps } from 'react-router-dom';
 import { SuppliersTable } from './SuppliersTable';
 import { Paypal } from './Paypal';
@@ -8,9 +11,6 @@ import { Paypal } from './Paypal';
 
 export const ProfilePage: React.FC<RouteComponentProps> = ({match, location}) => {
     const [profile] = useGlobalState('profile')
-
-    console.log(location.pathname)
-
 
     return (
         <>
@@ -33,17 +33,17 @@ export const ProfilePage: React.FC<RouteComponentProps> = ({match, location}) =>
                                                     <ul>
                                                         <li>
                                                             <Link style={{ color: (location.pathname == '/dashboard/' || location.pathname == '/dashboard') ? '#5ecfb1' : 'inherit'}} to={`${match.path}/`}>
-                                                                <i className="fa fa-gears"></i>Click Counts
+                                                                <MouseIcon style={{ padding: 'unset', opacity: 'unset', top: 'unset'}} />Click Counts
                                                             </Link>
                                                         </li>
                                                         <li>
                                                             <Link style={{ color: location.pathname == '/dashboard/payments' ? '#5ecfb1' : 'inherit'}} to={`${match.path}/payments`}>
-                                                                <i className="fa fa-user-o"></i> Payments
+                                                                <PaymentIcon style={{ padding: 'unset', opacity: 'unset', top: 'unset'}} />Payments
                                                             </Link>
                                                         </li>
                                                         <li>
                                                             <Link style={{ color: location.pathname == '/dashboard/locations' ? '#5ecfb1' : 'inherit'}} to={`${match.path}/locations`}>
-                                                                <i className="fa fa-user-o"></i> Locations
+                                                                <LocationOnIcon style={{ padding: 'unset', opacity: 'unset', top: 'unset'}} />Locations
                                                             </Link>
                                                         </li>
                                                     </ul>
