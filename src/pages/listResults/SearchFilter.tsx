@@ -350,7 +350,7 @@ export const SearchFilterCars: React.FC = () => {
                             <div className="col-md-12">
                                 <SimpleTagSearchWidget
                                     options={carRentalCompanyOptions}
-                                    category={{ name: 'Rental car company', propertyToWatch: 'rental_car_company', type: 'tag' }}
+                                    category={{ name: 'Supplier', propertyToWatch: 'rental_car_company', type: 'tag' }}
                                     onChange={(valuesToFilterFor) => {
                                         let cars = search.vehicle;
                                         if (valuesToFilterFor.length != 0) {
