@@ -20,6 +20,7 @@ import { useHistory } from 'react-router-dom';
 import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
+import CarBrands from './carbrands.json';
 
 export const DefaultListSearchFilters: React.FC = () => {
     return (
@@ -274,13 +275,10 @@ export const SearchFilterCars: React.FC = () => {
 
     let body = <CircularProgress color="inherit" />
 
-    const carRentalCompanyOptions = Array.from(search.vehicle.reduce((prev: { add: (arg0: any) => void; }, next: { vehicle: { suppliername: any; carrentalcompanyname: any; }; }) => {
-        const key = next.vehicle.suppliername ? next.vehicle.suppliername : next.vehicle.carrentalcompanyname
-        if (key) {
-            prev.add(key)
-        }
-        return prev
-    }, new Set<string>()).values()).map(token => ({ label: token, value: token })) as { label: string, value: string }[]
+    const carRentalCompanyOptions = CarBrands.filter((brand) => {
+        return search.vehicle.find((veh: any) => veh.vehicle.name.match(brand.name) ) != undefined;
+
+    }).map(brand => ({ label: brand.name, value: brand.name })) as { label: string, value: string }[]
 
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>
@@ -345,8 +343,7 @@ export const SearchFilterCars: React.FC = () => {
                                         let cars = search.vehicle;
                                         if (valuesToFilterFor.length != 0) {
                                             cars = search.vehicle.filter((v: any) => {
-                                                return valuesToFilterFor.includes(v.vehicle.carrentalcompanyname || '') ||
-                                                    valuesToFilterFor.includes(v.vehicle.suppliername || '')
+                                                return v.vehicle.name.match(`(${valuesToFilterFor.join('|')})`);
                                             })
                                         }
 
