@@ -258,7 +258,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                         dispatchSearchState({ type: 'dropoff.date', state: innerDoDate })
                         dispatchSearchState({ type: 'dropoff.time', state: innerDoTime })
                         dispatchSearchState({ type: 'pickup.code', state: innerPuLocation })
-                        dispatchSearchState({ type: 'dropoff.code', state: innterDoLocation })
+                        dispatchSearchState({ type: 'dropoff.code', state: innterDoLocation || innerPuLocation })
                         onSearch()
                         send()
                     }} className="button fs-map-btn">{searchRequest.loading ? 'Searching...' : 'Search'}</button>
