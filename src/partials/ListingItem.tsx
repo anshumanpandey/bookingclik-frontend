@@ -37,6 +37,7 @@ const Avatar = styled.div`
 export type ListingItemProps = {
     layout?: 'GRID' | 'LIST',
     vehicle: Vehicle,
+    daySpan: number,
     currentVisitor?: Visitor | null,
     doDate: moment.Moment
     doTime: moment.Moment
@@ -121,11 +122,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
     let currencySymbol = '$'
     if (props.vehicle.currency == 'EUR') currencySymbol = '€'
-
-    const dropDate = props.doDate.set('hours',props.doTime.hour()).set('m', props.doTime.minutes())
-    const pickDate = props.puDate.set('hours', props.puTime.hours()).set('m', props.puTime.minutes())
-
-    const daySpan = dropDate.diff(pickDate, 'days')
 
     return (
         <div style={{ height: '13rem', marginBottom: 0, background: 'unset' }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
@@ -254,7 +250,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         width: '100%',
                                     }}>
                                         <div className="evticket-meta" style={{ width: '100%', padding: 'unset', display: 'flex', flexDirection: 'column' }}>
-                                            Rate for {daySpan} days
+                                            Rate for {props.daySpan} days
                                             <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>
                                                 {currencySymbol}</span> {new Decimal(props.vehicle.price).absoluteValue().floor().toNumber()}.00
                                             </div>

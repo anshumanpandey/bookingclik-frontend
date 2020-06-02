@@ -83,6 +83,18 @@ export function ListResult() {
 
             doSearch({ data: { json: BuildJsonQuery(params) } })
                 .then(r => {
+                    const mapperVehicles = r.data.scrape.vehicle.map((v: any, idx: number) => {
+                        const dropDate = doDate.set('hours',0).set('m', 0)
+                        const pickDate = puDate.set('hours', 0).set('m', 0)
+        
+                        const daySpan = dropDate.diff(pickDate, 'days')
+                        return {
+                            ...v,
+                            daySpan
+                        };
+                    })
+        
+                    r.data.scrape.vehicle = [...mapperVehicles];
                     dispatchSearchState({ type: 'set', state: r.data.scrape })
                     dispatchFilteredState({ type: 'set', state: r.data.scrape })
                     setLoading(false)
@@ -110,6 +122,19 @@ export function ListResult() {
             dispatchSearchState({ type: 'dropoff.time', state: params.dropOffTime })
             dispatchSearchState({ type: 'pickup.date', state: params.pickUpDate })
             dispatchSearchState({ type: 'pickup.time', state: params.pickUpTime })
+
+            const mapperVehicles = state.results.scrape.vehicle.map((v: any, idx: number) => {
+                const dropDate = doDate.set('hours',0).set('m', 0)
+                const pickDate = puDate.set('hours', 0).set('m', 0)
+
+                const daySpan = dropDate.diff(pickDate, 'days')
+                return {
+                    ...v,
+                    daySpan
+                };
+            })
+
+            state.results.scrape.vehicle = mapperVehicles;
 
             dispatchSearchState({ type: 'set', state: state.results.scrape })
             dispatchFilteredState({ type: 'set', state: state.results.scrape })

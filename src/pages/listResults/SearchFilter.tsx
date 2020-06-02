@@ -168,6 +168,18 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                     pathname: '/results',
                     search: `?${qs.stringify(urlParams)}`,
                 });
+                const mapperVehicles = res.data.scrape.vehicle.map((v: any, idx: number) => {
+                    const dropDate = innerDoDate.set('hours',0).set('m', 0)
+                    const pickDate = innerPuDate.set('hours', 0).set('m', 0)
+    
+                    const daySpan = dropDate.diff(pickDate, 'days')
+                    return {
+                        ...v,
+                        daySpan
+                    };
+                })
+    
+                res.data.scrape.vehicle = [...mapperVehicles];
                 dispatchFilteredState({ type: 'set', state: res.data.scrape })
             })
     }
