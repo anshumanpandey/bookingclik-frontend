@@ -154,6 +154,7 @@ export function ListResult() {
     }
 
     if (filetredSearch.vehicle.length > 0) {
+        console.log("isfiltering",isfiltering)
         let filteredValues = filetredSearch.vehicle
             .sort((a: any, b: any) => {
                 if (sortPrice === PriceSortOrder.DESC) return a.vehicle.price - b.vehicle.price
@@ -197,7 +198,7 @@ export function ListResult() {
                     </div>
                     <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset', float: 'left', color: 'black', alignSelf: 'flex-start' }} className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
                 {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
-                                ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? cheapestCar.vehicle.price : ''}`}
+                                ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? `${Math.floor(cheapestCar.vehicle.price)}.00` : ''}`}
                         </h3>
                 </div>
                 <div>

@@ -169,16 +169,16 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                     search: `?${qs.stringify(urlParams)}`,
                 });
                 const mapperVehicles = res.data.scrape.vehicle.map((v: any, idx: number) => {
-                    const dropDate = innerDoDate.set('hours',0).set('m', 0)
+                    const dropDate = innerDoDate.set('hours', 0).set('m', 0)
                     const pickDate = innerPuDate.set('hours', 0).set('m', 0)
-    
+
                     const daySpan = dropDate.diff(pickDate, 'days')
                     return {
                         ...v,
                         daySpan
                     };
                 })
-    
+
                 res.data.scrape.vehicle = [...mapperVehicles];
                 dispatchFilteredState({ type: 'set', state: res.data.scrape })
             })
@@ -194,7 +194,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                             style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
                             customeClasses="listsearch-input-item m-b-0"
                             onChange={(v) => setPuLocation(v)} />
-            </div>
+                    </div>
                     <FormControlLabel
                         style={{ color: 'white' }}
                         control={<Checkbox onChange={() => setDisplayDropoffInput(p => !p)} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
@@ -252,7 +252,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                             </div>
                         </div>
                     </div>
-                    <button style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {                        
+                    <button style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {
                         dispatchSearchState({ type: 'pickup.date', state: innerPuDate })
                         dispatchSearchState({ type: 'pickup.time', state: innerPuTime })
                         dispatchSearchState({ type: 'dropoff.date', state: innerDoDate })
@@ -287,10 +287,13 @@ export const SearchFilterCars: React.FC = () => {
 
     let body = <CircularProgress color="inherit" />
 
-    const carRentalCompanyOptions = CarBrands.filter((brand) => {
-        return search.vehicle.find((veh: any) => veh.vehicle.name.match(brand.name) ) != undefined;
-
-    }).map(brand => ({ label: brand.name, value: brand.name })) as { label: string, value: string }[]
+    const carRentalCompanyOptions = Array.from(search.vehicle.reduce((prev: { add: (arg0: any) => void; }, next: { vehicle: { suppliername: any; carrentalcompanyname: any; }; }) => {
+        const key = next.vehicle.carrentalcompanyname;
+        if (key) {
+            prev.add(key)
+        }
+        return prev
+    }, new Set<string>()).values()).map(token => ({ label: token, value: token })) as { label: string, value: string }[]
 
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>
@@ -352,14 +355,19 @@ export const SearchFilterCars: React.FC = () => {
                                     options={carRentalCompanyOptions}
                                     category={{ name: 'Supplier', propertyToWatch: 'rental_car_company', type: 'tag' }}
                                     onChange={(valuesToFilterFor) => {
+                                        console.log("loading", 1)
+                                        dispatchFilteredState({ type: 'loading', state: true })
                                         let cars = search.vehicle;
-                                        if (valuesToFilterFor.length != 0) {
-                                            cars = search.vehicle.filter((v: any) => {
-                                                return v.vehicle.name.match(`(${valuesToFilterFor.join('|')})`);
-                                            })
-                                        }
+                                        setTimeout(() => {
+                                            if (valuesToFilterFor.length != 0) {
+                                                cars = search.vehicle.filter((v: any) => {
+                                                    return v.vehicle.carrentalcompanyname && v.vehicle.carrentalcompanyname.match(`(${valuesToFilterFor.join('|')})`);
+                                                })
+                                            }
+                                            dispatchFilteredState({ type: 'set', state: { ...search, vehicle: cars } })
+                                            dispatchFilteredState({ type: 'loading', state: false })
+                                        }, 0);
 
-                                        dispatchFilteredState({ type: 'set', state: { ...search, vehicle: cars } })
                                     }}
                                 />
                             </div>

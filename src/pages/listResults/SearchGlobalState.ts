@@ -28,10 +28,10 @@ const initialState = {
 const filteredReducer = (state: any, action: { type: string, state: any }) => {
     switch (action.type) {
         case 'set': {
-            return { filteredScrape: {...action.state} };
+            return { ...state, filteredScrape: {...action.state} };
         }
         case 'loading': {
-            return { ...state, isfiltering: state };
+            return { ...state, isfiltering: action.state };
         }
         default: {
             return state;
