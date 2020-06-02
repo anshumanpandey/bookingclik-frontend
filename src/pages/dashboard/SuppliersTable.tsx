@@ -30,6 +30,10 @@ export const SuppliersTable: React.FC = () => {
         setFilteredData(data)
     }, [loading]);
 
+    useEffect(() => {
+        refetch()
+    }, dates);
+
     const RedirectModal: React.FC = () => {
 
         return (

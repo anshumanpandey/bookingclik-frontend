@@ -1,10 +1,11 @@
 import { configure } from 'axios-hooks'
 import Axios from 'axios'
 import { getGlobalState, dispatchGlobalState } from '../state';
+import { encrypt, decrypt } from './Encryption';
 
-const axios = Axios.create({})
+export const axiosInstance = Axios.create({})
 
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
     config => {
         const state = getGlobalState()
 
@@ -12,11 +13,14 @@ axios.interceptors.request.use(
         config.headers.Authorization = `Bearer ${state.token}`;
       }
 
+      config.data = JSON.parse(encrypt(config.data))
+
       return config;
     }
   );
-  axios.interceptors.response.use(
+  axiosInstance.interceptors.response.use(
     config => {
+      config.data = JSON.parse(decrypt(config.data))
       return config;
     },
     (error) => {
@@ -43,4 +47,4 @@ axios.interceptors.request.use(
     }
   );
 
-configure({ axios, cache: false })
+configure({ axios: axiosInstance, cache: false })

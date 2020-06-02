@@ -38,7 +38,7 @@ export const Paypal: React.FC = () => {
                     console.log('Paypal btn ready')
                 }}
                 options={{
-                    clientId: 'AX1dp6TsC0lUgPd-N_ezG8VggCXXQruDTnd8b55ZpoEFYOz5KSX3lpyOeCdAhIdBdohIyRb0mLxAxqtg'
+                    clientId: 'AbBy2EJkKQpvu6zmf9gaySHsC5UK-mFjwqI_zLxaNCS60V4cIDU4mR7o5LsBtIU8KAjrh4yqdzsu3J_N'
                 }}
                 amount="0.01"
                 onSuccess={(details: { [k: string]: any }, data: {}) => {

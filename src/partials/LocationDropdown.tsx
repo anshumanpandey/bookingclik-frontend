@@ -121,7 +121,8 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 
 const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>> = ({ secondary, onChange, customeClasses, classes, style, defaultCode }) => {
     const [{ data, loading, error }, refetch] = useHttp<GRCGDSCode[]>({
-        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/public/locationCodes`
+        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/public/locationCodes`,
+        method: 'POST'
     })
 
     const [innerDefaultValut, setInnerDefaultValue] = useState(defaultCode);
@@ -153,7 +154,7 @@ const LocationDropdownComponent: React.FC<Prop & WithStyles<typeof styles, true>
 
         const source = CancelToken.source()
         setLastReqToken(source);
-        refetch({ params: { search: v }, cancelToken: source.token })
+        refetch({ data: { search: v }, cancelToken: source.token })
             .then(() => setLastReqToken(null))
             .catch(() => setLastReqToken(null))
     })
