@@ -20,7 +20,7 @@ export const CarsTab: React.FC = () => {
 
                     <div className="container" style={{ margin: 'auto'}}>
                         <div className="intro-item fl-wrap" >
-                            <h2 style={{ textAlign: 'left', maxWidth: '1096px', margin: 'auto' }}>Find your ride.</h2>
+                            <h2 style={{ textAlign: 'left', maxWidth: '1096px', margin: 'auto' }}>Book Your Car Rental Today!</h2>
                         </div>
                         <SearchWidget term={Terms.Cars} />
                     </div>
