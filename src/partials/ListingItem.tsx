@@ -5,6 +5,7 @@ import { track } from '../crud/click-tracker.crud';
 import { Vehicle, Visitor } from '../types';
 import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
 import moment from 'moment';
+import {Decimal} from 'decimal.js';
 import { LoadImageOrPlaceholder } from '../utils/LoadImageOrPlaceholder';
 
 const ListingItemBody = styled.div`
@@ -143,7 +144,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 )}
                                 <h3 style={{ fontSize: '16px', marginBottom: 0 }}><a href="listing-single.html">{props.vehicle.name}</a></h3>
                             </div>
-                            <div className="geodir-category-img" style={{ display: 'flex', height: '200px', width: '150px' }}>
+                            <div className="geodir-category-img" style={{ display: 'flex', height: '200px', width: '170px' }}>
                                 <LoadImageOrPlaceholder style={{  transform: 'scaleX(-1)',backgroundColor: 'white', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                             </div>
                             <div className="card-popup-rainingvis" data-starrating2="5" style={{
@@ -226,7 +227,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
 
 
-                        <div className="col-md-3" style={{ display: 'flex', backgroundColor: '#f8f8f8' }}>
+                        <div className="col-md-3" style={{ display: 'flex' }}>
 
                             <div className="geodir-category-location" style={{
                                 marginTop: '0.5rem',
@@ -238,7 +239,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             }}>
                                 <div>
                                     <Avatar>
-                                        <img style={{ width: '70px', height: '35px' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                                        <img style={{ width: '70px', height: 'auto' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                                     </Avatar>
                                 </div>
                                 <div style={{
@@ -254,7 +255,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                     }}>
                                         <div className="evticket-meta" style={{ width: '100%', padding: 'unset', display: 'flex', flexDirection: 'column' }}>
                                             Rate for {daySpan} days
-                                            <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>{currencySymbol}</span> {props.vehicle.price}</div>
+                                            <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>
+                                                {currencySymbol}</span> {new Decimal(props.vehicle.price).absoluteValue().floor().toNumber()}.00
+                                            </div>
                                         </div>
                                         {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>
                                             <div className="evticket-price"><span>{currencySymbol}</span> {props.vehicle.secondary_price}</div>
