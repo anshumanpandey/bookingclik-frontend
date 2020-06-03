@@ -97,8 +97,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
     const [innerPuDate, setPuDate] = useState(puDate);
     const [innerPuTime, setPuTime] = useState(puTime);
 
-    const [displayDropoffInput, setDisplayDropoffInput] = useState(dropoffCode ? true : false)
-
+    const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
 
     const [dynamicFilters] = useDynamicFiltersState('activeFilters');
 
@@ -114,6 +113,20 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
     useDidMountEffect(() => {
         send()
     }, [dynamicFilters.length]);
+
+    useEffect(() => {
+        if (innerPuLocation.internalcode == innterDoLocation.internalcode) {
+            setDisplayDropoffInput(false)
+            setDoLocation(null)
+        } else {
+            setDisplayDropoffInput(true)
+        }
+        setPuLocation(pickUpCode);
+        setDoDate(doDate);
+        setDoTime(doTime);
+        setPuDate(puDate);
+        setPuTime(puTime);
+    }, [])
 
     const send = () => {
         if (!pickUpCode) return;
@@ -145,15 +158,15 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
             pickUpDate: innerPuDate ? innerPuDate.unix() : moment().unix(),
             pickUpTime: innerPuTime ? innerPuTime.unix() : moment().unix(),
 
-            dropOffLocationCode: innterDoLocation.internalcode,
-            dropOffLocationName: innterDoLocation.locationname,
+            dropOffLocationCode: innterDoLocation ? innterDoLocation.internalcode: innerPuLocation.internalcode,
+            dropOffLocationName: innterDoLocation ? innterDoLocation.locationname :innerPuLocation.internalcode,
             dropOffDate: innerDoDate ? innerDoDate.unix() : moment().unix(),
             dropOffTime: innerDoTime ? innerDoTime.unix() : moment().unix(),
         };
 
         const jsonParams = {
             pickUpLocation: innerPuLocation,
-            dropOffLocation: innterDoLocation,
+            dropOffLocation: innterDoLocation ? innterDoLocation : innerPuLocation,
 
             pickUpDate: innerPuDate ? innerPuDate : moment(),
             pickUpTime: innerPuTime ? innerPuTime : moment(),
@@ -161,7 +174,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
             dropOffTime: innerDoTime ? innerDoTime : moment(),
             filters: dynamicFilters
         }
-        
+
         dispatchFilteredState({ type: 'loading', state: true })
         doSearch({ data: { json: BuildJsonQuery(jsonParams) } })
             .then((res) => {
@@ -195,14 +208,20 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                     <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
                         <LocationDropdown
                             secondary={true}
-                            defaultCode={pickUpCode}
+                            defaultCode={innerPuLocation}
                             style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
                             customeClasses="listsearch-input-item m-b-0"
                             onChange={(v) => setPuLocation(v)} />
                     </div>
                     <FormControlLabel
                         style={{ color: 'white' }}
-                        control={<Checkbox onChange={() => setDisplayDropoffInput(p => !p)} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
+                        control={<Checkbox onChange={() => setDisplayDropoffInput(p => {
+                            const s = !p;
+                            if (s == true) {
+                                setDoLocation(null);
+                            }
+                            return s;
+                        })} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
                         label={'Return car on same location'}
 
                     />
@@ -211,7 +230,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
 
                             <LocationDropdown
                                 secondary={true}
-                                defaultCode={dropoffCode}
+                                defaultCode={innterDoLocation}
                                 style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
                                 customeClasses="listsearch-input-item m-b-0"
                                 onChange={(v) => setDoLocation(v)} />

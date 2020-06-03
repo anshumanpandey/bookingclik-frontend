@@ -11,17 +11,16 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     const [puDate] = useSearchWidgetState('puDate')
     const [pickupCode, setPickupCode] = useSearchWidgetState('pickUpCode')
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
-    const [displayDropoffInput, setDisplayDropoffInput] = useState(dropoffCode ? true : false)
+    const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
 
     useDidUpdateEffect(() => {
         dispatchSearchState({ type: 'dropoff.date', state: puDate })
     }, [puDate])
 
     useEffect(() => {
-        if ((pickupCode && dropoffCode) && pickupCode.internalcode == dropoffCode.internalcode) {
-            setDisplayDropoffInput(false)
-        }
-    }, [pickupCode, dropoffCode])
+        setDropoffCode(null)
+        setDisplayDropoffInput(false)
+    }, [])
 
     return (
         <>
@@ -39,8 +38,8 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                         control={<Checkbox onChange={() => {
                             setDisplayDropoffInput(p => {
                                 const status = !p;
-                                if (status == false) {
-                                    setDropoffCode(pickupCode);
+                                if (status == true) {
+                                    setDropoffCode(null);
                                 }
                                 return !p;
                             })

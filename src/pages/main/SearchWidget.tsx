@@ -23,7 +23,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   const [doDate, setDoDate] = useSearchWidgetState('doDate')
   const [doTime, setDoTime] = useSearchWidgetState('doTime')
   const [pickUpCode] = useSearchWidgetState('pickUpCode')
-  const [dropoffCode] = useSearchWidgetState('dropoffCode')
+  const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
 
   const CurrentFilter = optionToSearch === 'cars' ? CarSearchWidgetFilters : DefaultSearchWidgetFilters;
 
@@ -50,6 +50,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
 
     setPuDate(searchCriteria.pickUpDate);
     setDoDate(searchCriteria.dropOffDate);
+    setDropoffCode(searchCriteria.dropOffLocation)
 
     const params = {
       pickUpLocationCode: searchCriteria.pickUpLocation.internalcode,
