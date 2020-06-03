@@ -11,7 +11,7 @@ export const Footer = () => {
                             <div className="col-md-4">
                             </div>
                             <div className="col-md-4">
-                                <div className="copyright"> &#169; 2020 GRCGDS .  All rights reserved.</div>
+                                <div className="copyright">@2020 copyright Booking Limited</div>
                             </div>
                             <div className="col-md-4">
                                 <div className="footer-social">

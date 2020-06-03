@@ -17,6 +17,12 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
         dispatchSearchState({ type: 'dropoff.date', state: puDate })
     }, [puDate])
 
+    useEffect(() => {
+        if (pickupCode.internalcode == dropoffCode.internalcode) {
+            setDisplayDropoffInput(false)
+        }
+    }, [pickupCode, dropoffCode])
+
     return (
         <>
             <div className="row">
@@ -31,8 +37,13 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                     <FormControlLabel
                         style={{ color: 'white' }}
                         control={<Checkbox onChange={() => {
-                            setDisplayDropoffInput(p => !p)
-                            setDropoffCode(pickupCode);
+                            setDisplayDropoffInput(p => {
+                                const status = !p;
+                                if (status == false) {
+                                    setDropoffCode(pickupCode);
+                                }
+                                return !p;
+                            })
                         }} checked={!displayDropoffInput} style={{ color: 'white', alignSelf: 'flex-start' }} />}
                         label={'Return car on same location'}
 

@@ -17,10 +17,10 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   const history = useHistory()
   const [optionToSearch] = useState<string>('cars');
 
-  const [puDate] = useSearchWidgetState('puDate')
-  const [puTime] = useSearchWidgetState('puTime')
-  const [doDate] = useSearchWidgetState('doDate')
-  const [doTime] = useSearchWidgetState('doTime')
+  const [puDate, setPuDate] = useSearchWidgetState('puDate')
+  const [puTime, setPuTime] = useSearchWidgetState('puTime')
+  const [doDate, setDoDate] = useSearchWidgetState('doDate')
+  const [doTime, setDoTime] = useSearchWidgetState('doTime')
   const [pickUpCode] = useSearchWidgetState('pickUpCode')
   const [dropoffCode] = useSearchWidgetState('dropoffCode')
 
@@ -46,6 +46,9 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
       pickUpLocation: pickUpCode,
       dropOffLocation: dropoffCode ? dropoffCode : pickUpCode
     }
+
+    setPuDate(searchCriteria.pickUpDate);
+    setDoDate(searchCriteria.dropOffDate);
 
     const params = {
       pickUpLocationCode: searchCriteria.pickUpLocation.internalcode,

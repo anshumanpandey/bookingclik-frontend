@@ -84,16 +84,16 @@ export function ListResult() {
             doSearch({ data: { json: BuildJsonQuery(params) } })
                 .then(r => {
                     const mapperVehicles = r.data.scrape.vehicle.map((v: any, idx: number) => {
-                        const dropDate = doDate.set('hours',0).set('m', 0)
+                        const dropDate = doDate.set('hours', 0).set('m', 0)
                         const pickDate = puDate.set('hours', 0).set('m', 0)
-        
+
                         const daySpan = dropDate.diff(pickDate, 'days')
                         return {
                             ...v,
                             daySpan
                         };
                     })
-        
+
                     r.data.scrape.vehicle = [...mapperVehicles];
                     dispatchSearchState({ type: 'set', state: r.data.scrape })
                     dispatchFilteredState({ type: 'set', state: r.data.scrape })
@@ -124,7 +124,7 @@ export function ListResult() {
             dispatchSearchState({ type: 'pickup.time', state: params.pickUpTime })
 
             const mapperVehicles = state.results.scrape.vehicle.map((v: any, idx: number) => {
-                const dropDate = doDate.set('hours',0).set('m', 0)
+                const dropDate = doDate.set('hours', 0).set('m', 0)
                 const pickDate = puDate.set('hours', 0).set('m', 0)
 
                 const daySpan = dropDate.diff(pickDate, 'days')
@@ -142,11 +142,23 @@ export function ListResult() {
     }, []);
 
 
-    let Body = (<div className="section-title">
-        <h2>No results founds!</h2>
-        <span className="section-separator"></span>
-        <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
-    </div>)
+    let Body = (
+        <>
+            {isfiltering && (
+                <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
+                    <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
+                        <div style={{ position: 'unset' }} className="pulse"></div>
+                    </div>
+                </div>
+            )}
+            <div className="section-title">
+                <h2>No results founds!</h2>
+                <span className="section-separator"></span>
+                <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
+            </div>
+        </>
+    )
 
     let cheapestCar = null
     if (filetredSearch.vehicle) {
@@ -154,7 +166,6 @@ export function ListResult() {
     }
 
     if (filetredSearch.vehicle.length > 0) {
-        console.log("isfiltering",isfiltering)
         let filteredValues = filetredSearch.vehicle
             .sort((a: any, b: any) => {
                 if (sortPrice === PriceSortOrder.DESC) return a.vehicle.price - b.vehicle.price
@@ -198,14 +209,14 @@ export function ListResult() {
                     </div>
                     <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset', float: 'left', color: 'black', alignSelf: 'flex-start' }} className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
                 {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
-                                ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? `${Math.floor(cheapestCar.vehicle.price)}.00` : ''}`}
-                        </h3>
+                            ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? `${Math.floor(cheapestCar.vehicle.price)}.00` : ''}`}
+                    </h3>
                 </div>
                 <div>
                     {isfiltering && (
                         <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
                             <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <img style={{ width: '60%'}} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
+                                <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
                                 <div style={{ position: 'unset' }} className="pulse"></div>
                             </div>
                         </div>
@@ -213,7 +224,7 @@ export function ListResult() {
                     {
                         filteredValues
                             .map((v: any, idx: number) => <ListingItem key={idx} currentVisitor={userReq.data} doDate={doDate} doTime={doTime} puDate={puDate} puTime={puTime} {...v} layout={layout} />)
-                        }
+                    }
                 </div>
             </>
         );
@@ -241,7 +252,7 @@ export function ListResult() {
                                             </h3>
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                 <div onClick={() => setSearchPanelOpen(p => !p)} style={{ float: 'right' }}>
-                                                    <h4 style={{ cursor: 'pointer',color: '#154a64to-top' }}>Change Search <i className="fa fa-search"></i></h4>
+                                                    <h4 style={{ cursor: 'pointer', color: '#154a64to-top' }}>Change Search <i className="fa fa-search"></i></h4>
                                                 </div>
                                                 <div className="listing-view-layout">
                                                     <ul>
