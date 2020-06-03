@@ -6,14 +6,10 @@ export const Footer = () => {
         <>
             <footer className="main-footer dark-footer  ">
                 <div className="sub-footer fl-wrap">
-                    <div className="container">
+                    <div className="container" style={{ margin: 'auto'}}>
                         <div className="row">
-                            <div className="col-md-4">
-                            </div>
-                            <div className="col-md-4">
+                            <div className="col-md-12">
                                 <div className="copyright">@2020 copyright Booking Limited</div>
-                            </div>
-                            <div className="col-md-4">
                             </div>
                         </div>
                     </div>
