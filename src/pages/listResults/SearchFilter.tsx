@@ -3,8 +3,6 @@ import useAxios from 'axios-hooks'
 import { CircularProgress, Checkbox, FormControlLabel, FormLabel, Typography } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { DateInput } from '../../partials';
-import { useFilterState } from './FiltersGlobalState';
-import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
 import { useSearchWidgetState, dispatchSearchState } from '../main/useSearchWidgetGlobalState';
 import { TimeInput } from '../../partials/TimeInput';
@@ -20,64 +18,7 @@ import { useHistory } from 'react-router-dom';
 import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
-import CarBrands from './carbrands.json';
-
-export const DefaultListSearchFilters: React.FC = () => {
-    return (
-        <div className="listsearch-input-wrap fl-wrap">
-            <div className="listsearch-input-item">
-                <i className="mbri-key single-i"></i>
-                <input type="text" placeholder="Keywords?" value="" />
-            </div>
-            <div className="listsearch-input-item">
-                <select data-placeholder="Location" className="listResultSelect">
-                    <option>All Locations</option>
-                    <option>Bronx</option>
-                    <option>Brooklyn</option>
-                    <option>Manhattan</option>
-                    <option>Queens</option>
-                    <option>Staten Island</option>
-                </select>
-            </div>
-            <div className="listsearch-input-item">
-                <select data-placeholder="All Categories" className="listResultSelect">
-                    <option>All Categories</option>
-                    <option>Shops</option>
-                    <option>Hotels</option>
-                    <option>Restaurants</option>
-                    <option>Fitness</option>
-                    <option>Events</option>
-                </select>
-            </div>
-            <div className="listsearch-input-text" id="autocomplete-container">
-                <label><i className="mbri-map-pin"></i> Enter Addres </label>
-                <input type="text" placeholder="Destination , Area , Street" id="autocomplete-input" className="qodef-archive-places-search" value="" />
-                <a href="#" className="loc-act qodef-archive-current-location"><i className="fa fa-dot-circle-o"></i></a>
-            </div>
-            <div className="hidden-listing-filter fl-wrap">
-                <div className="distance-input fl-wrap">
-                    <div className="distance-title"> Radius around selected destination <span></span> km</div>
-                    <div className="distance-radius-wrap fl-wrap">
-                        <input className="distance-radius rangeslider--horizontal" type="range" min="1" max="100" step="1" value="1" data-title="Radius around selected destination" />
-                    </div>
-                </div>
-                <div className=" fl-wrap filter-tags">
-                    <h4>Filter by Tags</h4>
-                    <input id="check-aa" type="checkbox" name="check" />
-                    <label htmlFor="check-aa">Elevator in building</label>
-                    <input id="check-b" type="checkbox" name="check" />
-                    <label htmlFor="check-b">Friendly workspace</label>
-                    <input id="check-c" type="checkbox" name="check" />
-                    <label htmlFor="check-c">Instant Book</label>
-                    <input id="check-d" type="checkbox" name="check" />
-                    <label htmlFor="check-d">Wireless Internet</label>
-                </div>
-            </div>
-            <button className="button fs-map-btn">Update</button>
-            <div className="more-filter-option">More Filters <span></span></div>
-        </div>
-    );
-}
+import { useMediaQuery } from 'react-responsive'
 
 
 export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
@@ -105,6 +46,8 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
         method: 'POST',
     }, { manual: true })
+
+    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
     useDidMountEffect(() => {
         dispatchFilteredState({ type: 'loading', state: searchRequest.loading })
@@ -236,11 +179,11 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                 onChange={(v) => setDoLocation(v)} />
                         </div>
                     )}
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', flexDirection: isSm ? 'row': 'column' }}>
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                             <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Pick-up date</FormLabel>
-                            <div style={{ display: 'flex' }}>
-                                <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
+                            <div style={{ display: 'flex', justifyContent: isSm ? 'unset':'space-between' }}>
+                                <div className="listsearch-input-item" style={{ width: isSm ? '40%': '50%', display: 'flex', alignItems: 'stretch' }}>
                                     <DateInput style={{
                                         borderRadius: '6px',
                                         marginRight: '0.5rem',
@@ -248,7 +191,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                     }} defaultValue={puDate} onChange={(v) => setPuDate(v)} />
                                 </div>
 
-                                <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
+                                <div className="listsearch-input-item" style={{ width: isSm ? '40%': '50%', background: 'white', borderRadius: '6px' }}>
                                     <TimeInput
                                         defaultValue={puTime?.set('seconds', 0)}
                                         onChange={(v) => setPuTime(v)} />
@@ -258,8 +201,8 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
 
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                             <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Drop-off date</FormLabel>
-                            <div style={{ display: 'flex' }}>
-                                <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
+                            <div style={{ display: 'flex', justifyContent: isSm ? 'unset':'space-between' }}>
+                                <div className="listsearch-input-item" style={{ width: isSm ? '40%': '50%', display: 'flex', alignItems: 'stretch' }}>
                                     <DateInput style={{
                                         borderRadius: '6px',
                                         border: 'unset',
@@ -267,7 +210,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                     }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
                                 </div>
 
-                                <div className="listsearch-input-item" style={{ width: '40%', background: 'white', borderRadius: '6px' }}>
+                                <div className="listsearch-input-item" style={{ width: isSm ? '40%': '50%', background: 'white', borderRadius: '6px' }}>
                                     <TimeInput
                                         style={{ borderRadius: '6px' }}
                                         defaultValue={doTime?.set('seconds', 0)}
@@ -316,8 +259,6 @@ export const SearchFilterCars: React.FC = () => {
             return v.vehicle.carrentalcompanyname == token
         }) });
     }) as { label: string, value: string, total: any[] }[]
-
-    console.log(carRentalCompanyOptions)
 
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>

@@ -5,7 +5,7 @@ import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
 import { SearchResponse, Terms, GRCGDSCode, Visitor } from '../../types';
-import { DefaultListSearchFilters, ListCarsFilter, SearchFilterCars } from './SearchFilter';
+import { ListCarsFilter, SearchFilterCars } from './SearchFilter';
 import { getUserData } from '../../crud/click-tracker.crud';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
