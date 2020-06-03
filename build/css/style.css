@@ -374,16 +374,6 @@ blockquote p {
 .dark-header .show-reg-form {
 	color:#fff;
 }
-.show-reg-form:before {
-	content:'';
-	position:absolute;
-	top:50%;
-	right:-20px;
-	height:30px;
-	width:1px;
-	margin-top:-15px;
-	background:rgba(255,255,255,0.41);
-}
 .dark-header .show-reg-form:before {
 	color:#fff;
 	background:rgba(255,255,255,0.21);
@@ -609,7 +599,7 @@ blockquote p {
 	border:1px solid #eee;
 	transition: all .2s ease-in-out;
 }
-.nav-holder nav li:hover > ul {
+.nav-holder nav li:not(.no-hover):hover > ul {
 	opacity: 1;
 	visibility: visible;
 	margin: 0;
@@ -1558,7 +1548,6 @@ section.gray-section .section-separator {
 	width:100%;
 	margin-top:15px;
 	font-weight:500;
-	border-top:1px solid #eee;
 }
 .card-listing .geodir-category-location  a {
 	color: #999;
@@ -1687,11 +1676,7 @@ section.gray-section .section-separator {
     transform: translateZ(0);
   	transition: all 2000ms cubic-bezier(.19,1,.22,1) 0ms;
 }
-.listing-item-grid:hover img , .geodir-category-listing:hover .geodir-category-img img {
-	-webkit-transform: scale(1.15);
-	-moz-transform:scale(1.15);
-	transform: scale(1.15);
-}
+
 .col-list-wrap {
 	position:relative;
 	width:50%;
@@ -1864,9 +1849,7 @@ section.gray-section .section-separator {
 }
 .listsearch-input-text input , .listsearch-input-item input {
 	float:left;
-	border:1px solid #eee;
 	background:#fff;
-	background:#f9f9f9;
 	width:100%;
 	padding:15px 20px 15px 20px;
 	border-radius:6px;
@@ -3374,9 +3357,10 @@ article .list-single-main-item {
 	position:relative;
 	border: 1px solid #ccc;
     cursor: pointer;
-    padding: 0;
-    width: 20px;
-    height: 20px;
+	padding: 0;
+	min-width: 15px;
+    width: 15px;
+    height: 15px;
     position: relative;
 	color:#fff;
 	background:#fff !important;
@@ -3973,6 +3957,15 @@ article .list-single-main-item {
 	padding:5px;
 }
 .user-profile-menu li a i{
+	padding-right:25px;
+	width:20px;
+	float:left;
+	text-align:center;
+	opacity:0.4;
+	position: relative;
+	top:2px;
+}
+.user-profile-menu li svg{
 	padding-right:25px;
 	width:20px;
 	float:left;

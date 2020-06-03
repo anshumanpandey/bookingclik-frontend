@@ -9,9 +9,9 @@ import { Soon } from './pages/comingSoon/Soon';
 import { useGlobalState } from './state';
 import PrivateRoute from './partials/PrivateRoutes';
 import './utils/AxiosBootstrap'
+import CacheBuster from './CacheBuster';
 
 function App() {
-
     const [loading, setLoading] = useGlobalState('loading');
     let routes = [
         { path: '/dashboard', component: ProfilePage, private: true },
@@ -25,31 +25,49 @@ function App() {
         ]
     }
 
-    return (
-        <BrowserRouter>
-            {loading && (
-                <div className="loader-wrap" style={{ backgroundColor: '#154a64' }}>
-                    <img style={{ position: 'absolute', left: '40%', top: '38%' }} src={`${process.env.PUBLIC_URL}images/logo.png`} />
-                    <div style={{ top: '70%' }} className="pulse"></div>
-                </div>
-            )}
-            <div id="main">
+    useEffect(() => {
 
-                <Switch>
-                    {routes.map(r => {
-                        if (r.private) {
-                            return (
-                                <PrivateRoute key={r.path} path={r.path} component={r.component} />
-                            );
-                        }
-                        return (
-                            <Route key={r.path} path={r.path} component={r.component} />
-                        );
-                    })}
-                </Switch>
-            </div>
-        </BrowserRouter>
+    }, []);
+
+    return (
+        <CacheBuster>
+            {({ loading, isLatestVersion, refreshCacheAndReload }: any) => {
+                if (loading) return null;
+                if (!loading && !isLatestVersion) {
+                    // You can decide how and when you want to force reload
+                    refreshCacheAndReload();
+                }
+
+                return (
+                    <BrowserRouter>
+                        {loading && (
+                            <div className="loader-wrap" style={{ backgroundColor: '#154a64' }}>
+                                <img style={{ position: 'absolute', left: '40%', top: '38%' }} src={`${process.env.PUBLIC_URL}images/logo.png`} />
+                                <div style={{ top: '70%' }} className="pulse"></div>
+                            </div>
+                        )}
+                        <div id="main">
+
+                            <Switch>
+                                {routes.map(r => {
+                                    if (r.private) {
+                                        return (
+                                            <PrivateRoute key={r.path} path={r.path} component={r.component} />
+                                        );
+                                    }
+                                    return (
+                                        <Route key={r.path} path={r.path} component={r.component} />
+                                    );
+                                })}
+                            </Switch>
+                        </div>
+                    </BrowserRouter>
+                );
+            }}
+
+        </CacheBuster>
     );
+
 }
 
 export default App;

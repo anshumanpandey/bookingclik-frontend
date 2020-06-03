@@ -213,7 +213,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
                         </div>
 
-                        <div className="col-md-2">
+                        <div style={{ paddingLeft: 0, paddingRight: 0 }} className="col-md-2">
                             <div className="geodir-category-location" style={{ marginTop: '0.5rem', marginBottom: '0.5rem', padding: 0, color: '#157f41' }} >
                                 <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Included for Free</p>
                                 <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Collision Damage Waiver</p>
