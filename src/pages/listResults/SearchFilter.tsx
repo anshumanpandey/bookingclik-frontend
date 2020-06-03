@@ -337,7 +337,11 @@ export const SearchFilterCars: React.FC = () => {
                                     <div className="col-md-12">
                                         <TagSearchWidget
                                             key={filter.createdAt}
-                                            options={filter.values.map((f: any) => ({ label: f.name, value: f.value }))}
+                                            options={filter.values.map((f: any) => ({ label: f.name, value: f.value })).sort((a,b) => {
+                                                if(a.label < b.label) { return -1; }
+                                                if(a.label > b.label) { return 1; }
+                                                return 0;
+                                            })}
                                             category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
                                             onChange={() => { }}
                                         />

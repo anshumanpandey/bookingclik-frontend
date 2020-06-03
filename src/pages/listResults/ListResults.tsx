@@ -13,7 +13,7 @@ import moment from 'moment';
 import { dispatchSearchState, useSearchState, dispatchFilteredState, useFilteredSearchState } from './SearchGlobalState';
 import { useSearchWidgetState } from '../main/useSearchWidgetGlobalState';
 import { useDynamicFiltersState } from '../../widget/DynamicFilterState';
-import { useGlobalState } from '../../state';
+import { useGlobalState, dispatchGlobalState } from '../../state';
 import queryString from 'query-string';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
@@ -34,7 +34,7 @@ export function ListResult() {
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('LIST');
     const [search, setSearch] = useSearchState('scrape')
     const [sortPrice, setSortPrice] = useSortState('price');
-    const [, setLoading] = useGlobalState('loading')
+    const [isLoading, setLoading] = useGlobalState('loading')
     const [filetredSearch] = useFilteredSearchState('filteredScrape');
     const [isfiltering] = useFilteredSearchState('isfiltering');
 
@@ -53,7 +53,7 @@ export function ListResult() {
 
         // @ts-ignore
         if (!state || !state.hasOwnProperty('results')) {
-            setLoading(true)
+            dispatchGlobalState({ type: 'loading', state: true})
 
             if (!urlParams.pickUpLocationCode) return
             if (!urlParams.dropOffLocationCode) return
@@ -98,7 +98,7 @@ export function ListResult() {
                     r.data.scrape.vehicle = [...mapperVehicles];
                     dispatchSearchState({ type: 'set', state: r.data.scrape })
                     dispatchFilteredState({ type: 'set', state: r.data.scrape })
-                    setLoading(false)
+                    dispatchGlobalState({ type: 'loading', state: false})
                 })
                 .catch(() => setLoading(false))
         } else {
@@ -145,7 +145,7 @@ export function ListResult() {
 
     let Body = (
         <>
-            {isfiltering && (
+            {(isfiltering || isLoading) && (
                 <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
                     <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
@@ -153,11 +153,11 @@ export function ListResult() {
                     </div>
                 </div>
             )}
-            <div className="section-title">
+            {!isLoading && <div className="section-title">
                 <h2>No results founds!</h2>
                 <span className="section-separator"></span>
                 <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
-            </div>
+            </div>}
         </>
     )
 
@@ -165,8 +165,6 @@ export function ListResult() {
     if (filetredSearch.vehicle) {
         cheapestCar = filetredSearch.vehicle.sort((a: any, b: any) => a.vehicle.price - b.vehicle.price)[0];
     }
-
-    console.log(search.vehicle)
 
     if (filetredSearch.vehicle.length > 0) {
         let filteredValues = filetredSearch.vehicle
