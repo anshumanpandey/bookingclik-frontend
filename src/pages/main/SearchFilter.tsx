@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FormControlLabel, FormLabel, Checkbox } from '@material-ui/core';
 import { DateInput, LocationDropdown, TimeInput } from '../../partials';
 import { useSearchWidgetState, dispatchSearchState } from './useSearchWidgetGlobalState';
-import { TIME_FORMAT } from '../../utils/DateFormat';
+import { useMediaQuery } from 'react-responsive'
 import moment from 'moment';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 
@@ -12,6 +12,8 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     const [pickupCode, setPickupCode] = useSearchWidgetState('pickUpCode')
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
+
+    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
     useDidUpdateEffect(() => {
         dispatchSearchState({ type: 'dropoff.date', state: puDate })
@@ -58,11 +60,11 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                     )}
                 </div>
             </div>
-            <div className="row" style={{ display: 'flex', justifyContent: 'space-around' }}>
+            <div className="row" style={{ display: 'flex', justifyContent: 'space-around', flexDirection: isSm ? 'unset' : 'column' }}>
                 <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                     <FormLabel style={{ color: 'white', alignSelf: 'flex-start', flexDirection: 'column', marginBottom: '0.5rem' }}>Pick-up date</FormLabel>
-                    <div>
-                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                    <div style={{ display: 'flex', flexDirection: isSm ? 'unset' : 'row'}}>
+                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0,width: '50%' }}>
 
                             <div className="main-search-input-item" style={{ width: '100%' }}>
                                 <DateInput style={{
@@ -74,7 +76,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                             </div>
                         </div>
 
-                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0,width: '50%' }}>
                             <div className="main-search-input-item" style={{ width: '100%' }}>
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
@@ -91,8 +93,8 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                 <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                         <div className="col-md-11 col-md-offset-1" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                         <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Drop-off date</FormLabel>
-                        <div>
-                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                        <div style={{ display: 'flex'}}>
+                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0, width: '50%' }}>
 
                             <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
                                 <DateInput
@@ -103,7 +105,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                             </div>
                             </div>
 
-                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                        <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0, width: '50%' }}>
                             <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
