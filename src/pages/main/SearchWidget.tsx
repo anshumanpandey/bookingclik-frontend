@@ -6,9 +6,10 @@ import { useHistory } from 'react-router-dom';
 import { GRCGDSCode, Terms } from '../../types';
 import { CarSearchWidgetFilters, DefaultSearchWidgetFilters } from './SearchFilter';
 import moment from 'moment';
-import { useSearchWidgetState } from './useSearchWidgetGlobalState';
+import { useSearchWidgetState, dispatchSearchState } from './useSearchWidgetGlobalState';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
+import { dispatchFilteredState } from '../listResults/SearchGlobalState';
 
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)

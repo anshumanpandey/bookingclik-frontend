@@ -165,6 +165,8 @@ export function ListResult() {
         cheapestCar = filetredSearch.vehicle.sort((a: any, b: any) => a.vehicle.price - b.vehicle.price)[0];
     }
 
+    console.log(search.vehicle)
+
     if (filetredSearch.vehicle.length > 0) {
         let filteredValues = filetredSearch.vehicle
             .sort((a: any, b: any) => {
@@ -207,8 +209,9 @@ export function ListResult() {
                             </nav>
                         </div>
                     </div>
-                    <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset', float: 'left', color: 'black', alignSelf: 'flex-start' }} className="big-header">Showing {filteredValues.length} out of {search.vehicle.length} cars
-                {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
+                    <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset', float: 'left', color: 'black', alignSelf: 'flex-start',marginTop: '0.5rem', marginBottom: '0.5rem', textAlign: 'center',width: '100%' }} className="big-header">
+                        Showing {filteredValues.length} out of {search.vehicle.length} cars
+                        {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
                             ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? `${Math.floor(cheapestCar.vehicle.price)}.00` : ''}`}
                     </h3>
                 </div>

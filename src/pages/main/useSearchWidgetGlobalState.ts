@@ -80,7 +80,7 @@ if (doTime) {
 const normalReducer = (state: any, action: { type: string, state: any }) => {
     switch (action.type) {
         case 'set': {
-            return { scrape: {...action.state} };
+            return { ...state, scrape: {...action.state} };
         }
         case 'pickup.code': {
             localStorage.setItem('pickup.code.internalcode', action.state.internalcode)

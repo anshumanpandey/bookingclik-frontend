@@ -140,47 +140,52 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
         }
 
         let urlParams = {
-            pickUpLocationCode: pickUpCode.internalcode,
-            pickUpLocationName: pickUpCode.locationname,
-            pickUpDate: puDate ? puDate.unix() : moment().unix(),
-            pickUpTime: puTime ? puTime.unix() : moment().unix(),
+            pickUpLocationCode: innerPuLocation.internalcode,
+            pickUpLocationName: innerPuLocation.locationname,
+            pickUpDate: innerPuDate ? innerPuDate.unix() : moment().unix(),
+            pickUpTime: innerPuTime ? innerPuTime.unix() : moment().unix(),
 
-            dropOffLocationCode: dropoffCode.internalcode,
-            dropOffLocationName: dropoffCode.locationname,
-            dropOffDate: doDate ? doDate.unix() : moment().unix(),
-            dropOffTime: doTime ? doTime.unix() : moment().unix(),
+            dropOffLocationCode: innterDoLocation.internalcode,
+            dropOffLocationName: innterDoLocation.locationname,
+            dropOffDate: innerDoDate ? innerDoDate.unix() : moment().unix(),
+            dropOffTime: innerDoTime ? innerDoTime.unix() : moment().unix(),
         };
 
         const jsonParams = {
-            pickUpLocation: pickUpCode,
-            dropOffLocation: dropoffCode,
+            pickUpLocation: innerPuLocation,
+            dropOffLocation: innterDoLocation,
 
-            pickUpDate: puDate ? puDate : moment(),
-            pickUpTime: puTime ? puTime : moment(),
-            dropOffDate: doDate ? doDate : moment(),
-            dropOffTime: doTime ? doTime : moment(),
+            pickUpDate: innerPuDate ? innerPuDate : moment(),
+            pickUpTime: innerPuTime ? innerPuTime : moment(),
+            dropOffDate: innerDoDate ? innerDoDate : moment(),
+            dropOffTime: innerDoTime ? innerDoTime : moment(),
             filters: dynamicFilters
         }
-
+        
+        dispatchFilteredState({ type: 'loading', state: true })
         doSearch({ data: { json: BuildJsonQuery(jsonParams) } })
             .then((res) => {
                 history.push({
                     pathname: '/results',
                     search: `?${qs.stringify(urlParams)}`,
                 });
-                const mapperVehicles = res.data.scrape.vehicle.map((v: any, idx: number) => {
-                    const dropDate = innerDoDate.set('hours', 0).set('m', 0)
-                    const pickDate = innerPuDate.set('hours', 0).set('m', 0)
 
-                    const daySpan = dropDate.diff(pickDate, 'days')
-                    return {
-                        ...v,
-                        daySpan
-                    };
-                })
-
-                res.data.scrape.vehicle = [...mapperVehicles];
-                dispatchFilteredState({ type: 'set', state: res.data.scrape })
+                setTimeout(() => {
+                    const mapperVehicles = res.data.scrape.vehicle.map((v: any, idx: number) => {
+                        const dropDate = innerDoDate.set('hours', 0).set('m', 0)
+                        const pickDate = innerPuDate.set('hours', 0).set('m', 0)
+    
+                        const daySpan = dropDate.diff(pickDate, 'days')
+                        return {
+                            ...v,
+                            daySpan
+                        };
+                    })
+                    res.data.scrape.vehicle = mapperVehicles;
+                    dispatchFilteredState({ type: 'set', state: res.data.scrape })
+                    dispatchSearchState({ type: 'set', state: res.data.scrape })
+                    dispatchFilteredState({ type: 'loading', state: false })
+                }, 0)
             })
     }
     return (
