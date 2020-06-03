@@ -224,7 +224,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
                                 {props.vehicle.winter_tyres_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
                                 {props.vehicle.snow_chains_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Snow Chains Included</p>}
-                                {props.vehicle.road_tax_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i>Road Tax Included</p>}
                             </div>
                         </div>
 
