@@ -2,6 +2,7 @@
   "name": "bookingclik-frontend",
   "version": "0.3.0",
   "private": true,
+  "homepage": "http://localhost:3000",
   "dependencies": {
     "@date-io/moment": "1.x",
     "@material-ui/core": "^4.9.10",
