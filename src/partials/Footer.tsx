@@ -14,14 +14,6 @@ export const Footer = () => {
                                 <div className="copyright">@2020 copyright Booking Limited</div>
                             </div>
                             <div className="col-md-4">
-                                <div className="footer-social">
-                                    <ul>
-                                        <li><a href="#" target="_blank" ><i className="fab fa-facebook"></i></a></li>
-                                        <li><a href="https://www.linkedin.com/company/bookingclik/" target="_blank" ><i className="fab fa-linkedin"></i></a></li>
-                                        <li><a href="#" target="_blank" ><i className="fab fa-instagram-square"></i></a></li>
-                                        <li><a href="#" target="_blank"><i className="fab fa-twitter"></i></a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>

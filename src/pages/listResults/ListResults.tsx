@@ -17,7 +17,8 @@ import { useGlobalState } from '../../state';
 import queryString from 'query-string';
 import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
-import useDidMountEffect from '../../utils/useDidMountEffect';
+//@ts-ignore
+import ShowMore from '@tedconf/react-show-more';
 
 export function ListResult() {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
@@ -209,13 +210,13 @@ export function ListResult() {
                             </nav>
                         </div>
                     </div>
-                    <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset', float: 'left', color: 'black', alignSelf: 'flex-start',marginTop: '0.5rem', marginBottom: '0.5rem', textAlign: 'center',width: '100%' }} className="big-header">
+                    <h3 style={{ fontSize: '0.9rem', fontWeight: 'unset', float: 'left', color: 'black', alignSelf: 'flex-start', marginTop: '0.5rem', marginBottom: '0.5rem', textAlign: 'center', width: '100%' }} className="big-header">
                         Showing {filteredValues.length} out of {search.vehicle.length} cars
                         {filetredSearch.vehicle && filetredSearch.vehicle.length !== 0 &&
                             ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? `${Math.floor(cheapestCar.vehicle.price)}.00` : ''}`}
                     </h3>
                 </div>
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column'}}>
                     {isfiltering && (
                         <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
                             <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -224,10 +225,30 @@ export function ListResult() {
                             </div>
                         </div>
                     )}
-                    {
-                        filteredValues
-                            .map((v: any, idx: number) => <ListingItem key={idx} currentVisitor={userReq.data} doDate={doDate} doTime={doTime} puDate={puDate} puTime={puTime} {...v} layout={layout} />)
-                    }
+
+
+
+                    <ShowMore
+                        items={filteredValues}
+                        by={30}
+                    >
+                        {({
+                            current,
+                            onMore,
+                        }: any) => (
+                                <React.Fragment>
+                                    {current.map((item: any, idx: number) => (
+                                        <ListingItem key={idx} currentVisitor={userReq.data} doDate={doDate} doTime={doTime} puDate={puDate} puTime={puTime} {...item} layout={layout} />
+                                    ))}
+                                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem', marginBottom: '2rem'}}>
+                                        <button disabled={!onMore} style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {
+                                            if (!!onMore) onMore();
+                                        }} className="button fs-map-btn">Load more</button>
+                                    </div>
+                                </React.Fragment>
+                            )}
+                    </ShowMore>
+
                 </div>
             </>
         );

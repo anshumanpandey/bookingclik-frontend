@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
+import useDidMountEffect from '../utils/useDidMountEffect';
 
 type Props = {
     options: { label: string, value: string }[]
@@ -15,8 +16,8 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
         marginBottom: '1rem',
         marginTop: 'unset',
     }
-
-    useEffect(() => {
+    
+    useDidMountEffect(() => {
         onChange(optionsSelected.map(i => i.value))
     }, [optionsSelected]);
 
