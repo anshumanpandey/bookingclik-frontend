@@ -3,7 +3,7 @@ import { Typography } from '@material-ui/core';
 import useDidMountEffect from '../utils/useDidMountEffect';
 
 type Props = {
-    options: { label: string, value: string }[]
+    options: { label: string, value: string, total?: number[], }[]
     category: { name: string, propertyToWatch: string, type: string }
     onChange: (v: string[]) => void
 }
@@ -40,7 +40,10 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                                 return [...prev, option];
                             })
                         }} />
-                        <label htmlFor={`tag-search-${option.label}`}>{option.label}</label>
+                        <div style={{width: '100%',display: 'flex', justifyContent: 'space-between'}}>
+                            <label htmlFor={`tag-search-${option.label}`}>{option.label}</label>
+                            <label>{option.total && option.total.length}</label>
+                        </div>
                     </div>
                 );
             })}

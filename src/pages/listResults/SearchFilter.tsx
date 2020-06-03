@@ -296,28 +296,28 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
 
 export const SearchFilterCars: React.FC = () => {
     const [search] = useSearchState('scrape')
-
-    const [sortPrice, setSortPrice] = useSortState('price');
-    const [transmissionOptions] = useFilterState('transmissionOptions');
+    const [filteredSearch] = useFilteredSearchState('filteredScrape')
 
     const [filterReq] = useAxios<DynamicFilter[]>({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/categories/${Terms.Cars}`,
     })
 
-    // @ts-ignore
-    useEffect(() => { $('#transmission-select').niceSelect() }, []);
-    // @ts-ignore
-    useEffect(() => { $('#transmission-select').niceSelect('update') }, [transmissionOptions]);
-
     let body = <CircularProgress color="inherit" />
 
-    const carRentalCompanyOptions = Array.from(search.vehicle.reduce((prev: { add: (arg0: any) => void; }, next: { vehicle: { suppliername: any; carrentalcompanyname: any; }; }) => {
+    const carRentalCompanyOptions = Array.from(filteredSearch.vehicle.reduce((prev: { add: (arg0: any) => void; }, next: { vehicle: { suppliername: any; carrentalcompanyname: any; }; }) => {
         const key = next.vehicle.carrentalcompanyname;
         if (key) {
             prev.add(key)
         }
         return prev
-    }, new Set<string>()).values()).map(token => ({ label: token, value: token })) as { label: string, value: string }[]
+    }, new Set<string>()).values())
+    .map(token => {
+        return ({ label: token, value: token, total: search.vehicle.filter((v:any) => {
+            return v.vehicle.carrentalcompanyname == token
+        }) });
+    }) as { label: string, value: string, total: any[] }[]
+
+    console.log(carRentalCompanyOptions)
 
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>
@@ -376,7 +376,7 @@ export const SearchFilterCars: React.FC = () => {
                         {carRentalCompanyOptions.length !== 0 && (
                             <div className="col-md-12">
                                 <SimpleTagSearchWidget
-                                    options={carRentalCompanyOptions}
+                                    options={carRentalCompanyOptions.filter(i => i.total.length !== 0)}
                                     category={{ name: 'Supplier', propertyToWatch: 'rental_car_company', type: 'tag' }}
                                     onChange={(valuesToFilterFor) => {
                                         console.log("loading", 1)
