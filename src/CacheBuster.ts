@@ -42,7 +42,7 @@ export default class CacheBuster extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/meta.json')
+        fetch(`${process.env.PUBLIC_URL}/meta.json`)
             .then((response) => response.json())
             .then((meta) => {
                 const latestVersion = meta.version;
