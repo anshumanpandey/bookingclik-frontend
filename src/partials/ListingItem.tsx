@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import useAxios from 'axios-hooks'
 import { track } from '../crud/click-tracker.crud';
 import { Vehicle, Visitor } from '../types';
 import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
 import moment from 'moment';
-import {Decimal} from 'decimal.js';
+import { Decimal } from 'decimal.js';
 import { LoadImageOrPlaceholder } from '../utils/LoadImageOrPlaceholder';
 import { useMediaQuery } from 'react-responsive'
 
@@ -76,36 +76,36 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         }
     }
 
-    const RedirectModal: React.FC<{show: boolean}> = ({ show }) => {
+    const RedirectModal: React.FC<{ show: boolean }> = ({ show }) => {
         setTimeout(() => {
             setShowModal(false)
         }, 3 * 1000)
         return (
-            <div className="main-register-wrap modal" style={{ display: show ? 'block' : 'none'}}>
+            <div className="main-register-wrap modal" style={{ display: show ? 'block' : 'none' }}>
                 <div className="main-overlay" onClick={() => setShowModal(false)}></div>
                 <div className="main-register-holder">
-                    <div className="main-register fl-wrap custom-form" style={{ display: 'flex',flexDirection: 'column', alignItems: 'center' }}>
-                        <img style={{ display: 'unset'}} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} alt="" />
-                            <h4 style={{
-                                float: 'left',
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: '20px 30px',
-                                marginBottom: '20px',
-                                fontWeight: 600,
-                                color: '#154a64',
-                                fontSize: '1.2rem',
-                            }}>
-                            Thank You for using Car Rental Click website, we are now redirecting you to the car rental company website for you to proceed with your booking. 
+                    <div className="main-register fl-wrap custom-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img style={{ display: 'unset' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} alt="" />
+                        <h4 style={{
+                            float: 'left',
+                            width: '100%',
+                            textAlign: 'center',
+                            padding: '20px 30px',
+                            marginBottom: '20px',
+                            fontWeight: 600,
+                            color: '#154a64',
+                            fontSize: '1.2rem',
+                        }}>
+                            Thank You for using Car Rental Click website, we are now redirecting you to the car rental company website for you to proceed with your booking.
                             </h4>
-                            <div style={{ display: 'flex', justifyContent: 'space-evenly'}}>
-                                <button onClick={() => {
-                                    setShowModal(false)
-                                    window.open(props.vehicle.deeplink, '_blank')
-                                }} className="log-submit-btn">
-                                    <span style={{ fontWeight: 'bold', fontSize: '1rem'}}>Ok</span>
-                                </button>
-                            </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                            <button onClick={() => {
+                                setShowModal(false)
+                                window.open(props.vehicle.deeplink, '_blank')
+                            }} className="log-submit-btn">
+                                <span style={{ fontWeight: 'bold', fontSize: '1rem' }}>Ok</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -127,12 +127,12 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     if (props.vehicle.currency == 'EUR') currencySymbol = '€'
 
     return (
-        <div style={{ marginBottom: 0, background: 'unset' }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
+        <div style={{ marginBottom: 0, background: 'unset', height: isSm ? '13rem': 'unset' }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content">
                     <div className="row" style={{ display: 'flex', flexDirection: isSm ? 'row' : 'column', alignContent: 'stretch', height: '100%', marginRight: '-20px' }}>
-                        <div className="col-md-4 " style={{ paddingLeft: 10,paddingRight: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                            <div style={{ marginTop: '0.5rem'}}>
+                        <div className="col-md-4 " style={{ paddingLeft: 10, paddingRight: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <div style={{ marginTop: '0.5rem' }}>
                                 {props.vehicle.acriss && (
                                     <h4 style={{
                                         textTransform: 'uppercase',
@@ -143,8 +143,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 )}
                                 <h3 style={{ fontSize: '16px', marginBottom: 0, textAlign: isSm ? 'left' : 'center' }}><a href="listing-single.html">{props.vehicle.name}</a></h3>
                             </div>
-                            <div className="geodir-category-img" style={{ display: 'flex', height: '200px', width: '170px', margin: isSm ?  'unset' : 'auto'  }}>
-                                <LoadImageOrPlaceholder style={{  transform: 'scaleX(-1)',backgroundColor: 'white', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                            <div className="geodir-category-img" style={{ display: 'flex', height: '200px', width: '170px', margin: isSm ? 'unset' : 'auto' }}>
+                                <LoadImageOrPlaceholder style={{ transform: 'scaleX(-1)', backgroundColor: 'white', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                             </div>
                             <div className="card-popup-rainingvis" data-starrating2="5" style={{
                                 marginBottom: '0.5rem',
@@ -166,68 +166,70 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 </span>
                             </div>
                         </div>
-                        <div className="col-md-3" style={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
-                            <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column'}}>
-                            {props.vehicle.fuel_policy && (
-                                <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex', justifyContent: 'center' }}>
-                                    <i style={{
-                                        fontSize: '1.1rem',
-                                        marginRight: '1rem',
-                                    }} className="fas fa-gas-pump"></i>
-                                    <div>
-                                        {props.vehicle.carrentalcompanyname && (
-                                            <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
+                        <div className="col-md-5" style={{ width: 'unset',paddingLeft: 0, paddingRight: 0, display: 'flex', justifyContent: 'space-around'}}>
+                            <div style={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
+                                <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column' }}>
+                                    {props.vehicle.fuel_policy && (
+                                        <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex', justifyContent: 'center' }}>
+                                            <i style={{
+                                                fontSize: '1.1rem',
+                                                marginRight: '1rem',
+                                            }} className="fas fa-gas-pump"></i>
+                                            <div>
+                                                {props.vehicle.carrentalcompanyname && (
+                                                    <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
+                                                )}
+                                                <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
+                                            </div>
+                                        </div>
+                                    )}
+                                    <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex', justifyContent: 'center' }}>
+                                        <object style={{ height: '1.1rem', marginRight: '1rem' }} type="image/svg+xml" data="images/icons/q1.svg">
+                                        </object>
+                                        <div>
+                                            <p style={{ lineHeight: 'unset', textAlign: 'left', padding: 0 }}>Mileage:</p>
+                                            <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
+                                        </div>
+                                    </div>
+                                    <div style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        marginTop: '1rem',
+                                        marginBottom: '0.5rem',
+                                    }}>
+                                        {carTransmission && (
+                                            <span style={{ wordBreak: 'break-word', textAlign: 'left', marginBottom: '0.5rem', marginLeft: 0, display: 'flex' }}>
+                                                <i style={{ color: 'inherit' }} className="fas fa-check"></i> {carTransmission || 'N/A'} Transmission
+                                            </span>
                                         )}
-                                        <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
+
+                                        {props.vehicle.ac && (
+                                            <span style={{ wordBreak: 'break-word', textAlign: 'left', marginBottom: '0.5rem', marginLeft: 0 }}>
+                                                <i style={{ color: 'inherit' }} className="fas fa-check"></i> Air Conditioning
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
-                            )}
-                            <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex', justifyContent: 'center' }}>
-                                <object style={{ height: '1.1rem', marginRight: '1rem' }} type="image/svg+xml" data="images/icons/q1.svg">
-                                </object>
-                                <div>
-                                    <p style={{ lineHeight: 'unset', textAlign: 'left', padding: 0 }}>Mileage:</p>
-                                    <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
+                            </div>
+
+                            <div style={{ paddingLeft: 0, paddingRight: 0, justifyContent: 'center' }}>
+                                <div className="geodir-category-location" style={{ marginTop: '0.5rem', marginBottom: '0.5rem', padding: 0, color: '#157f41' }} >
+                                    <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Included for Free</p>
+                                    <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Collision Damage Waiver</p>
+                                    <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Theft Protection</p>
+                                    <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Third Party Liability</p>
+                                    <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Cancellation</p>
+                                    <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Amendments</p>
+
+                                    {props.vehicle.winter_tyres_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
+                                    {props.vehicle.snow_chains_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Snow Chains Included</p>}
                                 </div>
                             </div>
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                marginTop: '1rem',
-                                marginBottom: '0.5rem',
-                            }}>
-                                {carTransmission && (
-                                    <span style={{ wordBreak: 'break-word', textAlign: 'left',marginBottom: '0.5rem', marginLeft: 0, display: 'flex' }}>
-                                        <i style={{ color: 'inherit' }} className="fas fa-check"></i> {carTransmission || 'N/A'} Transmission
-                                    </span>
-                                )}
 
-                                {props.vehicle.ac && (
-                                    <span style={{ wordBreak: 'break-word', textAlign: 'left',marginBottom: '0.5rem', marginLeft: 0 }}>
-                                        <i style={{ color: 'inherit' }} className="fas fa-check"></i> Air Conditioning
-                                    </span>
-                                )}
-                            </div>
+
                         </div>
-                        </div>
-
-                        <div style={{ paddingLeft: 0, paddingRight: 0, justifyContent: 'center' }} className="col-md-2">
-                            <div className="geodir-category-location" style={{ marginTop: '0.5rem', marginBottom: '0.5rem', padding: 0, color: '#157f41' }} >
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left': 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Included for Free</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left': 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Collision Damage Waiver</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left': 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Theft Protection</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left': 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Third Party Liability</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left': 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Cancellation</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left': 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Amendments</p>
-
-                                {props.vehicle.winter_tyres_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
-                                {props.vehicle.snow_chains_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Snow Chains Included</p>}
-                            </div>
-                        </div>
-
-
-                        <div className="col-md-3" style={{ display: 'flex', paddingLeft: 0, paddingRight: 10 }}>
+                        <div className="col-md-3" style={{ display: 'flex', paddingLeft: 0, paddingRight: 10, width: isSm ? '19%': 'unset' }}>
 
                             <div className="geodir-category-location" style={{
                                 marginTop: '0.5rem',
@@ -270,8 +272,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                             setShowModal(true)
                                             if (!props.currentVisitor?.ip) return
                                             if (!props.currentVisitor?.country_code) return
-                                            
-                                            post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_code, supplier_id: props.vehicle.supplier_id }})
+
+                                            post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_code, supplier_id: props.vehicle.supplier_id } })
                                         }} target='_blank' className="capitalize" href={props.vehicle.deeplink}>Select</a>
                                     }
                                     <div style={{ marginBottom: '0.5rem' }}></div>
