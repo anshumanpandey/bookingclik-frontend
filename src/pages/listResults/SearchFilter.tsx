@@ -238,7 +238,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                     )}
                     <div style={{ display: 'flex' }}>
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                            <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Pick-up date</FormLabel>
+                            <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Pick-up date</FormLabel>
                             <div style={{ display: 'flex' }}>
                                 <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
                                     <DateInput style={{
@@ -257,7 +257,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                         </div>
 
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                            <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Drop-off date</FormLabel>
+                            <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Drop-off date</FormLabel>
                             <div style={{ display: 'flex' }}>
                                 <div className="listsearch-input-item" style={{ width: '40%', display: 'flex', alignItems: 'stretch' }}>
                                     <DateInput style={{

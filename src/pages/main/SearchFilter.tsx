@@ -60,7 +60,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
             </div>
             <div className="row" style={{ display: 'flex', justifyContent: 'space-around' }}>
                 <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                    <FormLabel style={{ color: 'white', alignSelf: 'flex-start', flexDirection: 'column' }}>Pick-up date</FormLabel>
+                    <FormLabel style={{ color: 'white', alignSelf: 'flex-start', flexDirection: 'column', marginBottom: '0.5rem' }}>Pick-up date</FormLabel>
                     <div>
                         <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
 
@@ -90,7 +90,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
 
                 <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                         <div className="col-md-11 col-md-offset-1" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
-                        <FormLabel style={{ color: 'white', alignSelf: 'flex-start' }}>Drop-off date</FormLabel>
+                        <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Drop-off date</FormLabel>
                         <div>
                         <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
 

@@ -213,14 +213,14 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         </div>
                         </div>
 
-                        <div style={{ paddingLeft: 0, paddingRight: 0 }} className="col-md-2">
+                        <div style={{ width: '28%', paddingLeft: 0, paddingRight: 0 }} className="col-md-2">
                             <div className="geodir-category-location" style={{ marginTop: '0.5rem', marginBottom: '0.5rem', padding: 0, color: '#157f41' }} >
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Included for Free</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Collision Damage Waiver</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Theft Protection</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Third Party Liability</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Cancellation</p>
-                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Amendments</p>
+                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'left' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Included for Free</p>
+                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'left' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Collision Damage Waiver</p>
+                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'left' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Theft Protection</p>
+                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'left' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Third Party Liability</p>
+                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'left' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Cancellation</p>
+                                <p style={{ color: '#157f41', paddingBottom: 0, textAlign: 'left' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Amendments</p>
 
                                 {props.vehicle.winter_tyres_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Winter Tyres Included</p>}
                                 {props.vehicle.snow_chains_included && <p style={{ textAlign: 'center', color: 'inherit', paddingBottom: 0 }}><i style={{ color: 'inherit' }} className="fas fa-check"></i> Snow Chains Included</p>}
