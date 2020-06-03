@@ -18,7 +18,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     }, [puDate])
 
     useEffect(() => {
-        if (pickupCode.internalcode == dropoffCode.internalcode) {
+        if ((pickupCode && dropoffCode) && pickupCode.internalcode == dropoffCode.internalcode) {
             setDisplayDropoffInput(false)
         }
     }, [pickupCode, dropoffCode])
