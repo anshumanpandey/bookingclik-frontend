@@ -255,7 +255,7 @@ export const SearchFilterCars: React.FC = () => {
         return prev
     }, new Set<string>()).values())
     .map(token => {
-        return ({ label: token, value: token, total: search.vehicle.filter((v:any) => {
+        return ({ label: token, value: token, total: filteredSearch.vehicle.filter((v:any) => {
             return v.vehicle.carrentalcompanyname == token
         }) });
     }) as { label: string, value: string, total: any[] }[]
