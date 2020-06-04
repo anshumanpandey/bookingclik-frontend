@@ -302,7 +302,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-offset-1 col-md-2">
+                                    <div style={{ fontSize: '14px' }} className="col-md-offset-1 col-md-2">
                                         <div className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
@@ -315,6 +315,7 @@ export function ListResult() {
                                     <div className="col-md-3">
                                         <div className="fl-wrap card-listing" style={{ display: 'flex' }}>
                                             <img style={{ maxWidth: '100%' }} src={'images/all/adver.png'}></img>
+                                            <img style={{ maxWidth: '100%' }} src={'images/all/ad.png'}></img>
                                         </div>
                                     </div>
                                 </div>
