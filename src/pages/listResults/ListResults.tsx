@@ -314,7 +314,7 @@ export function ListResult() {
                                     </div>
                                     <div className="col-md-3">
                                         <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <img style={{ alignSelf: 'self-start' ,maxWidth: '100%' }} src={'images/all/adver.png'}></img>
+                                            <img style={{ alignSelf: 'self-start' ,maxWidth: '100%', marginBottom: '2rem' }} src={'images/all/adver.png'}></img>
                                             <img style={{ alignSelf: 'self-start' ,maxWidth: '100%' }} src={'images/all/adver.png'}></img>
                                         </div>
                                     </div>
