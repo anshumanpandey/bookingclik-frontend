@@ -52,7 +52,12 @@ export const Header = () => {
                                 style={{ cursor: 'pointer',height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
                                 className="no-hover"
                                 ref={(e) => headerRef.current = e}
-                                onClick={(e) => setShowModal(p => !p)}>
+                                onClick={(e) => {
+                                    Object.assign(document.createElement('a'), {
+                                        target: '_blank',
+                                        href: `https://www.bookingclik.com/`,
+                                      }).click();
+                                }}>
                                 <i style={{ marginRight: '0.2rem' }} className="fas fa-sign-in-alt"></i>Sign In
                         </li>
                             ): 
@@ -68,17 +73,6 @@ export const Header = () => {
                     </nav>
                 </div>
             </header>
-            <Popper
-                className="loginPopover"
-                open={showModal}
-                anchorEl={headerRef.current ? headerRef.current : undefined}
-                placement={'bottom-end'} transition>
-                {({ TransitionProps }) => (
-                    <Paper>
-                        <LoginPage />
-                    </Paper>
-                )}
-            </Popper>
         </>
     );
 }
