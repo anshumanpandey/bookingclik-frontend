@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
 import useDidMountEffect from '../utils/useDidMountEffect';
+import ResolveCurrencySymbol from '../utils/ResolveCurrencySymbol';
 
 type Props = {
     options: { label: string, value: string, total?: number[], cars: any[] }[]
@@ -21,7 +22,6 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
         onChange(optionsSelected.map(i => i.value))
     }, [optionsSelected]);
 
-    console.log(options[0].cars)
 
     return (
         <div className=" fl-wrap filter-tags" style={styles}>
@@ -29,6 +29,11 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                 By {category.name}
             </Typography>
             {options.map(option => {
+                let cheapesCar = {currency: "€", price: 0};
+                if (option.cars && option.cars.length != 0) {
+                    cheapesCar = option.cars.sort((a: any, b: any) => a.vehicle.price - b.vehicle.price)[0].vehicle
+                }
+
                 return (
                     <div key={option.label} style={{ display: 'flex', alignItems: 'center' }}>
                         <input style={{ marginBottom: 0 }} type="checkbox" id={`tag-search-${option.label}`} name={`tag-search-${option.label}`} checked={optionsSelected.find(selectedOption => selectedOption.label === option.label) !== undefined} onChange={() => {
@@ -52,7 +57,7 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                                 </label>
                             </div>
                             <label style={{ padding: 0 }}>
-                                    ({option.cars && option.cars.length != 0 && option.cars.sort((a: any, b: any) => a.vehicle.price - b.vehicle.price)[0].vehicle.price })
+                                {ResolveCurrencySymbol(cheapesCar.currency)}{Math.floor(cheapesCar.price)}.00
                             </label>
                         </div>
                     </div>
