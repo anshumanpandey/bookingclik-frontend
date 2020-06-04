@@ -53,7 +53,7 @@ export function ListResult() {
 
         // @ts-ignore
         if (!state || !state.hasOwnProperty('results')) {
-            dispatchGlobalState({ type: 'loading', state: true})
+            dispatchGlobalState({ type: 'loading', state: true })
 
             if (!urlParams.pickUpLocationCode) return
             if (!urlParams.dropOffLocationCode) return
@@ -98,7 +98,7 @@ export function ListResult() {
                     r.data.scrape.vehicle = [...mapperVehicles];
                     dispatchSearchState({ type: 'set', state: r.data.scrape })
                     dispatchFilteredState({ type: 'set', state: r.data.scrape })
-                    dispatchGlobalState({ type: 'loading', state: false})
+                    dispatchGlobalState({ type: 'loading', state: false })
                 })
                 .catch(() => setLoading(false))
         } else {
@@ -147,10 +147,7 @@ export function ListResult() {
         <>
             {(isfiltering || isLoading) && (
                 <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
-                    <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
-                        <div style={{ position: 'unset' }} className="pulse"></div>
-                    </div>
+
                 </div>
             )}
             {!isLoading && <div className="section-title">
@@ -214,13 +211,10 @@ export function ListResult() {
                             ` from ${cheapestCar ? cheapestCar.vehicle.currency : ''} ${cheapestCar ? `${Math.floor(cheapestCar.vehicle.price)}.00` : ''}`}
                     </h3>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column'}}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {isfiltering && (
                         <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
-                            <div style={{ marginTop: '10rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
-                                <div style={{ position: 'unset' }} className="pulse"></div>
-                            </div>
+
                         </div>
                     )}
 
@@ -238,7 +232,7 @@ export function ListResult() {
                                     {current.map((item: any, idx: number) => (
                                         <ListingItem key={idx} currentVisitor={userReq.data} doDate={doDate} doTime={doTime} puDate={puDate} puTime={puTime} {...item} layout={layout} />
                                     ))}
-                                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem', marginBottom: '2rem'}}>
+                                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem', marginBottom: '2rem' }}>
                                         <button disabled={!onMore} style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {
                                             if (!!onMore) onMore();
                                         }} className="button fs-map-btn">Load more</button>
@@ -254,6 +248,12 @@ export function ListResult() {
 
     return (
         <>
+            {(isfiltering || isLoading) && (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'fixed', zIndex: 20, top: '20rem', left: '40vw' }}>
+                    <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
+                    <div style={{ position: 'unset' }} className="pulse"></div>
+                </div>
+            )}
             <Header />
             <div id="wrapper">
                 <div className="content">
