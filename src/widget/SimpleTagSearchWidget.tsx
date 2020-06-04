@@ -3,9 +3,9 @@ import { Typography } from '@material-ui/core';
 import useDidMountEffect from '../utils/useDidMountEffect';
 
 type Props = {
-    options: { label: string, value: string, total?: number[], }[]
+    options: { label: string, value: string, total?: number[], cars: any[] }[]
     category: { name: string, propertyToWatch: string, type: string }
-    onChange: (v: string[]) => void
+    onChange: (v: string[]) => void,
 }
 export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onChange }) => {
     const [optionsSelected, setOptions] = useState<{ label: string, value: string }[]>([]);
@@ -20,6 +20,8 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
     useDidMountEffect(() => {
         onChange(optionsSelected.map(i => i.value))
     }, [optionsSelected]);
+
+    console.log(options[0].cars)
 
     return (
         <div className=" fl-wrap filter-tags" style={styles}>
@@ -41,8 +43,17 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                             })
                         }} />
                         <div style={{width: '100%',display: 'flex', justifyContent: 'space-between'}}>
-                            <label htmlFor={`tag-search-${option.label}`}>{option.label}</label>
-                            <label>{option.total && option.total.length}</label>
+                            <div style={{ display: 'flex'}}>
+                                <label style={{ paddingRight: 5 }} htmlFor={`tag-search-${option.label}`}>
+                                    {option.label}
+                                </label>
+                                <label style={{ padding: 0 }}>
+                                    ({option.total && option.total.length})
+                                </label>
+                            </div>
+                            <label style={{ padding: 0 }}>
+                                    ({option.cars && option.cars.length != 0 && option.cars.sort((a: any, b: any) => a.vehicle.price - b.vehicle.price)[0].vehicle.price })
+                            </label>
                         </div>
                     </div>
                 );

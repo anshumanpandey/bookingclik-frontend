@@ -302,7 +302,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div style={{ fontSize: '14px' }} className="col-md-offset-1 col-md-2">
+                                    <div style={{ fontSize: '14px', padding: 0 }} className="col-md-offset-1 col-md-2">
                                         <div className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
