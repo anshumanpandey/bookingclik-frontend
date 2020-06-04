@@ -2,7 +2,8 @@ import { AxiosRequestConfig } from "axios"
 
 export const track = (): AxiosRequestConfig => {
     return {
-        url: `${process.env.REACT_APP_GRCGDS_BACKEND}/public/click`,
+        //url: `https://www.bookingclik.com/api/public/click`,
+        url: `http://localhost:4010/api/public/click`,
         method: 'POST'
     }
 }

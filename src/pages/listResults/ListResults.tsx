@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import useAxios, { ResponseValues } from 'axios-hooks'
+import useAxios, { ResponseValues, makeUseAxios } from 'axios-hooks'
+import axios from 'axios'
 //@ts-ignore
 import { ListingItem } from '../../partials/ListingItem';
 import { Header, Footer } from '../../partials';
@@ -19,6 +20,10 @@ import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 //@ts-ignore
 import ShowMore from '@tedconf/react-show-more';
+
+const normalUseAxios = makeUseAxios({
+    axios: axios.create()
+});
 
 export function ListResult() {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
@@ -43,7 +48,7 @@ export function ListResult() {
         method: 'POST'
     }, { manual: true })
 
-    const [userReq] = useAxios<Visitor>(getUserData())
+    const [userReq] = normalUseAxios<Visitor>(getUserData())
 
     const urlParams = queryString.parse(history.location.search)
 

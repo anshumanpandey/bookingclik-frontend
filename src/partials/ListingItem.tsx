@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useAxios from 'axios-hooks'
-import { track } from '../crud/click-tracker.crud';
+import { track, getUserData } from '../crud/click-tracker.crud';
 import { Vehicle, Visitor } from '../types';
 import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
 import moment from 'moment';
@@ -77,9 +77,13 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     }
 
     const RedirectModal: React.FC<{ show: boolean }> = ({ show }) => {
-        setTimeout(() => {
-            setShowModal(false)
-        }, 3 * 1000)
+        
+        useEffect(() => {
+            setTimeout(() => {
+                setShowModal(false)
+            }, 1000 * 1000)
+        }, []);
+
         return (
             <div className="main-register-wrap modal" style={{ display: show ? 'block' : 'none' }}>
                 <div className="main-overlay" onClick={() => setShowModal(false)}></div>
@@ -100,8 +104,19 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             </h4>
                         <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                             <button onClick={() => {
-                                setShowModal(false)
-                                window.open(props.vehicle.deeplink, '_blank')
+                                console.log(props.currentVisitor)
+                                if (!props.currentVisitor) return
+                                if (!props.currentVisitor.ip) return
+                                if (!props.currentVisitor.country_code) return
+
+                                post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_code, supplier_id: props.vehicle.supplier_id } })
+                                .then(() => {
+                                    setShowModal(false)
+                                    window.open(props.vehicle.deeplink, '_blank')
+                                })
+                                .catch(() => {
+                                    setShowModal(false)
+                                })
                             }} className="log-submit-btn">
                                 <span style={{ fontWeight: 'bold', fontSize: '1rem' }}>Ok</span>
                             </button>
@@ -270,11 +285,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         <a id="book-now-btn" onClick={(e) => {
                                             e.preventDefault()
                                             setShowModal(true)
-                                            if (!props.currentVisitor?.ip) return
-                                            if (!props.currentVisitor?.country_code) return
-
-                                            post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_code, supplier_id: props.vehicle.supplier_id } })
-                                        }} target='_blank' className="capitalize" href={props.vehicle.deeplink}>Select</a>
+                                            
+                                        }} className="capitalize" href="#">Select</a>
                                     }
                                     <div style={{ marginBottom: '0.5rem' }}></div>
                                 </div>
