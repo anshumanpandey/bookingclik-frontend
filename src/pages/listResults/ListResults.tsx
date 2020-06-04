@@ -313,7 +313,7 @@ export function ListResult() {
                                         </div>
                                     </div>
                                     <div className="col-md-3">
-                                        <div className="fl-wrap card-listing" style={{ display: 'flex' }}>
+                                        <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
                                             <img style={{ alignSelf: 'self-start' ,maxWidth: '100%' }} src={'images/all/adver.png'}></img>
                                             <img style={{ alignSelf: 'self-start' ,maxWidth: '100%' }} src={'images/all/ad.png'}></img>
                                         </div>
