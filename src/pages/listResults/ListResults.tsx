@@ -85,7 +85,7 @@ export function ListResult() {
             return true;
         })
             .map((i: any) => {
-                return {
+                const item = {
                     vehicle: {
                         ...i.vehicle,
                         name: i.vehicle.name
@@ -96,6 +96,12 @@ export function ListResult() {
                             .replace('|', '')
                     }
                 }
+
+                if (item.vehicle.guaranteed_ind && item.vehicle.guaranteed_ind == true) {
+                    item.vehicle.name = item.vehicle.name.replace('Or Similar', '')
+                }
+
+                return item
             })
 
         filetredSearch.vehicle = [...vehicles];

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
 import useDidMountEffect from '../utils/useDidMountEffect';
 import ResolveCurrencySymbol from '../utils/ResolveCurrencySymbol';
+import { Decimal } from 'decimal.js';
 
 type Props = {
     options: { label: string, value: string, total?: number[], cars?: any[] }[]
@@ -57,7 +58,7 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                                 </label>}
                             </div>
                             {option.cars && <label style={{ padding: 0 }}>
-                                {ResolveCurrencySymbol(cheapesCar.currency)}{Math.floor(cheapesCar.price)}.00
+                                {ResolveCurrencySymbol(cheapesCar.currency)}{new Decimal(cheapesCar.price).toFixed(2)}
                             </label>}
                         </div>
                     </div>

@@ -112,7 +112,11 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 if (!props.currentVisitor.country_name) return
                                 if (!props.vehicle.grcgds_supplier_name) return
 
-                                post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_name, company_name: props.vehicle.grcgds_supplier_name.trim() } })
+                                post({ data: {
+                                    ip: props.currentVisitor.ip,
+                                    country_code: props.currentVisitor.country_name,
+                                    company_name: props.vehicle.grcgds_supplier_name.trim()
+                                } })
                                     .then(() => {
                                         setShowModal(false)
                                         window.open(props.vehicle.deeplink, '_blank')
@@ -208,9 +212,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         <div style={{ textAlign: 'left' }}>
                                             {props.vehicle.fuel_policy && (
                                                 <div  style={{ marginBottom: '0.5rem' }}>
-                                                    {props.vehicle.carrentalcompanyname && (
-                                                        <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
-                                                    )}
+                                                    <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
                                                     <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
                                                 </div>
                                             )}
@@ -294,7 +296,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         <div className="evticket-meta" style={{ width: '100%', padding: 'unset', display: 'flex', flexDirection: 'column' }}>
                                             Rate for {props.daySpan} days
                                             <div style={{ fontSize: '1.4rem', color: 'black' }} className="evticket-price"><span style={{ color: 'black' }}>
-                                                {currencySymbol}</span> {new Decimal(props.vehicle.price).absoluteValue().floor().toNumber()}.00
+                                                {currencySymbol}</span> {new Decimal(props.vehicle.price).toFixed(2)}
                                             </div>
                                         </div>
                                         {props.vehicle.secondary_price && <div className="evticket-meta" style={{ paddingRight: 0 }}>
