@@ -25,7 +25,7 @@ export const Panel: React.FC<{ buttonNode?: React.ReactNode, defaultOpen?: boole
             }}>
                 {buttonNode}
             </span>
-            <div className="hidden-panel fl-wrap" id={panelId}>
+            <div style={{ paddingBottom: 0 }} className="hidden-panel fl-wrap" id={panelId}>
                 {children}
             </div>
         </div>

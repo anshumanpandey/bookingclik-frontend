@@ -82,12 +82,14 @@ export function ListResult() {
             }
         })
 
+        console.log(vehicles.filter((i: any) => i.vehicle.guaranteed_ind != undefined))
+
         filetredSearch.vehicle = [...vehicles];
 
 
         dispatchSearchState({ type: 'set', state: filetredSearch })
         dispatchFilteredState({ type: 'set', state: filetredSearch })
-    }, [filetredSearch.length, blacklistReq.loading]);
+    }, [filetredSearch.length, blacklistReq.loading, isLoading]);
 
     useEffect(() => {
         console.log('init')

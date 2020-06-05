@@ -4,7 +4,7 @@ import useDidMountEffect from '../utils/useDidMountEffect';
 import ResolveCurrencySymbol from '../utils/ResolveCurrencySymbol';
 
 type Props = {
-    options: { label: string, value: string, total?: number[], cars: any[] }[]
+    options: { label: string, value: string, total?: number[], cars?: any[] }[]
     category: { name: string, propertyToWatch: string, type: string }
     onChange: (v: string[]) => void,
 }
@@ -52,13 +52,13 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                                 <label style={{ paddingRight: 5 }} htmlFor={`tag-search-${option.label}`}>
                                     {option.label}
                                 </label>
-                                <label style={{ padding: 0 }}>
+                                {option.cars && <label style={{ padding: 0 }}>
                                     ({option.total && option.total.length})
-                                </label>
+                                </label>}
                             </div>
-                            <label style={{ padding: 0 }}>
+                            {option.cars && <label style={{ padding: 0 }}>
                                 {ResolveCurrencySymbol(cheapesCar.currency)}{Math.floor(cheapesCar.price)}.00
-                            </label>
+                            </label>}
                         </div>
                     </div>
                 );

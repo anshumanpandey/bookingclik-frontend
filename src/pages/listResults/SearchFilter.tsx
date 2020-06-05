@@ -102,8 +102,8 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
             pickUpDate: innerPuDate ? innerPuDate.unix() : moment().unix(),
             pickUpTime: innerPuTime ? innerPuTime.unix() : moment().unix(),
 
-            dropOffLocationCode: innterDoLocation ? innterDoLocation.internalcode: innerPuLocation.internalcode,
-            dropOffLocationName: innterDoLocation ? innterDoLocation.locationname :innerPuLocation.internalcode,
+            dropOffLocationCode: innterDoLocation ? innterDoLocation.internalcode : innerPuLocation.internalcode,
+            dropOffLocationName: innterDoLocation ? innterDoLocation.locationname : innerPuLocation.internalcode,
             dropOffDate: innerDoDate ? innerDoDate.unix() : moment().unix(),
             dropOffTime: innerDoTime ? innerDoTime.unix() : moment().unix(),
         };
@@ -131,7 +131,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                     const mapperVehicles = res.data.scrape.vehicle.map((v: any, idx: number) => {
                         const dropDate = innerDoDate.set('hours', 0).set('m', 0)
                         const pickDate = innerPuDate.set('hours', 0).set('m', 0)
-    
+
                         const daySpan = dropDate.diff(pickDate, 'days')
                         return {
                             ...v,
@@ -180,11 +180,11 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                 onChange={(v) => setDoLocation(v)} />
                         </div>
                     )}
-                    <div style={{ display: 'flex', flexDirection: isSm ? 'row': 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: isSm ? 'row' : 'column' }}>
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                             <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Pick-up date</FormLabel>
-                            <div style={{ display: 'flex', justifyContent: isSm ? 'unset':'space-between' }}>
-                                <div className="listsearch-input-item" style={{ width: isSm ? '40%': '50%', display: 'flex', alignItems: 'stretch' }}>
+                            <div style={{ display: 'flex', justifyContent: isSm ? 'unset' : 'space-between' }}>
+                                <div className="listsearch-input-item" style={{ width: isSm ? '40%' : '50%', display: 'flex', alignItems: 'stretch' }}>
                                     <DateInput style={{
                                         borderRadius: '6px',
                                         marginRight: '0.5rem',
@@ -192,7 +192,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                     }} defaultValue={puDate} onChange={(v) => setPuDate(v)} />
                                 </div>
 
-                                <div className="listsearch-input-item" style={{ width: isSm ? '40%': '50%', background: 'white', borderRadius: '6px' }}>
+                                <div className="listsearch-input-item" style={{ width: isSm ? '40%' : '50%', background: 'white', borderRadius: '6px' }}>
                                     <TimeInput
                                         defaultValue={puTime?.set('seconds', 0)}
                                         onChange={(v) => setPuTime(v)} />
@@ -202,8 +202,8 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
 
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                             <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Drop-off date</FormLabel>
-                            <div style={{ display: 'flex', justifyContent: isSm ? 'unset':'space-between' }}>
-                                <div className="listsearch-input-item" style={{ width: isSm ? '40%': '50%', display: 'flex', alignItems: 'stretch' }}>
+                            <div style={{ display: 'flex', justifyContent: isSm ? 'unset' : 'space-between' }}>
+                                <div className="listsearch-input-item" style={{ width: isSm ? '40%' : '50%', display: 'flex', alignItems: 'stretch' }}>
                                     <DateInput style={{
                                         borderRadius: '6px',
                                         border: 'unset',
@@ -211,7 +211,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                     }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
                                 </div>
 
-                                <div className="listsearch-input-item" style={{ width: isSm ? '40%': '50%', background: 'white', borderRadius: '6px' }}>
+                                <div className="listsearch-input-item" style={{ width: isSm ? '40%' : '50%', background: 'white', borderRadius: '6px' }}>
                                     <TimeInput
                                         style={{ borderRadius: '6px' }}
                                         defaultValue={doTime?.set('seconds', 0)}
@@ -251,23 +251,23 @@ export const SearchFilterCars: React.FC = () => {
 
     const carRentalCompanyOptions = Array
         .from(filteredSearch.vehicle.reduce((prev: { add: (arg0: any) => void; }, next: { vehicle: { suppliername: any; carrentalcompanyname: any; }; }) => {
-        const key = next.vehicle.carrentalcompanyname;
-        if (key) {
-            prev.add(key)
-        }
-        return prev
-    }, new Set<string>()).values())
-    .map(token => {
-        const supplierCars = filteredSearch.vehicle.filter((v:any) => {
-            return v.vehicle.carrentalcompanyname == token
-        })
-        return ({ label: token, value: token, cars: supplierCars, total: supplierCars });
-    }) as { label: string, value: string, total: any[], cars: any[] }[]
+            const key = next.vehicle.carrentalcompanyname;
+            if (key) {
+                prev.add(key)
+            }
+            return prev
+        }, new Set<string>()).values())
+        .map(token => {
+            const supplierCars = filteredSearch.vehicle.filter((v: any) => {
+                return v.vehicle.carrentalcompanyname == token
+            })
+            return ({ label: token, value: token, cars: supplierCars, total: supplierCars });
+        }) as { label: string, value: string, total: any[], cars: any[] }[]
 
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>
     } else {
-        body = (<div className="profile-edit-container add-list-container filters-panel">
+        body = (<div style={{ paddingBottom: 0 }} className="profile-edit-container add-list-container filters-panel">
             <Panel open={isSm} defaultOpen={true} buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
                 <Typography gutterBottom style={{ textAlign: 'left' }}>
                     Filter
@@ -285,13 +285,14 @@ export const SearchFilterCars: React.FC = () => {
                                             options={filter.values
                                                 .map((f: any) => ({
                                                     label: f.name.replace(/(GRC_GDS_CURRENCY_SYMBOL)/g, ResolveCurrencySymbol(filteredSearch.vehicle[0]?.vehicle.currency)),
-                                                    value: f.value }))
-                                                .sort((a,b) => {
-                                                if (filter.name == 'price') return -1;
-                                                if(a.label < b.label) { return -1; }
-                                                if(a.label > b.label) { return 1; }
-                                                return 0;
-                                            })}
+                                                    value: f.value
+                                                }))
+                                                .sort((a, b) => {
+                                                    if (filter.name == 'price') return -1;
+                                                    if (a.label < b.label) { return -1; }
+                                                    if (a.label > b.label) { return 1; }
+                                                    return 0;
+                                                })}
                                             category={{ name: filter.name, propertyToWatch: filter.responseProperty, type: filter.type }}
                                             onChange={() => { }}
                                         />
@@ -350,6 +351,15 @@ export const SearchFilterCars: React.FC = () => {
                             </div>
                         )}
 
+                        <div className="col-md-12">
+                            <SimpleTagSearchWidget
+                                options={[{label: 'Standard Key', value: 'yes'}, {label: 'Key Less', value: 'no'}]}
+                                category={{ name: 'Key Type', propertyToWatch: 'rental_car_company', type: 'tag' }}
+                                onChange={(valuesToFilterFor) => {
+                                }}
+                            />
+                        </div>
+
                     </div>
                 </div>
             </Panel>
@@ -358,7 +368,7 @@ export const SearchFilterCars: React.FC = () => {
 
     return (
         <>
-            <div className="listsearch-input-wrap fl-wrap" style={{ paddingRight: 20, paddingLeft: 20 ,display: 'flex', minHeight: '50%', flexDirection: 'column', marginTop: 0 }}>
+            <div className="listsearch-input-wrap fl-wrap" style={{ paddingRight: 20, paddingLeft: 20, display: 'flex', minHeight: '50%', flexDirection: 'column', marginTop: 0 }}>
                 {body}
             </div>
         </>

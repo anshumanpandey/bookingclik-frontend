@@ -77,7 +77,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     }
 
     const RedirectModal: React.FC<{ show: boolean }> = ({ show }) => {
-        
+
         useEffect(() => {
             setTimeout(() => {
                 setShowModal(false)
@@ -110,13 +110,13 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 if (!props.currentVisitor.country_name) return
 
                                 post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_name, supplier_id: props.vehicle.supplier_id } })
-                                .then(() => {
-                                    setShowModal(false)
-                                    window.open(props.vehicle.deeplink, '_blank')
-                                })
-                                .catch(() => {
-                                    setShowModal(false)
-                                })
+                                    .then(() => {
+                                        setShowModal(false)
+                                        window.open(props.vehicle.deeplink, '_blank')
+                                    })
+                                    .catch(() => {
+                                        setShowModal(false)
+                                    })
                             }} className="log-submit-btn">
                                 <span style={{ fontWeight: 'bold', fontSize: '1rem' }}>Ok</span>
                             </button>
@@ -142,7 +142,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     if (props.vehicle.currency == 'EUR') currencySymbol = '€'
 
     return (
-        <div style={{ marginBottom: 0, background: 'unset', height: isSm ? '13rem': 'unset' }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
+        <div style={{ marginBottom: 0, background: 'unset', height: isSm ? '13rem' : 'unset' }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content">
                     <div className="row" style={{ display: 'flex', flexDirection: isSm ? 'row' : 'column', alignContent: 'stretch', height: '100%', marginRight: '-20px' }}>
@@ -181,31 +181,49 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 </span>
                             </div>
                         </div>
-                        <div className="col-md-5" style={{ width: '100%',paddingLeft: 0, paddingRight: 0, display: 'flex', justifyContent: 'space-around'}}>
+                        <div className="col-md-5" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, display: 'flex', justifyContent: 'space-around' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
                                 <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column' }}>
-                                    {props.vehicle.fuel_policy && (
-                                        <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex', justifyContent: 'center' }}>
-                                            <i style={{
+                                    <div style={{ display: 'flex', justifyContent: 'center'}}>
+                                        <div style={{ width: '20%'}}>
+                                            <div style={{ marginBottom: '1.3rem' }}><i style={{
                                                 fontSize: '1.1rem',
-                                                marginRight: '1rem',
-                                            }} className="fas fa-gas-pump"></i>
+                                            }} className="fas fa-gas-pump"></i></div>
+
+                                            <div  style={{ marginBottom: '1.2rem' }}>
+                                                <object style={{ height: '1.1rem' }} type="image/svg+xml" data="images/icons/q1.svg">
+                                                </object>
+                                            </div>
+
+                                            <img
+                                                style={{ width: '85%', height: 'auto' }}
+                                                src={`${process.env.PUBLIC_URL}/images/icons/key.png`}
+                                                alt={'key'}
+                                            />
+                                        </div>
+
+                                        <div style={{ textAlign: 'left' }}>
+                                            {props.vehicle.fuel_policy && (
+                                                <div  style={{ marginBottom: '0.5rem' }}>
+                                                    {props.vehicle.carrentalcompanyname && (
+                                                        <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
+                                                    )}
+                                                    <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
+                                                </div>
+                                            )}
+
+                                            <div  style={{ marginBottom: '0.5rem' }}>
+                                                <p style={{ lineHeight: 'unset', textAlign: 'left', padding: 0 }}>Mileage:</p>
+                                                <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
+                                            </div>
+
                                             <div>
-                                                {props.vehicle.carrentalcompanyname && (
-                                                    <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
-                                                )}
-                                                <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
+                                                <h5>Yes</h5>
                                             </div>
                                         </div>
-                                    )}
-                                    <div className="geodir-category-location" style={{ marginTop: '0.5rem', padding: 0, display: 'flex', justifyContent: 'center' }}>
-                                        <object style={{ height: '1.1rem', marginRight: '1rem' }} type="image/svg+xml" data="images/icons/q1.svg">
-                                        </object>
-                                        <div>
-                                            <p style={{ lineHeight: 'unset', textAlign: 'left', padding: 0 }}>Mileage:</p>
-                                            <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
-                                        </div>
                                     </div>
+
+
                                     <div style={{
                                         display: 'flex',
                                         flexDirection: 'column',
@@ -244,7 +262,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
 
                         </div>
-                        <div className="col-md-3" style={{ display: 'flex', paddingLeft: 0, paddingRight: 10, width: isSm ? '19%': 'unset' }}>
+                        <div className="col-md-3" style={{ display: 'flex', paddingLeft: 0, paddingRight: 10, width: isSm ? '19%' : 'unset' }}>
 
                             <div className="geodir-category-location" style={{
                                 marginTop: '0.5rem',
@@ -285,7 +303,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         <a id="book-now-btn" onClick={(e) => {
                                             e.preventDefault()
                                             setShowModal(true)
-                                            
+
                                         }} className="capitalize" href="#">Select</a>
                                     }
                                     <div style={{ marginBottom: '0.5rem' }}></div>
