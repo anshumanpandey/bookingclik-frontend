@@ -33,8 +33,8 @@ const AdRow = () => {
     return (
         <div className="col-md-3">
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                <img style={{ alignSelf: isSm ? 'self-start': 'center', maxWidth: '100%', marginBottom: '2rem' }} src={'images/all/adver.png'}></img>
-                <img style={{ alignSelf: isSm ? 'self-start': 'center', maxWidth: '100%' }} src={'images/all/adver.png'}></img>
+                <img style={{ alignSelf: isSm ? 'self-start': 'center', maxWidth: '100%', marginBottom: '2rem' }} src={ isSm ? 'images/all/adver.png': 'images/all/mobilead.jpeg'}></img>
+                <img style={{ alignSelf: isSm ? 'self-start': 'center', maxWidth: '100%' }} src={isSm ? 'images/all/adver.png': 'images/all/mobilead.jpeg'}></img>
             </div>
         </div>
     );
@@ -77,7 +77,7 @@ export function ListResult() {
         const vehicles = filetredSearch.vehicle.filter((i: any) => {
             if (blacklistReq.data) {
                 const found = blacklistReq.data.find((company: { [k: string]: any }) => {
-                    if (!i.vehicle.original_supplier) return true;
+                    if (!i.vehicle.original_supplier) return false;
                     return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
                 })
                 return found == undefined;
@@ -98,14 +98,12 @@ export function ListResult() {
                 }
             })
 
-        console.log(vehicles.filter((i: any) => i.vehicle.guaranteed_ind != undefined))
-
         filetredSearch.vehicle = [...vehicles];
 
 
         dispatchSearchState({ type: 'set', state: filetredSearch })
         dispatchFilteredState({ type: 'set', state: filetredSearch })
-    }, [filetredSearch.length, blacklistReq.loading, isLoading]);
+    }, [filetredSearch.length, blacklistReq.loading, isLoading, loading]);
 
     useEffect(() => {
         console.log('init')
