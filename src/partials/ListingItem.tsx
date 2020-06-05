@@ -107,9 +107,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 console.log(props.currentVisitor)
                                 if (!props.currentVisitor) return
                                 if (!props.currentVisitor.ip) return
-                                if (!props.currentVisitor.country_code) return
+                                if (!props.currentVisitor.country_name) return
 
-                                post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_code, supplier_id: props.vehicle.supplier_id } })
+                                post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_name, supplier_id: props.vehicle.supplier_id } })
                                 .then(() => {
                                     setShowModal(false)
                                     window.open(props.vehicle.deeplink, '_blank')
