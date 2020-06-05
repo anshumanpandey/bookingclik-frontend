@@ -49,8 +49,32 @@ export function ListResult() {
     }, { manual: true })
 
     const [userReq] = normalUseAxios<Visitor>(getUserData())
+    const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all'})
 
     const urlParams = queryString.parse(history.location.search)
+
+    useEffect(() => {
+        if (!blacklistReq.data) return 
+        if (blacklistReq.error) return 
+        if (filetredSearch.vehicle.length == 0) return 
+
+        const vehicles = filetredSearch.vehicle.filter((i: any) => {
+            if (blacklistReq.data) {
+                const found = blacklistReq.data.find((company: {[k: string]: any}) => {
+                    if (!i.vehicle.original_supplier) return true;
+                    return i.vehicle.original_supplier.toLowerCase() == company.companyName.toLowerCase()
+                })
+                return found == undefined;
+            }
+            return true;
+        })
+
+        filetredSearch.vehicle = [...vehicles];
+
+
+        dispatchSearchState({ type: 'set', state: filetredSearch })
+        dispatchFilteredState({ type: 'set', state: filetredSearch })
+    }, [filetredSearch]);
 
     useEffect(() => {
         console.log('init')
