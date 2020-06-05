@@ -68,13 +68,26 @@ export function ListResult() {
             }
             return true;
         })
+        .map((i: any) => {
+            return {
+                vehicle: {
+                    ...i.vehicle,
+                    name: i.vehicle.name
+                        .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
+                        .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
+                        .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
+                        .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
+                        .replace('|', '')
+                }
+            }
+        })
 
         filetredSearch.vehicle = [...vehicles];
 
 
         dispatchSearchState({ type: 'set', state: filetredSearch })
         dispatchFilteredState({ type: 'set', state: filetredSearch })
-    }, [filetredSearch]);
+    }, [filetredSearch.length, blacklistReq.loading]);
 
     useEffect(() => {
         console.log('init')
