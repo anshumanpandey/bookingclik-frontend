@@ -59,7 +59,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
     }, [dynamicFilters.length]);
 
     useEffect(() => {
-        if (innerPuLocation.internalcode == innterDoLocation.internalcode) {
+        if ((innerPuLocation && innterDoLocation) && innerPuLocation.internalcode == innterDoLocation.internalcode) {
             setDisplayDropoffInput(false)
             setDoLocation(null)
         } else {
@@ -275,6 +275,14 @@ export const SearchFilterCars: React.FC = () => {
             </div>} >
                 <div className="custom-form">
                     <div className="row">
+                        <div className="col-md-12">
+                            <SimpleTagSearchWidget
+                                options={[{label: 'Standard Key', value: 'yes'}, {label: 'Key Less', value: 'no'}]}
+                                category={{ name: 'Key Type', propertyToWatch: 'rental_car_company', type: 'tag' }}
+                                onChange={(valuesToFilterFor) => {
+                                }}
+                            />
+                        </div>
 
                         {filterReq.data && filterReq.data.map((filter) => {
                             if (filter.type === 'tag' && filter.values.length !== 0) {
@@ -350,15 +358,6 @@ export const SearchFilterCars: React.FC = () => {
                                 />
                             </div>
                         )}
-
-                        <div className="col-md-12">
-                            <SimpleTagSearchWidget
-                                options={[{label: 'Standard Key', value: 'yes'}, {label: 'Key Less', value: 'no'}]}
-                                category={{ name: 'Key Type', propertyToWatch: 'rental_car_company', type: 'tag' }}
-                                onChange={(valuesToFilterFor) => {
-                                }}
-                            />
-                        </div>
 
                     </div>
                 </div>

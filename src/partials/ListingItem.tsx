@@ -199,7 +199,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                             </div>
 
                                             <img
-                                                style={{ width: '85%', height: 'auto' }}
+                                                style={{ width: '65%', height: 'auto' }}
                                                 src={`${process.env.PUBLIC_URL}/images/icons/key.png`}
                                                 alt={'key'}
                                             />
