@@ -78,10 +78,12 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
     const RedirectModal: React.FC<{ show: boolean }> = ({ show }) => {
 
+        console.log(props.vehicle)
+
         useEffect(() => {
             setTimeout(() => {
                 setShowModal(false)
-            }, 1000 * 1000)
+            }, 1000 * 3)
         }, []);
 
         return (
@@ -108,8 +110,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 if (!props.currentVisitor) return
                                 if (!props.currentVisitor.ip) return
                                 if (!props.currentVisitor.country_name) return
+                                if (!props.vehicle.suppliername) return
 
-                                post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_name, supplier_id: props.vehicle.supplier_id } })
+                                post({ data: { ip: props.currentVisitor.ip, country_code: props.currentVisitor.country_name, company_name: props.vehicle.suppliername.trim() } })
                                     .then(() => {
                                         setShowModal(false)
                                         window.open(props.vehicle.deeplink, '_blank')
@@ -313,7 +316,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                     </div>
                 </ListingItemBody>
             </ListingItemInner>
-            <RedirectModal show={showModal} />
+            {showModal && <RedirectModal show={showModal} />}
         </div >
 
     );
