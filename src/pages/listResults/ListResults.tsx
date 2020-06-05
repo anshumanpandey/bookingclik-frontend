@@ -20,10 +20,25 @@ import { useDidUpdateEffect } from '../../utils/DidUpdateEffect';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 //@ts-ignore
 import ShowMore from '@tedconf/react-show-more';
+import { useMediaQuery } from 'react-responsive'
+
 
 const normalUseAxios = makeUseAxios({
     axios: axios.create()
 });
+
+const AdRow = () => {
+    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+
+    return (
+        <div className="col-md-3">
+            <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
+                <img style={{ alignSelf: isSm ? 'self-start': 'center', maxWidth: '100%', marginBottom: '2rem' }} src={'images/all/adver.png'}></img>
+                <img style={{ alignSelf: isSm ? 'self-start': 'center', maxWidth: '100%' }} src={'images/all/adver.png'}></img>
+            </div>
+        </div>
+    );
+}
 
 export function ListResult() {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
@@ -42,6 +57,7 @@ export function ListResult() {
     const [isLoading, setLoading] = useGlobalState('loading')
     const [filetredSearch] = useFilteredSearchState('filteredScrape');
     const [isfiltering] = useFilteredSearchState('isfiltering');
+    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
     const [{ data, loading, error }, doSearch] = useAxios({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
@@ -49,18 +65,18 @@ export function ListResult() {
     }, { manual: true })
 
     const [userReq] = normalUseAxios<Visitor>(getUserData())
-    const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all'})
+    const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
 
     const urlParams = queryString.parse(history.location.search)
 
     useEffect(() => {
-        if (!blacklistReq.data) return 
-        if (blacklistReq.error) return 
-        if (filetredSearch.vehicle.length == 0) return 
+        if (!blacklistReq.data) return
+        if (blacklistReq.error) return
+        if (filetredSearch.vehicle.length == 0) return
 
         const vehicles = filetredSearch.vehicle.filter((i: any) => {
             if (blacklistReq.data) {
-                const found = blacklistReq.data.find((company: {[k: string]: any}) => {
+                const found = blacklistReq.data.find((company: { [k: string]: any }) => {
                     if (!i.vehicle.original_supplier) return true;
                     return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
                 })
@@ -68,19 +84,19 @@ export function ListResult() {
             }
             return true;
         })
-        .map((i: any) => {
-            return {
-                vehicle: {
-                    ...i.vehicle,
-                    name: i.vehicle.name
-                        .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
-                        .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
-                        .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
-                        .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
-                        .replace('|', '')
+            .map((i: any) => {
+                return {
+                    vehicle: {
+                        ...i.vehicle,
+                        name: i.vehicle.name
+                            .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
+                            .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
+                            .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
+                            .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
+                            .replace('|', '')
+                    }
                 }
-            }
-        })
+            })
 
         console.log(vehicles.filter((i: any) => i.vehicle.guaranteed_ind != undefined))
 
@@ -346,6 +362,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
+                                    {!isSm && <AdRow />}
                                     <div style={{ fontSize: '14px', padding: 0 }} className="col-md-offset-1 col-md-2">
                                         <div className="fl-wrap">
                                             <SearchFilterCars />
@@ -356,12 +373,7 @@ export function ListResult() {
                                             {Body}
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
-                                        <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <img style={{ alignSelf: 'self-start' ,maxWidth: '100%', marginBottom: '2rem' }} src={'images/all/adver.png'}></img>
-                                            <img style={{ alignSelf: 'self-start' ,maxWidth: '100%' }} src={'images/all/adver.png'}></img>
-                                        </div>
-                                    </div>
+                                    {isSm && <AdRow />}
                                 </div>
                             </div>
                         </div>
