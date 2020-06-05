@@ -62,7 +62,7 @@ export function ListResult() {
             if (blacklistReq.data) {
                 const found = blacklistReq.data.find((company: {[k: string]: any}) => {
                     if (!i.vehicle.original_supplier) return true;
-                    return i.vehicle.original_supplier.toLowerCase() == company.companyName.toLowerCase()
+                    return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
                 })
                 return found == undefined;
             }
