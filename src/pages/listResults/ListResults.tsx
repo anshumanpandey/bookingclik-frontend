@@ -85,13 +85,13 @@ export function ListResult() {
             }
             return true;
         })
-            /*.filter((i: any) => {
+            .filter((i: any) => {
                 if (unavailableReq.data) {
                     const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
                     return !names.includes(i.vehicle.grcgds_supplier_name.toLowerCase().trim())
                 }
                 return true
-            })*/
+            })
             .map((i: any) => {
                 const item = {
                     vehicle: {
@@ -233,6 +233,7 @@ export function ListResult() {
                     .catch(() => setLoading(false))
 
             })
+            .catch(() => setLoading(false))
 
     }, []);
 
