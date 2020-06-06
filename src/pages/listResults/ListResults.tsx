@@ -154,6 +154,31 @@ export function ListResult() {
                             daySpan
                         };
                     })
+                    .filter((i: any) => {
+                        if (blacklistReq.data) {
+                            const found = blacklistReq.data.find((company: { [k: string]: any }) => {
+                                if (!i.vehicle.original_supplier) return false;
+                                return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
+                            })
+                            return found == undefined;
+                        }
+                        return true;
+                    })
+                        .map((i: any) => {
+                            const item = {
+                                vehicle: {
+                                    ...i.vehicle,
+                                    name: i.vehicle.name
+                                        .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
+                                        .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
+                                        .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
+                                        .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
+                                        .replace('|', '')
+                                }
+                            }
+            
+                            return item
+                        })
 
                     r.data.scrape.vehicle = [...mapperVehicles];
                     dispatchSearchState({ type: 'set', state: r.data.scrape })
@@ -193,6 +218,31 @@ export function ListResult() {
                     ...v,
                     daySpan
                 };
+            })
+            .filter((i: any) => {
+            if (blacklistReq.data) {
+                const found = blacklistReq.data.find((company: { [k: string]: any }) => {
+                    if (!i.vehicle.original_supplier) return false;
+                    return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
+                })
+                return found == undefined;
+            }
+            return true;
+        })
+            .map((i: any) => {
+                const item = {
+                    vehicle: {
+                        ...i.vehicle,
+                        name: i.vehicle.name
+                            .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
+                            .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
+                            .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
+                            .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
+                            .replace('|', '')
+                    }
+                }
+
+                return item
             })
 
             state.results.scrape.vehicle = mapperVehicles;
