@@ -44,6 +44,7 @@
     "rc-time-picker": "^3.7.3",
     "react": "^16.13.1",
     "react-animated-dots": "^1.1.0",
+    "react-cookie-consent": "^5.0.1",
     "react-data-table-component": "^6.9.1",
     "react-dom": "^16.13.1",
     "react-hooks-global-state": "^1.0.0",

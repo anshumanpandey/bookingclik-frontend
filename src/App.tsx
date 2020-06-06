@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import CookieConsent from "react-cookie-consent";
 import './index.css';
 import 'rc-time-picker/assets/index.css';
 import { Main } from './pages/main/main';
@@ -60,11 +61,11 @@ function App() {
                                     );
                                 })}
                             </Switch>
+                            <CookieConsent>This website uses cookies to enhance the user experience.</CookieConsent>
                         </div>
                     </BrowserRouter>
                 );
             }}
-
         </CacheBuster>
     );
 
