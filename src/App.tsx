@@ -62,10 +62,10 @@ function App() {
                                     );
                                 })}
                             </Switch>
-                            <CookieConsent
+                            {!process.env.REACT_APP_SOON && <CookieConsent
                                 buttonText="Accept Cookies"
                                 buttonStyle={{ backgroundColor: "#03bfcb", color: "white", fontSize: '0.8rem', fontWeight: 'bold', height: '2.5rem' }}
-                            >This website uses cookies to enhance the user experience.</CookieConsent>
+                            >This website uses cookies to enhance the user experience.</CookieConsent>}
                         </div>
                     </BrowserRouter>
                 );
