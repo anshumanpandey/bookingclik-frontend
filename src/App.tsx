@@ -14,6 +14,7 @@ import CacheBuster from './CacheBuster';
 
 function App() {
     const [loading, setLoading] = useGlobalState('loading');
+
     let routes = [
         { path: '/dashboard', component: ProfilePage, private: true },
         { path: '/results', component: ListResult },
@@ -61,7 +62,10 @@ function App() {
                                     );
                                 })}
                             </Switch>
-                            <CookieConsent>This website uses cookies to enhance the user experience.</CookieConsent>
+                            <CookieConsent
+                                buttonText="Accept Cookies"
+                                buttonStyle={{ backgroundColor: "#03bfcb", color: "white", fontSize: '0.8rem', fontWeight: 'bold' }}
+                            >This website uses cookies to enhance the user experience.</CookieConsent>
                         </div>
                     </BrowserRouter>
                 );
