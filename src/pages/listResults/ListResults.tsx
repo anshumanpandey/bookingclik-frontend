@@ -97,10 +97,6 @@ export function ListResult() {
                     }
                 }
 
-                if (item.vehicle.guaranteed_ind && item.vehicle.guaranteed_ind == true) {
-                    item.vehicle.name = item.vehicle.name.replace('Or Similar', '')
-                }
-
                 return item
             })
 
