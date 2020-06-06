@@ -64,7 +64,7 @@ function App() {
                             </Switch>
                             <CookieConsent
                                 buttonText="Accept Cookies"
-                                buttonStyle={{ backgroundColor: "#03bfcb", color: "white", fontSize: '0.8rem', fontWeight: 'bold' }}
+                                buttonStyle={{ backgroundColor: "#03bfcb", color: "white", fontSize: '0.8rem', fontWeight: 'bold', height: '2.5rem' }}
                             >This website uses cookies to enhance the user experience.</CookieConsent>
                         </div>
                     </BrowserRouter>
