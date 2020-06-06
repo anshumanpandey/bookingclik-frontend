@@ -56,7 +56,7 @@ export const Header = () => {
                                 onClick={(e) => {
                                     Object.assign(document.createElement('a'), {
                                         target: '_blank',
-                                        href: `https://www.bookingclik.com/`,
+                                        href: `https://www.bookingclik.com/admin`,
                                       }).click();
                                 }}>
                                 <i style={{ marginRight: '0.2rem' }} className="fas fa-sign-in-alt"></i>Sign In
