@@ -261,8 +261,13 @@ export const SearchFilterCars: React.FC = () => {
             const supplierCars = filteredSearch.vehicle.filter((v: any) => {
                 return v.vehicle.carrentalcompanyname == token
             })
-            return ({ label: token, value: token, cars: supplierCars, total: supplierCars });
-        }) as { label: string, value: string, total: any[], cars: any[] }[]
+            return ({ label: token, value: token, cars: supplierCars, total: supplierCars }) as { label: string, value: string, total: any[], cars: any[] }
+        })
+        .sort(function(a, b){
+            if(a.label < b.label) { return -1; }
+            if(a.label > b.label) { return 1; }
+            return 0;
+        }) 
 
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>
