@@ -22,6 +22,9 @@ import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import ShowMore from '@tedconf/react-show-more';
 import { useMediaQuery } from 'react-responsive'
 
+import adver from '../../images/adver.png'; 
+import mobilead from '../../images/mobilead.jpeg'; 
+
 
 const normalUseAxios = makeUseAxios({
     axios: axios.create()
@@ -33,8 +36,8 @@ const AdRow = () => {
     return (
         <div className="col-md-3">
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isSm ? 'images/all/adver.png' : 'images/all/mobilead.jpeg'}></img>
-                <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%' }} src={isSm ? 'images/all/adver.png' : 'images/all/mobilead.jpeg'}></img>
+                <img style={{ height: 10, width: 10,alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isSm ? adver : mobilead}></img>
+                <img style={{ height: 10, width: 10,alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%' }} src={isSm ? adver : mobilead}></img>
             </div>
         </div>
     );
