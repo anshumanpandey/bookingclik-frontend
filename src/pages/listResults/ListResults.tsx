@@ -33,8 +33,8 @@ const AdRow = () => {
     return (
         <div className="col-md-3">
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                <img style={{ alignSelf: isSm ? 'self-start': 'center', maxWidth: '100%', marginBottom: '2rem' }} src={ isSm ? 'images/all/adver.png': 'images/all/mobilead.jpeg'}></img>
-                <img style={{ alignSelf: isSm ? 'self-start': 'center', maxWidth: '100%' }} src={isSm ? 'images/all/adver.png': 'images/all/mobilead.jpeg'}></img>
+                <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isSm ? 'images/all/adver.png' : 'images/all/mobilead.jpeg'}></img>
+                <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%' }} src={isSm ? 'images/all/adver.png' : 'images/all/mobilead.jpeg'}></img>
             </div>
         </div>
     );
@@ -66,6 +66,7 @@ export function ListResult() {
 
     const [userReq] = normalUseAxios<Visitor>(getUserData())
     const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
+    const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'http://localhost:4010/api/public/unavailables' }, { manual: true })
 
     const urlParams = queryString.parse(history.location.search)
 
@@ -84,6 +85,13 @@ export function ListResult() {
             }
             return true;
         })
+            /*.filter((i: any) => {
+                if (unavailableReq.data) {
+                    const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
+                    return !names.includes(i.vehicle.grcgds_supplier_name.toLowerCase().trim())
+                }
+                return true
+            })*/
             .map((i: any) => {
                 const item = {
                     vehicle: {
@@ -105,151 +113,127 @@ export function ListResult() {
 
         dispatchSearchState({ type: 'set', state: filetredSearch })
         dispatchFilteredState({ type: 'set', state: filetredSearch })
-    }, [filetredSearch.length, blacklistReq.loading, isLoading, loading]);
+    }, [filetredSearch.length, blacklistReq.loading, isLoading, loading, unavailableReq.loading]);
 
     useEffect(() => {
         console.log('init')
         console.log(state)
+        dispatchGlobalState({ type: 'loading', state: true })
 
-        // @ts-ignore
-        if (!state || !state.hasOwnProperty('results')) {
-            dispatchGlobalState({ type: 'loading', state: true })
+        getUnavailable()
+            .then(({ data: unavailableData }) => {
+                let scrapePromise = Promise.resolve(state?.results?.scrape)
+                // @ts-ignore
+                if (!state || !state.hasOwnProperty('results')) {
 
-            if (!urlParams.pickUpLocationCode) return
-            if (!urlParams.dropOffLocationCode) return
-
-
-            const params = {
-                pickUpLocation: {
-                    internalcode: urlParams.pickUpLocationCode?.toString(),
-                    locationname: urlParams.pickUpLocationName?.toString()
-                } as GRCGDSCode,
-                pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())) : moment(),
-                pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())) : moment(),
-
-                dropOffLocation: {
-                    internalcode: urlParams.dropOffLocationCode?.toString(),
-                    locationname: urlParams.dropOffLocationName?.toString()
-                } as GRCGDSCode,
-                dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())) : moment(),
-                dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())) : moment(),
-            }
-            setPickUpCode(params.pickUpLocation);
-            setDropoffCode(params.dropOffLocation);
-            dispatchSearchState({ type: 'dropoff.date', state: params.dropOffDate })
-            dispatchSearchState({ type: 'dropoff.time', state: params.dropOffTime })
-            dispatchSearchState({ type: 'pickup.date', state: params.pickUpDate })
-            dispatchSearchState({ type: 'pickup.time', state: params.pickUpTime })
+                    if (!urlParams.pickUpLocationCode) return
+                    if (!urlParams.dropOffLocationCode) return
 
 
-            doSearch({ data: { json: BuildJsonQuery(params) } })
-                .then(r => {
-                    const mapperVehicles = r.data.scrape.vehicle.map((v: any, idx: number) => {
-                        const dropDate = doDate.set('hours', 0).set('m', 0)
-                        const pickDate = puDate.set('hours', 0).set('m', 0)
+                    const params = {
+                        pickUpLocation: {
+                            internalcode: urlParams.pickUpLocationCode?.toString(),
+                            locationname: urlParams.pickUpLocationName?.toString()
+                        } as GRCGDSCode,
+                        pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())) : moment(),
+                        pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())) : moment(),
 
-                        const daySpan = dropDate.diff(pickDate, 'days')
-                        return {
-                            ...v,
-                            daySpan
-                        };
-                    })
-                    .filter((i: any) => {
-                        if (blacklistReq.data) {
-                            const found = blacklistReq.data.find((company: { [k: string]: any }) => {
-                                if (!i.vehicle.original_supplier) return false;
-                                return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
-                            })
-                            return found == undefined;
-                        }
-                        return true;
-                    })
-                        .map((i: any) => {
-                            const item = {
-                                vehicle: {
-                                    ...i.vehicle,
-                                    name: i.vehicle.name
-                                        .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
-                                        .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
-                                        .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
-                                        .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
-                                        .replace('|', '')
-                                }
-                            }
-            
-                            return item
-                        })
-
-                    r.data.scrape.vehicle = [...mapperVehicles];
-                    dispatchSearchState({ type: 'set', state: r.data.scrape })
-                    dispatchFilteredState({ type: 'set', state: r.data.scrape })
-                    dispatchGlobalState({ type: 'loading', state: false })
-                })
-                .catch(() => setLoading(false))
-        } else {
-            const params = {
-                pickUpLocation: {
-                    internalcode: urlParams.pickUpLocationCode?.toString(),
-                    locationname: urlParams.pickUpLocationName?.toString()
-                } as GRCGDSCode,
-                pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())) : moment(),
-                pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())) : moment(),
-
-                dropOffLocation: {
-                    internalcode: urlParams.dropOffLocationCode?.toString(),
-                    locationname: urlParams.dropOffLocationName?.toString()
-                } as GRCGDSCode,
-                dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())) : moment(),
-                dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())) : moment(),
-            }
-            setPickUpCode(params.pickUpLocation);
-            setDropoffCode(params.dropOffLocation);
-            dispatchSearchState({ type: 'dropoff.date', state: params.dropOffDate })
-            dispatchSearchState({ type: 'dropoff.time', state: params.dropOffTime })
-            dispatchSearchState({ type: 'pickup.date', state: params.pickUpDate })
-            dispatchSearchState({ type: 'pickup.time', state: params.pickUpTime })
-
-            const mapperVehicles = state.results.scrape.vehicle.map((v: any, idx: number) => {
-                const dropDate = doDate.set('hours', 0).set('m', 0)
-                const pickDate = puDate.set('hours', 0).set('m', 0)
-
-                const daySpan = dropDate.diff(pickDate, 'days')
-                return {
-                    ...v,
-                    daySpan
-                };
-            })
-            .filter((i: any) => {
-            if (blacklistReq.data) {
-                const found = blacklistReq.data.find((company: { [k: string]: any }) => {
-                    if (!i.vehicle.original_supplier) return false;
-                    return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
-                })
-                return found == undefined;
-            }
-            return true;
-        })
-            .map((i: any) => {
-                const item = {
-                    vehicle: {
-                        ...i.vehicle,
-                        name: i.vehicle.name
-                            .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
-                            .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
-                            .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
-                            .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
-                            .replace('|', '')
+                        dropOffLocation: {
+                            internalcode: urlParams.dropOffLocationCode?.toString(),
+                            locationname: urlParams.dropOffLocationName?.toString()
+                        } as GRCGDSCode,
+                        dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())) : moment(),
+                        dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())) : moment(),
                     }
+                    setPickUpCode(params.pickUpLocation);
+                    setDropoffCode(params.dropOffLocation);
+                    dispatchSearchState({ type: 'dropoff.date', state: params.dropOffDate })
+                    dispatchSearchState({ type: 'dropoff.time', state: params.dropOffTime })
+                    dispatchSearchState({ type: 'pickup.date', state: params.pickUpDate })
+                    dispatchSearchState({ type: 'pickup.time', state: params.pickUpTime })
+
+
+                    scrapePromise = doSearch({ data: { json: BuildJsonQuery(params) } })
+                        .then(r => r.data.scrape)
+                } else {
+                    const params = {
+                        pickUpLocation: {
+                            internalcode: urlParams.pickUpLocationCode?.toString(),
+                            locationname: urlParams.pickUpLocationName?.toString()
+                        } as GRCGDSCode,
+                        pickUpDate: urlParams.pickUpDate ? moment.unix(parseInt(urlParams.pickUpDate.toString())) : moment(),
+                        pickUpTime: urlParams.pickUpTime ? moment.unix(parseInt(urlParams.pickUpTime.toString())) : moment(),
+
+                        dropOffLocation: {
+                            internalcode: urlParams.dropOffLocationCode?.toString(),
+                            locationname: urlParams.dropOffLocationName?.toString()
+                        } as GRCGDSCode,
+                        dropOffDate: urlParams.dropOffDate ? moment.unix(parseInt(urlParams.dropOffDate.toString())) : moment(),
+                        dropOffTime: urlParams.dropOffTime ? moment.unix(parseInt(urlParams.dropOffTime.toString())) : moment(),
+                    }
+                    setPickUpCode(params.pickUpLocation);
+                    setDropoffCode(params.dropOffLocation);
+                    dispatchSearchState({ type: 'dropoff.date', state: params.dropOffDate })
+                    dispatchSearchState({ type: 'dropoff.time', state: params.dropOffTime })
+                    dispatchSearchState({ type: 'pickup.date', state: params.pickUpDate })
+                    dispatchSearchState({ type: 'pickup.time', state: params.pickUpTime })
                 }
 
-                return item
+                scrapePromise
+                    .then(scrape => {
+                        const mapperVehicles = scrape.vehicle.map((v: any, idx: number) => {
+                            const dropDate = doDate.set('hours', 0).set('m', 0)
+                            const pickDate = puDate.set('hours', 0).set('m', 0)
+
+                            const daySpan = dropDate.diff(pickDate, 'days')
+                            return {
+                                ...v,
+                                daySpan
+                            };
+                        })
+                            .filter((i: any) => {
+                                if (blacklistReq.data) {
+                                    const found = blacklistReq.data.find((company: { [k: string]: any }) => {
+                                        if (!i.vehicle.original_supplier) return false;
+                                        return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
+                                    })
+                                    return found == undefined;
+                                }
+                                return true;
+                            })
+                            .filter((i: any) => {
+                                if (unavailableData) {
+                                    const names = unavailableData.map((u: any) => u.companyName.toLowerCase().trim())
+                                    return !names.includes(i.vehicle.grcgds_supplier_name.toLowerCase().trim())
+                                }
+                                return true
+                            })
+                            .map((i: any) => {
+                                const item = {
+                                    vehicle: {
+                                        ...i.vehicle,
+                                        name: i.vehicle.name
+                                            .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
+                                            .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
+                                            .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
+                                            .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
+                                            .replace('|', '')
+                                    }
+                                }
+
+                                return item
+                            })
+
+                        scrape.vehicle = mapperVehicles;
+
+                        dispatchSearchState({ type: 'set', state: scrape })
+                        dispatchFilteredState({ type: 'set', state: scrape })
+                        dispatchGlobalState({ type: 'loading', state: false })
+                    })
+                    .catch(() => setLoading(false))
+
             })
 
-            state.results.scrape.vehicle = mapperVehicles;
-
-            dispatchSearchState({ type: 'set', state: state.results.scrape })
-            dispatchFilteredState({ type: 'set', state: state.results.scrape })
-        }
     }, []);
 
 
