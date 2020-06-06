@@ -3,6 +3,7 @@ import { AxiosRequestConfig } from "axios"
 export const track = (): AxiosRequestConfig => {
     return {
         url: process.env.REACT_APP_CLICK_TRACK_URL,
+        //url: `http://localhost:4010/api/public/click`,
         method: 'POST'
     }
 }

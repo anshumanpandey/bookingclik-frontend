@@ -9,6 +9,7 @@ import moment from 'moment';
 import { Decimal } from 'decimal.js';
 import { LoadImageOrPlaceholder } from '../utils/LoadImageOrPlaceholder';
 import { useMediaQuery } from 'react-responsive'
+import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
 
 const ListingItemBody = styled.div`
 width: 100%!important;
@@ -52,6 +53,8 @@ const normalUseAxios = makeUseAxios({
 });
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [trackReq, post] = normalUseAxios(track(), { manual: true })
+    const [pickUpCode] = useSearchWidgetState('pickUpCode')
+    const [dropoffCode] = useSearchWidgetState('dropoffCode')
 
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
@@ -123,7 +126,9 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                     country_code: props.currentVisitor.country_name,
                                     grcgds_supplier_name: props.vehicle.grcgds_supplier_name.trim(),
                                     //@ts-ignore
-                                    orignal_supplier_name: props.vehicle.carrentalcompanyname.trim()
+                                    orignal_supplier_name: props.vehicle.carrentalcompanyname.trim(),
+                                    pickupLocation: pickUpCode.locationname,
+                                    dropoffLocation: dropoffCode.locationname,
                                 } })
                                     .then(() => {
                                         Object.assign(document.createElement('a'), {

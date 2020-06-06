@@ -325,7 +325,16 @@ export function ListResult() {
                         }: any) => (
                                 <React.Fragment>
                                     {current.map((item: any, idx: number) => (
-                                        <ListingItem key={idx} currentVisitor={userReq.data} doDate={doDate} doTime={doTime} puDate={puDate} puTime={puTime} {...item} layout={layout} />
+                                        <ListingItem
+                                            key={idx}
+                                            currentVisitor={userReq.data}
+                                            doDate={doDate}
+                                            doTime={doTime}
+                                            puDate={puDate}
+                                            puTime={puTime}
+                                            {...item}
+                                            layout={layout}
+                                        />
                                     ))}
                                     {onMore && <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem', marginBottom: '2rem' }}>
                                         <button disabled={!onMore} style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {
