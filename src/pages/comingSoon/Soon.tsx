@@ -5,7 +5,7 @@ export const Soon = () => {
     return (
         <>
             <div className="fixed-bg">
-                <div className="bg"  data-bg="images/bg/car.jpg"></div>
+                <div className="bg" style={{ backgroundImage: 'images/bg/car.jpg'}}  data-bg="images/bg/car.jpg"></div>
             </div>
             <div className="cs-wrapper fl-wrap" style={{
                 height: '100vh',
