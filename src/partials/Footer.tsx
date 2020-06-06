@@ -9,7 +9,7 @@ export const Footer = () => {
                     <div className="container" style={{ margin: 'auto'}}>
                         <div className="row">
                             <div className="col-md-12">
-                                <div className="copyright">@2020 copyright Booking Limited</div>
+                                <div className="copyright">@2020 BookingClik Ltd</div>
                             </div>
                         </div>
                     </div>
