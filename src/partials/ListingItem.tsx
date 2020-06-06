@@ -115,13 +115,15 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 if (!props.currentVisitor) return
                                 if (!props.currentVisitor.ip) return
                                 if (!props.currentVisitor.country_name) return
+                                if (!props.vehicle.grcgds_supplier_name) return
 
                                 timer && clearTimeout(timer);
                                 post({ data: {
                                     ip: props.currentVisitor.ip,
                                     country_code: props.currentVisitor.country_name,
-                                    // @ts-ignore
-                                    company_name: props.vehicle.carrentalcompanyname.trim()
+                                    grcgds_supplier_name: props.vehicle.grcgds_supplier_name.trim(),
+                                    //@ts-ignore
+                                    orignal_supplier_name: props.vehicle.carrentalcompanyname.trim()
                                 } })
                                     .then(() => {
                                         Object.assign(document.createElement('a'), {
