@@ -66,7 +66,7 @@ export function ListResult() {
 
     const [userReq] = normalUseAxios<Visitor>(getUserData())
     const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
-    const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'http://localhost:4010/api/public/unavailables' }, { manual: true })
+    const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/unavailables' }, { manual: true })
 
     const urlParams = queryString.parse(history.location.search)
 

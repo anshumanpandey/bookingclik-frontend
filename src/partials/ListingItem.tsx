@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import useAxios from 'axios-hooks'
+import { makeUseAxios } from 'axios-hooks'
+import axios from 'axios'
 import { track, getUserData } from '../crud/click-tracker.crud';
 import { Vehicle, Visitor } from '../types';
 import GetTypeClassFromAcrissCode from '../utils/GetTypeClassFromAcrissCode';
@@ -45,8 +46,12 @@ export type ListingItemProps = {
     puDate: moment.Moment
     puTime: moment.Moment
 }
+
+const normalUseAxios = makeUseAxios({
+    axios: axios.create()
+});
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
-    const [trackReq, post] = useAxios(track(), { manual: true })
+    const [trackReq, post] = normalUseAxios(track(), { manual: true })
 
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
@@ -78,12 +83,13 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
     const RedirectModal: React.FC<{ show: boolean }> = ({ show }) => {
 
-        console.log(props.vehicle)
+        const [timer, setTimer] = useState<number| null>(null);
 
         useEffect(() => {
-            setTimeout(() => {
+            const t = setTimeout(() => {
                 setShowModal(false)
             }, 1000 * 3)
+            setTimer(t);
         }, []);
 
         return (
@@ -106,22 +112,25 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             </h4>
                         <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                             <button onClick={() => {
-                                console.log(props.currentVisitor)
                                 if (!props.currentVisitor) return
                                 if (!props.currentVisitor.ip) return
                                 if (!props.currentVisitor.country_name) return
                                 if (!props.vehicle.grcgds_supplier_name) return
 
+                                timer && clearTimeout(timer);
                                 post({ data: {
                                     ip: props.currentVisitor.ip,
                                     country_code: props.currentVisitor.country_name,
                                     company_name: props.vehicle.grcgds_supplier_name.trim()
                                 } })
                                     .then(() => {
+                                        Object.assign(document.createElement('a'), {
+                                            target: '_blank',
+                                            href: props.vehicle.deeplink,
+                                          }).click();
                                         setShowModal(false)
-                                        window.open(props.vehicle.deeplink, '_blank')
                                     })
-                                    .catch(() => {
+                                    .catch((err) => {
                                         setShowModal(false)
                                     })
                             }} className="log-submit-btn">
