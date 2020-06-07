@@ -74,6 +74,7 @@ export function ListResult() {
     const urlParams = queryString.parse(history.location.search)
 
     useEffect(() => {
+        console.log('[pargn')
         if (!blacklistReq.data) return
         if (blacklistReq.error) return
         if (filetredSearch.vehicle.length == 0) return

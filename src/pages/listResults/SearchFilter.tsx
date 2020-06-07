@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useAxios from 'axios-hooks'
+import useAxios, { makeUseAxios } from 'axios-hooks'
 import { CircularProgress, Checkbox, FormControlLabel, FormLabel, Typography } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { DateInput } from '../../partials';
@@ -20,7 +20,11 @@ import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
 import { useMediaQuery } from 'react-responsive'
 import ResolveCurrencySymbol from '../../utils/ResolveCurrencySymbol';
+import axios from 'axios'
 
+const normalUseAxios = makeUseAxios({
+    axios: axios.create()
+});
 
 export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
     const history = useHistory<{ results: SearchResponse, params: { location: GRCGDSCode, puDate: number, puTime: number, doDate: number, doTime: number } }>();
@@ -47,6 +51,9 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
         method: 'POST',
     }, { manual: true })
+
+    const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
+    const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/unavailables' })
 
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
@@ -138,6 +145,38 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                             daySpan
                         };
                     })
+                        .filter((i: any) => {
+                            if (blacklistReq.data) {
+                                const found = blacklistReq.data.find((company: { [k: string]: any }) => {
+                                    if (!i.vehicle.original_supplier) return false;
+                                    return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
+                                })
+                                return found == undefined;
+                            }
+                            return true;
+                        })
+                        .filter((i: any) => {
+                            if (unavailableReq.data) {
+                                const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
+                                return !names.includes(i.vehicle.grcgds_supplier_name.toLowerCase().trim())
+                            }
+                            return true
+                        })
+                        .map((i: any) => {
+                            const item = {
+                                vehicle: {
+                                    ...i.vehicle,
+                                    name: i.vehicle.name
+                                        .replace(/(?:^|\W)or(?:$|\W)/, ' Or ')
+                                        .replace(/(?:^|\W)OR(?:$|\W)/, ' Or ')
+                                        .replace(/(?:^|\W)similar(?:$|\W)/, ' Similar')
+                                        .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
+                                        .replace('|', '')
+                                }
+                            }
+
+                            return item
+                        })
                     res.data.scrape.vehicle = mapperVehicles;
                     dispatchFilteredState({ type: 'set', state: res.data.scrape })
                     dispatchSearchState({ type: 'set', state: res.data.scrape })
@@ -263,11 +302,11 @@ export const SearchFilterCars: React.FC = () => {
             })
             return ({ label: token, value: token, cars: supplierCars, total: supplierCars }) as { label: string, value: string, total: any[], cars: any[] }
         })
-        .sort(function(a, b){
-            if(a.label < b.label) { return -1; }
-            if(a.label > b.label) { return 1; }
+        .sort(function (a, b) {
+            if (a.label < b.label) { return -1; }
+            if (a.label > b.label) { return 1; }
             return 0;
-        }) 
+        })
 
     if (filterReq.error) {
         body = <h3>Error loading filters</h3>
@@ -282,7 +321,7 @@ export const SearchFilterCars: React.FC = () => {
                     <div className="row">
                         <div className="col-md-12">
                             <SimpleTagSearchWidget
-                                options={[{label: 'Standard Key', value: 'yes'}, {label: 'Key Less', value: 'no'}]}
+                                options={[{ label: 'Standard Key', value: 'yes' }, { label: 'Key Less', value: 'no' }]}
                                 category={{ name: 'Key Type', propertyToWatch: 'rental_car_company', type: 'tag' }}
                                 onChange={(valuesToFilterFor) => {
                                 }}
