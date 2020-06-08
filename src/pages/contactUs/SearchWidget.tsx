@@ -13,10 +13,10 @@ const normalUseAxios = makeUseAxios({
 });
 
 export const SearchWidget: React.FC = () => {
-  const [name, setName] = useState('leo');
-  const [email, setEmail] = useState('leo_9_t@hotmail.com');
-  const [subject, setSubject] = useState('test');
-  const [description, setDescription] = useState('need');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [description, setDescription] = useState('');
   const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
   const [emailReq, send] = normalUseAxios<{ ip: string }>(sendEmail(), { manual: true })
