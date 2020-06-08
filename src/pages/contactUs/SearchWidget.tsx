@@ -75,7 +75,7 @@ export const SearchWidget: React.FC = () => {
                 <InputBase
                   type="textarea"
                   style={{ borderRadius: '6px', backgroundColor: 'white', height: '8rem', padding: '0.5rem' }}
-                  placeholder="Description"
+                  placeholder="Message"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
