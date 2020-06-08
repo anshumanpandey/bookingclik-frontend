@@ -148,10 +148,11 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                     .filter((i: any) => {
                         if (blacklistReq.data) {
                             let isBlacklisted = false;
-                            blacklistReq.data.forEach((c: { supplierName: string, companies: string[] }) => {
-                                if (c.supplierName == null) return true
-                                if (c.supplierName.toLowerCase().trim() != i.vehicle.suppliername.toLowerCase().trim()) return true
-                                if (c.companies.length == 0) return true
+                            blacklistReq.data
+                            .filter((c: any) => c.supplierName)
+                            .filter((c: any) => c.supplierName.toLowerCase().trim() == i.vehicle.grcgds_supplier_name.toLowerCase().trim())
+                            .forEach((c: { supplierName: string, companies: string[] }) => {
+                                if (c.companies.length == 0) isBlacklisted = true
                                 if (!i.vehicle.original_supplier) return false;                    
             
                                 const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
@@ -185,6 +186,10 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                 }
                             }
 
+                            if (!item.vehicle.name.includes(' Or Similar')) {
+                                item.vehicle.name = `${item.vehicle.name} Or Similar`
+                            }
+            
                             return item
                         })
                     res.data.scrape.vehicle = mapperVehicles;

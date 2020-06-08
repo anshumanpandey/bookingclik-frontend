@@ -22,8 +22,8 @@ import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import ShowMore from '@tedconf/react-show-more';
 import { useMediaQuery } from 'react-responsive'
 
-import adver from '../../images/adver.png'; 
-import mobilead from '../../images/mobilead.jpeg'; 
+import adver from '../../images/adver.png';
+import mobilead from '../../images/mobilead.jpeg';
 
 
 const normalUseAxios = makeUseAxios({
@@ -79,26 +79,27 @@ export function ListResult() {
         if (filetredSearch.vehicle.length == 0) return
 
         const vehicles = filetredSearch.vehicle
-        .filter((i: any) => {
-            if (blacklistReq.data) {
-                let isBlacklisted = false;
-                blacklistReq.data.forEach((c: { supplierName: string, companies: string[] }) => {
-                    if (c.supplierName == null) return true
-                    if (c.supplierName.toLowerCase().trim() != i.vehicle.suppliername.toLowerCase().trim()) return true
-                    if (c.companies.length == 0) return true
-                    if (!i.vehicle.original_supplier) return false;                    
+            .filter((i: any) => {
+                if (blacklistReq.data) {
+                    let isBlacklisted = false;
+                    blacklistReq.data
+                        .filter((c: any) => c.supplierName)
+                        .filter((c: any) => c.supplierName.toLowerCase().trim() == i.vehicle.grcgds_supplier_name.toLowerCase().trim())
+                        .forEach((c: { supplierName: string, companies: string[] }) => {
+                            if (c.companies.length == 0) isBlacklisted = true
+                            if (!i.vehicle.original_supplier) return false;
 
-                    const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
-                    
-                    if (!exist){
-                        isBlacklisted = true;
-                    }                                        
-                })
+                            const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
 
-                return isBlacklisted;
-            }
-            return true;
-        })
+                            if (!exist) {
+                                isBlacklisted = true;
+                            }
+                        })
+
+                    return isBlacklisted;
+                }
+                return true;
+            })
             .filter((i: any) => {
                 if (unavailableReq.data) {
                     const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
@@ -117,6 +118,10 @@ export function ListResult() {
                             .replace(/(?:^|\W)SIMILAR(?:$|\W)/, ' Similar')
                             .replace('|', '')
                     }
+                }
+
+                if (!item.vehicle.name.includes(' Or Similar')) {
+                    item.vehicle.name = `${item.vehicle.name} Or Similar`
                 }
 
                 return item
@@ -206,28 +211,27 @@ export function ListResult() {
                                 daySpan
                             };
                         })
-                        .filter((i: any) => {
-                            if (blacklistReq.data) {
-                                let isBlacklisted = false;
-                                blacklistReq.data.forEach((c: { supplierName: string, companies: string[] }) => {
-                                    if (c.supplierName == null) return true
-                                    if (c.supplierName.toLowerCase().trim() != i.vehicle.suppliername.toLowerCase().trim()) return true
-                                    if (c.companies.length == 0) return true
-                                    if (!i.vehicle.original_supplier) return false;                    
-                                        if (!i.vehicle.original_supplier) return false;
-                                    if (!i.vehicle.original_supplier) return false;                    
-                
-                                    const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
-                                    
-                                    if (!exist){
-                                        isBlacklisted = true;
-                                    }                                        
-                                })
-                
-                                return isBlacklisted;
-                            }
-                            return true;
-                        })
+                            .filter((i: any) => {
+                                if (blacklistReq.data) {
+                                    let isBlacklisted = false;
+                                    blacklistReq.data
+                                        .filter((c: any) => c.supplierName)
+                                        .filter((c: any) => c.supplierName.toLowerCase().trim() == i.vehicle.grcgds_supplier_name.toLowerCase().trim())
+                                        .forEach((c: { supplierName: string, companies: string[] }) => {
+                                            if (c.companies.length == 0) isBlacklisted = true
+                                            if (!i.vehicle.original_supplier) return false;
+
+                                            const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
+
+                                            if (!exist) {
+                                                isBlacklisted = true;
+                                            }
+                                        })
+
+                                    return isBlacklisted;
+                                }
+                                return true;
+                            })
                             .filter((i: any) => {
                                 if (unavailableData) {
                                     const names = unavailableData.map((u: any) => u.companyName.toLowerCase().trim())
@@ -247,6 +251,12 @@ export function ListResult() {
                                             .replace('|', '')
                                     }
                                 }
+
+                                if (!item.vehicle.name.includes(' Or Similar')) {
+                                    item.vehicle.name = `${item.vehicle.name} Or Similar`
+                                }
+
+                                return item
 
                                 return item
                             })
