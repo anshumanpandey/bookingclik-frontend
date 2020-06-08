@@ -154,7 +154,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         )
     };
 
-    let fuelPolicy = props.vehicle.fuel_policy
+    let fuelPolicy = "Full To Full"
     if (props.vehicle.fuel_policy == 1) fuelPolicy = 'Full To Full'
     if (props.vehicle.fuel_policy == 2) fuelPolicy = 'Full To Empty'
     if (props.vehicle.fuel_policy == 3) fuelPolicy = 'Empty To Empty'
