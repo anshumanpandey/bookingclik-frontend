@@ -86,13 +86,18 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
     const RedirectModal: React.FC<{ show: boolean }> = ({ show }) => {
 
-        const [timer, setTimer] = useState<number| null>(null);
+        const [timer, setTimer] = useState<number | null>(null);
 
         useEffect(() => {
             const t = setTimeout(() => {
                 setShowModal(false)
             }, 1000 * 3)
             setTimer(t);
+
+            return () => {
+                timer && clearTimeout(timer);
+            }
+
         }, []);
 
         return (
@@ -121,20 +126,19 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 if (!props.vehicle.grcgds_supplier_name) return
 
                                 timer && clearTimeout(timer);
-                                post({ data: {
-                                    ip: props.currentVisitor.ip,
-                                    country_code: props.currentVisitor.country_name,
-                                    grcgds_supplier_name: props.vehicle.grcgds_supplier_name.trim(),
-                                    //@ts-ignore
-                                    orignal_supplier_name: props.vehicle.carrentalcompanyname.trim(),
-                                    pickupLocation: pickUpCode.locationname,
-                                    dropoffLocation: dropoffCode.locationname,
-                                } })
+                                post({
+                                    data: {
+                                        ip: props.currentVisitor.ip,
+                                        country_code: props.currentVisitor.country_name,
+                                        grcgds_supplier_name: props.vehicle.grcgds_supplier_name.trim(),
+                                        //@ts-ignore
+                                        orignal_supplier_name: props.vehicle.carrentalcompanyname.trim(),
+                                        pickupLocation: pickUpCode.locationname,
+                                        dropoffLocation: dropoffCode.locationname,
+                                    }
+                                })
                                     .then(() => {
-                                        Object.assign(document.createElement('a'), {
-                                            target: '_blank',
-                                            href: props.vehicle.deeplink,
-                                          }).click();
+                                        window.open(props.vehicle.deeplink.replace(/amp;/g, ""), '_blank')
                                         setShowModal(false)
                                     })
                                     .catch((err) => {
@@ -207,13 +211,13 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                         <div className="col-md-5" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, display: 'flex', justifyContent: 'space-around' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
                                 <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'center'}}>
-                                        <div style={{ width: '20%'}}>
+                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                        <div style={{ width: '20%' }}>
                                             <div style={{ marginBottom: '1.3rem' }}><i style={{
                                                 fontSize: '1.1rem',
                                             }} className="fas fa-gas-pump"></i></div>
 
-                                            <div  style={{ marginBottom: '1.2rem' }}>
+                                            <div style={{ marginBottom: '1.2rem' }}>
                                                 <object style={{ height: '1.1rem' }} type="image/svg+xml" data="images/icons/q1.svg">
                                                 </object>
                                             </div>
@@ -226,14 +230,12 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         </div>
 
                                         <div style={{ textAlign: 'left' }}>
-                                            {props.vehicle.fuel_policy && (
-                                                <div  style={{ marginBottom: '0.5rem' }}>
-                                                    <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
-                                                    <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
-                                                </div>
-                                            )}
+                                            <div style={{ marginBottom: '0.5rem' }}>
+                                                <p style={{ lineHeight: '0.5rem', textAlign: 'left', paddingBottom: '0.3rem' }}>Fuel Policy:</p>
+                                                <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>{fuelPolicy}</h4>
+                                            </div>
 
-                                            <div  style={{ marginBottom: '0.5rem' }}>
+                                            <div style={{ marginBottom: '0.5rem' }}>
                                                 <p style={{ lineHeight: 'unset', textAlign: 'left', padding: 0 }}>Mileage:</p>
                                                 <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
                                             </div>
