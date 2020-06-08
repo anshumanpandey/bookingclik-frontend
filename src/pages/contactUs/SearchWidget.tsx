@@ -77,7 +77,7 @@ export const SearchWidget: React.FC = () => {
             </div>
         </div>
         <div>
-          <button className="main-search-button" onClick={() => axios.post(`https://www.bookingclik.com/contact.php`,  qs.stringify({
+          <button className="main-search-button" onClick={() => axios.post(`https://carrentalclik.com/contact.php`,  qs.stringify({
             to: email,
             title: `${name}: ${subject}`,
             body: description,
