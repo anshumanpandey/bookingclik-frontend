@@ -51,11 +51,8 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                         <div style={{width: '100%',display: 'flex', justifyContent: 'space-between'}}>
                             <div style={{ display: 'flex'}}>
                                 <label style={{ paddingRight: 5 }} htmlFor={`tag-search-${option.label}`}>
-                                    {option.label}
+                                    {option.label} ({option.cars && option.total && option.total.length})
                                 </label>
-                                {option.cars && <label style={{ padding: 0 }}>
-                                    ({option.total && option.total.length})
-                                </label>}
                             </div>
                             {option.cars && <label style={{ padding: 0 }}>
                                 {ResolveCurrencySymbol(cheapesCar.currency)}{new Decimal(cheapesCar.price).toFixed(2)}
