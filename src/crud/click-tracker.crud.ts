@@ -10,7 +10,13 @@ export const track = (): AxiosRequestConfig => {
 
 export const getUserData = (): AxiosRequestConfig => {
     return {
-        url: `https://ipapi.co/json/`,
+        url: `https://www.cloudflare.com/cdn-cgi/trace`,
+    }
+}
+
+export const getUserIp = (): AxiosRequestConfig => {
+    return {
+        url: `http://api.hostip.info/get_json.php`,
     }
 }
 

@@ -7,7 +7,7 @@ import { Header, Footer } from '../../partials';
 import { useHistory } from 'react-router-dom';
 import { SearchResponse, Terms, GRCGDSCode, Visitor } from '../../types';
 import { ListCarsFilter, SearchFilterCars } from './SearchFilter';
-import { getUserData } from '../../crud/click-tracker.crud';
+import { getUserData, getUserIp } from '../../crud/click-tracker.crud';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
 import moment from 'moment';
@@ -68,6 +68,7 @@ export function ListResult() {
     }, { manual: true })
 
     const [userReq] = normalUseAxios<Visitor>(getUserData())
+    const [ipReq] = normalUseAxios<{ ip: string }>(getUserIp())
     const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
     const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/unavailables' }, { manual: true })
 
@@ -365,6 +366,7 @@ export function ListResult() {
                                         <ListingItem
                                             key={idx}
                                             currentVisitor={userReq.data}
+                                            ip={ipReq.data?.ip}
                                             doDate={doDate}
                                             doTime={doTime}
                                             puDate={puDate}

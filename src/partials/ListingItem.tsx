@@ -10,6 +10,7 @@ import { Decimal } from 'decimal.js';
 import { LoadImageOrPlaceholder } from '../utils/LoadImageOrPlaceholder';
 import { useMediaQuery } from 'react-responsive'
 import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
+import Countries from './CountriesJson.json';
 
 const ListingItemBody = styled.div`
 width: 100%!important;
@@ -37,23 +38,17 @@ const Avatar = styled.div`
 `;
 
 
-export type ListingItemProps = {
-    layout?: 'GRID' | 'LIST',
-    vehicle: Vehicle,
-    daySpan: number,
-    currentVisitor?: Visitor | null,
-    doDate: moment.Moment
-    doTime: moment.Moment
-    puDate: moment.Moment
-    puTime: moment.Moment
-}
-
 const normalUseAxios = makeUseAxios({
     axios: axios.create()
 });
 
 
-const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dropoffCode,vehicle, currentVisitor }) => {
+const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dropoffCode,vehicle, currentVisitor, ip }) => {
+    const currentVisitorJson = currentVisitor.split(`\n`).reduce((json: any,next: any) => {
+        const [key, val] = next.split("=");
+        json[key] = val;
+        return json;
+    }, {})
 
     const [timer, setTimer] = useState<number | null>(null);
 
@@ -66,9 +61,9 @@ const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dr
         post({
             data: {
                 //@ts-ignore
-                ip: currentVisitor.ip,
+                ip: ip,
                 //@ts-ignore
-                country_code: currentVisitor.country_name,
+                country_code: Countries.find(i => i.code == currentVisitorJson.loc)?.name,
                 grcgds_supplier_name: vehicle.grcgds_supplier_name.trim(),
                 //@ts-ignore
                 orignal_supplier_name: vehicle.carrentalcompanyname.trim(),
@@ -113,6 +108,18 @@ const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dr
         </div>
     )
 };
+
+export type ListingItemProps = {
+    layout?: 'GRID' | 'LIST',
+    vehicle: Vehicle,
+    ip: string,
+    daySpan: number,
+    currentVisitor?: Visitor | null,
+    doDate: moment.Moment
+    doTime: moment.Moment
+    puDate: moment.Moment
+    puTime: moment.Moment
+}
 
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [trackReq, post] = normalUseAxios(track(), { manual: true })
@@ -336,6 +343,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
             </ListingItemInner>
             {showModal && <RedirectModal
                 show={showModal}
+                ip={props.ip}
                 setShowModal={setShowModal}
                 post={post}
                 pickUpCode={pickUpCode}
