@@ -5,7 +5,8 @@ import './index.css';
 import 'rc-time-picker/assets/index.css';
 import { Main } from './pages/main/main';
 import { ListResult } from './pages/listResults/ListResults';
-import { ProfilePage } from './pages/dashboard/Dashboard';
+import { AboutUs } from './pages/aboutUs/main';
+import { ContactUs } from './pages/contactUs/main';
 import { Soon } from './pages/comingSoon/Soon';
 import { useGlobalState } from './state';
 import PrivateRoute from './partials/PrivateRoutes';
@@ -16,8 +17,9 @@ function App() {
     const [loading, setLoading] = useGlobalState('loading');
 
     let routes = [
-        { path: '/dashboard', component: ProfilePage, private: true },
         { path: '/results', component: ListResult },
+        { path: '/about-us', component: AboutUs },
+        { path: '/contact-us', component: ContactUs },
         { path: '/', component: Main }
     ]
 
@@ -52,11 +54,6 @@ function App() {
 
                             <Switch>
                                 {routes.map(r => {
-                                    if (r.private) {
-                                        return (
-                                            <PrivateRoute key={r.path} path={r.path} component={r.component} />
-                                        );
-                                    }
                                     return (
                                         <Route key={r.path} path={r.path} component={r.component} />
                                     );

@@ -48,6 +48,29 @@ export const Header = () => {
                 <div style={{ top: 'unset', color: 'white', margin: 0 }} className="nav-holder main-menu">
                     <nav style={{ height: '100%' }}>
                         <ul style={{ padding: 0, height: '100%' }}>
+                        <li
+                                style={{ cursor: 'pointer',height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
+                                className="no-hover">
+                                    <Link to={`/`}>
+                                        Home
+                                    </Link>
+                        </li>
+                        <li
+                                style={{ cursor: 'pointer',height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
+                                className="no-hover">
+                                    <Link to={`/about-us`}>
+                                        About Us
+                                    </Link>
+                        </li>
+                        <li
+                                style={{ cursor: 'pointer',height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
+                                className="no-hover"
+                                ref={(e) => headerRef.current = e}
+                                onClick={(e) => dispatchGlobalState({ type: 'logout' })}>
+                                    <Link to={`/contact-us`}>
+                                    Contact Us
+                                    </Link>
+                        </li>
                             {!token ?(
                                 <li
                                 style={{ cursor: 'pointer',height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
