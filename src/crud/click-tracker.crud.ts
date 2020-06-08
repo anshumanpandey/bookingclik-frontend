@@ -16,7 +16,7 @@ export const getUserData = (): AxiosRequestConfig => {
 
 export const getUserIp = (): AxiosRequestConfig => {
     return {
-        url: `http://api.hostip.info/get_json.php`,
+        url: `https://api.hostip.info/get_json.php`,
     }
 }
 
