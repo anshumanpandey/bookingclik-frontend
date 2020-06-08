@@ -145,16 +145,26 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                             daySpan
                         };
                     })
-                        .filter((i: any) => {
-                            if (blacklistReq.data) {
-                                const found = blacklistReq.data.find((company: { [k: string]: any }) => {
-                                    if (!i.vehicle.original_supplier) return false;
-                                    return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
-                                })
-                                return found == undefined;
-                            }
-                            return true;
-                        })
+                    .filter((i: any) => {
+                        if (blacklistReq.data) {
+                            let isBlacklisted = false;
+                            blacklistReq.data.forEach((c: { supplierName: string, companies: string[] }) => {
+                                if (c.supplierName == null) return true
+                                if (c.supplierName.toLowerCase().trim() != i.vehicle.suppliername.toLowerCase().trim()) return true
+                                if (c.companies.length == 0) return true
+                                if (!i.vehicle.original_supplier) return false;                    
+            
+                                const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
+                                
+                                if (!exist){
+                                    isBlacklisted = true;
+                                }                                        
+                            })
+            
+                            return isBlacklisted;
+                        }
+                        return true;
+                    })
                         .filter((i: any) => {
                             if (unavailableReq.data) {
                                 const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())

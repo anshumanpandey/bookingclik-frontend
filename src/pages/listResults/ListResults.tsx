@@ -78,13 +78,24 @@ export function ListResult() {
         if (blacklistReq.error) return
         if (filetredSearch.vehicle.length == 0) return
 
-        const vehicles = filetredSearch.vehicle.filter((i: any) => {
+        const vehicles = filetredSearch.vehicle
+        .filter((i: any) => {
             if (blacklistReq.data) {
-                const found = blacklistReq.data.find((company: { [k: string]: any }) => {
-                    if (!i.vehicle.original_supplier) return false;
-                    return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
+                let isBlacklisted = false;
+                blacklistReq.data.forEach((c: { supplierName: string, companies: string[] }) => {
+                    if (c.supplierName == null) return true
+                    if (c.supplierName.toLowerCase().trim() != i.vehicle.suppliername.toLowerCase().trim()) return true
+                    if (c.companies.length == 0) return true
+                    if (!i.vehicle.original_supplier) return false;                    
+
+                    const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
+                    
+                    if (!exist){
+                        isBlacklisted = true;
+                    }                                        
                 })
-                return found == undefined;
+
+                return isBlacklisted;
             }
             return true;
         })
@@ -184,6 +195,7 @@ export function ListResult() {
 
                 scrapePromise
                     .then(scrape => {
+                        console.log(scrape.vehicle)
                         const mapperVehicles = scrape.vehicle.map((v: any, idx: number) => {
                             const dropDate = doDate.set('hours', 0).set('m', 0)
                             const pickDate = puDate.set('hours', 0).set('m', 0)
@@ -194,16 +206,28 @@ export function ListResult() {
                                 daySpan
                             };
                         })
-                            .filter((i: any) => {
-                                if (blacklistReq.data) {
-                                    const found = blacklistReq.data.find((company: { [k: string]: any }) => {
+                        .filter((i: any) => {
+                            if (blacklistReq.data) {
+                                let isBlacklisted = false;
+                                blacklistReq.data.forEach((c: { supplierName: string, companies: string[] }) => {
+                                    if (c.supplierName == null) return true
+                                    if (c.supplierName.toLowerCase().trim() != i.vehicle.suppliername.toLowerCase().trim()) return true
+                                    if (c.companies.length == 0) return true
+                                    if (!i.vehicle.original_supplier) return false;                    
                                         if (!i.vehicle.original_supplier) return false;
-                                        return i.vehicle.original_supplier.toLowerCase().trim() == company.companyName.toLowerCase().trim()
-                                    })
-                                    return found == undefined;
-                                }
-                                return true;
-                            })
+                                    if (!i.vehicle.original_supplier) return false;                    
+                
+                                    const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
+                                    
+                                    if (!exist){
+                                        isBlacklisted = true;
+                                    }                                        
+                                })
+                
+                                return isBlacklisted;
+                            }
+                            return true;
+                        })
                             .filter((i: any) => {
                                 if (unavailableData) {
                                     const names = unavailableData.map((u: any) => u.companyName.toLowerCase().trim())

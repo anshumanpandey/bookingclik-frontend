@@ -51,6 +51,69 @@ export type ListingItemProps = {
 const normalUseAxios = makeUseAxios({
     axios: axios.create()
 });
+
+
+const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dropoffCode,vehicle, currentVisitor }) => {
+
+    const [timer, setTimer] = useState<number | null>(null);
+
+    useEffect(() => {
+        const t = setTimeout(() => {
+            setShowModal(false)
+        }, 1000 * 3)
+        setTimer(t);
+
+        post({
+            data: {
+                //@ts-ignore
+                ip: currentVisitor.ip,
+                //@ts-ignore
+                country_code: currentVisitor.country_name,
+                grcgds_supplier_name: vehicle.grcgds_supplier_name.trim(),
+                //@ts-ignore
+                orignal_supplier_name: vehicle.carrentalcompanyname.trim(),
+                pickupLocation: pickUpCode.locationname,
+                dropoffLocation: dropoffCode.locationname,
+            }
+        })
+            .then(() => {
+                window.open(vehicle.deeplink.replace(/amp;/g, ""), '_blank')
+                setShowModal(false)
+            })
+            .catch((err: any) => {
+                setShowModal(false)
+            })
+
+        return () => {
+            timer && clearTimeout(timer);
+        }
+
+    }, []);
+
+    return (
+        <div className="main-register-wrap modal" style={{ display: show ? 'block' : 'none' }}>
+            <div className="main-overlay" onClick={() => setShowModal(false)}></div>
+            <div className="main-register-holder">
+                <div className="main-register fl-wrap custom-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <img style={{ display: 'unset' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} alt="" />
+                    <h4 style={{
+                        float: 'left',
+                        width: '100%',
+                        textAlign: 'center',
+                        padding: '20px 30px',
+                        marginBottom: '20px',
+                        fontWeight: 600,
+                        color: '#154a64',
+                        fontSize: '1.2rem',
+                    }}>
+                        Thank You for using Car Rental Click website, we are now redirecting you to the car rental company website for you to proceed with your booking.
+                        </h4>
+                </div>
+            </div>
+        </div>
+    )
+};
+
 export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [trackReq, post] = normalUseAxios(track(), { manual: true })
     const [pickUpCode] = useSearchWidgetState('pickUpCode')
@@ -84,75 +147,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
         }
     }
 
-    const RedirectModal: React.FC<{ show: boolean }> = ({ show }) => {
 
-        const [timer, setTimer] = useState<number | null>(null);
-
-        useEffect(() => {
-            const t = setTimeout(() => {
-                setShowModal(false)
-            }, 1000 * 3)
-            setTimer(t);
-
-            return () => {
-                timer && clearTimeout(timer);
-            }
-
-        }, []);
-
-        return (
-            <div className="main-register-wrap modal" style={{ display: show ? 'block' : 'none' }}>
-                <div className="main-overlay" onClick={() => setShowModal(false)}></div>
-                <div className="main-register-holder">
-                    <div className="main-register fl-wrap custom-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img style={{ display: 'unset' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} alt="" />
-                        <h4 style={{
-                            float: 'left',
-                            width: '100%',
-                            textAlign: 'center',
-                            padding: '20px 30px',
-                            marginBottom: '20px',
-                            fontWeight: 600,
-                            color: '#154a64',
-                            fontSize: '1.2rem',
-                        }}>
-                            Thank You for using Car Rental Click website, we are now redirecting you to the car rental company website for you to proceed with your booking.
-                            </h4>
-                        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                            <button onClick={() => {
-                                if (!props.currentVisitor) return
-                                if (!props.currentVisitor.ip) return
-                                if (!props.currentVisitor.country_name) return
-                                if (!props.vehicle.grcgds_supplier_name) return
-
-                                timer && clearTimeout(timer);
-                                post({
-                                    data: {
-                                        ip: props.currentVisitor.ip,
-                                        country_code: props.currentVisitor.country_name,
-                                        grcgds_supplier_name: props.vehicle.grcgds_supplier_name.trim(),
-                                        //@ts-ignore
-                                        orignal_supplier_name: props.vehicle.carrentalcompanyname.trim(),
-                                        pickupLocation: pickUpCode.locationname,
-                                        dropoffLocation: dropoffCode.locationname,
-                                    }
-                                })
-                                    .then(() => {
-                                        window.open(props.vehicle.deeplink.replace(/amp;/g, ""), '_blank')
-                                        setShowModal(false)
-                                    })
-                                    .catch((err) => {
-                                        setShowModal(false)
-                                    })
-                            }} className="log-submit-btn">
-                                <span style={{ fontWeight: 'bold', fontSize: '1rem' }}>Ok</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    };
 
     let fuelPolicy = "Like for Like"
     if (props.vehicle.fuel_policy) {
@@ -339,7 +334,15 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                     </div>
                 </ListingItemBody>
             </ListingItemInner>
-            {showModal && <RedirectModal show={showModal} />}
+            {showModal && <RedirectModal
+                show={showModal}
+                setShowModal={setShowModal}
+                post={post}
+                pickUpCode={pickUpCode}
+                dropoffCode={dropoffCode}
+                vehicle={props.vehicle}
+                currentVisitor={props.currentVisitor}
+            />}
         </div >
 
     );
