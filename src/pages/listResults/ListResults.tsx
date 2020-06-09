@@ -67,7 +67,7 @@ export function ListResult() {
         method: 'POST'
     }, { manual: true })
 
-    const [userReq] = normalUseAxios<Visitor>(getUserData())
+    const [userReq] = normalUseAxios(getUserData())
     const [ipReq] = normalUseAxios<{ ip: string }>(getUserIp())
     const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
     const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/unavailables' }, { manual: true })

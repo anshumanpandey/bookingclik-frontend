@@ -41,7 +41,7 @@ axiosInstance.interceptors.request.use(
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log('Something happened in setting up the request that triggered an Error');
-        console.log(error.message);
+        console.log(error);
       }
       return Promise.reject(error);
     }

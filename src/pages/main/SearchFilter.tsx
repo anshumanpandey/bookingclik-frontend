@@ -22,6 +22,9 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     useEffect(() => {
         setDropoffCode(null)
         setDisplayDropoffInput(false)
+
+        dispatchSearchState({ type: 'pickup.time', state: moment().set("hour", 10).set("minute", 30) })
+        dispatchSearchState({ type: 'dropoff.time', state: moment().set("hour", 10).set("minute", 30) })
     }, [])
 
     return (

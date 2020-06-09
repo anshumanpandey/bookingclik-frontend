@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import useAxios from 'axios-hooks'
+import axios from 'axios'
+import useAxios, { makeUseAxios } from 'axios-hooks'
 import { CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { GRCGDSCode, Terms } from '../../types';
@@ -10,6 +11,12 @@ import { useSearchWidgetState, dispatchSearchState } from './useSearchWidgetGlob
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
 import { dispatchFilteredState } from '../listResults/SearchGlobalState';
+import { useGlobalState } from '../../state';
+
+
+const normalUseAxios = makeUseAxios({
+  axios: axios.create()
+});
 
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -25,10 +32,18 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   const [pickUpCode] = useSearchWidgetState('pickUpCode')
   const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
 
+  const [ip] = useGlobalState('ip');
+  const [country] = useGlobalState('country');
+
   const CurrentFilter = optionToSearch === 'cars' ? CarSearchWidgetFilters : DefaultSearchWidgetFilters;
 
   const [{ data, loading, error }, doSearch] = useAxios<GRCGDSCode[]>({
     url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
+    method: 'POST'
+  }, { manual: true })
+
+  const [visitorReq, sendVisitor] = normalUseAxios({
+    url: `https://www.bookingclik.com/api/public/visitor/save`,
     method: 'POST'
   }, { manual: true })
 
@@ -55,8 +70,8 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
     const params = {
       pickUpLocationCode: searchCriteria.pickUpLocation.internalcode,
       pickUpLocationName: searchCriteria.pickUpLocation.locationname,
-      dropOffLocationCode: searchCriteria.dropOffLocation ? searchCriteria.dropOffLocation.internalcode: searchCriteria.pickUpLocation.internalcode,
-      dropOffLocationName: searchCriteria.dropOffLocation ? searchCriteria.dropOffLocation.locationname: searchCriteria.pickUpLocation.locationname,
+      dropOffLocationCode: searchCriteria.dropOffLocation ? searchCriteria.dropOffLocation.internalcode : searchCriteria.pickUpLocation.internalcode,
+      dropOffLocationName: searchCriteria.dropOffLocation ? searchCriteria.dropOffLocation.locationname : searchCriteria.pickUpLocation.locationname,
 
       pickUpDate: searchCriteria.pickUpDate.unix(),
       pickUpTime: searchCriteria.pickUpTime.unix(),
@@ -67,6 +82,24 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
 
     doSearch({ data: { json: BuildJsonQuery(searchCriteria) } })
       .then(res => {
+        const data =  {
+          ip: ip,
+          country: country,
+
+          pickupLocation: params.pickUpLocationName,
+          pickupDate: searchCriteria.pickUpDate.format('YYYY-MM-DD'),
+          pickupTime: searchCriteria.pickUpTime.format('HH:mm'),
+
+          dropoffLocation: params.dropOffLocationName,
+          dropoffDate: searchCriteria.dropOffDate.format('YYYY-MM-DD'),
+          dropoffTime: searchCriteria.dropOffTime.format('HH:mm'),
+        }
+        return sendVisitor({ data })
+        .then(() => res)
+        .catch(() => res)
+
+      })
+      .then((res) => {
         history.push({
           pathname: '/results',
           search: `?${qs.stringify(params)}`,
@@ -74,7 +107,8 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
             results: res.data,
           }
         });
-      });
+      })
+      .catch(err => console.log(err))
   }
 
   return (

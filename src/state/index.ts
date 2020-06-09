@@ -1,6 +1,8 @@
 import { createGlobalState, createStore } from 'react-hooks-global-state';
 
 type InitialState = {
+    country: string
+    ip: string
     loading: boolean
     token: null | string
     error: null | string
@@ -8,6 +10,8 @@ type InitialState = {
     profile: null | {[ key: string]: any}
 }
 const initialState: InitialState = {
+    country: '',
+    ip: '',
     loading: false,
     token: null,
     error: null,
@@ -29,6 +33,9 @@ const normalReducer = (state: any, action: { type: string, state?: any }): Initi
     switch (action.type) {
         case 'loading': {
             return { ...state, loading: action.state };
+        }
+        case 'ip': {
+            return { ...state, ip: action.state };
         }
         case 'token': {
             localStorage.setItem('token', action.state)

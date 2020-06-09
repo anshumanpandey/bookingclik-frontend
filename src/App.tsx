@@ -29,10 +29,6 @@ function App() {
         ]
     }
 
-    useEffect(() => {
-
-    }, []);
-
     return (
         <CacheBuster>
             {({ loading, isLatestVersion, refreshCacheAndReload }: any) => {
