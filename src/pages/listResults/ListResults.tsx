@@ -267,8 +267,6 @@ export function ListResult() {
                                 }
 
                                 return item
-
-                                return item
                             })
 
                         scrape.vehicle = mapperVehicles;

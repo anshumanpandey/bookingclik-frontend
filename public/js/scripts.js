@@ -723,7 +723,7 @@ function initparallax() {
     if (trueMobile) $(".bgvid , .background-vimeo , .background-youtube-wrapper ").remove();
 }
  //   instagram ------------------	
- var actoket = $('#insta-content').data("instatoken");
+ /*var actoket = $('#insta-content').data("instatoken");
  var token = actoket,
      num_photos = 6;
  $.ajax({
@@ -742,7 +742,7 @@ function initparallax() {
      error: function(data) {
          console.log(data);
      }
- });
+ });*/
     //   Star Raiting ------------------
 function cardRaining() {
     $.fn.duplicate = function (a, b) {
