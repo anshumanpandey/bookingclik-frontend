@@ -31,10 +31,10 @@ const normalUseAxios = makeUseAxios({
 });
 
 const AdRow = () => {
-    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isSm = useMediaQuery({ query: '(min-width: 1300px)' })
 
     return (
-        <div className="col-md-3">
+        <div className={isSm ? "col-md-3" : "col-md-12"}>
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
                 <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isSm ? adver : mobilead}></img>
                 <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%' }} src={isSm ? adver : mobilead}></img>
@@ -60,7 +60,7 @@ export function ListResult() {
     const [isLoading, setLoading] = useGlobalState('loading')
     const [filetredSearch] = useFilteredSearchState('filteredScrape');
     const [isfiltering] = useFilteredSearchState('isfiltering');
-    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isSm = useMediaQuery({ query: '(min-width: 1300px)' })
 
     const [{ data, loading, error }, doSearch] = useAxios({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
@@ -443,14 +443,14 @@ export function ListResult() {
                                         </Panel>
                                     </div>
                                 </div>
-                                <div className="row">
+                                <div style={{ display: isSm ? 'initial-value' : 'flex', flexDirection: 'column' }} className="row">
                                     {!isSm && <AdRow />}
-                                    <div style={{ fontSize: '14px', padding: 0 }} className="col-md-offset-1 col-md-2">
+                                    <div style={{ fontSize: '14px', padding: 0 }} className={isSm ? "col-md-offset-1 col-md-2" : "col-md-12"}>
                                         <div className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
+                                    <div className={isSm ? "col-md-6" : "col-md-12"}>
                                         <div className="fl-wrap card-listing">
                                             {Body}
                                         </div>

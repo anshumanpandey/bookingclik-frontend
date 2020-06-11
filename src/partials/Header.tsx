@@ -8,7 +8,7 @@ export const Header = () => {
     const [token] = useGlobalState('token');
     const [showModal, setShowModal] = useState<boolean>(false);
     const headerRef = React.useRef<Element | null>(null);
-    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isSm = useMediaQuery({ query: '(min-width: 1300px)' })
     const isMd = useMediaQuery({ query: '(min-width: 1064px)' })
 
     useEffect(() => {

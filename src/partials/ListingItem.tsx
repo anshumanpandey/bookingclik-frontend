@@ -126,7 +126,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [pickUpCode] = useSearchWidgetState('pickUpCode')
     const [dropoffCode] = useSearchWidgetState('dropoffCode')
 
-    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isSm = useMediaQuery({ query: '(min-width: 1300px)' })
 
     const [showModal, setShowModal] = useState(false);
     const image_url = props.vehicle.image_preview_url ? props.vehicle.image_preview_url : "images/all/no-car-found.jpg"
@@ -178,7 +178,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
             <ListingItemInner className="geodir-category-listing fl-wrap listing-item-wrapper">
                 <ListingItemBody className="geodir-category-content">
                     <div className="row" style={{ display: 'flex', flexDirection: isSm ? 'row' : 'column', alignContent: 'stretch', height: '100%', marginRight: '-20px' }}>
-                        <div className="col-md-4 " style={{ paddingLeft: 10, paddingRight: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div className={isSm ? "col-md-4": "col-md-12"} style={{ paddingLeft: 10, paddingRight: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <div style={{ marginTop: '0.5rem' }}>
                                 {props.vehicle.acriss && (
                                     <h4 style={{

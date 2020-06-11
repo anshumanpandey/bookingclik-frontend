@@ -17,7 +17,7 @@ export const SearchWidget: React.FC = () => {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
-  const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+  const isSm = useMediaQuery({ query: '(min-width: 1300px)' })
 
   const [emailReq, send] = normalUseAxios<{ ip: string }>(sendEmail(), { manual: true })
   const [success, setSuccess] = useGlobalState('success');

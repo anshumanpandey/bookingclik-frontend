@@ -55,7 +55,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
     const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
     const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/unavailables' })
 
-    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isSm = useMediaQuery({ query: '(min-width: 1300px)' })
 
     useDidMountEffect(() => {
         dispatchFilteredState({ type: 'loading', state: searchRequest.loading })
@@ -295,7 +295,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
 export const SearchFilterCars: React.FC = () => {
     const [search] = useSearchState('scrape')
     const [filteredSearch] = useFilteredSearchState('filteredScrape')
-    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isSm = useMediaQuery({ query: '(min-width: 1300px)' })
 
     const [filterReq] = useAxios<DynamicFilter[]>({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/categories/${Terms.Cars}`,

@@ -13,7 +13,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
 
-    const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isSm = useMediaQuery({ query: '(min-width: 1300px)' })
 
     useDidUpdateEffect(() => {
         dispatchSearchState({ type: 'dropoff.date', state: puDate })
@@ -94,7 +94,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
 
 
                 <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                        <div className="col-md-11 col-md-offset-1" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                        <div className={isSm ? "col-md-11 col-md-offset-1": "col-md-12"} style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                         <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Drop-off date</FormLabel>
                         <div style={{ display: 'flex'}}>
                         <div className="col-md-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0, width: '50%' }}>
