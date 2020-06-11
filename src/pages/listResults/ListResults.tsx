@@ -34,7 +34,7 @@ const AdRow = () => {
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
     return (
-        <div className="col-md-3">
+        <div className="col-md-12 col-lg-3">
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
                 <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isSm ? adver : mobilead}></img>
                 <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%' }} src={isSm ? adver : mobilead}></img>
@@ -445,12 +445,12 @@ export function ListResult() {
                                 </div>
                                 <div className="row">
                                     {!isSm && <AdRow />}
-                                    <div style={{ fontSize: '14px', padding: 0 }} className="col-md-offset-1 col-md-2">
+                                    <div style={{ fontSize: '14px', padding: 0 }} className="col-lg-offset-1 col-md-12 col-lg-2">
                                         <div className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
+                                    <div className="col-md-12 col-lg-6">
                                         <div className="fl-wrap card-listing">
                                             {Body}
                                         </div>
