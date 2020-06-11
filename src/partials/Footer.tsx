@@ -6,6 +6,17 @@ export const Footer = () => {
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
     const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
 
+    useEffect(() => {
+        $(window).on("scroll", function (a) {
+            //@ts-ignore
+            if ($(this).scrollTop() > 150) {
+                $(".to-top").fadeIn(500);
+            } else {
+                $(".to-top").fadeOut(500);
+            }
+        });
+    }, []);
+
     let isBig = true
     if (isSm == false) isBig = false
     if (isTablet == false) isBig = false
