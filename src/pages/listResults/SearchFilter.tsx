@@ -296,6 +296,11 @@ export const SearchFilterCars: React.FC = () => {
     const [search] = useSearchState('scrape')
     const [filteredSearch] = useFilteredSearchState('filteredScrape')
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
+
+    let defaultOpen = true
+    if (isSm == false) defaultOpen = false
+    if (isTablet == false) defaultOpen = false
 
     const [filterReq] = useAxios<DynamicFilter[]>({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/categories/${Terms.Cars}`,
@@ -327,7 +332,7 @@ export const SearchFilterCars: React.FC = () => {
         body = <h3>Error loading filters</h3>
     } else {
         body = (<div style={{ paddingBottom: 0 }} className="profile-edit-container add-list-container filters-panel">
-            <Panel open={isSm} defaultOpen={true} buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
+            <Panel open={defaultOpen} defaultOpen={true} buttonNode={<div className="profile-edit-header fl-wrap" style={{ paddingBottom: 0 }}>
                 <Typography gutterBottom style={{ textAlign: 'left' }}>
                     Filter
                 </Typography>

@@ -49,7 +49,7 @@ export const TimeInput: React.FC<Props> = ({ style, onChange, defaultValue }) =>
                     `${hour}:30`,
                     `${hour}:45`,
                 ];               
-            }).flat(2).map(i => <MenuItem value={i}>{i}</MenuItem>)}
+            }).flat(2).map(i => <MenuItem key={i} value={i}>{i}</MenuItem>)}
         </Select>
         </>
     )

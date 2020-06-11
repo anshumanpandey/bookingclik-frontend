@@ -32,12 +32,17 @@ const normalUseAxios = makeUseAxios({
 
 const AdRow = () => {
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
+
+    let isBig = true
+    if (isSm == false) isBig = false
+    if (isTablet == false) isBig = false
 
     return (
         <div className="col-md-12 col-lg-3">
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isSm ? adver : mobilead}></img>
-                <img style={{ alignSelf: isSm ? 'self-start' : 'center', maxWidth: '100%' }} src={isSm ? adver : mobilead}></img>
+                <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isBig ? adver : mobilead}></img>
+                <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%' }} src={isBig ? adver : mobilead}></img>
             </div>
         </div>
     );
@@ -61,6 +66,11 @@ export function ListResult() {
     const [filetredSearch] = useFilteredSearchState('filteredScrape');
     const [isfiltering] = useFilteredSearchState('isfiltering');
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
+    const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
+
+    let isBig = true
+    if (isSm == false) isBig = false
+    if (isTablet == false) isBig = false
 
     const [{ data, loading, error }, doSearch] = useAxios({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
@@ -444,9 +454,9 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    {!isSm && <AdRow />}
-                                    <div style={{ fontSize: '14px', padding: 0 }} className="col-lg-offset-1 col-md-12 col-lg-2">
-                                        <div className="fl-wrap">
+                                    {!isBig && <AdRow />}
+                                    <div style={{ fontSize: '14px', padding: isBig ? 0 : "0px 15px 0px 15px" }} className="col-lg-offset-1 col-md-12 col-lg-2">
+                                        <div style={{ marginBottom: !isBig ? '0.5rem' : 0  }} className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
                                     </div>
@@ -455,7 +465,7 @@ export function ListResult() {
                                             {Body}
                                         </div>
                                     </div>
-                                    {isSm && <AdRow />}
+                                    {isBig && <AdRow />}
                                 </div>
                             </div>
                         </div>
