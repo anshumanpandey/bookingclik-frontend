@@ -82,7 +82,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
 
     doSearch({ data: { json: BuildJsonQuery(searchCriteria) } })
       .then(res => {
-        const data =  {
+        const data = {
           ip: ip,
           country: country,
 
@@ -95,8 +95,8 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
           dropoffTime: searchCriteria.dropOffTime.format('HH:mm'),
         }
         return sendVisitor({ data })
-        .then(() => res)
-        .catch(() => res)
+          .then(() => res)
+          .catch(() => res)
 
       })
       .then((res) => {
@@ -130,11 +130,22 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
           </div>
           <div>
             <button className="main-search-button" onClick={() => send()} style={{ position: 'relative', marginTop: '1rem', borderRadius: '0.25rem', float: 'right', fontSize: '1.3rem', fontWeight: 'bold' }}>
-              Search {loading && <CircularProgress color="inherit" size={15} />}
+              Search
             </button>
           </div>
         </div>
       </div>
+      {loading && (
+        <div className="loader-wrap" style={{ justifyContent: 'center', backgroundColor: '#00476710', position: 'absolute', display: 'flex' }}>
+
+        </div>
+      )}
+      {loading && (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'fixed', zIndex: 20, top: '20rem', left: '50%', right: '50%', transform: 'translate(-50%, -50%)', width: '18rem', }}>
+          <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
+          <div style={{ position: 'unset' }} className="pulse"></div>
+        </div>
+      )}
     </div>
   );
 }

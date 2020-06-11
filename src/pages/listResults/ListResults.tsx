@@ -356,8 +356,6 @@ export function ListResult() {
                         </div>
                     )}
 
-
-
                     <ShowMore
                         items={filteredValues}
                         by={30}
