@@ -201,7 +201,6 @@ export function ListResult() {
 
                 scrapePromise
                     .then(scrape => {
-                        console.log(scrape.vehicle)
                         const mapperVehicles = scrape.vehicle.map((v: any, idx: number) => {
                             const dropDate = doDate.set('hours', 0).set('m', 0)
                             const pickDate = puDate.set('hours', 0).set('m', 0)
@@ -392,7 +391,7 @@ export function ListResult() {
     return (
         <>
             {(isfiltering || isLoading) && (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'fixed', zIndex: 20, top: '20rem', left: '40vw' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'fixed', zIndex: 20, top: '20rem', left: '50%', right: '50%', transform: 'translate(-50%, -50%)', width: '18rem', }}>
                     <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
                     <div style={{ position: 'unset' }} className="pulse"></div>
                 </div>

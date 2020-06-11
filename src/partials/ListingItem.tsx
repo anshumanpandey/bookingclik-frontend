@@ -214,7 +214,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             </div>
                         </div>
                         <div className="col-md-5" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, display: 'flex', justifyContent: 'space-around' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
+                            <div style={{ width: isSm ? 'unset': '50%',display: 'flex', flexDirection: 'column', padding: 0 }}>
                                 <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column' }}>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                         <div style={{ width: '20%' }}>
@@ -274,7 +274,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                 </div>
                             </div>
 
-                            <div style={{ paddingLeft: 0, paddingRight: 0, justifyContent: 'center' }}>
+                            <div style={{ width: isSm ? 'unset': '50%',paddingLeft: 0, paddingRight: 0, justifyContent: 'center' }}>
                                 <div className="geodir-category-location" style={{ marginTop: '0.5rem', marginBottom: '0.5rem', padding: 0, color: '#157f41' }} >
                                     <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Included for Free</p>
                                     <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Collision Damage Waiver</p>
