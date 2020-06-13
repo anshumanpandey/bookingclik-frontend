@@ -34,7 +34,7 @@ type Banners = {
     mobileBannerFileName: string,
     urlToOpen: string
 }
-const AdRow = ({ banners }: { banners: Banners | null}) => {
+const AdRow = ({ banners }: { banners: Banners | null }) => {
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
     const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
 
@@ -48,8 +48,13 @@ const AdRow = ({ banners }: { banners: Banners | null}) => {
     return (
         <div className="col-md-12 col-lg-3">
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isBig ? desktopBanner : mobileBanner}></img>
-                <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%' }} src={isBig ? desktopBanner : mobileBanner}></img>
+                <a href={banners?.urlToOpen} target="_blank">
+                    <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isBig ? desktopBanner : mobileBanner}></img>
+                </a>
+                <a href={banners?.urlToOpen} target="_blank">
+                    <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%' }} src={isBig ? desktopBanner : mobileBanner}></img>
+                </a>
+
             </div>
         </div>
     );
@@ -466,7 +471,7 @@ export function ListResult() {
                                 <div className="row">
                                     {!isBig && <AdRow banners={supplierBanners} />}
                                     <div style={{ fontSize: '14px', padding: isBig ? 0 : "0px 15px 0px 15px" }} className="col-lg-offset-1 col-md-12 col-lg-2">
-                                        <div style={{ marginBottom: !isBig ? '0.5rem' : 0  }} className="fl-wrap">
+                                        <div style={{ marginBottom: !isBig ? '0.5rem' : 0 }} className="fl-wrap">
                                             <SearchFilterCars />
                                         </div>
                                     </div>
