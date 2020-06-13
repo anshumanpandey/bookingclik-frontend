@@ -29,10 +29,17 @@ import mobilead from '../../images/mobilead.jpeg';
 const normalUseAxios = makeUseAxios({
     axios: axios.create()
 });
-
-const AdRow = () => {
+type Banners = {
+    desktopBannerFileName: string,
+    mobileBannerFileName: string,
+    urlToOpen: string
+}
+const AdRow = ({ banners }: { banners: Banners | null}) => {
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
     const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
+
+    const desktopBanner = banners ? `https://www.bookingclik.com/preview/${banners.desktopBannerFileName}` : adver
+    const mobileBanner = banners ? `https://www.bookingclik.com/preview/${banners.mobileBannerFileName}` : mobilead
 
     let isBig = true
     if (isSm == false) isBig = false
@@ -41,8 +48,8 @@ const AdRow = () => {
     return (
         <div className="col-md-12 col-lg-3">
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isBig ? adver : mobilead}></img>
-                <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%' }} src={isBig ? adver : mobilead}></img>
+                <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isBig ? desktopBanner : mobileBanner}></img>
+                <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%' }} src={isBig ? desktopBanner : mobileBanner}></img>
             </div>
         </div>
     );
@@ -67,6 +74,7 @@ export function ListResult() {
     const [isfiltering] = useFilteredSearchState('isfiltering');
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
     const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
+    const [supplierBanners, setSupplierBanners] = useState(null);
 
     let isBig = true
     if (isSm == false) isBig = false
@@ -83,6 +91,14 @@ export function ListResult() {
     const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/unavailables' }, { manual: true })
 
     const urlParams = queryString.parse(history.location.search)
+
+    const [bannersReq] = normalUseAxios({ url: `http://localhost:4010/api/public/banner/random?locationCode=${pickUpCode?.internalcode}` })
+    useEffect(() => {
+        if (bannersReq.data) {
+            setSupplierBanners(bannersReq.data)
+        }
+    }, [bannersReq.loading])
+
 
     useEffect(() => {
         if (!blacklistReq.data) return
@@ -448,7 +464,7 @@ export function ListResult() {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    {!isBig && <AdRow />}
+                                    {!isBig && <AdRow banners={supplierBanners} />}
                                     <div style={{ fontSize: '14px', padding: isBig ? 0 : "0px 15px 0px 15px" }} className="col-lg-offset-1 col-md-12 col-lg-2">
                                         <div style={{ marginBottom: !isBig ? '0.5rem' : 0  }} className="fl-wrap">
                                             <SearchFilterCars />
@@ -459,7 +475,7 @@ export function ListResult() {
                                             {Body}
                                         </div>
                                     </div>
-                                    {isBig && <AdRow />}
+                                    {isBig && <AdRow banners={supplierBanners} />}
                                 </div>
                             </div>
                         </div>
