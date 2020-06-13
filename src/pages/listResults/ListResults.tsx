@@ -92,7 +92,7 @@ export function ListResult() {
 
     const urlParams = queryString.parse(history.location.search)
 
-    const [bannersReq] = normalUseAxios({ url: `http://localhost:4010/api/public/banner/random?locationCode=${pickUpCode?.internalcode}` })
+    const [bannersReq] = normalUseAxios({ url: `https://www.bookingclik.com/preview/api/public/banner/random?locationCode=${pickUpCode?.internalcode}` })
     useEffect(() => {
         if (bannersReq.data) {
             setSupplierBanners(bannersReq.data)
