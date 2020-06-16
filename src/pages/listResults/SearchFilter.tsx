@@ -52,8 +52,8 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
         method: 'POST',
     }, { manual: true })
 
-    const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
-    const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/unavailables' })
+    const [blacklistReq] = normalUseAxios({ url: process.env.REACT_APP_BLACKLISTED_COMPANIES_URL })
+    const [unavailableReq, getUnavailable] = normalUseAxios({ url: process.env.REACT_APP_UNAVAILABLES_COMPANIES_URL })
 
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
@@ -64,6 +64,10 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
     useDidMountEffect(() => {
         send()
     }, [dynamicFilters.length]);
+
+    useEffect(() => {
+        if (!displayDropoffInput) setDoLocation(null)
+    }, [innerPuLocation])
 
     useEffect(() => {
         if ((innerPuLocation && innterDoLocation) && innerPuLocation.internalcode == innterDoLocation.internalcode) {

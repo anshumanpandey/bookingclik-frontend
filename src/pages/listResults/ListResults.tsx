@@ -92,12 +92,12 @@ export function ListResult() {
 
     const [userReq] = normalUseAxios(getUserData())
     const [ipReq] = normalUseAxios<{ ip: string }>(getUserIp())
-    const [blacklistReq] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/super/blacklist/all' })
-    const [unavailableReq, getUnavailable] = normalUseAxios({ url: 'https://www.bookingclik.com/api/public/unavailables' }, { manual: true })
+    const [blacklistReq] = normalUseAxios({ url: process.env.REACT_APP_BLACKLISTED_COMPANIES_URL })
+    const [unavailableReq, getUnavailable] = normalUseAxios({ url: process.env.REACT_APP_UNAVAILABLES_COMPANIES_URL }, { manual: true })
 
     const urlParams = queryString.parse(history.location.search)
 
-    const [bannersReq] = normalUseAxios({ url: `https://www.bookingclik.com/preview/api/public/banner/random?locationCode=${pickUpCode?.internalcode}` })
+    const [bannersReq] = normalUseAxios({ url: `${process.env.REACT_APP_RANDOM_BANNER_URL}?locationCode=${pickUpCode?.internalcode}` })
     useEffect(() => {
         if (bannersReq.data) {
             setSupplierBanners(bannersReq.data)
@@ -132,14 +132,14 @@ export function ListResult() {
                 }
                 return true;
             })
-            .filter((i: any) => {
+            .filter((i: any,idx: number, arr: []) => {
                 if (unavailableReq.data) {
                     const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
                     return !names.includes(i.vehicle.grcgds_supplier_name.toLowerCase().trim())
                 }
                 return true
             })
-            .map((i: any) => {
+            .map((i: any, idx: number, arr: []) => {
                 const item = {
                     vehicle: {
                         ...i.vehicle,
@@ -230,6 +230,7 @@ export function ListResult() {
 
                 scrapePromise
                     .then(scrape => {
+                        console.log(scrape.vehicle)
                         const mapperVehicles = scrape.vehicle.map((v: any, idx: number) => {
                             const dropDate = doDate.set('hours', 0).set('m', 0)
                             const pickDate = puDate.set('hours', 0).set('m', 0)
