@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { configure } from 'axios-hooks'
-import { AxiosRequestConfig, AxiosPromise } from 'axios';
+import Axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
 import { axiosInstance } from './AxiosBootstrap';
  
 configure({ axios: axiosInstance })
@@ -17,7 +17,7 @@ export const useHttp = <T>(config?: AxiosRequestConfig): [RequestData<T>, HookRe
       { data, loading, error},
       (over?: AxiosRequestConfig) => {
         setLoading(true)
-        return axiosInstance({ ...config, ...over})
+        return Axios({ ...config, ...over})
         .then(r => {
           setLoading(false)
           setData(r.data)
