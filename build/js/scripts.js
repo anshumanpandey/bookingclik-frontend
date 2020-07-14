@@ -359,7 +359,7 @@ function initCitybook() {
         5: '<i class="fa fa-warning"></i> E-mail address is not valid.'
     };
     //   Video------------------
-    var v = $(".background-youtube-wrapper").data("vid");
+    /*var v = $(".background-youtube-wrapper").data("vid");
     var f = $(".background-youtube-wrapper").data("mv");
     $(".background-youtube-wrapper").YTPlayer({
         fitToBackground: true,
@@ -369,7 +369,7 @@ function initCitybook() {
         callback: function () {
             var a = $(".background-youtube-wrapper").data("ytPlayer").player;
         }
-    });
+    });*/
 
     var w = $(".background-vimeo").data("vim"),
 		bvc = $(".background-vimeo"),
@@ -442,13 +442,16 @@ function initCitybook() {
         return false;
     });
     // scroll animation ------------------
+    /*
+    commented code in order to avoid 
+    https://developer.mozilla.org/en-US/docs/Mozilla/Performance/Scroll-linked_effects
     $(window).on("scroll", function (a) {
         if ($(this).scrollTop() > 150) {
             $(".to-top").fadeIn(500);
         } else {
             $(".to-top").fadeOut(500);
         }
-    });
+    });*/
     // collage image position ------------------
     $(".images-collage-item").each(function () {
         var tcp = $(this),
@@ -723,7 +726,7 @@ function initparallax() {
     if (trueMobile) $(".bgvid , .background-vimeo , .background-youtube-wrapper ").remove();
 }
  //   instagram ------------------	
- var actoket = $('#insta-content').data("instatoken");
+ /*var actoket = $('#insta-content').data("instatoken");
  var token = actoket,
      num_photos = 6;
  $.ajax({
@@ -742,7 +745,7 @@ function initparallax() {
      error: function(data) {
          console.log(data);
      }
- });
+ });*/
     //   Star Raiting ------------------
 function cardRaining() {
     $.fn.duplicate = function (a, b) {

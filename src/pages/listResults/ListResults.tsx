@@ -127,13 +127,15 @@ export function ListResult() {
                                 isBlacklisted = true;
                             }
                         })
-
+                    
+                        if (isBlacklisted) {
+                            console.log(`cleaning`, i.vehicle)
+                        }
                     return isBlacklisted;
                 }
                 return true;
             })
             .filter((i: any,idx: number, arr: []) => {
-                console.log(i.vehicle)
 
                 if (unavailableReq.data) {
                     const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
