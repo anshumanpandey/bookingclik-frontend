@@ -121,7 +121,7 @@ export function ListResult() {
                             if (c.companies.length == 0) isBlacklisted = true
                             if (!i.vehicle.original_supplier) return false;
 
-                            const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
+                            const exist = c.companies.map(g => g.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
 
                             if (!exist) {
                                 isBlacklisted = true;
@@ -133,6 +133,8 @@ export function ListResult() {
                 return true;
             })
             .filter((i: any,idx: number, arr: []) => {
+                console.log(i.vehicle)
+
                 if (unavailableReq.data) {
                     const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
                     return !names.includes(i.vehicle.grcgds_supplier_name.toLowerCase().trim())
