@@ -128,7 +128,7 @@ export function ListResult() {
                             }
                         })
                     
-                        if (isBlacklisted) {
+                        if (!isBlacklisted) {
                             console.log(`cleaning`, i.vehicle)
                         }
                     return isBlacklisted;
