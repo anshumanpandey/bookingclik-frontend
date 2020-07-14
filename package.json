@@ -64,7 +64,7 @@
     "start": "REACT_APP_BACKEND_URL=https://bookingclik.herokuapp.com react-scripts start",
     "dev": "REACT_APP_BACKEND_URL=http://localhost:3030 REACT_APP_BACKEND_ADMIN_URL=http://localhost:3010 react-scripts start",
     "prebuild": "node ./cachereset.js",
-    "build": "REACT_APP_BLACKLISTED_COMPANIES_URL=https://www.bookingclik.com/preview/api/public/super/blacklist/all REACT_APP_UNAVAILABLES_COMPANIES_URL=https://www.bookingclik.com/api/public/unavailables REACT_APP_RANDOM_BANNER_URL=https://www.bookingclik.com/api/public/banner/random REACT_APP_CLICK_TRACK_URL=https://www.bookingclik.com/api/public/click REACT_APP_ACCOUNT_TYPE=3 REACT_APP_ACCOUNT_ID=GRC1200012 REACT_APP_GRCGDS_BACKEND=https://www.grcgds.com/admincarrental/api react-scripts build",
+    "build": "REACT_APP_BLACKLISTED_COMPANIES_URL=https://www.bookingclik.com/api/public/super/blacklist/all REACT_APP_UNAVAILABLES_COMPANIES_URL=https://www.bookingclik.com/api/public/unavailables REACT_APP_RANDOM_BANNER_URL=https://www.bookingclik.com/api/public/banner/random REACT_APP_CLICK_TRACK_URL=https://www.bookingclik.com/api/public/click REACT_APP_ACCOUNT_TYPE=3 REACT_APP_ACCOUNT_ID=GRC1200012 REACT_APP_GRCGDS_BACKEND=https://www.grcgds.com/admincarrental/api react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
