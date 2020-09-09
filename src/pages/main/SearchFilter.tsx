@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormControlLabel, FormLabel, Checkbox } from '@material-ui/core';
+import { FormControlLabel, FormLabel, Checkbox, FormControl, InputLabel, Select, MenuItem, makeStyles, InputBase } from '@material-ui/core';
 import { DateInput, LocationDropdown, TimeInput } from '../../partials';
 import { useSearchWidgetState, dispatchSearchState } from './useSearchWidgetGlobalState';
 import { useMediaQuery } from 'react-responsive'
@@ -11,6 +11,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     const [puDate] = useSearchWidgetState('puDate')
     const [pickupCode, setPickupCode] = useSearchWidgetState('pickUpCode')
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
+    const [age, setAge] = useSearchWidgetState('age')
     const [displayDropoffInput, setDisplayDropoffInput] = useState(false)
 
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
@@ -29,19 +30,40 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
 
     useEffect(() => {
         if (!displayDropoffInput) setDropoffCode(null)
-    },[pickupCode])
+    }, [pickupCode])
 
     return (
         <>
             <div className="row">
                 <div className="col-md-12" style={{ marginBottom: displayDropoffInput ? '1rem' : 0, display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
-                    <LocationDropdown defaultCode={pickupCode} onChange={setPickupCode} style={{
-                        borderTopLeftRadius: '30px',
-                        borderBottomLeftRadius: '30px',
-                        width: '100%',
-                        backgroundColor: 'white',
-                        borderRadius: '0.25rem'
-                    }} />
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div style={{ paddingRight: '1rem', width: '100%'}}>
+                            <LocationDropdown defaultCode={pickupCode} onChange={setPickupCode} style={{
+                                borderTopLeftRadius: '30px',
+                                borderBottomLeftRadius: '30px',
+                                width: '100%',
+                                backgroundColor: 'white',
+                                borderRadius: '0.25rem'
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', width: '8%'}}>
+                            <FormControl fullWidth={true} variant="outlined">
+                                <Select
+                                    className="TimeInput"
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={age}
+                                    onChange={(e) => setAge(e.target.value)}
+                                    input={<InputBase style={{ backgroundColor: 'white', borderRadius: 6 }} />}
+                                >
+                                    {Array(67).fill(1).map((_, idx) => {
+                                        return <MenuItem value={idx+19}>{idx+19}</MenuItem>
+                                    })}
+                                </Select>
+                            </FormControl>
+                        </div>
+                    </div>
+
                     <FormControlLabel
                         style={{ color: 'white' }}
                         control={<Checkbox onChange={() => {

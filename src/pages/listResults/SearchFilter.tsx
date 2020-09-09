@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useAxios, { makeUseAxios } from 'axios-hooks'
-import { CircularProgress, Checkbox, FormControlLabel, FormLabel, Typography } from '@material-ui/core';
+import { CircularProgress, Checkbox, FormControlLabel, FormLabel, Typography, FormControl, MenuItem, Select, InputBase } from '@material-ui/core';
 import { LocationDropdown } from '../../partials/LocationDropdown';
 import { DateInput } from '../../partials';
 import { Panel } from '../../partials/Panel';
@@ -35,6 +35,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
     const [puTime] = useSearchWidgetState('puTime')
     const [pickUpCode] = useSearchWidgetState('pickUpCode')
     const [dropoffCode] = useSearchWidgetState('dropoffCode')
+    const [age, setAge] = useSearchWidgetState('age')
 
     const [innerPuLocation, setPuLocation] = useState(pickUpCode);
     const [innterDoLocation, setDoLocation] = useState(dropoffCode);
@@ -127,7 +128,8 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
             pickUpTime: innerPuTime ? innerPuTime : moment(),
             dropOffDate: innerDoDate ? innerDoDate : moment(),
             dropOffTime: innerDoTime ? innerDoTime : moment(),
-            filters: dynamicFilters
+            filters: dynamicFilters,
+            age
         }
 
         dispatchFilteredState({ type: 'loading', state: true })
@@ -149,27 +151,27 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                             daySpan
                         };
                     })
-                    .filter((i: any) => {
-                        if (blacklistReq.data) {
-                            let isBlacklisted = false;
-                            blacklistReq.data
-                            .filter((c: any) => c.supplierName)
-                            .filter((c: any) => c.supplierName.toLowerCase().trim() == i.vehicle.grcgds_supplier_name.toLowerCase().trim())
-                            .forEach((c: { supplierName: string, companies: string[] }) => {
-                                if (c.companies.length == 0) isBlacklisted = true
-                                if (!i.vehicle.original_supplier) return false;                    
-            
-                                const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
-                                
-                                if (!exist){
-                                    isBlacklisted = true;
-                                }                                        
-                            })
-            
-                            return isBlacklisted;
-                        }
-                        return true;
-                    })
+                        .filter((i: any) => {
+                            if (blacklistReq.data) {
+                                let isBlacklisted = false;
+                                blacklistReq.data
+                                    .filter((c: any) => c.supplierName)
+                                    .filter((c: any) => c.supplierName.toLowerCase().trim() == i.vehicle.grcgds_supplier_name.toLowerCase().trim())
+                                    .forEach((c: { supplierName: string, companies: string[] }) => {
+                                        if (c.companies.length == 0) isBlacklisted = true
+                                        if (!i.vehicle.original_supplier) return false;
+
+                                        const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
+
+                                        if (!exist) {
+                                            isBlacklisted = true;
+                                        }
+                                    })
+
+                                return isBlacklisted;
+                            }
+                            return true;
+                        })
                         .filter((i: any) => {
                             if (unavailableReq.data) {
                                 const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
@@ -193,7 +195,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                             if (!item.vehicle.name.includes(' Or Similar')) {
                                 item.vehicle.name = `${item.vehicle.name} Or Similar`
                             }
-            
+
                             return item
                         })
                     res.data.scrape.vehicle = mapperVehicles;
@@ -208,12 +210,32 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
             <div className="listsearch-input-wrap fl-wrap" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#154a64' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column' }}>
-                        <LocationDropdown
-                            secondary={true}
-                            defaultCode={innerPuLocation}
-                            style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
-                            customeClasses="listsearch-input-item m-b-0"
-                            onChange={(v) => setPuLocation(v)} />
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            <div style={{ paddingRight: '1rem', width: '100%' }}>
+                                <LocationDropdown
+                                    secondary={true}
+                                    defaultCode={innerPuLocation}
+                                    style={{ backgroundColor: 'white', color: 'black', borderRadius: '6px' }}
+                                    customeClasses="listsearch-input-item m-b-0"
+                                    onChange={(v) => setPuLocation(v)} />
+                            </div>
+                            <div style={{ display: 'flex', width: '8%' }}>
+                                <FormControl fullWidth={true} variant="outlined">
+                                    <Select
+                                        className="TimeInput"
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={age}
+                                        onChange={(e) => setAge(e.target.value)}
+                                        input={<InputBase style={{ backgroundColor: 'white', borderRadius: 6 }} />}
+                                    >
+                                        {Array(67).fill(1).map((_, idx) => {
+                                            return <MenuItem value={idx + 19}>{idx + 19}</MenuItem>
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            </div>
+                        </div>
                     </div>
                     <FormControlLabel
                         style={{ color: 'white' }}

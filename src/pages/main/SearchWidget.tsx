@@ -29,6 +29,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
   const [puTime, setPuTime] = useSearchWidgetState('puTime')
   const [doDate, setDoDate] = useSearchWidgetState('doDate')
   const [doTime, setDoTime] = useSearchWidgetState('doTime')
+  const [age] = useSearchWidgetState('age')
   const [pickUpCode] = useSearchWidgetState('pickUpCode')
   const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
 
@@ -78,6 +79,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
 
       dropOffDate: searchCriteria.dropOffDate.unix(),
       dropOffTime: searchCriteria.dropOffTime.unix(),
+      age: age,
     }
 
     doSearch({ data: { json: BuildJsonQuery(searchCriteria) } })

@@ -13,6 +13,7 @@ type Params = {
   dropOffLocation: GRCGDSCode
 
   filters?: DinamicFilter[]
+  age?: number
 }
 
 export default (params: Params) => {
@@ -88,7 +89,7 @@ export default (params: Params) => {
         "Customer": {
           "Primary": {
             "DriverType": {
-              "@Age": "30"
+              "@Age": params.age ? params.age: "30"
             },
             "CitizenCountryName": {
               "@Code": "GB"
