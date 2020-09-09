@@ -305,7 +305,25 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                             <MenuItem value={24}>{24}</MenuItem>
                                             <MenuItem value={"25-65"}>25-65</MenuItem>
                                             <MenuItem value={"66"}>66</MenuItem>
-                                            <MenuItem value={"67-85"}>67 to 85</MenuItem>
+                                            <MenuItem value={"67"}>67</MenuItem>
+                                            <MenuItem value={"68"}>68</MenuItem>
+                                            <MenuItem value={"69"}>69</MenuItem>
+                                            <MenuItem value={"70"}>70</MenuItem>
+                                            <MenuItem value={"71"}>71</MenuItem>
+                                            <MenuItem value={"72"}>72</MenuItem>
+                                            <MenuItem value={"73"}>73</MenuItem>
+                                            <MenuItem value={"74"}>74</MenuItem>
+                                            <MenuItem value={"75"}>75</MenuItem>
+                                            <MenuItem value={"76"}>76</MenuItem>
+                                            <MenuItem value={"77"}>77</MenuItem>
+                                            <MenuItem value={"78"}>78</MenuItem>
+                                            <MenuItem value={"79"}>79</MenuItem>
+                                            <MenuItem value={"80"}>80</MenuItem>
+                                            <MenuItem value={"81"}>81</MenuItem>
+                                            <MenuItem value={"82"}>82</MenuItem>
+                                            <MenuItem value={"83"}>83</MenuItem>
+                                            <MenuItem value={"84"}>84</MenuItem>
+                                            <MenuItem value={"85"}>85</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </div>
