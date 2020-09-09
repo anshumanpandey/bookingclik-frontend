@@ -219,22 +219,6 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                     customeClasses="listsearch-input-item m-b-0"
                                     onChange={(v) => setPuLocation(v)} />
                             </div>
-                            <div style={{ display: 'flex', width: '8%' }}>
-                                <FormControl fullWidth={true} variant="outlined">
-                                    <Select
-                                        className="TimeInput"
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={age}
-                                        onChange={(e) => setAge(e.target.value)}
-                                        input={<InputBase style={{ backgroundColor: 'white', borderRadius: 6 }} />}
-                                    >
-                                        {Array(67).fill(1).map((_, idx) => {
-                                            return <MenuItem value={idx + 19}>{idx + 19}</MenuItem>
-                                        })}
-                                    </Select>
-                                </FormControl>
-                            </div>
                         </div>
                     </div>
                     <FormControlLabel
@@ -264,7 +248,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                             <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Pick-up date</FormLabel>
                             <div style={{ display: 'flex', justifyContent: isSm ? 'unset' : 'space-between' }}>
-                                <div className="listsearch-input-item" style={{ width: isSm ? '40%' : '50%', display: 'flex', alignItems: 'stretch' }}>
+                                <div className="listsearch-input-item" style={{ width: '50%', display: 'flex', alignItems: 'stretch' }}>
                                     <DateInput style={{
                                         borderRadius: '6px',
                                         marginRight: '0.5rem',
@@ -283,7 +267,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                         <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                             <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Drop-off date</FormLabel>
                             <div style={{ display: 'flex', justifyContent: isSm ? 'unset' : 'space-between' }}>
-                                <div className="listsearch-input-item" style={{ width: isSm ? '40%' : '50%', display: 'flex', alignItems: 'stretch' }}>
+                                <div className="listsearch-input-item" style={{ width: '50%', display: 'flex', alignItems: 'stretch' }}>
                                     <DateInput style={{
                                         borderRadius: '6px',
                                         border: 'unset',
@@ -299,6 +283,35 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                 </div>
                             </div>
                         </div>
+
+                        <div style={{ width: isSm ? '15%': '100%', display: 'flex', flexDirection: 'column' }}>
+                            <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Age</FormLabel>
+                            <div style={{ display: 'flex', justifyContent: isSm ? 'unset' : 'space-between', flex: 1 }}>
+                                <div className="listsearch-input-item" style={{ width: "100%", display: 'flex', alignItems: 'stretch' }}>
+                                    <FormControl fullWidth={true} variant="outlined">
+                                        <Select
+                                            className="TimeInput"
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={age}
+                                            onChange={(e) => setAge(e.target.value)}
+                                            input={<InputBase style={{ backgroundColor: 'white', borderRadius: 6, height: '3rem' }} />}
+                                        >
+                                            <MenuItem value={19}>{19}</MenuItem>
+                                            <MenuItem value={20}>{20}</MenuItem>
+                                            <MenuItem value={21}>{21}</MenuItem>
+                                            <MenuItem value={22}>{22}</MenuItem>
+                                            <MenuItem value={23}>{23}</MenuItem>
+                                            <MenuItem value={24}>{24}</MenuItem>
+                                            <MenuItem value={"25-65"}>25-65</MenuItem>
+                                            <MenuItem value={"66"}>66</MenuItem>
+                                            <MenuItem value={"67-85"}>67 to 85</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <button style={{ backgroundColor: '#03bfcb', color: 'white', fontSize: '1.3rem', float: 'right', fontWeight: 'bold', alignSelf: 'end' }} onClick={() => {
                         dispatchSearchState({ type: 'pickup.date', state: innerPuDate })

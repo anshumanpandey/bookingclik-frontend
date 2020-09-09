@@ -37,7 +37,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
             <div className="row">
                 <div className="col-md-12" style={{ marginBottom: displayDropoffInput ? '1rem' : 0, display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <div style={{ paddingRight: '1rem', width: '100%'}}>
+                        <div style={{ paddingRight: '1rem', width: '100%' }}>
                             <LocationDropdown defaultCode={pickupCode} onChange={setPickupCode} style={{
                                 borderTopLeftRadius: '30px',
                                 borderBottomLeftRadius: '30px',
@@ -45,22 +45,6 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                 backgroundColor: 'white',
                                 borderRadius: '0.25rem'
                             }} />
-                        </div>
-                        <div style={{ display: 'flex', width: '8%'}}>
-                            <FormControl fullWidth={true} variant="outlined">
-                                <Select
-                                    className="TimeInput"
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={age}
-                                    onChange={(e) => setAge(e.target.value)}
-                                    input={<InputBase style={{ backgroundColor: 'white', borderRadius: 6 }} />}
-                                >
-                                    {Array(67).fill(1).map((_, idx) => {
-                                        return <MenuItem value={idx+19}>{idx+19}</MenuItem>
-                                    })}
-                                </Select>
-                            </FormControl>
                         </div>
                     </div>
 
@@ -90,7 +74,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                 </div>
             </div>
             <div className="row" style={{ justifyContent: 'space-around', flexDirection: isSm ? 'unset' : 'column' }}>
-                <div className="col-md-12 col-lg-6" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                <div className="col-md-12 col-lg-5" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                     <FormLabel style={{ color: 'white', alignSelf: 'flex-start', flexDirection: 'column', marginBottom: '0.5rem' }}>Pick-up date</FormLabel>
                     <div style={{ display: 'flex', flexDirection: isSm ? 'unset' : 'row' }}>
                         <div className="col-md-12 col-lg-6" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0, width: '50%' }}>
@@ -119,7 +103,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
 
 
 
-                <div className="col-md-12 col-lg-6" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                <div className="col-md-12 col-lg-5" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                     <div className="col-md-12 col-lg-11 col-lg-offset-1" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
                         <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Drop-off date</FormLabel>
                         <div style={{ display: 'flex' }}>
@@ -145,6 +129,35 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="col-md-12 col-lg-2" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div className="col-md-12 col-lg-11 col-lg-offset-1" style={{ display: 'flex', flexDirection: 'column', paddingRight: 0, paddingLeft: 0 }}>
+                        <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Age</FormLabel>
+                        <div style={{ display: 'flex' }}>
+                            <FormControl fullWidth={true} variant="outlined">
+                                <Select
+                                    className="TimeInput"
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={age}
+                                    onChange={(e) => setAge(e.target.value)}
+                                    input={<InputBase style={{ backgroundColor: 'white', borderRadius: 6, height: '3rem' }} />}
+                                >
+                                    <MenuItem value={19}>{19}</MenuItem>
+                                    <MenuItem value={20}>{20}</MenuItem>
+                                    <MenuItem value={21}>{21}</MenuItem>
+                                    <MenuItem value={22}>{22}</MenuItem>
+                                    <MenuItem value={23}>{23}</MenuItem>
+                                    <MenuItem value={24}>{24}</MenuItem>
+                                    <MenuItem value={"25-65"}>25-65</MenuItem>
+                                    <MenuItem value={"66"}>66</MenuItem>
+                                    <MenuItem value={"67-85"}>67 to 85</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </>

@@ -13,7 +13,7 @@ type ContextType = {
 
     pickUpCode: GRCGDSCode | null,
     dropoffCode: GRCGDSCode | null,
-    age: number,
+    age: string,
 }
 const initialState: ContextType = {
     term: Terms.Cars,
@@ -24,7 +24,7 @@ const initialState: ContextType = {
     doTime: null,
     pickUpCode: null,
     dropoffCode: null,
-    age: 19,
+    age: "25-65",
 }
 
 const puCodeInternalcode = localStorage.getItem('pickup.code.internalcode')

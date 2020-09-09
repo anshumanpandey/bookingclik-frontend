@@ -99,30 +99,6 @@ export const Header = () => {
                                     Contact Us
                                 </Link>
                             </li>
-                            {!token ? (
-                                <li
-                                    style={{ cursor: 'pointer', height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
-                                    className="no-hover"
-                                    ref={(e) => headerRef.current = e}
-                                    onClick={(e) => {
-                                        Object.assign(document.createElement('a'), {
-                                            target: '_blank',
-                                            href: `https://www.bookingclik.com/admin`,
-                                        }).click();
-                                    }}>
-                                    <a style={{ color: 'white'}} onClick={(e)=> e.preventDefault()} href="#">
-                                        <i style={{ marginRight: '0.2rem' }} className="fas fa-sign-in-alt"></i>Sign In
-                                    </a>
-                                </li>
-                            ) :
-                                <li
-                                    style={{ cursor: 'pointer', height: '100%', display: 'flex', alignItems: 'center', margin: 'unset', padding: '0.5rem', color: showModal ? 'black' : 'white', backgroundColor: showModal ? 'white' : '' }}
-                                    className="no-hover"
-                                    ref={(e) => headerRef.current = e}
-                                    onClick={(e) => dispatchGlobalState({ type: 'logout' })}>
-                                    <i style={{ marginRight: '0.2rem' }} className="fas fa-sign-out-alt"></i>Log out
-                        </li>
-                            }
                         </ul>
                     </nav>
                 </div>
