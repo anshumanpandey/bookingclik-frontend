@@ -151,7 +151,6 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                     <MenuItem value={24}>{24}</MenuItem>
                                     <MenuItem value={"25-65"}>25-65</MenuItem>
                                     <MenuItem value={"66"}>66</MenuItem>
-                                    <MenuItem value={"66"}>66</MenuItem>
                                     <MenuItem value={"67"}>67</MenuItem>
                                     <MenuItem value={"68"}>68</MenuItem>
                                     <MenuItem value={"69"}>69</MenuItem>
