@@ -8,7 +8,7 @@ const normalUseAxios = makeUseAxios({
 });
 
 export const CarsTab: React.FC = () => {
-    const [topLocationReq] = normalUseAxios({ url: `http://localhost:4010/api/public/about/get` })
+    const [topLocationReq] = normalUseAxios({ url: `https://www.bookingclik.com/api/public/about/get` })
 
     return (
         <>

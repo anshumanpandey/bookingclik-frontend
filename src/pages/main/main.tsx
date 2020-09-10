@@ -13,7 +13,7 @@ const normalUseAxios = makeUseAxios({
 
 export function Main() {
     const [userReq] = normalUseAxios({ url: `https://www.cloudflare.com/cdn-cgi/trace` })
-    const [topLocationReq] = normalUseAxios({ url: `http://localhost:4010/api/public/top-locations/get` })
+    const [topLocationReq] = normalUseAxios({ url: `https://www.bookingclik.com/api/public/top-locations/get` })
     const [, setIp] = useGlobalState('ip');
     const [, setCountry] = useGlobalState('country');
 
