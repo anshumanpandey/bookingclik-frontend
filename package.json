@@ -34,6 +34,7 @@
     "decimal.js": "^10.2.0",
     "formik": "^2.1.4",
     "fuzzy-search": "^3.2.1",
+    "html-react-parser": "^0.13.0",
     "hybrid-crypto-js": "^0.2.2",
     "jquery": "^3.4.1",
     "jsencrypt": "^3.0.0-rc.1",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { makeUseAxios } from 'axios-hooks';
+import parse from 'html-react-parser';
 
 const normalUseAxios = makeUseAxios({
     axios: axios.create()
@@ -28,7 +29,7 @@ export const CarsTab: React.FC = () => {
                     </div>
                     <span className="section-separator"></span>
                     {topLocationReq.loading && <div className="pulse"></div>}
-                    <p>{!topLocationReq.loading && topLocationReq.data.body}</p>
+                    <p>{!topLocationReq.loading && parse(topLocationReq.data.body)}</p>
                     <div className="countdown fl-wrap">
                         <h3 style={{
                             color: '#fff',
