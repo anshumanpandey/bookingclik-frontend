@@ -6,6 +6,7 @@ import { makeUseAxios } from 'axios-hooks'
 import { useSplashScreen } from '../../utils/UseSplashScreen';
 import { useGlobalState } from '../../state';
 import CountriesJson from '../../partials/CountriesJson.json';
+import parse from 'html-react-parser';
 
 const normalUseAxios = makeUseAxios({
     axios: axios.create()
@@ -14,6 +15,8 @@ const normalUseAxios = makeUseAxios({
 export function Main() {
     const [userReq] = normalUseAxios({ url: `https://www.cloudflare.com/cdn-cgi/trace` })
     const [topLocationReq] = normalUseAxios({ url: `https://www.bookingclik.com/api/public/top-locations/get` })
+    const [aboutReq] = normalUseAxios({ url: `https://www.bookingclik.com/api/public/about/get` })
+
     const [, setIp] = useGlobalState('ip');
     const [, setCountry] = useGlobalState('country');
 
@@ -40,7 +43,18 @@ export function Main() {
                         <CarsTab />
                     </div>
                     <section className="gray-section">
-                        <div className="container">
+                        <div className="container" style={{ margin: 'auto'}}>
+                            <div className="section-title">
+                                <h2>About Us</h2>
+                            </div>
+                        </div>
+                        <div className="container" style={{ margin: 'auto'}}>
+                            {aboutReq.loading && <div className="pulse"></div>}
+                            <p>{!aboutReq.loading && parse(aboutReq.data.body)}</p>
+                        </div>
+                    </section>
+                    <section className="gray-section">
+                        <div className="container" style={{ margin: 'auto'}}>
                             <div className="section-title">
                                 <h2>Top Locations</h2>
                             </div>
@@ -53,23 +67,14 @@ export function Main() {
                                         return (
                                             <div className="slick-slide-item" style={{ maxWidth: '33%' }}>
                                                 <div className="listing-item">
-                                                    <article className="geodir-category-listing fl-wrap">
-                                                        <div className="geodir-category-img">
-                                                            <img style={{ height: 300 }} src={l.imagePath} alt="" />
-                                                            <h3 style={{
+                                                    <article style={{ border: "unset"}} className="geodir-category-listing fl-wrap">
+                                                        <h3 style={{
                                                                 float: "left",
                                                                 width: "100%",
-                                                                marginBottom: "10px",
-                                                                position: "absolute",
-                                                                zIndex: 10,
-                                                                left: 0,
-                                                                right: 0,
-                                                                bottom: 0,
                                                                 fontSize: "20px",
                                                                 fontWeight: 600,
                                                                 color: "#334e6f"
                                                             }}>{l.name}</h3>
-                                                        </div>
                                                     </article>
                                                 </div>
                                             </div>
