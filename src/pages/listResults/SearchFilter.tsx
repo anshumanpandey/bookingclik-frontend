@@ -398,9 +398,22 @@ export const SearchFilterCars: React.FC = () => {
                     <div className="row">
                         <div className="col-md-12">
                             <SimpleTagSearchWidget
-                                options={[{ label: 'Standard Key', value: 'yes' }, { label: 'Key Less', value: 'no' }]}
+                                options={[{ label: 'Standard Key', value: 'yes', cars: filteredSearch.vehicle, total: filteredSearch.vehicle }, { label: 'Key Less', value: 'no', cars: [], total: [] }]}
                                 category={{ name: 'Key Type', propertyToWatch: 'rental_car_company', type: 'tag' }}
+                                hidePrice={true}
                                 onChange={(valuesToFilterFor) => {
+                                    console.log(valuesToFilterFor)
+                                    dispatchFilteredState({ type: 'loading', state: true })
+                                    let cars = search.vehicle;
+                                    setTimeout(() => {
+                                        if (valuesToFilterFor.length != 0) {
+                                            const hasNo = valuesToFilterFor.find(o => o == "no")
+                                            if (hasNo)
+                                                cars = []
+                                        }
+                                        dispatchFilteredState({ type: 'set', state: { ...search, vehicle: cars } })
+                                        dispatchFilteredState({ type: 'loading', state: false })
+                                    }, 0);
                                 }}
                             />
                         </div>

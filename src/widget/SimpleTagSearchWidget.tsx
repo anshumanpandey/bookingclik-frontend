@@ -5,11 +5,12 @@ import ResolveCurrencySymbol from '../utils/ResolveCurrencySymbol';
 import { Decimal } from 'decimal.js';
 
 type Props = {
+    hidePrice?: boolean
     options: { label: string, value: string, total?: number[], cars?: any[] }[]
     category: { name: string, propertyToWatch: string, type: string }
     onChange: (v: string[]) => void,
 }
-export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onChange }) => {
+export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, hidePrice = false,onChange }) => {
     const [optionsSelected, setOptions] = useState<{ label: string, value: string }[]>([]);
 
     const styles = {
@@ -54,7 +55,7 @@ export const SimpleTagSearchWidget: React.FC<Props> = ({ options, category, onCh
                                     {option.label} ({option.cars && option.total && option.total.length})
                                 </label>
                             </div>
-                            {option.cars && <label style={{ padding: 0 }}>
+                            {hidePrice == false && option.cars && <label style={{ padding: 0 }}>
                                 {ResolveCurrencySymbol(cheapesCar.currency)}{new Decimal(cheapesCar.price).toFixed(2)}
                             </label>}
                         </div>
