@@ -284,7 +284,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                             </div>
                         </div>
 
-                        <div style={{ width: isSm ? '15%': '100%', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ width: isSm ? '15%' : '100%', display: 'flex', flexDirection: 'column' }}>
                             <FormLabel style={{ color: 'white', alignSelf: 'flex-start', marginBottom: '0.5rem' }}>Age</FormLabel>
                             <div style={{ display: 'flex', justifyContent: isSm ? 'unset' : 'space-between', flex: 1 }}>
                                 <div className="listsearch-input-item" style={{ width: "100%", display: 'flex', alignItems: 'stretch' }}>
@@ -352,6 +352,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
 export const SearchFilterCars: React.FC = () => {
     const [search] = useSearchState('scrape')
     const [filteredSearch] = useFilteredSearchState('filteredScrape')
+    const [pickUpCode] = useSearchWidgetState('pickUpCode')
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
     const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
 
@@ -362,6 +363,10 @@ export const SearchFilterCars: React.FC = () => {
     const [filterReq] = useAxios<DynamicFilter[]>({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/categories/${Terms.Cars}`,
     })
+
+    const [valuedLocationsReq, getValuedLocation] = normalUseAxios({
+        url: `https://www.bookingclik.com/api/public/valuated-locations/get`,
+    }, { manual: true })
 
     let body = <CircularProgress color="inherit" />
 
@@ -492,6 +497,34 @@ export const SearchFilterCars: React.FC = () => {
                                 />
                             </div>
                         )}
+
+                        <div className="col-md-12">
+                            <RangeSearchWidget
+                                minValue={'0'}
+                                maxValue={'100'}
+                                //@ts-ignore
+                                category={{ name: 'Review' }}
+                                onChange={([from, to]) => {
+                                    dispatchFilteredState({ type: 'loading', state: true })
+                                    getValuedLocation({ params: { from, to }})
+                                    .then(({ data }) => {
+                                        const foundValuedLocation = data.find((l: any) => l.name == pickUpCode.locationname)
+                                        if (foundValuedLocation) {
+                                            let cars = search.vehicle
+                                            .filter(({ vehicle }: any) => {
+                                                return vehicle.supplier_id == foundValuedLocation.grcgdsClientId
+                                            })
+
+                                            dispatchFilteredState({ type: 'set', state: { ...search, vehicle: cars } })
+                                        } else {
+                                            dispatchFilteredState({ type: 'set', state: { ...search, vehicle: [] } })
+                                        }
+                                        
+                                        dispatchFilteredState({ type: 'loading', state: false })
+                                    })
+                                }}
+                            />
+                        </div>
 
                     </div>
                 </div>

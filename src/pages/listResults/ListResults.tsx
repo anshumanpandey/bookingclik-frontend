@@ -38,8 +38,8 @@ const AdRow = ({ banners }: { banners: Banners | null }) => {
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
     const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
 
-    const desktopBanner = banners ? `https://www.bookingclik.com/preview/${banners.desktopBannerFileName}` : adver
-    const mobileBanner = banners ? `https://www.bookingclik.com/preview/${banners.mobileBannerFileName}` : mobilead
+    const desktopBanner = banners ? `https://www.bookingclik.com/api/${banners.desktopBannerFileName}` : adver
+    const mobileBanner = banners ? `https://www.bookingclik.com/api/${banners.mobileBannerFileName}` : mobilead
 
     let isBig = true
     if (isSm == false) isBig = false
