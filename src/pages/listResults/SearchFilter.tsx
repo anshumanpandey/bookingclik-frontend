@@ -506,7 +506,11 @@ export const SearchFilterCars: React.FC = () => {
                                 category={{ name: 'Review' }}
                                 onChange={([from, to]) => {
                                     dispatchFilteredState({ type: 'loading', state: true })
-                                    if (from == 0 && to == 0) return dispatchFilteredState({ type: 'set', state: { ...search, vehicle: search.vehicle } })
+                                    if (from == 0 && to == 0) {
+                                        dispatchFilteredState({ type: 'set', state: { ...search, vehicle: search.vehicle } })
+                                        dispatchFilteredState({ type: 'loading', state: false })
+                                        return
+                                    }
                                     
 
                                     getValuedLocation({ params: { from, to }})
