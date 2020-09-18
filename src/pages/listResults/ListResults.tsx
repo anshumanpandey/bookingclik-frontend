@@ -24,6 +24,7 @@ import { useMediaQuery } from 'react-responsive'
 
 import adver from '../../images/adver.png';
 import mobilead from '../../images/mobilead.jpeg';
+import ResolveLogoName from '../../utils/ResolveLogoName';
 
 
 const normalUseAxios = makeUseAxios({
@@ -433,7 +434,7 @@ export function ListResult() {
         <>
             {(isfiltering || isLoading) && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'fixed', zIndex: 20, top: '20rem', left: '50%', right: '50%', transform: 'translate(-50%, -50%)', width: '18rem', }}>
-                    <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} />
+                    <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/${ResolveLogoName("logoblue.png")}`} />
                     <div style={{ position: 'unset' }} className="pulse"></div>
                 </div>
             )}

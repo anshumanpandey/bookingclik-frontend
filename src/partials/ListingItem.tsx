@@ -12,6 +12,7 @@ import { useMediaQuery } from 'react-responsive'
 import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
 import Countries from './CountriesJson.json';
 import { useSearchState } from '../pages/listResults/SearchGlobalState';
+import ResolveLogoName from '../utils/ResolveLogoName';
 
 const ListingItemBody = styled.div`
 width: 100%!important;

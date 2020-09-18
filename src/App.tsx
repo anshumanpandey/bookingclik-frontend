@@ -12,6 +12,7 @@ import { useGlobalState } from './state';
 import PrivateRoute from './partials/PrivateRoutes';
 import './utils/AxiosBootstrap'
 import CacheBuster from './CacheBuster';
+import ResolveLogoName from './utils/ResolveLogoName';
 
 function App() {
     const [loading, setLoading] = useGlobalState('loading');
@@ -42,7 +43,7 @@ function App() {
                     <BrowserRouter>
                         {loading && (
                             <div className="loader-wrap" style={{ backgroundColor: '#154a64' }}>
-                                <img style={{ position: 'absolute', left: '40%', top: '38%' }} src={`${process.env.PUBLIC_URL}images/logo.png`} />
+                                <img style={{ position: 'absolute', left: '40%', top: '38%' }} src={`${process.env.PUBLIC_URL}images/${ResolveLogoName("logo.png")}`} />
                                 <div style={{ top: '70%' }} className="pulse"></div>
                             </div>
                         )}
