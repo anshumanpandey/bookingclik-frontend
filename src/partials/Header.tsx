@@ -65,7 +65,7 @@ export const Header = () => {
                         margin: isSm ? '1rem' : 'auto',
                     }}>
                         <Link to="/">
-                            <img style={{ height: 'auto', marginLeft: 'auto', marginRight: 'auto', width: '130px', marginTop: '-0.5rem' }} src={`${process.env.PUBLIC_URL}/images/${ResolveLogoName("logo.png")}`} alt="" />
+                            <img style={{ height: 'auto', marginLeft: 'auto', marginRight: 'auto', width: '130px', marginTop: '-0.5rem' }} src={`${process.env.PUBLIC_URL}/images/${ResolveLogoName("bookingclick-light.png","logo.png")}`} alt="" />
                         </Link>
                     </div>
                 </div>
