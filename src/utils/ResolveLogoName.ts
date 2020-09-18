@@ -1,3 +1,3 @@
 export default (logoname: string) => {
-    return process.env.LOGO_NAME || logoname
+    return process.env.REACT_APP_LOGO_NAME || logoname
 }
