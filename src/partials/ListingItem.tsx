@@ -11,6 +11,7 @@ import { LoadImageOrPlaceholder } from '../utils/LoadImageOrPlaceholder';
 import { useMediaQuery } from 'react-responsive'
 import { useSearchWidgetState } from '../pages/main/useSearchWidgetGlobalState';
 import Countries from './CountriesJson.json';
+import { useSearchState } from '../pages/listResults/SearchGlobalState';
 
 const ListingItemBody = styled.div`
 width: 100%!important;
@@ -125,6 +126,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     const [trackReq, post] = normalUseAxios(track(), { manual: true })
     const [pickUpCode] = useSearchWidgetState('pickUpCode')
     const [dropoffCode] = useSearchWidgetState('dropoffCode')
+    const [currentLocationValue] = useSearchState('currentLocationValue')
 
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
@@ -305,6 +307,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         <img style={{ width: '70px', height: 'auto' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                                     </Avatar>
                                 </div>
+                                {currentLocationValue && <h5 style={{ marginBottom: 0, textAlign: 'center', padding: 0 }}>{currentLocationValue}% Recommended</h5>}
                                 <div style={{
                                     display: 'flex',
                                     flexDirection: 'column',

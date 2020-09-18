@@ -8,13 +8,14 @@ type FilteredScrape = {
 const normalReducer = (state: any, action: { type: string, state: any }) => {
     switch (action.type) {
         case 'set': {
-            return { scrape: {...action.state} };
+            return { ...state, scrape: {...action.state} };
         }
         default: return state;
     }
 };
 
 const initialState = {
+    currentLocationValue: null,
     scrape: {
         details: {
             pickup: { location: "DBV", datetime: "13/07/2020 20:00" },

@@ -73,6 +73,7 @@ export function ListResult() {
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('LIST');
     const [search, setSearch] = useSearchState('scrape')
+    const [,setCurrentLocationValue] = useSearchState('currentLocationValue')
     const [sortPrice, setSortPrice] = useSortState('price');
     const [isLoading, setLoading] = useGlobalState('loading')
     const [filetredSearch] = useFilteredSearchState('filteredScrape');
@@ -86,9 +87,13 @@ export function ListResult() {
     if (isTablet == false) isBig = false
 
     const [{ data, loading, error }, doSearch] = useAxios({
-        url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/brokers/importer`,
+        url: `https://www.grcgds.com/admincarrental/api/brokers/importer`,
         method: 'POST'
     }, { manual: true })
+
+    const [locationReq] = normalUseAxios({
+        url: `https://www.bookingclik.com/api/public/valuated-locations/byName?name=${pickUpCode?.locationname}`,
+    })
 
     const [userReq] = normalUseAxios(getUserData())
     const [ipReq] = normalUseAxios<{ ip: string }>(getUserIp())
@@ -103,6 +108,12 @@ export function ListResult() {
             setSupplierBanners(bannersReq.data)
         }
     }, [bannersReq.loading])
+
+    useEffect(() => {
+        if (locationReq.data) {
+            setCurrentLocationValue(locationReq.data.value)
+        }
+    },[locationReq.loading]);
 
 
     useEffect(() => {
