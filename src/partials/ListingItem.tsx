@@ -91,7 +91,7 @@ const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dr
             <div className="main-overlay" onClick={() => setShowModal(false)}></div>
             <div className="main-register-holder">
                 <div className="main-register fl-wrap custom-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <img style={{ display: 'unset' }} src={`${process.env.PUBLIC_URL}/images/logoblue.png`} alt="" />
+                    <img style={{ display: 'unset' }} src={`${process.env.PUBLIC_URL}/images/${ResolveLogoName("logoblue.png")}`} alt="" />
                     <h4 style={{
                         float: 'left',
                         width: '100%',

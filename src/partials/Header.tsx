@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useGlobalState, dispatchGlobalState } from '../state';
 import { useMediaQuery } from 'react-responsive'
+import ResolveLogoName from '../utils/ResolveLogoName';
 
 export const Header = () => {
     const [token] = useGlobalState('token');
@@ -64,7 +65,7 @@ export const Header = () => {
                         margin: isSm ? '1rem' : 'auto',
                     }}>
                         <Link to="/">
-                            <img style={{ height: 'auto', marginLeft: 'auto', marginRight: 'auto', width: '130px', marginTop: '-0.5rem' }} src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="" />
+                            <img style={{ height: 'auto', marginLeft: 'auto', marginRight: 'auto', width: '130px', marginTop: '-0.5rem' }} src={`${process.env.PUBLIC_URL}/images/${ResolveLogoName("logo.png")}`} alt="" />
                         </Link>
                     </div>
                 </div>
