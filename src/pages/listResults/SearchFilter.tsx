@@ -64,7 +64,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
 
     useDidMountEffect(() => {
         send()
-    }, [dynamicFilters.length]);
+    }, [dynamicFilters]);
 
     useEffect(() => {
         if (!displayDropoffInput) setDoLocation(null)
@@ -109,20 +109,20 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
         }
 
         let urlParams = {
-            pickUpLocationCode: innerPuLocation.internalcode,
-            pickUpLocationName: innerPuLocation.locationname,
+            pickUpLocationCode: (innerPuLocation || pickUpCode).internalcode,
+            pickUpLocationName: (innerPuLocation || pickUpCode).locationname,
             pickUpDate: innerPuDate ? innerPuDate.unix() : moment().unix(),
             pickUpTime: innerPuTime ? innerPuTime.unix() : moment().unix(),
 
-            dropOffLocationCode: innterDoLocation ? innterDoLocation.internalcode : innerPuLocation.internalcode,
-            dropOffLocationName: innterDoLocation ? innterDoLocation.locationname : innerPuLocation.internalcode,
+            dropOffLocationCode: innterDoLocation ? innterDoLocation.internalcode : (innerPuLocation || pickUpCode).internalcode,
+            dropOffLocationName: innterDoLocation ? innterDoLocation.locationname : (innerPuLocation || pickUpCode).internalcode,
             dropOffDate: innerDoDate ? innerDoDate.unix() : moment().unix(),
             dropOffTime: innerDoTime ? innerDoTime.unix() : moment().unix(),
         };
 
         const jsonParams = {
-            pickUpLocation: innerPuLocation,
-            dropOffLocation: innterDoLocation ? innterDoLocation : innerPuLocation,
+            pickUpLocation: (innerPuLocation || pickUpCode),
+            dropOffLocation: innterDoLocation ? innterDoLocation : (innerPuLocation || pickUpCode),
 
             pickUpDate: innerPuDate ? innerPuDate : moment(),
             pickUpTime: innerPuTime ? innerPuTime : moment(),
