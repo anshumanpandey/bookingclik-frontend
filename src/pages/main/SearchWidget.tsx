@@ -12,7 +12,7 @@ import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
 import { dispatchFilteredState } from '../listResults/SearchGlobalState';
 import { useGlobalState } from '../../state';
-import ResolveLogoName from '../../utils/ResolveLogoName';
+import ResolveLogoName, { resolveLightLogo } from '../../utils/ResolveLogoName';
 
 
 const normalUseAxios = makeUseAxios({
@@ -145,7 +145,7 @@ export const SearchWidget: React.FC<{ term: Terms }> = ({ term }) => {
       )}
       {loading && (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'fixed', zIndex: 20, top: '20rem', left: '50%', right: '50%', transform: 'translate(-50%, -50%)', width: '18rem', }}>
-          <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/${ResolveLogoName("logoblue.png")}`} />
+          <img style={{ width: '60%' }} src={`${process.env.PUBLIC_URL}/images/${resolveLightLogo("logoblue.png")}`} />
           <div style={{ position: 'unset' }} className="pulse"></div>
         </div>
       )}
