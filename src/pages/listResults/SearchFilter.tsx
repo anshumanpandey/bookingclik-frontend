@@ -519,7 +519,7 @@ export const SearchFilterCars: React.FC = () => {
                                     setTimeout(() => {
                                         let cars = search.vehicle
                                         .filter(({ vehicle }: any) => {
-                                            if (currentLocationValue.grcgdsClientId == vehicle.supplier_id) {
+                                            if (currentLocationValue && currentLocationValue.grcgdsClientId == vehicle.supplier_id) {
                                                 return currentLocationValue.value >= from && currentLocationValue.value <= to 
                                             } else {
                                                 return true
