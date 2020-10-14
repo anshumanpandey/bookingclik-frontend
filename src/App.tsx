@@ -49,7 +49,7 @@ function App() {
                         )}
                         <div id="main">
                             <Helmet>
-                                <title>{process.env.REATC_APP_PAGE_TITLE}</title>
+                                <title>{process.env.REACT_APP_PAGE_TITLE}</title>
                             </Helmet>
 
                             <Switch>
