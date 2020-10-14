@@ -9,7 +9,6 @@ import { AboutUs } from './pages/aboutUs/main';
 import { ContactUs } from './pages/contactUs/main';
 import { Soon } from './pages/comingSoon/Soon';
 import { useGlobalState } from './state';
-import { Helmet } from 'react-helmet'
 import './utils/AxiosBootstrap'
 import CacheBuster from './CacheBuster';
 import ResolveLogoName from './utils/ResolveLogoName';
@@ -48,10 +47,6 @@ function App() {
                             </div>
                         )}
                         <div id="main">
-                            <Helmet>
-                                <title>{process.env.REACT_APP_PAGE_TITLE}</title>
-                            </Helmet>
-
                             <Switch>
                                 {routes.map(r => {
                                     return (
