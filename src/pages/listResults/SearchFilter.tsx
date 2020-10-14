@@ -511,6 +511,11 @@ export const SearchFilterCars: React.FC = () => {
                                         dispatchFilteredState({ type: 'loading', state: false })
                                         return
                                     }
+                                    if (from == 0 && to == 100) {
+                                        dispatchFilteredState({ type: 'set', state: { ...search, vehicle: search.vehicle } })
+                                        dispatchFilteredState({ type: 'loading', state: false })
+                                        return
+                                    }
                                     
 
                                     getValuedLocation({ params: { from, to }})
