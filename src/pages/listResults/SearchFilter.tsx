@@ -353,6 +353,7 @@ export const SearchFilterCars: React.FC = () => {
     const [search] = useSearchState('scrape')
     const [filteredSearch] = useFilteredSearchState('filteredScrape')
     const [pickUpCode] = useSearchWidgetState('pickUpCode')
+    const [currentLocationValue] = useSearchState('currentLocationValue')
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
     const isTablet = useMediaQuery({ query: '(min-width: 1200px)' })
 
@@ -363,10 +364,6 @@ export const SearchFilterCars: React.FC = () => {
     const [filterReq] = useAxios<DynamicFilter[]>({
         url: `${process.env.REACT_APP_GRCGDS_BACKEND ? process.env.REACT_APP_GRCGDS_BACKEND : window.location.origin}/categories/${Terms.Cars}`,
     })
-
-    const [valuedLocationsReq, getValuedLocation] = normalUseAxios({
-        url: `https://www.bookingclik.com/api/public/valuated-locations/get`,
-    }, { manual: true })
 
     let body = <CircularProgress color="inherit" />
 
@@ -500,6 +497,8 @@ export const SearchFilterCars: React.FC = () => {
 
                         <div className="col-md-12">
                             <RangeSearchWidget
+                                defaultStartValue={0}
+                                defaultEndValue={100}
                                 minValue={'0'}
                                 maxValue={'100'}
                                 //@ts-ignore
@@ -516,24 +515,21 @@ export const SearchFilterCars: React.FC = () => {
                                         dispatchFilteredState({ type: 'loading', state: false })
                                         return
                                     }
-                                    
 
-                                    getValuedLocation({ params: { from, to }})
-                                    .then(({ data }) => {
-                                        const foundValuedLocation = data.find((l: any) => l.name == pickUpCode.locationname)
-                                        if (foundValuedLocation) {
-                                            let cars = search.vehicle
-                                            .filter(({ vehicle }: any) => {
-                                                return vehicle.supplier_id == foundValuedLocation.grcgdsClientId
-                                            })
+                                    setTimeout(() => {
+                                        let cars = search.vehicle
+                                        .filter(({ vehicle }: any) => {
+                                            if (currentLocationValue.grcgdsClientId == vehicle.supplier_id) {
+                                                return currentLocationValue.value >= from && currentLocationValue.value <= to 
+                                            } else {
+                                                return true
+                                            }
+                                        })
 
-                                            dispatchFilteredState({ type: 'set', state: { ...search, vehicle: cars } })
-                                        } else {
-                                            dispatchFilteredState({ type: 'set', state: { ...search, vehicle: [] } })
-                                        }
-                                        
+                                        dispatchFilteredState({ type: 'set', state: { ...search, vehicle: cars } })
+
                                         dispatchFilteredState({ type: 'loading', state: false })
-                                    })
+                                    }, 0)
                                 }}
                             />
                         </div>

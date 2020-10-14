@@ -92,9 +92,9 @@ export function ListResult() {
         method: 'POST'
     }, { manual: true })
 
-    const [locationReq] = normalUseAxios({
+    const [locationReq, getValuatedLocation] = normalUseAxios({
         url: `https://www.bookingclik.com/api/public/valuated-locations/byName?name=${pickUpCode?.locationname}`,
-    })
+    }, { manual: true })
 
     const [userReq] = normalUseAxios(getUserData())
     const [ipReq] = normalUseAxios<{ ip: string }>(getUserIp())
@@ -112,10 +112,13 @@ export function ListResult() {
 
     useEffect(() => {
         if (locationReq.data) {
-            setCurrentLocationValue(locationReq.data.value)
+            setCurrentLocationValue(locationReq.data)
         }
     },[locationReq.loading]);
 
+    useEffect(() => {
+        getValuatedLocation()
+    },[loading]);
 
     useEffect(() => {
         if (!blacklistReq.data) return

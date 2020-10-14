@@ -308,7 +308,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         <img style={{ width: '70px', height: 'auto' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                                     </Avatar>
                                 </div>
-                                {currentLocationValue && <h5 style={{ marginBottom: 0, textAlign: 'center', padding: 0 }}>{currentLocationValue}% Recommended</h5>}
+                                {currentLocationValue && currentLocationValue.grcgdsClientId == props.vehicle.supplier_id && <h5 style={{ marginBottom: 0, textAlign: 'center', padding: 0 }}>{currentLocationValue.value}% Recommended</h5>}
                                 <div style={{
                                     display: 'flex',
                                     flexDirection: 'column',

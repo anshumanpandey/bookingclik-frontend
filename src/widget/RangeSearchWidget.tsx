@@ -7,10 +7,12 @@ type Props = {
     maxValue: string
     category?: { name: string, propertyToWatch: string, type: string }
     onChange: (v: number[]) => void
+    defaultStartValue?: number
+    defaultEndValue?: number
 }
-export const RangeSearchWidget: React.FC<Props> = ({ minValue, maxValue, category, onChange }) => {
-    const [range, setRange] = useState<[number, number]>([0, 0] as [number, number]);
-    const [rangeToDisplay, setRangeToDisplay] = useState<[number, number]>([0, 0] as [number, number]);
+export const RangeSearchWidget: React.FC<Props> = ({ minValue, maxValue, category, onChange, defaultStartValue = 0, defaultEndValue = 0}) => {
+    const [range, setRange] = useState<[number, number]>([defaultStartValue, defaultEndValue] as [number, number]);
+    const [rangeToDisplay, setRangeToDisplay] = useState<[number, number]>([defaultStartValue, defaultEndValue] as [number, number]);
 
     const [, setDinamicFilters] = useDynamicFiltersState('activeFilters');
 
