@@ -191,7 +191,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                         fontWeight: 'bold',
                                     }}>{GetTypeClassFromAcrissCode(props.vehicle.acriss)}</h4>
                                 )}
-                                <h3 style={{ fontSize: '16px', marginBottom: 0, textAlign: isSm ? 'left' : 'center' }}><a href="listing-single.html">{props.vehicle.name}</a></h3>
+                                <h3 style={{ fontSize: '16px', marginBottom: 0, textAlign: isSm ? 'left' : 'center' }}>{props.vehicle.name}</h3>
                             </div>
                             <div className="geodir-category-img" style={{ display: 'flex', height: '200px', width: '170px', margin: isSm ? 'unset' : 'auto' }}>
                                 <LoadImageOrPlaceholder style={{ transform: 'scaleX(-1)', backgroundColor: 'white', alignSelf: 'center' }} src={image_url} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
@@ -229,12 +229,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                                 <object style={{ height: '1.1rem' }} type="image/svg+xml" data="images/icons/q1.svg">
                                                 </object>
                                             </div>
-
-                                            <img
-                                                style={{ width: '65%', height: 'auto' }}
-                                                src={`${process.env.PUBLIC_URL}/images/icons/key.png`}
-                                                alt={'key'}
-                                            />
                                         </div>
 
                                         <div style={{ textAlign: 'left' }}>
@@ -246,10 +240,6 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                                             <div style={{ marginBottom: '0.5rem' }}>
                                                 <p style={{ lineHeight: 'unset', textAlign: 'left', padding: 0 }}>Mileage:</p>
                                                 <h4 style={{ marginBottom: 0, textAlign: 'left', padding: 0 }}>Unlimited</h4>
-                                            </div>
-
-                                            <div>
-                                                <h5>Yes</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -279,7 +269,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
 
                             <div style={{ width: isSm ? 'unset': '50%',paddingLeft: 0, paddingRight: 0, justifyContent: 'center' }}>
                                 <div className="geodir-category-location" style={{ marginTop: '0.5rem', marginBottom: '0.5rem', padding: 0, color: '#157f41' }} >
-                                    <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Included for Free</p>
+                                    <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Included</p>
                                     <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Collision Damage Waiver</p>
                                     <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Theft Protection</p>
                                     <p style={{ color: '#157f41', paddingBottom: 0, textAlign: isSm ? 'left' : 'center' }}><i style={{ color: 'inherit' }} className="fas fa-check" />Third Party Liability</p>
