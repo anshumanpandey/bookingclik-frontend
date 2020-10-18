@@ -330,7 +330,7 @@ export function ListResult() {
                 </div>
             )}
             {!isLoading && <div className="section-title">
-                <h2>No results founds!</h2>
+                <h2>No results found!</h2>
                 <span className="section-separator"></span>
                 <p>Please modify your search. We are sorry we do not have any availability for the dates and times you have selected.</p>
             </div>}

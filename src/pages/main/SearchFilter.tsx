@@ -111,6 +111,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
 
                                 <div className="main-search-input-item" style={{ borderRight: 'unset', width: '100%' }}>
                                     <DateInput
+                                        disabledBefore={puDate || undefined}
                                         defaultValue={doDate}
                                         style={{
                                             borderRadius: '6px',

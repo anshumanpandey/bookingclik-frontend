@@ -57,7 +57,7 @@ const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dr
     useEffect(() => {
         const t = setTimeout(() => {
             setShowModal(false)
-        }, 1000 * 3)
+        }, 1000 * 7)
         setTimer(t);
 
         post({
@@ -295,7 +295,7 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
                             }}>
                                 <div>
                                     <Avatar>
-                                        <img style={{ width: '70px', height: 'auto' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
+                                        <img style={{ width: '115px', height: 'auto' }} src={suplierLogoUrl} alt={props.vehicle.carrentalcompanyname || props.vehicle.suppliername} />
                                     </Avatar>
                                 </div>
                                 {currentLocationValue && currentLocationValue.grcgdsClientId == props.vehicle.supplier_id && <h5 style={{ marginBottom: 0, textAlign: 'center', padding: 0 }}>{currentLocationValue.value}% Recommended</h5>}

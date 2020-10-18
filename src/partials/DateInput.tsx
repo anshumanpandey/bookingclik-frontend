@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { FormLabel, InputBase } from '@material-ui/core';
 import Calendar from 'rc-calendar';
 //@ts-ignore
@@ -12,20 +12,41 @@ type Props = {
     defaultValue?: moment.Moment | null
     style?: React.CSSProperties
     label?: string
+    disabledBefore?: Moment
 }
-export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, label }) => {
+export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, label, disabledBefore }) => {
     const [date, setDate] = useState<moment.Moment | null | undefined>(defaultValue);
     useEffect(() => {
         if (date) onChange(date)
     }, []);
 
-    const calendar = (<Calendar showDateInput={false} format={DATE_FORMAT} />);
+    const calendar = (<Calendar
+        showDateInput={false}
+        format={DATE_FORMAT}
+        disabledDate={(current: any) => {
+            const date = moment();
+            date.hour(0);
+            date.minute(0);
+            date.second(0);
+
+            if (disabledBefore) {
+                const c = disabledBefore.clone().startOf("day").add(1, 'days')
+                return current.isBefore(c);
+            }
+
+            if (!current) {
+                // allow empty select
+                return false;
+            }
+
+            return current.isBefore(date); // This is MomentJS function 
+        }}
+    />);
     return (
         <>
             <DatePicker
                 animation="slide-up"
                 value={date || defaultValue}
-                disabled={false}
                 calendar={calendar}
                 onChange={(v: any) => {
                     setDate(moment(v._d));
@@ -40,7 +61,7 @@ export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, labe
                             <InputBase
                                 startAdornment={(
                                     <div style={{ paddingLeft: '0.5rem' }}>
-                                        <i style={{ color: '#154a64'}} className="fa fa-calendar"></i>
+                                        <i style={{ color: '#154a64' }} className="fa fa-calendar"></i>
                                     </div>
                                 )}
                                 readOnly={true}
