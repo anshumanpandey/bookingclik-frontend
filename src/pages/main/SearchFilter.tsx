@@ -17,7 +17,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
     useDidUpdateEffect(() => {
-        dispatchSearchState({ type: 'dropoff.date', state: puDate.clone().startOf("d").add(1, "d") })
+        dispatchSearchState({ type: 'dropoff.date', state: puDate.clone().startOf("d").add(2, "d") })
     }, [puDate])
 
     useEffect(() => {

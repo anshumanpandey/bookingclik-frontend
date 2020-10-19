@@ -66,6 +66,14 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
         send()
     }, [dynamicFilters]);
 
+    useDidMountEffect(() => {
+        setDoDate(innerPuDate.clone().startOf("d").add(2, "d"))
+    }, [innerPuDate]);
+
+    useDidMountEffect(() => {
+        setPuLocation(pickUpCode)
+    }, [pickUpCode]);
+
     useEffect(() => {
         if (!displayDropoffInput) setDoLocation(null)
     }, [innerPuLocation])
@@ -272,7 +280,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
                                         borderRadius: '6px',
                                         border: 'unset',
                                         marginRight: '0.5rem'
-                                    }} defaultValue={doDate} onChange={(v) => setDoDate(v)} />
+                                    }} defaultValue={innerDoDate} onChange={(v) => setDoDate(v)} />
                                 </div>
 
                                 <div className="listsearch-input-item" style={{ width: isSm ? '40%' : '50%', background: 'white', borderRadius: '6px' }}>
