@@ -20,6 +20,10 @@ export const DateInput: React.FC<Props> = ({ onChange, defaultValue, style, labe
         if (date) onChange(date)
     }, []);
 
+    useEffect(() => {
+        if (defaultValue) setDate(defaultValue)
+    }, [defaultValue]);
+
     const calendar = (<Calendar
         showDateInput={false}
         format={DATE_FORMAT}

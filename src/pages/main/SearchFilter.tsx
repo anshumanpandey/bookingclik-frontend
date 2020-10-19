@@ -17,7 +17,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
     const isSm = useMediaQuery({ query: '(min-width: 768px)' })
 
     useDidUpdateEffect(() => {
-        dispatchSearchState({ type: 'dropoff.date', state: puDate })
+        dispatchSearchState({ type: 'dropoff.date', state: puDate.clone().startOf("d").add(1, "d") })
     }, [puDate])
 
     useEffect(() => {
@@ -94,7 +94,7 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                 <TimeInput
                                     defaultValue={moment().set("hour", 10).set("minute", 30)}
                                     style={{ backgroundColor: 'white', borderRadius: '6px' }}
-                                    onChange={(v) => dispatchSearchState({ type: 'pickup.time', state: v })}
+                                    onChange={(v) => dispatchSearchState({ type: 'pickup.time', state: v.clone().startOf("day") })}
                                 />
                             </div>
                         </div>
@@ -113,9 +113,8 @@ export const CarSearchWidgetFilters: React.FC<{ style: React.CSSProperties }> = 
                                     <DateInput
                                         disabledBefore={puDate || undefined}
                                         defaultValue={doDate}
-                                        style={{
-                                            borderRadius: '6px',
-                                        }} onChange={(v) => dispatchSearchState({ type: 'dropoff.date', state: v })} />
+                                        style={{ borderRadius: '6px' }}
+                                        onChange={(v) => dispatchSearchState({ type: 'dropoff.date', state: v })} />
                                 </div>
                             </div>
 
