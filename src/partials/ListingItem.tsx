@@ -56,30 +56,28 @@ const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dr
 
     useEffect(() => {
         const t = setTimeout(() => {
-            setShowModal(false)
-        }, 1000 * 20)
+            post({
+                data: {
+                    //@ts-ignore
+                    ip: ip,
+                    //@ts-ignore
+                    country_code: Countries.find(i => i.code == currentVisitorJson.loc)?.name,
+                    grcgds_supplier_name: vehicle.grcgds_supplier_name.trim(),
+                    //@ts-ignore
+                    orignal_supplier_name: vehicle.carrentalcompanyname.trim(),
+                    pickupLocation: pickUpCode.locationname,
+                    dropoffLocation: dropoffCode.locationname,
+                }
+            })
+                .then(() => {
+                    window.open(vehicle.deeplink.replace(/amp;/g, ""), '_blank')
+                    setShowModal(false)
+                })
+                .catch((err: any) => {
+                    setShowModal(false)
+                })
+        }, 1000 * 15)
         setTimer(t);
-
-        post({
-            data: {
-                //@ts-ignore
-                ip: ip,
-                //@ts-ignore
-                country_code: Countries.find(i => i.code == currentVisitorJson.loc)?.name,
-                grcgds_supplier_name: vehicle.grcgds_supplier_name.trim(),
-                //@ts-ignore
-                orignal_supplier_name: vehicle.carrentalcompanyname.trim(),
-                pickupLocation: pickUpCode.locationname,
-                dropoffLocation: dropoffCode.locationname,
-            }
-        })
-            .then(() => {
-                window.open(vehicle.deeplink.replace(/amp;/g, ""), '_blank')
-                setShowModal(false)
-            })
-            .catch((err: any) => {
-                setShowModal(false)
-            })
 
         return () => {
             timer && clearTimeout(timer);
