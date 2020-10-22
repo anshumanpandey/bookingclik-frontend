@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { useSortState, PriceSortOrder } from './SortGlobalState';
 import { Panel } from '../../partials/Panel';
-import { useSearchState, dispatchFilteredState, useFilteredSearchState } from './SearchGlobalState';
+import { useSearchState } from './SearchGlobalState';
 
 
 export const SortFilterCars: React.FC = () => {

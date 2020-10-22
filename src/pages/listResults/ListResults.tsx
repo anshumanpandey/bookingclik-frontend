@@ -129,15 +129,14 @@ export function ListResult() {
             .filter((i: any) => {
                 if (blacklistReq.data) {
                     let isBlacklisted = false;
+                    if (!i?.vehicle?.original_supplier) {
+                        return true;
+                    }
                     blacklistReq.data
                         .filter((c: any) => c.supplierName)
                         .filter((c: any) => c.supplierName.toLowerCase().trim() == i.vehicle.grcgds_supplier_name.toLowerCase().trim())
                         .forEach((c: { supplierName: string, companies: string[] }) => {
                             if (c.companies.length == 0) isBlacklisted = true
-                            if (!i.vehicle.original_supplier) {
-                                isBlacklisted = true;
-                                return
-                            }
 
                             const exist = c.companies.map(g => g.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
 
@@ -155,7 +154,7 @@ export function ListResult() {
             })
             .filter((i: any,idx: number, arr: []) => {
 
-                if (unavailableReq.data) {
+                if (unavailableReq.data && unavailableReq.data.length != 0) {
                     const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())
                     return !names.includes(i.vehicle.grcgds_supplier_name.toLowerCase().trim())
                 }
@@ -266,12 +265,14 @@ export function ListResult() {
                             .filter((i: any) => {
                                 if (blacklistReq.data) {
                                     let isBlacklisted = false;
+                                    if (!i?.vehicle?.original_supplier) {
+                                        return true;
+                                    }
                                     blacklistReq.data
                                         .filter((c: any) => c.supplierName)
                                         .filter((c: any) => c.supplierName.toLowerCase().trim() == i.vehicle.grcgds_supplier_name.toLowerCase().trim())
                                         .forEach((c: { supplierName: string, companies: string[] }) => {
                                             if (c.companies.length == 0) isBlacklisted = true
-                                            if (!i.vehicle.original_supplier) return false;
 
                                             const exist = c.companies.map(i => i.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
 
@@ -285,7 +286,7 @@ export function ListResult() {
                                 return true;
                             })
                             .filter((i: any) => {
-                                if (unavailableData) {
+                                if (unavailableReq.data && unavailableReq.data.length != 0) {
                                     const names = unavailableData.map((u: any) => u.companyName.toLowerCase().trim())
                                     return !names.includes(i.vehicle.grcgds_supplier_name.toLowerCase().trim())
                                 }

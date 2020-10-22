@@ -10,7 +10,6 @@ import moment from 'moment';
 import { useSearchWidgetState, dispatchSearchState } from './useSearchWidgetGlobalState';
 import BuildJsonQuery from '../../utils/BuildJsonQuery';
 import qs from 'qs';
-import { dispatchFilteredState } from '../listResults/SearchGlobalState';
 import { useGlobalState } from '../../state';
 import ResolveLogoName, { resolveLightLogo } from '../../utils/ResolveLogoName';
 
