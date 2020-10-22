@@ -134,7 +134,7 @@ export function ListResult() {
                         .filter((c: any) => c.supplierName.toLowerCase().trim() == i.vehicle.grcgds_supplier_name.toLowerCase().trim())
                         .forEach((c: { supplierName: string, companies: string[] }) => {
                             if (c.companies.length == 0) isBlacklisted = true
-                            if (!i.vehicle.original_supplier) return false;
+                            if (!i.vehicle.original_supplier) return true;
 
                             const exist = c.companies.map(g => g.toLowerCase().trim()).includes(i.vehicle.original_supplier.toLowerCase().trim());
 
