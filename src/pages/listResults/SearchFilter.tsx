@@ -64,7 +64,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
 
     useDidMountEffect(() => {
         send()
-    }, [dynamicFilters]);
+    }, [dynamicFilters.length]);
 
     useDidMountEffect(() => {
         setDoDate(innerPuDate.clone().startOf("d").add(2, "d"))
@@ -141,6 +141,7 @@ export const ListCarsFilter: React.FC<{ onSearch: () => void }> = ({ onSearch })
         }
 
         dispatchFilteredState({ type: 'loading', state: true })
+        console.log('seconfg all')
         doSearch({ data: { json: BuildJsonQuery(jsonParams) } })
             .then((res) => {
                 history.push({
