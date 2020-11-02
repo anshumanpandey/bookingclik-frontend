@@ -70,7 +70,7 @@ const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dr
                 }
             })
                 .then(() => {
-                    window.open(vehicle.deeplink.replace(/amp;/g, ""), '_self')
+                    window.location.replace( vehicle.deeplink.replace(/amp;/g, ""));
                     setShowModal(false)
                 })
                 .catch((err: any) => {

@@ -49,13 +49,8 @@ const AdRow = ({ banners }: { banners: Banners | null }) => {
     return (
         <div className="col-md-12 col-lg-3">
             <div className="fl-wrap card-listing" style={{ display: 'flex', flexDirection: 'column' }}>
-                <a href={banners?.urlToOpen} target="_blank">
-                    <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%', marginBottom: '2rem' }} src={isBig ? desktopBanner : mobileBanner}></img>
-                </a>
-                <a href={banners?.urlToOpen} target="_blank">
-                    <img style={{ alignSelf: isBig ? 'self-start' : 'center', maxWidth: '100%' }} src={isBig ? desktopBanner : mobileBanner}></img>
-                </a>
-
+            <script data-ad-client="ca-pub-2155036236538963" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <script data-ad-client="ca-pub-2155036236538963" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             </div>
         </div>
     );
@@ -74,7 +69,7 @@ export function ListResult() {
     const [dropoffCode, setDropoffCode] = useSearchWidgetState('dropoffCode')
     const [layout, setLayout] = useState<'GRID' | 'LIST'>('LIST');
     const [search, setSearch] = useSearchState('scrape')
-    const [,setCurrentLocationValue] = useSearchState('currentLocationValue')
+    const [, setCurrentLocationValue] = useSearchState('currentLocationValue')
     const [sortPrice, setSortPrice] = useSortState('price');
     const [isLoading, setLoading] = useGlobalState('loading')
     const [filetredSearch] = useFilteredSearchState('filteredScrape');
@@ -114,11 +109,11 @@ export function ListResult() {
         if (locationReq.data) {
             setCurrentLocationValue(locationReq.data)
         }
-    },[locationReq.loading]);
+    }, [locationReq.loading]);
 
     useEffect(() => {
         getValuatedLocation()
-    },[loading]);
+    }, [loading]);
 
     useEffect(() => {
         if (!blacklistReq.data) return
@@ -144,15 +139,15 @@ export function ListResult() {
                                 isBlacklisted = true;
                             }
                         })
-                    
-                        if (!isBlacklisted) {
-                            console.log(`cleaning`, i.vehicle)
-                        }
+
+                    if (!isBlacklisted) {
+                        console.log(`cleaning`, i.vehicle)
+                    }
                     return isBlacklisted;
                 }
                 return true;
             })
-            .filter((i: any,idx: number, arr: []) => {
+            .filter((i: any, idx: number, arr: []) => {
 
                 if (unavailableReq.data && unavailableReq.data.length != 0) {
                     const names = unavailableReq.data.map((u: any) => u.companyName.toLowerCase().trim())

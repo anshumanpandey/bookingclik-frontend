@@ -434,9 +434,8 @@ export const SearchFilterCars: React.FC = () => {
                         {filterReq.data && filterReq.data.map((filter) => {
                             if (filter.type === 'tag' && filter.values.length !== 0) {
                                 return (
-                                    <div className="col-md-12">
+                                    <div key={filter.createdAt} className="col-md-12">
                                         <TagSearchWidget
-                                            key={filter.createdAt}
                                             options={filter.values
                                                 .map((f: any) => ({
                                                     label: f.name.replace(/(GRC_GDS_CURRENCY_SYMBOL)/g, ResolveCurrencySymbol(filteredSearch.vehicle[0]?.vehicle.currency)),
