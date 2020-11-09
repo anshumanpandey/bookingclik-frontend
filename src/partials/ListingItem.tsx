@@ -76,7 +76,7 @@ const RedirectModal: React.FC<any> = ({ show, setShowModal, post, pickUpCode, dr
                 .catch((err: any) => {
                     setShowModal(false)
                 })
-        }, 1000 * 15)
+        }, 1000 * 3.5)
         setTimer(t);
 
         return () => {
