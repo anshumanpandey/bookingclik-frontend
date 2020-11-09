@@ -171,8 +171,8 @@ export const ListingItem: React.FC<ListingItemProps> = (props) => {
     if (props.vehicle.fuel_policy == 8) fuelPolicy = 'Prepaid Full To Full'
     if (props.vehicle.fuel_policy == 9) fuelPolicy = 'Prepaid Full To Empty'
 
-    let currencySymbol = '$'
-    if (props.vehicle.currency == 'EUR') currencySymbol = '€'
+    let currencySymbol = '£'
+    //if (props.vehicle.currency == 'EUR') currencySymbol = '€'
 
     return (
         <div style={{ marginBottom: 0, background: 'unset', height: isSm ? '13rem' : 'unset' }} className={`listing-item ${props.layout === 'LIST' ? 'list-layout' : ''}`}>
