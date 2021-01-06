@@ -20,7 +20,7 @@
     "@types/react-window": "^1.8.2",
     "@types/styled-components": "^5.0.1",
     "@types/throttle-debounce": "^2.1.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "axios-hooks": "^1.9.0",
     "clsx": "^1.1.0",
     "dayjs": "^1.8.24",
