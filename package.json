@@ -26,7 +26,7 @@
     "dayjs": "^1.8.24",
     "decimal.js": "^10.2.0",
     "jquery": "^3.4.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "qs": "^6.9.3",
     "query-string": "^6.12.1",
     "rc-calendar": "^9.15.10",
